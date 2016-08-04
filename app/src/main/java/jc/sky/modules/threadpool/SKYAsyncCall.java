@@ -21,7 +21,7 @@ public abstract class SKYAsyncCall extends SKYRunnable {
 	public Object[] args;
 
 	public SKYAsyncCall(String methodName, Repeat repeat, Method method, Method methodError, Object[] args) {
-		super("J2W Method Name %s", methodName);
+		super("SKY Method Name %s", methodName);
 		this.mehtodName = methodName;
 		this.repeat = repeat;
 		this.method = method;

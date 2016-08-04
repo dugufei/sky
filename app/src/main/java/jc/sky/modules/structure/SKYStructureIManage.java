@@ -42,10 +42,10 @@ public interface SKYStructureIManage {
 	 *
 	 * @param keyCode
 	 * @param fragmentManager
-	 * @param bj2WActivity
+	 * @param bSKYActivity
 	 * @return
 	 */
-	boolean onKeyBack(int keyCode, FragmentManager fragmentManager, SKYActivity bj2WActivity);
+	boolean onKeyBack(int keyCode, FragmentManager fragmentManager, SKYActivity bSKYActivity);
 
 	/**
 	 * 打印堆栈内容

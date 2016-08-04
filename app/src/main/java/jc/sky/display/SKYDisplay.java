@@ -31,9 +31,9 @@ public class SKYDisplay implements SKYIDisplay {
 	}
 
 	@Override public <T extends FragmentActivity> T activity() {
-		T j2WActivity = SKYHelper.screenHelper().getCurrentIsRunningActivity();
-		if (j2WActivity != null) {
-			return j2WActivity;
+		T SKYActivity = SKYHelper.screenHelper().getCurrentIsRunningActivity();
+		if (SKYActivity != null) {
+			return SKYActivity;
 		} else {
 			return SKYHelper.screenHelper().getCurrentActivity();
 		}

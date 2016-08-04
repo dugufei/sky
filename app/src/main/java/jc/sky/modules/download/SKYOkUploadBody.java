@@ -30,14 +30,14 @@ public class SKYOkUploadBody extends RequestBody {
 
 	private long					totalSize;				// 待上传文件总大小
 
-	private final SKYUploadRequest j2WUploadRequest;		// 请求
+	private final SKYUploadRequest SKYUploadRequest;		// 请求
 
-	public SKYOkUploadBody(SKYUploadRequest j2WUploadRequest, SKYUploadListener listener) {
-		this.file = j2WUploadRequest.getJ2WUploadBody().file;
+	public SKYOkUploadBody(SKYUploadRequest SKYUploadRequest, SKYUploadListener listener) {
+		this.file = SKYUploadRequest.getSKYUploadBody().file;
 		if(file != null){
 			totalSize = file.length();
 		}
-		this.j2WUploadRequest = j2WUploadRequest;
+		this.SKYUploadRequest = SKYUploadRequest;
 		this.listener = listener;
 	}
 
@@ -47,10 +47,10 @@ public class SKYOkUploadBody extends RequestBody {
 
 	@Override public MediaType contentType() {
 		final StringBuilder buffer = new StringBuilder();
-		buffer.append(j2WUploadRequest.getJ2WContentType().getMimeType());
-		if (j2WUploadRequest.getJ2WContentType().getCharset() != null) {
+		buffer.append(SKYUploadRequest.getSKYContentType().getMimeType());
+		if (SKYUploadRequest.getSKYContentType().getCharset() != null) {
 			buffer.append("; charset=");
-			buffer.append(j2WUploadRequest.getJ2WContentType().getCharset());
+			buffer.append(SKYUploadRequest.getSKYContentType().getCharset());
 		}
 		return MediaType.parse(buffer.toString());
 	}
@@ -64,14 +64,14 @@ public class SKYOkUploadBody extends RequestBody {
 			long read;
 
 			while ((read = source.read(sink.buffer(), SEGMENT_SIZE)) != -1) {
-				if (j2WUploadRequest.isCanceled()) {
-					L.i("取消的请求Id " + j2WUploadRequest.getRequestId());
+				if (SKYUploadRequest.isCanceled()) {
+					L.i("取消的请求Id " + SKYUploadRequest.getRequestId());
 					return;
 				}
 				total += read;
 				sink.flush();
 				int progres = (int) (100 * total / totalSize);
-				this.listener.onUploadProgress(j2WUploadRequest.getRequestId(), totalSize, total, progres);// 进度
+				this.listener.onUploadProgress(SKYUploadRequest.getRequestId(), totalSize, total, progres);// 进度
 			}
 		} finally {
 			Util.closeQuietly(source);
@@ -85,16 +85,16 @@ public class SKYOkUploadBody extends RequestBody {
 	 */
 	public RequestBody build() {
 		// 请求头信息
-		Headers headers = j2WUploadRequest.getJ2WUploadBody().getHeader();
+		Headers headers = SKYUploadRequest.getSKYUploadBody().getHeader();
 		MultipartBuilder multipartBuilder = new MultipartBuilder().type(MultipartBuilder.FORM);
 		if(file != null){
 			multipartBuilder.addPart(headers, this);
 		}
-		List<SKYFromData> j2WHeadersBeans = j2WUploadRequest.getJ2WUploadBody().j2wFromData;
-		if (j2WHeadersBeans != null && j2WHeadersBeans.size() > 0) {
-			int count = j2WUploadRequest.getJ2WUploadBody().j2wFromData.size();
+		List<SKYFromData> SKYHeadersBeans = SKYUploadRequest.getSKYUploadBody().SKYFromData;
+		if (SKYHeadersBeans != null && SKYHeadersBeans.size() > 0) {
+			int count = SKYUploadRequest.getSKYUploadBody().SKYFromData.size();
 			for (int i = 0; i < count; i++) {
-				multipartBuilder.addFormDataPart(j2WHeadersBeans.get(i).key,j2WHeadersBeans.get(i).value);
+				multipartBuilder.addFormDataPart(SKYHeadersBeans.get(i).key,SKYHeadersBeans.get(i).value);
 			}
 		}
 		RequestBody requestBody = multipartBuilder.build();

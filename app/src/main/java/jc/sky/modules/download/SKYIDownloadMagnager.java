@@ -126,10 +126,10 @@ public interface SKYIDownloadMagnager {
 	 *            下载地址
 	 * @param fileName
 	 *            文件名
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	int download(String url, String fileName, SKYDownloadListener j2WDownloadListener);
+	int download(String url, String fileName, SKYDownloadListener SKYDownloadListener);
 
 	/**
 	 * 下载
@@ -140,10 +140,10 @@ public interface SKYIDownloadMagnager {
 	 *            路径
 	 * @param fileName
 	 *            文件名
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	int download(String url, String destination, String fileName, SKYDownloadListener j2WDownloadListener);
+	int download(String url, String destination, String fileName, SKYDownloadListener SKYDownloadListener);
 
 	/**
 	 * 下载
@@ -152,41 +152,41 @@ public interface SKYIDownloadMagnager {
 	 *            下载地址
 	 * @param destinationUri
 	 *            路径
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	int download(Uri downloadUri, Uri destinationUri, SKYDownloadListener j2WDownloadListener);
+	int download(Uri downloadUri, Uri destinationUri, SKYDownloadListener SKYDownloadListener);
 
 	/**
 	 * 上传
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeader
-	 * @param j2WUploadBody
+	 * @param SKYUploadHeader
+	 * @param SKYUploadBody
 	 *            请求体
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            上传事件
 	 * @return
 	 */
-	int upload(Uri uploadUri, SKYUploadHeader j2WUploadHeader, SKYUploadBody j2WUploadBody, SKYUploadListener j2WUploadListener);
+	int upload(Uri uploadUri, SKYUploadHeader SKYUploadHeader, SKYUploadBody SKYUploadBody, SKYUploadListener SKYUploadListener);
 
 	/**
 	 * 上传
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeaders
+	 * @param SKYUploadHeaders
 	 *            上传头信息
-	 * @param j2WUploadBody
+	 * @param SKYUploadBody
 	 *            上传体
-	 * @param j2WContentType
+	 * @param SKYContentType
 	 *            类型
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	int upload(Uri uploadUri, List<SKYUploadHeader> j2WUploadHeaders, SKYUploadBody j2WUploadBody, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener);
+	int upload(Uri uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 
 	/**
 	 * 上传
@@ -195,11 +195,11 @@ public interface SKYIDownloadMagnager {
 	 *            上传地址
 	 * @param file
 	 *            文件
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	int upload(String uploadUri, File file, SKYUploadListener j2WUploadListener);
+	int upload(String uploadUri, File file, SKYUploadListener SKYUploadListener);
 
 	/**
 	 * 上传
@@ -208,30 +208,30 @@ public interface SKYIDownloadMagnager {
 	 *            上传地址
 	 * @param file
 	 *            文件
-	 * @param j2WUploadHeader
+	 * @param SKYUploadHeader
 	 *            请求头信息
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	int upload(String uploadUri, File file, SKYUploadHeader j2WUploadHeader, SKYUploadListener j2WUploadListener);
+	int upload(String uploadUri, File file, SKYUploadHeader SKYUploadHeader, SKYUploadListener SKYUploadListener);
 
 	/**
 	 * 上传
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeaders
+	 * @param SKYUploadHeaders
 	 *            请求头信息 数组
 	 * @param file
 	 *            文件
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, File file, SKYUploadListener j2WUploadListener);
+	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYUploadListener SKYUploadListener);
 
-	int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, File file, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener);
+	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 
-	int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, SKYUploadBody j2WUploadBody, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener);
+	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 }

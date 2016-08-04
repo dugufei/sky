@@ -29,21 +29,21 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 */
 	private List	mItems;
 
-	private SKYView j2WView;
+	private SKYView SKYView;
 
-	public SKYRVAdapter(SKYActivity j2WActivity) {
-		SKYCheckUtils.checkNotNull(j2WActivity, "View层不存在");
-		this.j2WView = j2WActivity.j2wView();
+	public SKYRVAdapter(SKYActivity SKYActivity) {
+		SKYCheckUtils.checkNotNull(SKYActivity, "View层不存在");
+		this.SKYView = SKYActivity.SKYView();
 	}
 
-	public SKYRVAdapter(SKYFragment j2WFragment) {
-		SKYCheckUtils.checkNotNull(j2WFragment, "View层不存在");
-		this.j2WView = j2WFragment.j2wView();
+	public SKYRVAdapter(SKYFragment SKYFragment) {
+		SKYCheckUtils.checkNotNull(SKYFragment, "View层不存在");
+		this.SKYView = SKYFragment.SKYView();
 	}
 
-	public SKYRVAdapter(SKYDialogFragment j2WDialogFragment) {
-		SKYCheckUtils.checkNotNull(j2WDialogFragment, "View层不存在");
-		this.j2WView = j2WDialogFragment.j2wView();
+	public SKYRVAdapter(SKYDialogFragment SKYDialogFragment) {
+		SKYCheckUtils.checkNotNull(SKYDialogFragment, "View层不存在");
+		this.SKYView = SKYDialogFragment.SKYView();
 	}
 
 	@Override public V onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -138,15 +138,15 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	}
 
 	public <V extends SKYFragment> V fragment() {
-		return j2WView.fragment();
+		return SKYView.fragment();
 	}
 
 	public <A extends SKYActivity> A activity() {
-		return j2WView.activity();
+		return SKYView.activity();
 	}
 
 	public <D extends SKYDialogFragment> D dialogFragment() {
-		return j2WView.dialogFragment();
+		return SKYView.dialogFragment();
 	}
 
 	/**
@@ -166,15 +166,15 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
-		return (T) j2WView.manager().findFragmentByTag(clazz.getSimpleName());
+		return (T) SKYView.manager().findFragmentByTag(clazz.getSimpleName());
 	}
 
 	public SKYView getUI() {
-		return j2WView;
+		return SKYView;
 	}
 
 	public <B extends SKYIBiz> B biz(Class<B> service) {
-		return j2WView.biz(service);
+		return SKYView.biz(service);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 * @return
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
-		return j2WView.display(e);
+		return SKYView.display(e);
 	}
 
 	@Override public int getItemCount() {

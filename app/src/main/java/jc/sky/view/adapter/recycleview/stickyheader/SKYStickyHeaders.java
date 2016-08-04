@@ -3,7 +3,7 @@ package jc.sky.view.adapter.recycleview.stickyheader;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-public interface J2WStickyHeaders<VH extends RecyclerView.ViewHolder> {
+public interface SKYStickyHeaders<VH extends RecyclerView.ViewHolder> {
   /**
    * Get the ID of the header associated with this item.  For example, if your headers group
    * items by their first letter, you could return the character representation of the first letter.

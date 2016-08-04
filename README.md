@@ -1,4 +1,4 @@
-# J2WStructure
+# SKYStructure
 接受不完美的自己，享受不断完善的自己 我们的承诺是，每天都要有进步
 
 Gradle 版本

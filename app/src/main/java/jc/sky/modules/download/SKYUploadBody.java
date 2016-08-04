@@ -24,7 +24,7 @@ public class SKYUploadBody<T> {
 
 	private final Headers.Builder	headers				= new Headers.Builder();
 
-	public List<SKYFromData>		j2wFromData;								// 表单
+	public List<SKYFromData>		SKYFromData;								// 表单
 
 	public Headers getHeader() {
 		if (isDisposition()) {

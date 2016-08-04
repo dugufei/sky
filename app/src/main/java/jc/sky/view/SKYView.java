@@ -30,33 +30,33 @@ public class SKYView {
 	/** 类型 **/
 	private int					state;
 
-	private SKYActivity mJ2WActivity;
+	private SKYActivity mSKYActivity;
 
 	private Context				context;
 
-	private SKYFragment mJ2WFragment;
+	private SKYFragment mSKYFragment;
 
-	private SKYDialogFragment mJ2WDialogFragment;
+	private SKYDialogFragment mSKYDialogFragment;
 
 	private FragmentManager		fragmentManager;
 
 	/** 初始化 **/
-	public void initUI(SKYActivity mJ2WActivity) {
+	public void initUI(SKYActivity mSKYActivity) {
 		this.state = STATE_ACTIVITY;
-		this.mJ2WActivity = mJ2WActivity;
-		this.context = mJ2WActivity;
+		this.mSKYActivity = mSKYActivity;
+		this.context = mSKYActivity;
 	}
 
-	public void initUI(SKYFragment mJ2WFragment) {
-		initUI((SKYActivity) mJ2WFragment.getActivity());
+	public void initUI(SKYFragment mSKYFragment) {
+		initUI((SKYActivity) mSKYFragment.getActivity());
 		this.state = STATE_FRAGMENT;
-		this.mJ2WFragment = mJ2WFragment;
+		this.mSKYFragment = mSKYFragment;
 	}
 
-	public void initUI(SKYDialogFragment mJ2WDialogFragment) {
-		initUI((SKYActivity) mJ2WDialogFragment.getActivity());
+	public void initUI(SKYDialogFragment mSKYDialogFragment) {
+		initUI((SKYActivity) mSKYDialogFragment.getActivity());
 		this.state = STATE_DIALOGFRAGMENT;
-		this.mJ2WDialogFragment = mJ2WDialogFragment;
+		this.mSKYDialogFragment = mSKYDialogFragment;
 	}
 
 	public void initUI(Context context) {
@@ -69,7 +69,7 @@ public class SKYView {
 	}
 
 	public <A extends SKYActivity> A activity() {
-		return (A) mJ2WActivity;
+		return (A) mSKYActivity;
 	}
 
 	public FragmentManager manager() {
@@ -80,13 +80,13 @@ public class SKYView {
 		Object obj = null;
 		switch (state) {
 			case STATE_ACTIVITY:
-				obj = mJ2WActivity;
+				obj = mSKYActivity;
 				break;
 			case STATE_FRAGMENT:
-				obj = mJ2WFragment;
+				obj = mSKYFragment;
 				break;
 			case STATE_DIALOGFRAGMENT:
-				obj = mJ2WDialogFragment;
+				obj = mSKYDialogFragment;
 				break;
 		}
 		return obj;
@@ -97,24 +97,24 @@ public class SKYView {
 	}
 
 	public <F extends SKYFragment> F fragment() {
-		return (F) mJ2WFragment;
+		return (F) mSKYFragment;
 	}
 
 	public <D extends SKYDialogFragment> D dialogFragment() {
-		return (D) mJ2WDialogFragment;
+		return (D) mSKYDialogFragment;
 	}
 
 	public <B extends SKYIBiz> B biz() {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:
-				b = (B) mJ2WActivity.biz();
+				b = (B) mSKYActivity.biz();
 				break;
 			case STATE_FRAGMENT:
-				b = (B) mJ2WFragment.biz();
+				b = (B) mSKYFragment.biz();
 				break;
 			case STATE_DIALOGFRAGMENT:
-				b = (B) mJ2WDialogFragment.biz();
+				b = (B) mSKYDialogFragment.biz();
 				break;
 		}
 		return b;
@@ -124,13 +124,13 @@ public class SKYView {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:
-				b = (B) mJ2WActivity.biz(service);
+				b = (B) mSKYActivity.biz(service);
 				break;
 			case STATE_FRAGMENT:
-				b = (B) mJ2WFragment.biz(service);
+				b = (B) mSKYFragment.biz(service);
 				break;
 			case STATE_DIALOGFRAGMENT:
-				b = (B) mJ2WDialogFragment.biz(service);
+				b = (B) mSKYDialogFragment.biz(service);
 				break;
 		}
 		return b;
@@ -140,13 +140,13 @@ public class SKYView {
 		E e = null;
 		switch (state) {
 			case STATE_ACTIVITY:
-				e = (E) mJ2WActivity.display(display);
+				e = (E) mSKYActivity.display(display);
 				break;
 			case STATE_FRAGMENT:
-				e = (E) mJ2WFragment.display(display);
+				e = (E) mSKYFragment.display(display);
 				break;
 			case STATE_DIALOGFRAGMENT:
-				e = (E) mJ2WDialogFragment.display(display);
+				e = (E) mSKYDialogFragment.display(display);
 				break;
 		}
 		return e;
@@ -160,15 +160,15 @@ public class SKYView {
 		Toolbar toolbar = null;
 		switch (type) {
 			case STATE_ACTIVITY:
-				toolbar = mJ2WActivity.toolbar();
+				toolbar = mSKYActivity.toolbar();
 				break;
 			case STATE_FRAGMENT:
-				toolbar = mJ2WFragment.toolbar();
-				toolbar = toolbar == null ? mJ2WActivity.toolbar() : toolbar;
+				toolbar = mSKYFragment.toolbar();
+				toolbar = toolbar == null ? mSKYActivity.toolbar() : toolbar;
 				break;
 			case STATE_DIALOGFRAGMENT:
-				toolbar = mJ2WDialogFragment.toolbar();
-				toolbar = toolbar == null ? mJ2WActivity.toolbar() : toolbar;
+				toolbar = mSKYDialogFragment.toolbar();
+				toolbar = toolbar == null ? mSKYActivity.toolbar() : toolbar;
 				break;
 		}
 
@@ -181,9 +181,9 @@ public class SKYView {
 	 */
 	public void detach() {
 		this.state = 0;
-		this.mJ2WActivity = null;
-		this.mJ2WFragment = null;
-		this.mJ2WDialogFragment = null;
+		this.mSKYActivity = null;
+		this.mSKYFragment = null;
+		this.mSKYDialogFragment = null;
 		this.context = null;
 		this.fragmentManager = null;
 	}

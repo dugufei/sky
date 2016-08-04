@@ -16,7 +16,7 @@ public abstract class SKYApplication extends Application implements SKYIViewComm
 	/**
 	 * modules 管理
 	 */
-	SKYModulesManage mJ2WModulesManage	= null;
+	SKYModulesManage mSKYModulesManage	= null;
 
 	/**
 	 * 日志是否打印
@@ -52,10 +52,10 @@ public abstract class SKYApplication extends Application implements SKYIViewComm
 	/**
 	 * 初始化帮助类
 	 * 
-	 * @param j2WModulesManage
+	 * @param SKYModulesManage
 	 */
-	public void initHelper(SKYModulesManage j2WModulesManage) {
-		SKYHelper.with(j2WModulesManage);
+	public void initHelper(SKYModulesManage SKYModulesManage) {
+		SKYHelper.with(SKYModulesManage);
 	}
 
 	/**
@@ -70,15 +70,15 @@ public abstract class SKYApplication extends Application implements SKYIViewComm
 	@Override protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
 		// 初始化
-		mJ2WModulesManage = getModulesManage();
+		mSKYModulesManage = getModulesManage();
 		// 初始化Application
-		initHelper(mJ2WModulesManage);
+		initHelper(mSKYModulesManage);
 		// 初始化 HTTP
-		mJ2WModulesManage.initJ2WRestAdapter(getRestAdapter(new Retrofit.Builder()));
+		mSKYModulesManage.initSKYRestAdapter(getRestAdapter(new Retrofit.Builder()));
 		// 初始化 LOG
-		mJ2WModulesManage.initLog(isLogOpen());
+		mSKYModulesManage.initLog(isLogOpen());
 		// 初始化 代理方法
-		mJ2WModulesManage.initMehtodProxy(getMethodInterceptor(new SKYMethods.Builder()));
+		mSKYModulesManage.initMehtodProxy(getMethodInterceptor(new SKYMethods.Builder()));
 		// 初始化统一错误处理
 		Thread.setDefaultUncaughtExceptionHandler(getExceptionHandler());
 	}

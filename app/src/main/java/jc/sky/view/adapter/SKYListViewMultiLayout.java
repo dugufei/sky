@@ -13,14 +13,14 @@ public interface SKYListViewMultiLayout {
 	 * @param position
 	 * @return
 	 */
-	int getJ2WViewType(int position);
+	int getSKYViewType(int position);
 
 	/**
 	 * 类型数量
 	 * 
 	 * @return
 	 */
-	int getJ2WViewTypeCount();
+	int getSKYViewTypeCount();
 
 	/**
 	 * 根据类型获取适配器Item
@@ -28,5 +28,5 @@ public interface SKYListViewMultiLayout {
 	 * @param type
 	 * @return
 	 */
-	SKYAdapterItem getJ2WAdapterItem(int type);
+	SKYAdapterItem getSKYAdapterItem(int type);
 }

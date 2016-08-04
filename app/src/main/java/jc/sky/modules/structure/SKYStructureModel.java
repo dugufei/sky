@@ -24,7 +24,7 @@ public class SKYStructureModel {
 
     final int key;
 
-    SKYProxy j2WProxy;
+    SKYProxy SKYProxy;
 
     private Object view;
 
@@ -64,7 +64,7 @@ public class SKYStructureModel {
             }
         }
 
-        j2WProxy = SKYHelper.methodsProxy().create(service, impl);
+        SKYProxy = SKYHelper.methodsProxy().create(service, impl);
         stackHttp = new ConcurrentHashMap<>();
         stackImpl = new ConcurrentHashMap<>();
         stackDisplay = new ConcurrentHashMap<>();
@@ -76,8 +76,8 @@ public class SKYStructureModel {
     public void clearAll() {
         this.view = null;
         service = null;
-        j2WProxy.clearProxy();
-        j2WProxy = null;
+        SKYProxy.clearProxy();
+        SKYProxy = null;
         stackHttp.clear();
         stackHttp = null;
         stackImpl.clear();
@@ -107,9 +107,9 @@ public class SKYStructureModel {
                     SKYCheckUtils.checkNotNull(displayClazz, "display接口不能为空");
                     SKYCheckUtils.validateServiceInterface(displayClazz);
                     Object impl = getImplClass(displayClazz);
-                    SKYProxy j2WProxy = SKYHelper.methodsProxy().createDisplay(displayClazz, impl);
-                    stackDisplay.put(displayClazz, j2WProxy.proxy);
-                    display = (D) j2WProxy.proxy;
+                    SKYProxy SKYProxy = SKYHelper.methodsProxy().createDisplay(displayClazz, impl);
+                    stackDisplay.put(displayClazz, SKYProxy.proxy);
+                    display = (D) SKYProxy.proxy;
                 }
             }
         }
@@ -225,8 +225,8 @@ public class SKYStructureModel {
         return service;
     }
 
-    public SKYProxy getJ2WProxy() {
-        return j2WProxy;
+    public SKYProxy getSKYProxy() {
+        return SKYProxy;
     }
 
     public boolean isSupterClass(Class clazz) {

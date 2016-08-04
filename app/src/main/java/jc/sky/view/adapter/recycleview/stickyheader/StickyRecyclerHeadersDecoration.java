@@ -17,7 +17,7 @@ import jc.sky.view.adapter.recycleview.stickyheader.util.OrientationProvider;
 
 public class StickyRecyclerHeadersDecoration extends RecyclerView.ItemDecoration {
 
-  private final J2WStickyHeaders mAdapter;
+  private final SKYStickyHeaders mAdapter;
   private final SparseArray<Rect> mHeaderRects = new SparseArray<>();
   private final HeaderProvider mHeaderProvider;
   private final OrientationProvider mOrientationProvider;
@@ -32,24 +32,24 @@ public class StickyRecyclerHeadersDecoration extends RecyclerView.ItemDecoration
   private final Rect mTempRect = new Rect();
 
   // TODO: Consider passing in orientation to simplify orientation accounting within calculation
-  public StickyRecyclerHeadersDecoration(J2WStickyHeaders adapter) {
+  public StickyRecyclerHeadersDecoration(SKYStickyHeaders adapter) {
     this(adapter, new LinearLayoutOrientationProvider(), new DimensionCalculator());
   }
 
-  private StickyRecyclerHeadersDecoration(J2WStickyHeaders adapter, OrientationProvider orientationProvider,
+  private StickyRecyclerHeadersDecoration(SKYStickyHeaders adapter, OrientationProvider orientationProvider,
       DimensionCalculator dimensionCalculator) {
     this(adapter, orientationProvider, dimensionCalculator, new HeaderRenderer(orientationProvider),
         new HeaderViewCache(adapter, orientationProvider));
   }
 
-  private StickyRecyclerHeadersDecoration(J2WStickyHeaders adapter, OrientationProvider orientationProvider,
+  private StickyRecyclerHeadersDecoration(SKYStickyHeaders adapter, OrientationProvider orientationProvider,
       DimensionCalculator dimensionCalculator, HeaderRenderer headerRenderer, HeaderProvider headerProvider) {
     this(adapter, headerRenderer, orientationProvider, dimensionCalculator, headerProvider,
         new HeaderPositionCalculator(adapter, headerProvider, orientationProvider,
             dimensionCalculator));
   }
 
-  private StickyRecyclerHeadersDecoration(J2WStickyHeaders adapter, HeaderRenderer headerRenderer,
+  private StickyRecyclerHeadersDecoration(SKYStickyHeaders adapter, HeaderRenderer headerRenderer,
       OrientationProvider orientationProvider, DimensionCalculator dimensionCalculator, HeaderProvider headerProvider,
       HeaderPositionCalculator headerPositionCalculator) {
     mAdapter = adapter;

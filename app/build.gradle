@@ -1,6 +1,8 @@
 //框架开发模式-需要测试
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
 android {
     compileSdkVersion 22
     buildToolsVersion '24.0.0'
@@ -29,7 +31,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //外部依赖
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     //状态栏

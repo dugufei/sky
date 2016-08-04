@@ -71,15 +71,15 @@ public class SKYStructureManage implements SKYStructureIManage {
 		synchronized (statckRepeatBiz) {
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 			if (stack != null) {
-				SKYStructureModel j2WStructureModel = stack.get(view.key);
-				if (j2WStructureModel == null) {
+				SKYStructureModel SKYStructureModel = stack.get(view.key);
+				if (SKYStructureModel == null) {
 					return;
 				}
-				stack.remove(j2WStructureModel.key);
+				stack.remove(SKYStructureModel.key);
 				if (stack.size() < 1) {
 					statckRepeatBiz.remove(view.getService());
 				}
-				j2WStructureModel.clearAll();
+				SKYStructureModel.clearAll();
 			}
 		}
 		synchronized (stackImpl) {
@@ -150,14 +150,14 @@ public class SKYStructureManage implements SKYStructureIManage {
 		if (stack == null) {
 			return createNullService(biz);
 		}
-		SKYStructureModel j2WStructureModel = stack.valueAt(0);
-		if (j2WStructureModel == null) {
+		SKYStructureModel SKYStructureModel = stack.valueAt(0);
+		if (SKYStructureModel == null) {
 			return createNullService(biz);
 		}
-		if (j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+		if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 			return createNullService(biz);
 		}
-		return (B) j2WStructureModel.getJ2WProxy().proxy;
+		return (B) SKYStructureModel.getSKYProxy().proxy;
 	}
 
 	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz) {
@@ -165,11 +165,11 @@ public class SKYStructureManage implements SKYStructureIManage {
 		if (stack == null) {
 			return false;
 		}
-		SKYStructureModel j2WStructureModel = stack.valueAt(0);
-		if (j2WStructureModel == null) {
+		SKYStructureModel SKYStructureModel = stack.valueAt(0);
+		if (SKYStructureModel == null) {
 			return false;
 		}
-		if (j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+		if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 			return false;
 		}
 		return true;
@@ -183,9 +183,9 @@ public class SKYStructureManage implements SKYStructureIManage {
 					SKYCheckUtils.checkNotNull(displayClazz, "display接口不能为空");
 					SKYCheckUtils.validateServiceInterface(displayClazz);
 					Object impl = getImplClass(displayClazz);
-					SKYProxy j2WProxy = SKYHelper.methodsProxy().createDisplay(displayClazz, impl);
-					stackDisplay.put(displayClazz, j2WProxy.proxy);
-					display = (D) j2WProxy.proxy;
+					SKYProxy SKYProxy = SKYHelper.methodsProxy().createDisplay(displayClazz, impl);
+					stackDisplay.put(displayClazz, SKYProxy.proxy);
+					display = (D) SKYProxy.proxy;
 				}
 			}
 		}
@@ -200,9 +200,9 @@ public class SKYStructureManage implements SKYStructureIManage {
 					SKYCheckUtils.checkNotNull(service, "biz接口不能为空～");
 					SKYCheckUtils.validateServiceInterface(service);
 					Object impl = getImplClass(service);
-					SKYProxy j2WProxy = SKYHelper.methodsProxy().create(service, impl);
-					stackCommonBiz.put(service, j2WProxy.proxy);
-					b = (B) j2WProxy.proxy;
+					SKYProxy SKYProxy = SKYHelper.methodsProxy().create(service, impl);
+					stackCommonBiz.put(service, SKYProxy.proxy);
+					b = (B) SKYProxy.proxy;
 				}
 			}
 		}
@@ -217,11 +217,11 @@ public class SKYStructureManage implements SKYStructureIManage {
 		}
 		int count = stack.size();
 		for (int i = 0; i < count; i++) {
-			SKYStructureModel j2WStructureModel = stack.valueAt(i);
-			if (j2WStructureModel == null || j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+			SKYStructureModel SKYStructureModel = stack.valueAt(i);
+			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				list.add(createNullService(service));
 			} else {
-				list.add(j2WStructureModel.getJ2WProxy().proxy);
+				list.add(SKYStructureModel.getSKYProxy().proxy);
 			}
 		}
 		return list;
@@ -334,7 +334,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		});
 	}
 
-	@Override public boolean onKeyBack(int keyCode, FragmentManager fragmentManager, SKYActivity bj2WActivity) {
+	@Override public boolean onKeyBack(int keyCode, FragmentManager fragmentManager, SKYActivity bSKYActivity) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
 			int idx = fragmentManager.getBackStackEntryCount();
@@ -351,8 +351,8 @@ public class SKYStructureManage implements SKYStructureIManage {
 					return ((SKYFragment) view).onKeyBack();
 				}
 			}
-			if (bj2WActivity != null) {
-				return bj2WActivity.onKeyBack();
+			if (bSKYActivity != null) {
+				return bSKYActivity.onKeyBack();
 			}
 		}
 		return false;

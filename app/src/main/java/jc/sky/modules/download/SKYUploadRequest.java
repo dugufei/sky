@@ -16,26 +16,26 @@ public class SKYUploadRequest extends SKYBaseRequest {
 
 	private Uri					uploadUri;
 
-	private SKYUploadListener j2WUploadListener;
+	private SKYUploadListener SKYUploadListener;
 
 	Headers.Builder				headers;
 
-	SKYContentType j2WContentType;
+	SKYContentType SKYContentType;
 
-	SKYUploadBody j2WUploadBody;
+	SKYUploadBody SKYUploadBody;
 
 	/**
 	 * 初始化
 	 *
 	 * @param uri
 	 *            地址
-	 * @param j2WUploadBody
+	 * @param SKYUploadBody
 	 *            请求体
-	 * @param j2WContentType
+	 * @param SKYContentType
 	 *            类型
 	 */
-	public SKYUploadRequest(Uri uri, SKYUploadBody j2WUploadBody, SKYContentType j2WContentType) {
-		if (SKYCheckUtils.isEmpty(j2WUploadBody.headerName) || SKYCheckUtils.isEmpty(j2WUploadBody.headerValue)) {
+	public SKYUploadRequest(Uri uri, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType) {
+		if (SKYCheckUtils.isEmpty(SKYUploadBody.headerName) || SKYCheckUtils.isEmpty(SKYUploadBody.headerValue)) {
 			throw new IllegalArgumentException("文件体头信息不能为空！");
 		}
 
@@ -45,9 +45,9 @@ public class SKYUploadRequest extends SKYBaseRequest {
 		}
 		setDownloadState(SKYDownloadManager.STATUS_PENDING);
 		this.uploadUri = uri;
-		this.j2WUploadBody = j2WUploadBody;
+		this.SKYUploadBody = SKYUploadBody;
 		this.headers = new Headers.Builder();
-		this.j2WContentType = j2WContentType;
+		this.SKYContentType = SKYContentType;
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 * 
 	 * @return
 	 */
-	public SKYUploadBody getJ2WUploadBody() {
-		return j2WUploadBody;
+	public SKYUploadBody getSKYUploadBody() {
+		return SKYUploadBody;
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 * 
 	 * @return
 	 */
-	public SKYContentType getJ2WContentType() {
-		return j2WContentType;
+	public SKYContentType getSKYContentType() {
+		return SKYContentType;
 	}
 
 	/**
@@ -115,19 +115,19 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 *
 	 * @return 事件
 	 */
-	public SKYUploadListener getJ2WUploadListener() {
-		return j2WUploadListener;
+	public SKYUploadListener getSKYUploadListener() {
+		return SKYUploadListener;
 	}
 
 	/**
 	 * 设置下载事件
 	 *
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	public SKYUploadRequest setJ2WUploadListener(SKYUploadListener j2WUploadListener) {
-		this.j2WUploadListener = j2WUploadListener;
+	public SKYUploadRequest setSKYUploadListener(SKYUploadListener SKYUploadListener) {
+		this.SKYUploadListener = SKYUploadListener;
 		return this;
 	}
 }

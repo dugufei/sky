@@ -26,53 +26,53 @@ import retrofit2.Retrofit;
  */
 public class SKYModulesManage {
 
-	private final SKYApplication		mJ2WApplication;		// 全局上下文
+	private final SKYApplication		mSKYApplication;		// 全局上下文
 
 	private final EventBus				bus;					// 事件总线
 
-	private final SKYScreenManager		j2WScreenManager;		// Activity堆栈管理
+	private final SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
 
-	private final SKYThreadPoolManager	j2WThreadPoolManager;	// 线程池管理
+	private final SKYThreadPoolManager	SKYThreadPoolManager;	// 线程池管理
 
-	private final SKYStructureManage	j2WStructureManage;		// 结构管理器
+	private final SKYStructureManage	SKYStructureManage;		// 结构管理器
 
 	private final SynchronousExecutor	synchronousExecutor;	// 主线程
 
-	private final SKYToast				j2WToast;				// 提示信息
+	private final SKYToast				SKYToast;				// 提示信息
 
 	private final ContactManage			contactManage;			// 通讯录
 
-	private SKYSystemUiHider			j2WSystemUiHider;		// 标题栏和状态栏控制
+	private SKYSystemUiHider			SKYSystemUiHider;		// 标题栏和状态栏控制
 
 	private L.DebugTree					debugTree;				// 打印信息
 
-	private SKYMethods					j2WMethods;				// 方法代理
+	private SKYMethods					SKYMethods;				// 方法代理
 
-	private SKYDownloadManager			j2WDownloadManager;		// 下载和上传管理
+	private SKYDownloadManager			SKYDownloadManager;		// 下载和上传管理
 
-	private Retrofit					mJ2WRestAdapter;		// 网络适配器
+	private Retrofit					mSKYRestAdapter;		// 网络适配器
 
-	private SKYFileCacheManage			j2WFileCacheManage;		// 文件缓存管理器
+	private SKYFileCacheManage			SKYFileCacheManage;		// 文件缓存管理器
 
-	public SKYModulesManage(SKYApplication j2WApplication) {
-		this.mJ2WApplication = j2WApplication;
+	public SKYModulesManage(SKYApplication SKYApplication) {
+		this.mSKYApplication = SKYApplication;
 		this.bus = EventBus.getDefault();
-		this.j2WScreenManager = new SKYScreenManager();
-		this.j2WStructureManage = new SKYStructureManage();
-		this.j2WThreadPoolManager = new SKYThreadPoolManager();
+		this.SKYScreenManager = new SKYScreenManager();
+		this.SKYStructureManage = new SKYStructureManage();
+		this.SKYThreadPoolManager = new SKYThreadPoolManager();
 		this.synchronousExecutor = new SynchronousExecutor();
-		this.j2WDownloadManager = new SKYDownloadManager();
-		this.j2WToast = new SKYToast();
-		this.contactManage = new ContactManage(mJ2WApplication);
-		this.j2WFileCacheManage = new SKYFileCacheManage();
+		this.SKYDownloadManager = new SKYDownloadManager();
+		this.SKYToast = new SKYToast();
+		this.contactManage = new ContactManage(mSKYApplication);
+		this.SKYFileCacheManage = new SKYFileCacheManage();
 	}
 
-	public SKYApplication getJ2WApplication() {
-		return this.mJ2WApplication;
+	public SKYApplication getSKYApplication() {
+		return this.mSKYApplication;
 	}
 
-	public void initJ2WRestAdapter(Retrofit j2WRestAdapter) {
-		this.mJ2WRestAdapter = j2WRestAdapter;
+	public void initSKYRestAdapter(Retrofit SKYRestAdapter) {
+		this.mSKYRestAdapter = SKYRestAdapter;
 	}
 
 	public void initLog(boolean logOpen) {
@@ -85,73 +85,73 @@ public class SKYModulesManage {
 	}
 
 	public void initMehtodProxy(SKYMethods methodInterceptor) {
-		j2WMethods = methodInterceptor;
+		SKYMethods = methodInterceptor;
 	}
 
-	public SKYMethods getJ2WMethods() {
-		return j2WMethods;
+	public SKYMethods getSKYMethods() {
+		return SKYMethods;
 	}
 
-	public Retrofit getJ2WRestAdapter() {
-		return this.mJ2WRestAdapter;
+	public Retrofit getSKYRestAdapter() {
+		return this.mSKYRestAdapter;
 	}
 
 	public EventBus getBus() {
 		return bus;
 	}
 
-	public SKYScreenManager getJ2WScreenManager() {
-		return j2WScreenManager;
+	public SKYScreenManager getSKYScreenManager() {
+		return SKYScreenManager;
 	}
 
-	public SKYThreadPoolManager getJ2WThreadPoolManager() {
-		return j2WThreadPoolManager;
+	public SKYThreadPoolManager getSKYThreadPoolManager() {
+		return SKYThreadPoolManager;
 	}
 
 	public SynchronousExecutor getSynchronousExecutor() {
 		return synchronousExecutor;
 	}
 
-	public SKYDownloadManager getJ2WDownloadManager() {
-		return j2WDownloadManager;
+	public SKYDownloadManager getSKYDownloadManager() {
+		return SKYDownloadManager;
 	}
 
-	public SKYDownloadManager getJ2WDownloadManager(int threadPoolSize) {
-		if (j2WDownloadManager == null) {
+	public SKYDownloadManager getSKYDownloadManager(int threadPoolSize) {
+		if (SKYDownloadManager == null) {
 			synchronized (this) {
-				if (j2WDownloadManager == null) {
-					j2WDownloadManager = new SKYDownloadManager(threadPoolSize);
+				if (SKYDownloadManager == null) {
+					SKYDownloadManager = new SKYDownloadManager(threadPoolSize);
 				}
 			}
 		}
 
-		return j2WDownloadManager;
+		return SKYDownloadManager;
 	}
 
-	public SKYStructureManage getJ2WStructureManage() {
-		return j2WStructureManage;
+	public SKYStructureManage getSKYStructureManage() {
+		return SKYStructureManage;
 	}
 
-	public SKYToast getJ2WToast() {
-		return j2WToast;
+	public SKYToast getSKYToast() {
+		return SKYToast;
 	}
 
 	public ContactManage getContactManage() {
 		return contactManage;
 	}
 
-	public SKYSystemUiHider getJ2WSystemUiHider(AppCompatActivity activity, View anchorView, int flags) {
-		if (j2WSystemUiHider == null) {
+	public SKYSystemUiHider getSKYSystemUiHider(AppCompatActivity activity, View anchorView, int flags) {
+		if (SKYSystemUiHider == null) {
 			synchronized (this) {
-				if (j2WSystemUiHider == null) {
-					j2WSystemUiHider = SKYSystemUiHider.getInstance(activity, anchorView, flags);
+				if (SKYSystemUiHider == null) {
+					SKYSystemUiHider = SKYSystemUiHider.getInstance(activity, anchorView, flags);
 				}
 			}
 		}
-		return j2WSystemUiHider;
+		return SKYSystemUiHider;
 	}
 
-	public SKYFileCacheManage getJ2WFileCacheManage() {
-		return j2WFileCacheManage;
+	public SKYFileCacheManage getSKYFileCacheManage() {
+		return SKYFileCacheManage;
 	}
 }

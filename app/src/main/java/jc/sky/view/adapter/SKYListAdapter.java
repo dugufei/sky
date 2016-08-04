@@ -33,30 +33,30 @@ public class SKYListAdapter extends BaseAdapter {
 	 * View
 	 */
 
-	SKYView j2WView;
+	SKYView SKYView;
 
 	/**
 	 * 适配器Item
 	 */
-	private SKYAdapterItem j2WAdapterItem;
+	private SKYAdapterItem SKYAdapterItem;
 
 	/**
 	 * 多布局接口
 	 */
-	private SKYListViewMultiLayout j2WListViewMultiLayout;
+	private SKYListViewMultiLayout SKYListViewMultiLayout;
 
-	public SKYListAdapter(SKYView j2WView, SKYAdapterItem j2WAdapterItem) {
-		SKYCheckUtils.checkNotNull(j2WView, "View层不存在");
-		SKYCheckUtils.checkNotNull(j2WAdapterItem, "ListView Item类不存在");
-		this.j2WView = j2WView;
-		this.j2WAdapterItem = j2WAdapterItem;
+	public SKYListAdapter(SKYView SKYView, SKYAdapterItem SKYAdapterItem) {
+		SKYCheckUtils.checkNotNull(SKYView, "View层不存在");
+		SKYCheckUtils.checkNotNull(SKYAdapterItem, "ListView Item类不存在");
+		this.SKYView = SKYView;
+		this.SKYAdapterItem = SKYAdapterItem;
 	}
 
-	public SKYListAdapter(SKYView j2WView, SKYListViewMultiLayout j2WListViewMultiLayout) {
-		SKYCheckUtils.checkNotNull(j2WView, "View层不存在");
-		SKYCheckUtils.checkNotNull(j2WListViewMultiLayout, "ListView 多布局接口不存在");
-		this.j2WView = j2WView;
-		this.j2WListViewMultiLayout = j2WListViewMultiLayout;
+	public SKYListAdapter(SKYView SKYView, SKYListViewMultiLayout SKYListViewMultiLayout) {
+		SKYCheckUtils.checkNotNull(SKYView, "View层不存在");
+		SKYCheckUtils.checkNotNull(SKYListViewMultiLayout, "ListView 多布局接口不存在");
+		this.SKYView = SKYView;
+		this.SKYListViewMultiLayout = SKYListViewMultiLayout;
 	}
 
 	public void setItems(List items) {
@@ -137,17 +137,17 @@ public class SKYListAdapter extends BaseAdapter {
 	}
 
 	@Override public int getViewTypeCount() {
-		return j2WListViewMultiLayout == null ? 1 : j2WListViewMultiLayout.getJ2WViewTypeCount();
+		return SKYListViewMultiLayout == null ? 1 : SKYListViewMultiLayout.getSKYViewTypeCount();
 	}
 
 	@Override public int getItemViewType(int position) {
-		return j2WListViewMultiLayout == null ? 0 : j2WListViewMultiLayout.getJ2WViewType(position);
+		return SKYListViewMultiLayout == null ? 0 : SKYListViewMultiLayout.getSKYViewType(position);
 	}
 
 	@Override public View getView(int position, View convertView, ViewGroup parent) {
 		SKYAdapterItem item = null;
 		if (convertView == null) {
-			if (j2WListViewMultiLayout == null) {
+			if (SKYListViewMultiLayout == null) {
 				item = createItem(); // 单类型
 			} else {
 				item = createMultiItem(position);// 多类型
@@ -168,19 +168,19 @@ public class SKYListAdapter extends BaseAdapter {
 	}
 
 	public SKYView getUI() {
-		return j2WView;
+		return SKYView;
 	}
 
 	public <V extends SKYFragment> V fragment() {
-		return j2WView.fragment();
+		return SKYView.fragment();
 	}
 
 	public <A extends SKYActivity> A activity() {
-		return j2WView.activity();
+		return SKYView.activity();
 	}
 
 	public <D extends SKYDialogFragment> D dialogFragment() {
-		return j2WView.dialogFragment();
+		return SKYView.dialogFragment();
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class SKYListAdapter extends BaseAdapter {
 	 * @return
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
-		return j2WView.display(e);
+		return SKYView.display(e);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class SKYListAdapter extends BaseAdapter {
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
-		return (T) j2WView.manager().findFragmentByTag(clazz.getSimpleName());
+		return (T) SKYView.manager().findFragmentByTag(clazz.getSimpleName());
 	}
 
 	/**
@@ -211,8 +211,8 @@ public class SKYListAdapter extends BaseAdapter {
 	 * @return
 	 */
 	private SKYAdapterItem createItem() {
-		SKYAdapterItem itemClone = (SKYAdapterItem) this.j2WAdapterItem.clone();
-		itemClone.setJ2WView(j2WView);
+		SKYAdapterItem itemClone = (SKYAdapterItem) this.SKYAdapterItem.clone();
+		itemClone.setSKYView(SKYView);
 		return itemClone;
 	}
 
@@ -224,7 +224,7 @@ public class SKYListAdapter extends BaseAdapter {
 	 */
 	private SKYAdapterItem createMultiItem(int position) {
 		int type = getItemViewType(position);
-		return j2WListViewMultiLayout.getJ2WAdapterItem(type);
+		return SKYListViewMultiLayout.getSKYAdapterItem(type);
 	}
 
 	public void detach() {
@@ -232,8 +232,8 @@ public class SKYListAdapter extends BaseAdapter {
 			mItems.clear();
 			mItems = null;
 		}
-		j2WView = null;
-		j2WAdapterItem = null;
-		j2WListViewMultiLayout = null;
+		SKYView = null;
+		SKYAdapterItem = null;
+		SKYListViewMultiLayout = null;
 	}
 }

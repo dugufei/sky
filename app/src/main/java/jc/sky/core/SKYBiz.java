@@ -14,40 +14,40 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 
 	private Class				ui;
 
-	private SKYStructureModel j2WStructureModel;
+	private SKYStructureModel SKYStructureModel;
 
 	protected <H> H http(Class<H> hClass) {
-		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
+		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
 			return SKYHelper.http(hClass);
 		}
-		return j2WStructureModel.http(hClass);
+		return SKYStructureModel.http(hClass);
 	}
 
 	protected <I> I impl(Class<I> inter) {
-		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
+		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
 			return SKYHelper.impl(inter);
 		}
-		return j2WStructureModel.impl(inter);
+		return SKYStructureModel.impl(inter);
 	}
 
 	protected <D extends SKYIDisplay> D display(Class<D> eClass) {
-		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
+		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
 			return SKYHelper.display(eClass);
 		}
-		return j2WStructureModel.display(eClass);
+		return SKYStructureModel.display(eClass);
 	}
 
 	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (j2WStructureModel != null && j2WStructureModel.isSupterClass(service)) {
-			if (j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+		if (SKYStructureModel != null && SKYStructureModel.isSupterClass(service)) {
+			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) j2WStructureModel.getJ2WProxy().proxy;
-		} else if (j2WStructureModel != null && service.equals(j2WStructureModel.getService())) {
-			if (j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+			return (C) SKYStructureModel.getSKYProxy().proxy;
+		} else if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
+			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) j2WStructureModel.getJ2WProxy().proxy;
+			return (C) SKYStructureModel.getSKYProxy().proxy;
 		} else {
 			return SKYHelper.biz(service);
 		}
@@ -90,15 +90,15 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 		return u != null;
 	}
 
-	@Override public void initUI(SKYStructureModel j2WStructureModel) {
-		this.j2WStructureModel = j2WStructureModel;
+	@Override public void initUI(SKYStructureModel SKYStructureModel) {
+		this.SKYStructureModel = SKYStructureModel;
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
-		u = (U) SKYHelper.structureHelper().createMainLooper(ui, j2WStructureModel.getView());
+		u = (U) SKYHelper.structureHelper().createMainLooper(ui, SKYStructureModel.getView());
 	}
 
 	@Override public void detach() {
 		u = null;
 		ui = null;
-		j2WStructureModel = null;
+		SKYStructureModel = null;
 	}
 }

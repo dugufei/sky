@@ -17,7 +17,7 @@ import jc.sky.modules.structure.SKYStructureModel;
  */
 public abstract class SKYService<B extends SKYIBiz> extends Service {
 
-	SKYStructureModel j2WStructureModel;
+	SKYStructureModel SKYStructureModel;
 
 	@Nullable @Override public IBinder onBind(Intent intent) {
 		return null;
@@ -37,30 +37,30 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		j2WStructureModel = new SKYStructureModel(this);
-		SKYHelper.structureHelper().attach(j2WStructureModel);
+		SKYStructureModel = new SKYStructureModel(this);
+		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化 **/
 		initData();
 	}
 
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-		return j2WStructureModel.display(eClass);
+		return SKYStructureModel.display(eClass);
 	}
 
 	public B biz() {
-		return (B) j2WStructureModel.getJ2WProxy().proxy;
+		return (B) SKYStructureModel.getSKYProxy().proxy;
 	}
 
 	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (j2WStructureModel.getService().equals(service)) {
-			return (C) j2WStructureModel.getJ2WProxy().proxy;
+		if (SKYStructureModel.getService().equals(service)) {
+			return (C) SKYStructureModel.getSKYProxy().proxy;
 		}
 		return SKYHelper.structureHelper().biz(service);
 	}
 
 	@Override public void onDestroy() {
 		super.onDestroy();
-		SKYHelper.structureHelper().detach(j2WStructureModel);
+		SKYHelper.structureHelper().detach(SKYStructureModel);
 	}
 
 	@Override public int onStartCommand(Intent intent, int flags, int startId) {

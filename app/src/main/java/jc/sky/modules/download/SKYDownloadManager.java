@@ -15,9 +15,9 @@ import jc.sky.SKYHelper;
  */
 public class SKYDownloadManager implements SKYIDownloadMagnager {
 
-	private SKYDownloadRequest j2WDownloadRequest;
+	private SKYDownloadRequest SKYDownloadRequest;
 
-	private SKYUploadRequest j2WUploadRequest;
+	private SKYUploadRequest SKYUploadRequest;
 
 	private SKYDownloadRequestQueue mRequestQueue;
 
@@ -91,11 +91,11 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            下载地址
 	 * @param fileName
 	 *            文件名
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	@Override public int download(String url, String fileName, SKYDownloadListener j2WDownloadListener) {
-		return download(url, SKYHelper.getInstance().getExternalCacheDir().toString(), fileName, j2WDownloadListener);
+	@Override public int download(String url, String fileName, SKYDownloadListener SKYDownloadListener) {
+		return download(url, SKYHelper.getInstance().getExternalCacheDir().toString(), fileName, SKYDownloadListener);
 	}
 
 	/**
@@ -107,10 +107,10 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            路径
 	 * @param fileName
 	 *            文件名
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	@Override public int download(String url, String destination, String fileName, SKYDownloadListener j2WDownloadListener) {
+	@Override public int download(String url, String destination, String fileName, SKYDownloadListener SKYDownloadListener) {
 		StringBuilder sDestination = new StringBuilder(destination);
 		StringBuilder sFileName = new StringBuilder(fileName);
 
@@ -129,7 +129,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 		stringBuilder.append("/");
 		stringBuilder.append(sFileName.toString());
 		Uri destinationUri = Uri.parse(stringBuilder.toString());// 目标地址
-		return download(uri, destinationUri, j2WDownloadListener);
+		return download(uri, destinationUri, SKYDownloadListener);
 	}
 
 	/**
@@ -139,14 +139,14 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            下载地址
 	 * @param destinationUri
 	 *            路径
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 */
-	@Override public int download(Uri downloadUri, Uri destinationUri, SKYDownloadListener j2WDownloadListener) {
-		j2WDownloadRequest = new SKYDownloadRequest(downloadUri);
-		j2WDownloadRequest.setDestinationUrl(destinationUri);
-		j2WDownloadRequest.setJ2WDownloadListener(j2WDownloadListener);
-		return add(j2WDownloadRequest);
+	@Override public int download(Uri downloadUri, Uri destinationUri, SKYDownloadListener SKYDownloadListener) {
+		SKYDownloadRequest = new SKYDownloadRequest(downloadUri);
+		SKYDownloadRequest.setDestinationUrl(destinationUri);
+		SKYDownloadRequest.setSKYDownloadListener(SKYDownloadListener);
+		return add(SKYDownloadRequest);
 	}
 
 	/**
@@ -154,19 +154,19 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeader
-	 * @param j2WUploadBody
+	 * @param SKYUploadHeader
+	 * @param SKYUploadBody
 	 *            请求体
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            上传事件
 	 * @return
 	 */
-	@Override public int upload(Uri uploadUri, SKYUploadHeader j2WUploadHeader, SKYUploadBody j2WUploadBody, SKYUploadListener j2WUploadListener) {
-		List<SKYUploadHeader> j2WUploadHeaders = new ArrayList<>();
-		if (j2WUploadHeader != null) {
-			j2WUploadHeaders.add(j2WUploadHeader);
+	@Override public int upload(Uri uploadUri, SKYUploadHeader SKYUploadHeader, SKYUploadBody SKYUploadBody, SKYUploadListener SKYUploadListener) {
+		List<SKYUploadHeader> SKYUploadHeaders = new ArrayList<>();
+		if (SKYUploadHeader != null) {
+			SKYUploadHeaders.add(SKYUploadHeader);
 		}
-		return upload(uploadUri, j2WUploadHeaders, j2WUploadBody, SKYContentType.DEFAULT_FILE, j2WUploadListener);
+		return upload(uploadUri, SKYUploadHeaders, SKYUploadBody, SKYContentType.DEFAULT_FILE, SKYUploadListener);
 	}
 
 	/**
@@ -174,23 +174,23 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 * 
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeaders
+	 * @param SKYUploadHeaders
 	 *            上传头信息
-	 * @param j2WUploadBody
+	 * @param SKYUploadBody
 	 *            上传体
-	 * @param j2WContentType
+	 * @param SKYContentType
 	 *            类型
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	@Override public int upload(Uri uploadUri, List<SKYUploadHeader> j2WUploadHeaders, SKYUploadBody j2WUploadBody, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener) {
-		j2WUploadRequest = new SKYUploadRequest(uploadUri, j2WUploadBody, j2WContentType);
-		j2WUploadRequest.setJ2WUploadListener(j2WUploadListener);
-		for (SKYUploadHeader j2WUploadHeader : j2WUploadHeaders) {
-			j2WUploadRequest.addHeader(j2WUploadHeader.headerName, j2WUploadHeader.headerValue);
+	@Override public int upload(Uri uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener) {
+		SKYUploadRequest = new SKYUploadRequest(uploadUri, SKYUploadBody, SKYContentType);
+		SKYUploadRequest.setSKYUploadListener(SKYUploadListener);
+		for (SKYUploadHeader SKYUploadHeader : SKYUploadHeaders) {
+			SKYUploadRequest.addHeader(SKYUploadHeader.headerName, SKYUploadHeader.headerValue);
 		}
-		return add(j2WUploadRequest);
+		return add(SKYUploadRequest);
 	}
 
 	/**
@@ -200,12 +200,12 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            上传地址
 	 * @param file
 	 *            文件
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	@Override public int upload(String uploadUri, File file, SKYUploadListener j2WUploadListener) {
-		return upload(uploadUri, file, null, j2WUploadListener);
+	@Override public int upload(String uploadUri, File file, SKYUploadListener SKYUploadListener) {
+		return upload(uploadUri, file, null, SKYUploadListener);
 	}
 
 	/**
@@ -215,18 +215,18 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            上传地址
 	 * @param file
 	 *            文件
-	 * @param j2WUploadHeader
+	 * @param SKYUploadHeader
 	 *            请求头信息
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	@Override public int upload(String uploadUri, File file, SKYUploadHeader j2WUploadHeader, SKYUploadListener j2WUploadListener) {
-		List<SKYUploadHeader> j2WUploadHeaders = new ArrayList<>();
-		if (j2WUploadHeader != null) {
-			j2WUploadHeaders.add(j2WUploadHeader);
+	@Override public int upload(String uploadUri, File file, SKYUploadHeader SKYUploadHeader, SKYUploadListener SKYUploadListener) {
+		List<SKYUploadHeader> SKYUploadHeaders = new ArrayList<>();
+		if (SKYUploadHeader != null) {
+			SKYUploadHeaders.add(SKYUploadHeader);
 		}
-		return upload(uploadUri, j2WUploadHeaders, file, j2WUploadListener);
+		return upload(uploadUri, SKYUploadHeaders, file, SKYUploadListener);
 	}
 
 	/**
@@ -234,16 +234,16 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeaders
+	 * @param SKYUploadHeaders
 	 *            请求头信息 数组
 	 * @param file
 	 *            文件
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	@Override public int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, File file, SKYUploadListener j2WUploadListener) {
-		return upload(uploadUri, j2WUploadHeaders, file, SKYContentType.DEFAULT_FILE, j2WUploadListener);
+	@Override public int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYUploadListener SKYUploadListener) {
+		return upload(uploadUri, SKYUploadHeaders, file, SKYContentType.DEFAULT_FILE, SKYUploadListener);
 	}
 
 	/**
@@ -251,26 +251,26 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *
 	 * @param uploadUri
 	 *            上传地址
-	 * @param j2WUploadHeaders
+	 * @param SKYUploadHeaders
 	 *            请求头信息 数组
 	 * @param file
 	 *            文件
-	 * @param j2WUploadListener
+	 * @param SKYUploadListener
 	 *            事件
 	 * @return
 	 */
-	@Override public int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, File file, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener) {
+	@Override public int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener) {
 		Uri uri = Uri.parse(uploadUri);
-		SKYUploadBody j2WUploadBody = new SKYUploadBody();
-		j2WUploadBody.headerName = SKYUploadBody.CONTENT_DISPOSITION;
-		j2WUploadBody.headerValue = "file";
-		j2WUploadBody.file = file;
+		SKYUploadBody SKYUploadBody = new SKYUploadBody();
+		SKYUploadBody.headerName = SKYUploadBody.CONTENT_DISPOSITION;
+		SKYUploadBody.headerValue = "file";
+		SKYUploadBody.file = file;
 
-		return upload(uri, j2WUploadHeaders, j2WUploadBody, j2WContentType, j2WUploadListener);
+		return upload(uri, SKYUploadHeaders, SKYUploadBody, SKYContentType, SKYUploadListener);
 	}
 
-	@Override public int upload(String uploadUri, List<SKYUploadHeader> j2WUploadHeaders, SKYUploadBody j2WUploadBody, SKYContentType j2WContentType, SKYUploadListener j2WUploadListener) {
+	@Override public int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener) {
 		Uri uri = Uri.parse(uploadUri);
-		return upload(uri, j2WUploadHeaders, j2WUploadBody, j2WContentType, j2WUploadListener);
+		return upload(uri, SKYUploadHeaders, SKYUploadBody, SKYContentType, SKYUploadListener);
 	}
 }

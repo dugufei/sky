@@ -51,22 +51,22 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	protected int				mRequestCode		= 2013 << 5;
 
 	/** 请求默认值 **/
-	public final static String	ARG_REQUEST_CODE	= "j2w_request_code";
+	public final static String	ARG_REQUEST_CODE	= "SKY_request_code";
 
 	/** View层编辑器 **/
-	private SKYBuilder j2WBuilder;
+	private SKYBuilder SKYBuilder;
 
-	SKYStructureModel j2WStructureModel;
+	SKYStructureModel SKYStructureModel;
 
 	private Unbinder			unbinder;
 
 	/**
 	 * 定制
 	 *
-	 * @param initialJ2WBuilder
+	 * @param initialSKYBuilder
 	 * @return
 	 **/
-	protected abstract SKYBuilder build(SKYBuilder initialJ2WBuilder);
+	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
 	 * 数据
@@ -90,7 +90,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 *
 	 * @return
 	 */
-	protected abstract int getJ2WStyle();
+	protected abstract int getSKYStyle();
 
 	/**
 	 * 是否可取消
@@ -126,7 +126,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// 创建对话框
-		Dialog dialog = new Dialog(getActivity(), getJ2WStyle());
+		Dialog dialog = new Dialog(getActivity(), getSKYStyle());
 		return dialog;
 	}
 
@@ -144,11 +144,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
-		j2WStructureModel = new SKYStructureModel(this);
-		SKYHelper.structureHelper().attach(j2WStructureModel);
+		SKYStructureModel = new SKYStructureModel(this);
+		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
-		j2WBuilder = new SKYBuilder(this, inflater);
-		View view = build(j2WBuilder).create();
+		SKYBuilder = new SKYBuilder(this, inflater);
+		View view = build(SKYBuilder).create();
 		/** 初始化所有组建 **/
 		unbinder = ButterKnife.bind(this, view);
 		// 获取参数-设置是否可取消
@@ -171,7 +171,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public void onResume() {
 		super.onResume();
 		/** 判断EventBus 是否注册 **/
-		if (j2WBuilder.isOpenEventBus()) {
+		if (SKYBuilder.isOpenEventBus()) {
 			if (!SKYHelper.eventBus().isRegistered(this)) {
 				SKYHelper.eventBus().register(this);
 			}
@@ -182,8 +182,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public void onPause() {
 		super.onPause();
 		/** 关闭event **/
-		if (j2WBuilder.isOpenEventBus()) {
-			if (!j2WBuilder.isNotCloseEventBus()) {
+		if (SKYBuilder.isOpenEventBus()) {
+			if (!SKYBuilder.isNotCloseEventBus()) {
 				if (SKYHelper.eventBus().isRegistered(this)) {
 					SKYHelper.eventBus().unregister(this);
 				}
@@ -206,10 +206,10 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			SKYHelper.eventBus().unregister(this);
 		}
 		/** 移除builder **/
-		j2WBuilder.detach();
-		j2WBuilder = null;
+		SKYBuilder.detach();
+		SKYBuilder = null;
 
-		SKYHelper.structureHelper().detach(j2WStructureModel);
+		SKYHelper.structureHelper().detach(SKYStructureModel);
 		/** 清空注解view **/
 		unbinder.unbind();
 		/** 关闭键盘 **/
@@ -235,26 +235,26 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	}
 
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
+		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
 			return SKYHelper.display(eClass);
 		}
-		return j2WStructureModel.display(eClass);
+		return SKYStructureModel.display(eClass);
 	}
 
 	public B biz() {
-		if (j2WStructureModel == null || j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
 			return (B) SKYHelper.structureHelper().createNullService(service);
 		}
-		return (B) j2WStructureModel.getJ2WProxy().proxy;
+		return (B) SKYStructureModel.getSKYProxy().proxy;
 	}
 
 	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (j2WStructureModel != null && service.equals(j2WStructureModel.getService())) {
-			if (j2WStructureModel == null || j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
+		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
+			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) j2WStructureModel.getJ2WProxy().proxy;
+			return (C) SKYStructureModel.getSKYProxy().proxy;
 		}
 		return SKYHelper.biz(service);
 	}
@@ -267,9 +267,9 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		if (j2WBuilder.getToolbarMenuId() > 0) {
+		if (SKYBuilder.getToolbarMenuId() > 0) {
 			menu.clear();
-			this.getActivity().getMenuInflater().inflate(j2WBuilder.getToolbarMenuId(), menu);
+			this.getActivity().getMenuInflater().inflate(SKYBuilder.getToolbarMenuId(), menu);
 		}
 	}
 
@@ -287,105 +287,105 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	/********************** Actionbar业务代码 *********************/
 
 	protected void showContent() {
-		if (j2WBuilder != null) {
-			j2WBuilder.layoutContent();
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutContent();
 		}
 	}
 
 	protected void showLoading() {
-		if (j2WBuilder != null) {
-			j2WBuilder.layoutLoading();
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutLoading();
 		}
 	}
 
 	protected void showBizError() {
-		if (j2WBuilder != null) {
-			j2WBuilder.layoutBizError();
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutBizError();
 		}
 	}
 
 	protected void showEmpty() {
-		if (j2WBuilder != null) {
-			j2WBuilder.layoutEmpty();
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutEmpty();
 		}
 	}
 
 	protected void showHttpError() {
-		if (j2WBuilder != null) {
-			j2WBuilder.layoutHttpError();
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutHttpError();
 		}
 	}
 
 	/********************** Actionbar业务代码 *********************/
 	public Toolbar toolbar() {
-		return j2WBuilder == null ? null : j2WBuilder.getToolbar();
+		return SKYBuilder == null ? null : SKYBuilder.getToolbar();
 	}
 
 	/********************** RecyclerView业务代码 *********************/
 
 	protected SKYRVAdapter recyclerAdapter() {
-		return j2WBuilder == null ? null : j2WBuilder.getJ2WRVAdapterItem2();
+		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();
 	}
 
 	protected RecyclerView.LayoutManager recyclerLayoutManager() {
-		return j2WBuilder == null ? null : j2WBuilder.getLayoutManager();
+		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
 	protected RecyclerView recyclerView() {
-		return j2WBuilder == null ? null : j2WBuilder.getRecyclerView();
+		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
 	/********************** ListView业务代码 *********************/
 
 	protected void addListHeader() {
-		if (j2WBuilder != null) {
-			j2WBuilder.addListHeader();
+		if (SKYBuilder != null) {
+			SKYBuilder.addListHeader();
 		}
 	}
 
 	protected void addListFooter() {
-		if (j2WBuilder != null) {
-			j2WBuilder.addListFooter();
+		if (SKYBuilder != null) {
+			SKYBuilder.addListFooter();
 		}
 	}
 
 	protected void removeListHeader() {
-		if (j2WBuilder != null) {
-			j2WBuilder.removeListHeader();
+		if (SKYBuilder != null) {
+			SKYBuilder.removeListHeader();
 		}
 	}
 
 	protected void removeListFooter() {
-		if (j2WBuilder != null) {
-			j2WBuilder.removeListFooter();
+		if (SKYBuilder != null) {
+			SKYBuilder.removeListFooter();
 		}
 
 	}
 
 	protected void listRefreshing(boolean bool) {
-		if (j2WBuilder != null) {
-			j2WBuilder.listRefreshing(bool);
+		if (SKYBuilder != null) {
+			SKYBuilder.listRefreshing(bool);
 		}
 	}
 
 	protected void listLoadMoreOpen() {
-		if (j2WBuilder != null) {
-			j2WBuilder.loadMoreOpen();
+		if (SKYBuilder != null) {
+			SKYBuilder.loadMoreOpen();
 		}
 	}
 
 	protected SKYListAdapter adapter() {
-		return j2WBuilder == null ? null : j2WBuilder.getAdapter();
+		return SKYBuilder == null ? null : SKYBuilder.getAdapter();
 	}
 
 	protected ListView listView() {
-		return j2WBuilder == null ? null : j2WBuilder.getListView();
+		return SKYBuilder == null ? null : SKYBuilder.getListView();
 	}
 
 	/********************** View业务代码 *********************/
 
-	public SKYView j2wView() {
-		return j2WBuilder == null ? null : j2WBuilder.getJ2WView();
+	public SKYView SKYView() {
+		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 
 	/**

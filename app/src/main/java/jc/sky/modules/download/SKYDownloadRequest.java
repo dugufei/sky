@@ -31,7 +31,7 @@ public class SKYDownloadRequest extends SKYBaseRequest {
 	/**
 	 * 下载事件
 	 */
-	private SKYDownloadListener j2WDownloadListener;
+	private SKYDownloadListener SKYDownloadListener;
 
 	/**
 	 * 下载后的文件路径名
@@ -49,8 +49,8 @@ public class SKYDownloadRequest extends SKYBaseRequest {
 	 *
 	 * @return 事件
 	 */
-	public SKYDownloadListener getJ2WDownloadListener() {
-		return j2WDownloadListener;
+	public SKYDownloadListener getSKYDownloadListener() {
+		return SKYDownloadListener;
 	}
 
 	/**
@@ -84,12 +84,12 @@ public class SKYDownloadRequest extends SKYBaseRequest {
 	/**
 	 * 设置下载事件
 	 * 
-	 * @param j2WDownloadListener
+	 * @param SKYDownloadListener
 	 *            事件
 	 * @return
 	 */
-	public SKYDownloadRequest setJ2WDownloadListener(SKYDownloadListener j2WDownloadListener) {
-		this.j2WDownloadListener = j2WDownloadListener;
+	public SKYDownloadRequest setSKYDownloadListener(SKYDownloadListener SKYDownloadListener) {
+		this.SKYDownloadListener = SKYDownloadListener;
 		return this;
 	}
 

@@ -29,9 +29,9 @@ import jc.sky.core.plugin.BizStartInterceptor;
  */
 public final class SKYMethods {
 
-	final SKYActivityInterceptor j2WActivityInterceptor;
+	final SKYActivityInterceptor SKYActivityInterceptor;
 
-	final SKYFragmentInterceptor j2WFragmentInterceptor;
+	final SKYFragmentInterceptor SKYFragmentInterceptor;
 
 	final ArrayList<BizStartInterceptor>		bizStartInterceptor;		// 方法开始拦截器
 
@@ -45,20 +45,20 @@ public final class SKYMethods {
 
 	private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-	final ArrayList<SKYErrorInterceptor>		j2WErrorInterceptor;		// 方法错误拦截器
+	final ArrayList<SKYErrorInterceptor>		SKYErrorInterceptor;		// 方法错误拦截器
 
-	public SKYMethods(SKYActivityInterceptor j2WActivityInterceptor, SKYFragmentInterceptor j2WFragmentInterceptor, ArrayList<BizStartInterceptor> bizStartInterceptor,
+	public SKYMethods(SKYActivityInterceptor SKYActivityInterceptor, SKYFragmentInterceptor SKYFragmentInterceptor, ArrayList<BizStartInterceptor> bizStartInterceptor,
 					  DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor, DisplayEndInterceptor displayEndInterceptor,
-					  ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors, ArrayList<SKYErrorInterceptor> j2WErrorInterceptor) {
+					  ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors, ArrayList<SKYErrorInterceptor> SKYErrorInterceptor) {
 		this.bizEndInterceptor = bizEndInterceptor;
 		this.displayEndInterceptor = displayEndInterceptor;
 		this.displayStartInterceptor = displayStartInterceptor;
 		this.bizStartInterceptor = bizStartInterceptor;
-		this.j2WErrorInterceptor = j2WErrorInterceptor;
+		this.SKYErrorInterceptor = SKYErrorInterceptor;
 		this.implStartInterceptors = implStartInterceptors;
 		this.implEndInterceptors = implEndInterceptors;
-		this.j2WActivityInterceptor = j2WActivityInterceptor;
-		this.j2WFragmentInterceptor = j2WFragmentInterceptor;
+		this.SKYActivityInterceptor = SKYActivityInterceptor;
+		this.SKYFragmentInterceptor = SKYFragmentInterceptor;
 	}
 
 	/**
@@ -71,25 +71,25 @@ public final class SKYMethods {
 	public <T> SKYProxy create(final Class<T> service, Object impl) {
 		SKYCheckUtils.validateServiceInterface(service);
 
-		final SKYProxy j2WProxy = new SKYProxy();
-		j2WProxy.impl = impl;
-		j2WProxy.proxy = Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new SKYInvocationHandler() {
+		final SKYProxy SKYProxy = new SKYProxy();
+		SKYProxy.impl = impl;
+		SKYProxy.proxy = Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new SKYInvocationHandler() {
 
 			@Override public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
 				// 如果有返回值 - 直接执行
 				if (!method.getReturnType().equals(void.class)) {
-					return method.invoke(j2WProxy.impl, args);
+					return method.invoke(SKYProxy.impl, args);
 				}
 
-				SKYMethod j2WMethod = loadJ2WMethod(j2WProxy, method, service);
+				SKYMethod SKYMethod = loadSKYMethod(SKYProxy, method, service);
 				// 开始
 				if (!SKYHelper.getInstance().isLogOpen()) {
-					return j2WMethod.invoke(j2WProxy.impl, args);
+					return SKYMethod.invoke(SKYProxy.impl, args);
 				}
 				enterMethod(method, args);
 				long startNanos = System.nanoTime();
 
-				Object result = j2WMethod.invoke(j2WProxy.impl, args);
+				Object result = SKYMethod.invoke(SKYProxy.impl, args);
 
 				long stopNanos = System.nanoTime();
 				long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
@@ -99,7 +99,7 @@ public final class SKYMethods {
 			}
 		});
 
-		return j2WProxy;
+		return SKYProxy;
 	}
 
 	/**
@@ -112,25 +112,25 @@ public final class SKYMethods {
 	public <T> SKYProxy createDisplay(final Class<T> service, Object impl) {
 		SKYCheckUtils.validateServiceInterface(service);
 
-		final SKYProxy j2WProxy = new SKYProxy();
-		j2WProxy.impl = impl;
-		j2WProxy.proxy = Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new SKYInvocationHandler() {
+		final SKYProxy SKYProxy = new SKYProxy();
+		SKYProxy.impl = impl;
+		SKYProxy.proxy = Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new SKYInvocationHandler() {
 
 			@Override public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
 				// 如果有返回值 - 直接执行
 				if (!method.getReturnType().equals(void.class)) {
-					return method.invoke(j2WProxy.impl, args);
+					return method.invoke(SKYProxy.impl, args);
 
 				}
-				SKYMethod j2WMethod = loadDisplayJ2WMethod(j2WProxy, method, service);
+				SKYMethod SKYMethod = loadDisplaySKYMethod(SKYProxy, method, service);
 				// 开始
 				if (!SKYHelper.getInstance().isLogOpen()) {
-					return j2WMethod.invoke(j2WProxy.impl, args);
+					return SKYMethod.invoke(SKYProxy.impl, args);
 				}
 				enterMethod(method, args);
 				long startNanos = System.nanoTime();
 
-				Object result = j2WMethod.invoke(j2WProxy.impl, args);
+				Object result = SKYMethod.invoke(SKYProxy.impl, args);
 
 				long stopNanos = System.nanoTime();
 				long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
@@ -140,7 +140,7 @@ public final class SKYMethods {
 			}
 		});
 
-		return j2WProxy;
+		return SKYProxy;
 	}
 
 	private void enterMethod(Method method, Object... args) {
@@ -253,7 +253,7 @@ public final class SKYMethods {
 	 * @return
 	 */
 	public SKYActivityInterceptor activityInterceptor() {
-		return j2WActivityInterceptor;
+		return SKYActivityInterceptor;
 	}
 
 	/**
@@ -262,58 +262,58 @@ public final class SKYMethods {
 	 * @return
 	 */
 	public SKYFragmentInterceptor fragmentInterceptor() {
-		return j2WFragmentInterceptor;
+		return SKYFragmentInterceptor;
 	}
 
 	/**
 	 * 加载接口
 	 *
-	 * @param j2WProxy
+	 * @param SKYProxy
 	 * @param method
 	 * @param service
 	 * @param <T>
 	 * @return
 	 */
-	private <T> SKYMethod loadJ2WMethod(SKYProxy j2WProxy, Method method, Class<T> service) {
-		synchronized (j2WProxy.methodCache) {
+	private <T> SKYMethod loadSKYMethod(SKYProxy SKYProxy, Method method, Class<T> service) {
+		synchronized (SKYProxy.methodCache) {
 			String methodKey = getKey(method, method.getParameterTypes());
-			SKYMethod j2WMethod = j2WProxy.methodCache.get(methodKey);
-			if (j2WMethod == null) {
-				j2WMethod = SKYMethod.createBizMethod(method, service);
-				j2WProxy.methodCache.put(methodKey, j2WMethod);
+			SKYMethod SKYMethod = SKYProxy.methodCache.get(methodKey);
+			if (SKYMethod == null) {
+				SKYMethod = SKYMethod.createBizMethod(method, service);
+				SKYProxy.methodCache.put(methodKey, SKYMethod);
 			}
-			return j2WMethod;
+			return SKYMethod;
 		}
 	}
 
 	/**
 	 * 加载接口
 	 *
-	 * @param j2WProxy
+	 * @param SKYProxy
 	 * @param method
 	 * @param service
 	 * @param <T>
 	 * @return
 	 */
-	private <T> SKYMethod loadDisplayJ2WMethod(SKYProxy j2WProxy, Method method, Class<T> service) {
-		synchronized (j2WProxy.methodCache) {
+	private <T> SKYMethod loadDisplaySKYMethod(SKYProxy SKYProxy, Method method, Class<T> service) {
+		synchronized (SKYProxy.methodCache) {
 			String methodKey = getKey(method, method.getParameterTypes());
-			SKYMethod j2WMethod = j2WProxy.methodCache.get(methodKey);
-			if (j2WMethod == null) {
-				j2WMethod = SKYMethod.createDisplayMethod(method, service);
-				j2WProxy.methodCache.put(methodKey, j2WMethod);
+			SKYMethod SKYMethod = SKYProxy.methodCache.get(methodKey);
+			if (SKYMethod == null) {
+				SKYMethod = SKYMethod.createDisplayMethod(method, service);
+				SKYProxy.methodCache.put(methodKey, SKYMethod);
 			}
-			return j2WMethod;
+			return SKYMethod;
 		}
 	}
 
 	public static class Builder {
 
-		private SKYActivityInterceptor j2WActivityInterceptor;		// activity拦截器
+		private SKYActivityInterceptor SKYActivityInterceptor;		// activity拦截器
 
-		private SKYFragmentInterceptor j2WFragmentInterceptor;		// activity拦截器
+		private SKYFragmentInterceptor SKYFragmentInterceptor;		// activity拦截器
 
-		private ArrayList<BizStartInterceptor>		j2WStartInterceptors;		// 方法开始拦截器
+		private ArrayList<BizStartInterceptor>		SKYStartInterceptors;		// 方法开始拦截器
 
 		private ArrayList<BizEndInterceptor>		bizEndInterceptors;			// 方法结束拦截器
 
@@ -321,27 +321,27 @@ public final class SKYMethods {
 
 		private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-		private ArrayList<SKYErrorInterceptor>		j2WErrorInterceptors;		// 方法错误拦截器
+		private ArrayList<SKYErrorInterceptor>		SKYErrorInterceptors;		// 方法错误拦截器
 
 		private DisplayStartInterceptor				displayStartInterceptor;	// 方法开始拦截器
 
 		private DisplayEndInterceptor				displayEndInterceptor;		// 方法结束拦截器
 
-		public void setActivityInterceptor(SKYActivityInterceptor j2WActivityInterceptor) {
-			this.j2WActivityInterceptor = j2WActivityInterceptor;
+		public void setActivityInterceptor(SKYActivityInterceptor SKYActivityInterceptor) {
+			this.SKYActivityInterceptor = SKYActivityInterceptor;
 		}
 
-		public void setFragmentInterceptor(SKYFragmentInterceptor j2WFragmentInterceptor) {
-			this.j2WFragmentInterceptor = j2WFragmentInterceptor;
+		public void setFragmentInterceptor(SKYFragmentInterceptor SKYFragmentInterceptor) {
+			this.SKYFragmentInterceptor = SKYFragmentInterceptor;
 
 		}
 
 		public Builder addStartInterceptor(BizStartInterceptor bizStartInterceptor) {
-			if (j2WStartInterceptors == null) {
-				j2WStartInterceptors = new ArrayList<>();
+			if (SKYStartInterceptors == null) {
+				SKYStartInterceptors = new ArrayList<>();
 			}
-			if (!j2WStartInterceptors.contains(bizStartInterceptor)) {
-				j2WStartInterceptors.add(bizStartInterceptor);
+			if (!SKYStartInterceptors.contains(bizStartInterceptor)) {
+				SKYStartInterceptors.add(bizStartInterceptor);
 			}
 			return this;
 		}
@@ -386,37 +386,37 @@ public final class SKYMethods {
 			return this;
 		}
 
-		public void addErrorInterceptor(SKYErrorInterceptor j2WErrorInterceptor) {
-			if (j2WErrorInterceptors == null) {
-				j2WErrorInterceptors = new ArrayList<>();
+		public void addErrorInterceptor(SKYErrorInterceptor SKYErrorInterceptor) {
+			if (SKYErrorInterceptors == null) {
+				SKYErrorInterceptors = new ArrayList<>();
 			}
-			if (!j2WErrorInterceptors.contains(j2WErrorInterceptor)) {
-				j2WErrorInterceptors.add(j2WErrorInterceptor);
+			if (!SKYErrorInterceptors.contains(SKYErrorInterceptor)) {
+				SKYErrorInterceptors.add(SKYErrorInterceptor);
 			}
 		}
 
 		public SKYMethods build() {
 			// 默认值
 			ensureSaneDefaults();
-			return new SKYMethods(j2WActivityInterceptor, j2WFragmentInterceptor, j2WStartInterceptors, displayStartInterceptor, bizEndInterceptors, displayEndInterceptor, implStartInterceptors,
-					implEndInterceptors, j2WErrorInterceptors);
+			return new SKYMethods(SKYActivityInterceptor, SKYFragmentInterceptor, SKYStartInterceptors, displayStartInterceptor, bizEndInterceptors, displayEndInterceptor, implStartInterceptors,
+					implEndInterceptors, SKYErrorInterceptors);
 		}
 
 		private void ensureSaneDefaults() {
-			if (j2WStartInterceptors == null) {
-				j2WStartInterceptors = new ArrayList<>();
+			if (SKYStartInterceptors == null) {
+				SKYStartInterceptors = new ArrayList<>();
 			}
 			if (bizEndInterceptors == null) {
 				bizEndInterceptors = new ArrayList<>();
 			}
-			if (j2WErrorInterceptors == null) {
-				j2WErrorInterceptors = new ArrayList<>();
+			if (SKYErrorInterceptors == null) {
+				SKYErrorInterceptors = new ArrayList<>();
 			}
-			if (j2WFragmentInterceptor == null) {
-				j2WFragmentInterceptor = SKYFragmentInterceptor.NONE;
+			if (SKYFragmentInterceptor == null) {
+				SKYFragmentInterceptor = SKYFragmentInterceptor.NONE;
 			}
-			if (j2WActivityInterceptor == null) {
-				j2WActivityInterceptor = SKYActivityInterceptor.NONE;
+			if (SKYActivityInterceptor == null) {
+				SKYActivityInterceptor = SKYActivityInterceptor.NONE;
 			}
 			if (implStartInterceptors == null) {
 				implStartInterceptors = new ArrayList<>();

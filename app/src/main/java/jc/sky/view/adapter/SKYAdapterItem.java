@@ -14,10 +14,10 @@ import jc.sky.view.SKYView;
  */
 public abstract class SKYAdapterItem<T> implements Cloneable {
 
-	private SKYView j2WView;
+	private SKYView SKYView;
 
-	void setJ2WView(SKYView j2WView) {
-		this.j2WView = j2WView;
+	void setSKYView(SKYView SKYView) {
+		this.SKYView = SKYView;
 	}
 
 	/**
@@ -49,19 +49,19 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 
 
 	public <V extends SKYFragment> V fragment() {
-		return j2WView.fragment();
+		return SKYView.fragment();
 	}
 
 	public <A extends SKYActivity> A activity() {
-		return j2WView.activity();
+		return SKYView.activity();
 	}
 
 	public <D extends SKYDialogFragment> D dialogFragment() {
-		return j2WView.dialogFragment();
+		return SKYView.dialogFragment();
 	}
 
 	public SKYView getUI() {
-		return j2WView;
+		return SKYView;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	 * @return
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
-		return j2WView.display(e);
+		return SKYView.display(e);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
-		return (T) j2WView.manager().findFragmentByTag(clazz.getSimpleName());
+		return (T) SKYView.manager().findFragmentByTag(clazz.getSimpleName());
 	}
 
 	/**

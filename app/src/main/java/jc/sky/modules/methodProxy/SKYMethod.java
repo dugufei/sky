@@ -58,8 +58,8 @@ public final class SKYMethod {
 
 	private static boolean parseRepeat(Method method) {
 
-		Repeat j2WRepeat = method.getAnnotation(Repeat.class);
-		if (j2WRepeat != null && j2WRepeat.value()) {
+		Repeat SKYRepeat = method.getAnnotation(Repeat.class);
+		if (SKYRepeat != null && SKYRepeat.value()) {
 			return true;
 		} else {
 			return false;
@@ -104,7 +104,7 @@ public final class SKYMethod {
 		if (!isRepeat) {
 			if (isExe) { // 如果存在什么都不做
 				if (SKYHelper.getInstance().isLogOpen()) {
-					L.tag("J2W-Method");
+					L.tag("SKY-Method");
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.append(impl.getClass().getSimpleName());
 					stringBuilder.append(".");
@@ -267,10 +267,10 @@ public final class SKYMethod {
 		if (SKYHelper.getInstance().isLogOpen()) {
 			throwable.printStackTrace();
 		}
-//		if (throwable.getCause() instanceof J2WError) {
+//		if (throwable.getCause() instanceof SKYError) {
 //			// 网络错误拦截器
-//			for (J2WHttpErrorInterceptor item : SKYHelper.methodsProxy().j2WHttpErrorInterceptor) {
-//				item.methodError(service, method, interceptor, (J2WError) throwable.getCause());
+//			for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptor) {
+//				item.methodError(service, method, interceptor, (SKYError) throwable.getCause());
 //			}
 //		} else
 		if (throwable.getCause() instanceof SKYNotUIPointerException) {
@@ -278,7 +278,7 @@ public final class SKYMethod {
 			return;
 		} else {
 			// 业务错误拦截器
-			for (SKYErrorInterceptor item : SKYHelper.methodsProxy().j2WErrorInterceptor) {
+			for (SKYErrorInterceptor item : SKYHelper.methodsProxy().SKYErrorInterceptor) {
 				item.interceptorError(implName, service, method, interceptor, throwable);
 			}
 		}

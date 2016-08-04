@@ -8,7 +8,7 @@ import jc.sky.modules.structure.SKYStructureModel;
  */
 public interface SKYIBiz {
 
-	void initUI(SKYStructureModel j2WView);
+	void initUI(SKYStructureModel SKYView);
 
 	/**
 	 * 清空

@@ -69,7 +69,7 @@ public class SKYScreenHolder {
 
 	private void log(String message) {
 		if (SKYHelper.getInstance().isLogOpen()) {
-			Log.i("J2WActivityManager", activityName + message);
+			Log.i("SKYActivityManager", activityName + message);
 		}
 	}
 

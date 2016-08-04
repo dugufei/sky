@@ -11,7 +11,7 @@ package jc.sky.modules.methodProxy;
 public class SKYAspectBackground {
 
 	// private static final String POINTCUT_METHOD =
-	// "@annotation(j2w.team.modules.methodProxy.Background)";
+	// "@annotation(SKY.team.modules.methodProxy.Background)";
 	//
 	// @Pointcut(POINTCUT_METHOD) public void methodAnnotatedWithBackground() {}
 	//
@@ -23,11 +23,11 @@ public class SKYAspectBackground {
 	// key.append(joinPoint.getTarget());
 	// key.append(".");
 	// key.append(joinPoint.getSignature().toShortString());
-	// SKYMethod j2WMethod =
+	// SKYMethod SKYMethod =
 	// SKYHelper.methodsProxy().createMehtod(key.toString(),
 	// methodSignature.getMethod(),
 	// joinPoint.getSignature().getDeclaringType());
-	// return j2WMethod.invoke(joinPoint);
+	// return SKYMethod.invoke(joinPoint);
 	// }
 
 }

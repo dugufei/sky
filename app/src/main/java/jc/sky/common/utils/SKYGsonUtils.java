@@ -44,7 +44,7 @@ public class SKYGsonUtils {
 				result.append(line + "\n");
 			}
 			String json = result.toString();
-			L.tag("J2W-HTTP-RETURN");
+			L.tag("SKY-HTTP-RETURN");
 			L.i(result.toString());
 			return gson.fromJson(json, type);
 		} finally {

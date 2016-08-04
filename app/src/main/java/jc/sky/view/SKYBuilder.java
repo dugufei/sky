@@ -42,7 +42,7 @@ import jc.sky.view.adapter.SKYAdapterItem;
 import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.SKYListViewMultiLayout;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
-import jc.sky.view.adapter.recycleview.stickyheader.J2WStickyHeaders;
+import jc.sky.view.adapter.recycleview.stickyheader.SKYStickyHeaders;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersDecoration;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersTouchListener;
 import jc.sky.view.common.SKYFooterListener;
@@ -58,7 +58,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	/**
 	 * UI
 	 **/
-	private SKYView			j2WView;
+	private SKYView			skyView;
 
 	/**
 	 * 布局加载器
@@ -68,41 +68,41 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	/**
 	 * 构造器
 	 *
-	 * @param j2WActivity
+	 * @param skyActivity
 	 * @param inflater
 	 */
-	public SKYBuilder(@NonNull SKYActivity j2WActivity, @NonNull LayoutInflater inflater) {
-		j2WView = new SKYView();
-		j2WView.initUI(j2WActivity);
+	public SKYBuilder(@NonNull SKYActivity skyActivity, @NonNull LayoutInflater inflater) {
+		skyView = new SKYView();
+		skyView.initUI(skyActivity);
 		this.mInflater = inflater;
 	}
 
 	/**
 	 * 构造器
 	 *
-	 * @param j2WFragment
+	 * @param SKYFragment
 	 * @param inflater
 	 */
-	public SKYBuilder(@NonNull SKYFragment j2WFragment, @NonNull LayoutInflater inflater) {
-		j2WView = new SKYView();
-		j2WView.initUI(j2WFragment);
+	public SKYBuilder(@NonNull SKYFragment SKYFragment, @NonNull LayoutInflater inflater) {
+		skyView = new SKYView();
+		skyView.initUI(SKYFragment);
 		this.mInflater = inflater;
 	}
 
 	/**
 	 * 构造器
 	 *
-	 * @param j2WDialogFragment
+	 * @param SKYDialogFragment
 	 * @param inflater
 	 */
-	public SKYBuilder(@NonNull SKYDialogFragment j2WDialogFragment, @NonNull LayoutInflater inflater) {
-		j2WView = new SKYView();
-		j2WView.initUI(j2WDialogFragment);
+	public SKYBuilder(@NonNull SKYDialogFragment SKYDialogFragment, @NonNull LayoutInflater inflater) {
+		skyView = new SKYView();
+		skyView.initUI(SKYDialogFragment);
 		this.mInflater = inflater;
 	}
 
-	@Nullable public SKYView getJ2WView() {
-		return j2WView;
+	@Nullable public SKYView getSKYView() {
+		return skyView;
 	}
 
 	/**
@@ -237,16 +237,16 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				return;
 			}
 			view.setVisibility(View.VISIBLE);
-			anim = AnimationUtils.loadAnimation(j2WView.activity(), android.R.anim.fade_in);
+			anim = AnimationUtils.loadAnimation(skyView.activity(), android.R.anim.fade_in);
 		} else {
 			if (view.getVisibility() == View.GONE) {
 				return;
 			}
 			view.setVisibility(View.GONE);
-			anim = AnimationUtils.loadAnimation(j2WView.activity(), android.R.anim.fade_out);
+			anim = AnimationUtils.loadAnimation(skyView.activity(), android.R.anim.fade_out);
 		}
 
-		anim.setDuration(j2WView.activity().getResources().getInteger(android.R.integer.config_shortAnimTime));
+		anim.setDuration(skyView.activity().getResources().getInteger(android.R.integer.config_shortAnimTime));
 		view.startAnimation(anim);
 	}
 
@@ -435,7 +435,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	/**
 	 * ListView
 	 */
-	private SKYListAdapter				j2WListAdapter;
+	private SKYListAdapter				SKYListAdapter;
 
 	private ListView					listView;
 
@@ -445,7 +445,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private SwipeRefreshLayout			swipe_container;
 
-	private SKYRefreshListener			j2WRefreshListener;
+	private SKYRefreshListener			SKYRefreshListener;
 
 	private boolean						mLoadMoreIsAtBottom;			// 加载更多
 
@@ -465,9 +465,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private int							listFooterLayoutId;
 
-	SKYAdapterItem						j2WAdapterItem;
+	SKYAdapterItem						SKYAdapterItem;
 
-	SKYListViewMultiLayout				j2WListViewMultiLayout;
+	SKYListViewMultiLayout				SKYListViewMultiLayout;
 
 	AdapterView.OnItemClickListener		itemListener;
 
@@ -478,12 +478,12 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		return listId;
 	}
 
-	@Nullable SKYAdapterItem getJ2WAdapterItem() {
-		return j2WAdapterItem;
+	@Nullable SKYAdapterItem getSKYAdapterItem() {
+		return SKYAdapterItem;
 	}
 
-	@Nullable SKYListViewMultiLayout getJ2WListViewMultiLayout() {
-		return j2WListViewMultiLayout;
+	@Nullable SKYListViewMultiLayout getSKYListViewMultiLayout() {
+		return SKYListViewMultiLayout;
 	}
 
 	@Nullable AdapterView.OnItemClickListener getItemListener() {
@@ -503,8 +503,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	@Nullable SKYListAdapter getAdapter() {
-		SKYCheckUtils.checkNotNull(j2WListAdapter, "适配器没有初始化");
-		return j2WListAdapter;
+		SKYCheckUtils.checkNotNull(SKYListAdapter, "适配器没有初始化");
+		return SKYListAdapter;
 	}
 
 	@Nullable ListView getListView() {
@@ -537,19 +537,19 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.itemLongListener = itemLongListener;
 	}
 
-	public void listViewId(@IdRes int listId, @NonNull SKYAdapterItem j2WAdapterItem) {
+	public void listViewId(@IdRes int listId, @NonNull SKYAdapterItem SKYAdapterItem) {
 		this.listId = listId;
-		this.j2WAdapterItem = j2WAdapterItem;
+		this.SKYAdapterItem = SKYAdapterItem;
 	}
 
-	public void listViewId(@IdRes int listId, @NonNull SKYListViewMultiLayout j2WListViewMultiLayout) {
+	public void listViewId(@IdRes int listId, @NonNull SKYListViewMultiLayout SKYListViewMultiLayout) {
 		this.listId = listId;
-		this.j2WListViewMultiLayout = j2WListViewMultiLayout;
+		this.SKYListViewMultiLayout = SKYListViewMultiLayout;
 	}
 
-	public void listSwipRefreshId(@IdRes int swipRefreshId, @NonNull SKYRefreshListener j2WRefreshListener) {
+	public void listSwipRefreshId(@IdRes int swipRefreshId, @NonNull SKYRefreshListener SKYRefreshListener) {
 		this.swipRefreshId = swipRefreshId;
-		this.j2WRefreshListener = j2WRefreshListener;
+		this.SKYRefreshListener = SKYRefreshListener;
 	}
 
 	public void listSwipeColorResIds(int... colorResIds) {
@@ -605,11 +605,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private int															recyclerviewSwipRefreshId;
 
-	private SKYFooterListener											j2WFooterListener;
+	private SKYFooterListener											SKYFooterListener;
 
 	private RecyclerView												recyclerView;
 
-	private SKYRVAdapter												j2WRVAdapter;
+	private SKYRVAdapter												SKYRVAdapter;
 
 	private RecyclerView.LayoutManager									layoutManager;					// 布局管理器
 
@@ -619,7 +619,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private SwipeRefreshLayout											recyclerviewSwipeContainer;
 
-	private SKYRefreshListener											recyclerviewJ2WRefreshListener;
+	private SKYRefreshListener											recyclerviewSKYRefreshListener;
 
 	private StickyRecyclerHeadersTouchListener.OnHeaderClickListener	onHeaderClickListener;
 
@@ -635,8 +635,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		return recyclerView;
 	}
 
-	@Nullable SKYRVAdapter getJ2WRVAdapterItem2() {
-		return j2WRVAdapter;
+	@Nullable SKYRVAdapter getSKYRVAdapterItem2() {
+		return SKYRVAdapter;
 	}
 
 	@Nullable public RecyclerView.LayoutManager getLayoutManager() {
@@ -668,16 +668,16 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.recyclerviewId = recyclerviewId;
 	}
 
-	public void recyclerviewLoadingMore(@NonNull SKYFooterListener j2WFooterListener) {
-		this.j2WFooterListener = j2WFooterListener;
+	public void recyclerviewLoadingMore(@NonNull SKYFooterListener SKYFooterListener) {
+		this.SKYFooterListener = SKYFooterListener;
 	}
 
 	public void recyclerviewStickyHeaderClick(@NonNull StickyRecyclerHeadersTouchListener.OnHeaderClickListener onHeaderClickListener) {
 		this.onHeaderClickListener = onHeaderClickListener;
 	}
 
-	public void recyclerviewAdapter(@NonNull SKYRVAdapter j2WRVAdapter) {
-		this.j2WRVAdapter = j2WRVAdapter;
+	public void recyclerviewAdapter(@NonNull SKYRVAdapter SKYRVAdapter) {
+		this.SKYRVAdapter = SKYRVAdapter;
 	}
 
 	public void recyclerviewGridManager(@NonNull GridLayoutManager gridLayoutManager) {
@@ -697,7 +697,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (reverseLayout != null && reverseLayout.length > 0) {
 			reverse = reverseLayout[0];
 		}
-		this.layoutManager = new LinearLayoutManager(j2WView.activity(), direction, reverse);
+		this.layoutManager = new LinearLayoutManager(skyView.activity(), direction, reverse);
 		this.itemDecoration = itemDecoration;
 		this.itemAnimator = itemAnimator;
 	}
@@ -707,7 +707,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (reverseLayout != null && reverseLayout.length > 0) {
 			reverse = reverseLayout[0];
 		}
-		this.layoutManager = new GridLayoutManager(j2WView.activity(), spanCount, direction, reverse);
+		this.layoutManager = new GridLayoutManager(skyView.activity(), spanCount, direction, reverse);
 		this.itemDecoration = itemDecoration;
 		this.itemAnimator = itemAnimator == null ? new DefaultItemAnimator() : itemAnimator;
 	}
@@ -722,9 +722,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.recyclerviewColorResIds = recyclerviewColorResIds;
 	}
 
-	public void recyclerviewSwipRefreshId(@IdRes int recyclerviewSwipRefreshId, @NonNull SKYRefreshListener recyclerviewJ2WRefreshListener) {
+	public void recyclerviewSwipRefreshId(@IdRes int recyclerviewSwipRefreshId, @NonNull SKYRefreshListener recyclerviewSKYRefreshListener) {
 		this.recyclerviewSwipRefreshId = recyclerviewSwipRefreshId;
-		this.recyclerviewJ2WRefreshListener = recyclerviewJ2WRefreshListener;
+		this.recyclerviewSKYRefreshListener = recyclerviewSKYRefreshListener;
 	}
 
 	/**
@@ -750,9 +750,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 */
 	void detach() {
 		// 清楚
-		if (j2WView != null) {
-			j2WView.detach();
-			j2WView = null;
+		if (skyView != null) {
+			skyView.detach();
+			skyView = null;
 		}
 		// 基础清除
 		detachLayout();
@@ -770,7 +770,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * @return
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private void createLayout() {
-		contentRoot = new FrameLayout(j2WView.context());
+		contentRoot = new FrameLayout(skyView.context());
 		if (contentRootColor > 0) {
 			contentRoot.setBackgroundColor(contentRootColor);
 		}
@@ -786,7 +786,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		// 进度条
 		layoutLoadingId = layoutLoadingId > 0 ? layoutLoadingId : SKYHelper.getInstance().layoutLoading();
 		if (layoutLoadingId > 0) {
-			vsLoading = new ViewStub(j2WView.activity());
+			vsLoading = new ViewStub(skyView.activity());
 			vsLoading.setLayoutResource(layoutLoadingId);
 			contentRoot.addView(vsLoading, layoutParams);
 		}
@@ -839,7 +839,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private View createActionbar(View view) {
 		if (isOpenToolbar()) {
-			final RelativeLayout toolbarRoot = new RelativeLayout(j2WView.context());
+			final RelativeLayout toolbarRoot = new RelativeLayout(skyView.context());
 			toolbarRoot.setId(R.id.sky_home);
 			toolbarRoot.setFitsSystemWindows(true);
 			// 添加toolbar布局
@@ -855,7 +855,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			if (getToolbarDrawerId() > 0) {
 				DrawerLayout drawerLayout = ButterKnife.findById(view, getToolbarDrawerId());
 				SKYCheckUtils.checkNotNull(drawerLayout, "无法根据布局文件ID,获取DrawerLayout");
-				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(j2WView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
+				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(skyView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
 				mDrawerToggle.syncState();
 				drawerLayout.setDrawerListener(mDrawerToggle);
 			}
@@ -870,16 +870,16 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
 					@Override public void onClick(View v) {
-						SKYKeyboardUtils.hideSoftInput(j2WView.activity());
-						switch (j2WView.getState()) {
+						SKYKeyboardUtils.hideSoftInput(skyView.activity());
+						switch (skyView.getState()) {
 							case SKYView.STATE_ACTIVITY:
-								j2WView.activity().onKeyBack();
+								skyView.activity().onKeyBack();
 								break;
 							case SKYView.STATE_FRAGMENT:
-								j2WView.fragment().onKeyBack();
+								skyView.fragment().onKeyBack();
 								break;
 							case SKYView.STATE_DIALOGFRAGMENT:
-								j2WView.dialogFragment().onKeyBack();
+								skyView.dialogFragment().onKeyBack();
 								break;
 						}
 					}
@@ -899,7 +899,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			if (getToolbarDrawerId() > 0) {
 				DrawerLayout drawerLayout = ButterKnife.findById(view, getToolbarDrawerId());
 				SKYCheckUtils.checkNotNull(drawerLayout, "无法根据布局文件ID,获取DrawerLayout");
-				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(j2WView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
+				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(skyView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
 				mDrawerToggle.syncState();
 				drawerLayout.setDrawerListener(mDrawerToggle);
 			}
@@ -907,16 +907,16 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
 					@Override public void onClick(View v) {
-						SKYKeyboardUtils.hideSoftInput(j2WView.activity());
-						switch (j2WView.getState()) {
+						SKYKeyboardUtils.hideSoftInput(skyView.activity());
+						switch (skyView.getState()) {
 							case SKYView.STATE_ACTIVITY:
-								j2WView.activity().onKeyBack();
+								skyView.activity().onKeyBack();
 								break;
 							case SKYView.STATE_FRAGMENT:
-								j2WView.fragment().onKeyBack();
+								skyView.fragment().onKeyBack();
 								break;
 							case SKYView.STATE_DIALOGFRAGMENT:
-								j2WView.dialogFragment().onKeyBack();
+								skyView.dialogFragment().onKeyBack();
 								break;
 						}
 					}
@@ -969,8 +969,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			if (getSwipRefreshId() != 0) {
 				swipe_container = ButterKnife.findById(view, getSwipRefreshId());
 				SKYCheckUtils.checkNotNull(swipe_container, "无法根据布局文件ID,获取ListView的SwipRefresh下载刷新布局");
-				SKYCheckUtils.checkNotNull(j2WRefreshListener, " ListView的SwipRefresh 下拉刷新和上拉加载事件没有设置");
-				swipe_container.setOnRefreshListener(j2WRefreshListener);// 下载刷新
+				SKYCheckUtils.checkNotNull(SKYRefreshListener, " ListView的SwipRefresh 下拉刷新和上拉加载事件没有设置");
+				swipe_container.setOnRefreshListener(SKYRefreshListener);// 下载刷新
 				listView.setOnScrollListener(this);// 加载更多
 			}
 			// 设置进度颜色
@@ -986,28 +986,28 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				listView.setOnItemLongClickListener(getItemLongListener());
 			}
 			// 创建适配器
-			j2WListAdapter = j2WListViewMultiLayout == null ? new SKYListAdapter(j2WView, getJ2WAdapterItem()) : new SKYListAdapter(j2WView, j2WListViewMultiLayout);
-			SKYCheckUtils.checkNotNull(j2WListAdapter, "适配器创建失败");
+			SKYListAdapter = SKYListViewMultiLayout == null ? new SKYListAdapter(skyView, getSKYAdapterItem()) : new SKYListAdapter(skyView, SKYListViewMultiLayout);
+			SKYCheckUtils.checkNotNull(SKYListAdapter, "适配器创建失败");
 			// 设置适配器
-			listView.setAdapter(j2WListAdapter);
+			listView.setAdapter(SKYListAdapter);
 		}
 	}
 
 	private void detachListView() {
-		if (j2WListAdapter != null) {
-			j2WListAdapter.detach();
-			j2WListAdapter = null;
+		if (SKYListAdapter != null) {
+			SKYListAdapter.detach();
+			SKYListAdapter = null;
 		}
 		listView = null;
 		header = null;
 		footer = null;
-		j2WAdapterItem = null;
-		j2WListViewMultiLayout = null;
+		SKYAdapterItem = null;
+		SKYListViewMultiLayout = null;
 		itemListener = null;
 		itemLongListener = null;
 		swipe_container = null;
 		colorResIds = null;
-		j2WRefreshListener = null;
+		SKYRefreshListener = null;
 	}
 
 	/**
@@ -1021,11 +1021,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			SKYCheckUtils.checkNotNull(recyclerView, "无法根据布局文件ID,获取recyclerView");
 			SKYCheckUtils.checkNotNull(layoutManager, "LayoutManger不能为空");
 			recyclerView.setLayoutManager(layoutManager);
-			if (j2WRVAdapter != null) {
+			if (SKYRVAdapter != null) {
 				// 扩展适配器
-				if (j2WRVAdapter instanceof J2WStickyHeaders) {
-					J2WStickyHeaders j2WStickyHeaders = (J2WStickyHeaders) j2WRVAdapter;
-					final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(j2WStickyHeaders);
+				if (SKYRVAdapter instanceof SKYStickyHeaders) {
+					SKYStickyHeaders SKYStickyHeaders = (SKYStickyHeaders) SKYRVAdapter;
+					final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(SKYStickyHeaders);
 					recyclerView.addItemDecoration(headersDecor);
 
 					if (onHeaderClickListener != null) {
@@ -1034,21 +1034,21 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 						recyclerView.addOnItemTouchListener(touchListener);
 
 					}
-					j2WRVAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+					SKYRVAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
 						@Override public void onChanged() {
 							headersDecor.invalidateHeaders();
 						}
 					});
 				}
-				recyclerView.setAdapter(j2WRVAdapter);
+				recyclerView.setAdapter(SKYRVAdapter);
 				if (isHeaderFooter) {
 					final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
 					SKYCheckUtils.checkNotNull(gridLayoutManager, "LayoutManger，不是GridLayoutManager");
 					gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
 
 						@Override public int getSpanSize(int position) {
-							return j2WRVAdapter.isHeaderAndFooter(position) ? gridLayoutManager.getSpanCount() : 1;
+							return SKYRVAdapter.isHeaderAndFooter(position) ? gridLayoutManager.getSpanCount() : 1;
 						}
 					});
 				}
@@ -1064,14 +1064,14 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				if (getRecyclerviewSwipRefreshId() != 0) {
 					recyclerviewSwipeContainer = ButterKnife.findById(view, getRecyclerviewSwipRefreshId());
 					SKYCheckUtils.checkNotNull(recyclerviewSwipeContainer, "无法根据布局文件ID,获取recyclerview的SwipRefresh下载刷新布局");
-					SKYCheckUtils.checkNotNull(recyclerviewJ2WRefreshListener, " recyclerview的SwipRefresh 下拉刷新和上拉加载事件没有设置");
+					SKYCheckUtils.checkNotNull(recyclerviewSKYRefreshListener, " recyclerview的SwipRefresh 下拉刷新和上拉加载事件没有设置");
 					recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 						@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 							super.onScrollStateChanged(recyclerView, newState);
 							if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-								if (recyclerviewJ2WRefreshListener.onScrolledToBottom()) {
-									mLoadMoreRequestedItemCount = j2WRVAdapter.getItemCount();
+								if (recyclerviewSKYRefreshListener.onScrolledToBottom()) {
+									mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
 									mLoadMoreIsAtBottom = false;
 								}
 							}
@@ -1081,20 +1081,20 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 							super.onScrolled(recyclerView, dx, dy);
 							if (layoutManager instanceof LinearLayoutManager) {
 								int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-								mLoadMoreIsAtBottom = j2WRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == j2WRVAdapter.getItemCount();
+								mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
 							}
 						}
 					});// 加载更多
-					recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewJ2WRefreshListener);// 下载刷新
+					recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewSKYRefreshListener);// 下载刷新
 				} else {
-					if (j2WFooterListener != null) {
+					if (SKYFooterListener != null) {
 						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 							@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 								super.onScrollStateChanged(recyclerView, newState);
 								if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-									if (j2WFooterListener.onScrolledToBottom()) {
-										mLoadMoreRequestedItemCount = j2WRVAdapter.getItemCount();
+									if (SKYFooterListener.onScrolledToBottom()) {
+										mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
 										mLoadMoreIsAtBottom = false;
 									}
 								}
@@ -1104,14 +1104,14 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 								super.onScrolled(recyclerView, dx, dy);
 								if (layoutManager instanceof LinearLayoutManager) {
 									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-									mLoadMoreIsAtBottom = j2WRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == j2WRVAdapter.getItemCount();
+									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
 								}
 							}
 						});
 					}
 				}
 			} else {
-				SKYCheckUtils.checkNotNull(null, "J2WRVAdapter适配器不能为空");
+				SKYCheckUtils.checkNotNull(null, "SKYRVAdapter适配器不能为空");
 			}
 
 			// 设置进度颜色
@@ -1124,16 +1124,16 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private void detachRecyclerView() {
 		recyclerView = null;
-		if (j2WRVAdapter != null) {
-			j2WRVAdapter.clearCache();
-			j2WRVAdapter = null;
+		if (SKYRVAdapter != null) {
+			SKYRVAdapter.clearCache();
+			SKYRVAdapter = null;
 		}
 		onHeaderClickListener = null;
 		layoutManager = null;
 		itemAnimator = null;
 		itemDecoration = null;
 		recyclerviewSwipeContainer = null;
-		recyclerviewJ2WRefreshListener = null;
+		recyclerviewSKYRefreshListener = null;
 	}
 
 	/**
@@ -1141,7 +1141,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 **/
 	@Override public void onScrollStateChanged(AbsListView view, int scrollState) {
 		if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-			if (j2WRefreshListener.onScrolledToBottom()) {
+			if (SKYRefreshListener.onScrolledToBottom()) {
 				mLoadMoreRequestedItemCount = view.getCount();
 				mLoadMoreIsAtBottom = false;
 			}

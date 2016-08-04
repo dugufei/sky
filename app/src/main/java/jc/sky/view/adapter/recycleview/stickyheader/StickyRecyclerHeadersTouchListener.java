@@ -27,11 +27,11 @@ public class StickyRecyclerHeadersTouchListener implements RecyclerView.OnItemTo
 		mDecor = decor;
 	}
 
-	public J2WStickyHeaders getAdapter() {
-		if (mRecyclerView.getAdapter() instanceof J2WStickyHeaders) {
-			return (J2WStickyHeaders) mRecyclerView.getAdapter();
+	public SKYStickyHeaders getAdapter() {
+		if (mRecyclerView.getAdapter() instanceof SKYStickyHeaders) {
+			return (SKYStickyHeaders) mRecyclerView.getAdapter();
 		} else {
-			throw new IllegalStateException("A RecyclerView with " + StickyRecyclerHeadersTouchListener.class.getSimpleName() + " requires a " + J2WStickyHeaders.class.getSimpleName());
+			throw new IllegalStateException("A RecyclerView with " + StickyRecyclerHeadersTouchListener.class.getSimpleName() + " requires a " + SKYStickyHeaders.class.getSimpleName());
 		}
 	}
 

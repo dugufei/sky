@@ -29,16 +29,16 @@ import retrofit2.Retrofit;
  */
 public class SKYHelper {
 
-	protected volatile static SKYModulesManage mJ2WModulesManage	= null;
+	protected volatile static SKYModulesManage mSKYModulesManage	= null;
 
 	/**
-	 * 单例模式-初始化J2WHelper
+	 * 单例模式-初始化SKYHelper
 	 *
-	 * @param j2WModulesManage
+	 * @param SKYModulesManage
 	 *            Modules
 	 */
-	public static void with(SKYModulesManage j2WModulesManage) {
-		mJ2WModulesManage = j2WModulesManage;
+	public static void with(SKYModulesManage SKYModulesManage) {
+		mSKYModulesManage = SKYModulesManage;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	protected static <M> M getManage() {
-		return (M) mJ2WModulesManage;
+		return (M) mSKYModulesManage;
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYMethods methodsProxy() {
-		return mJ2WModulesManage.getJ2WMethods();
+		return mSKYModulesManage.getSKYMethods();
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static SKYApplication getInstance() {
-		return mJ2WModulesManage.getJ2WApplication();
+		return mSKYModulesManage.getSKYApplication();
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final EventBus eventBus() {
-		return mJ2WModulesManage.getBus();
+		return mSKYModulesManage.getBus();
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final Retrofit httpAdapter() {
-		return mJ2WModulesManage.getJ2WRestAdapter();
+		return mSKYModulesManage.getSKYRestAdapter();
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class SKYHelper {
 	 * @return 管理器
 	 */
 	public static final SKYStructureIManage structureHelper() {
-		return mJ2WModulesManage.getJ2WStructureManage();
+		return mSKYModulesManage.getSKYStructureManage();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class SKYHelper {
 	 * @return 管理器
 	 */
 	public static final SKYScreenManager screenHelper() {
-		return mJ2WModulesManage.getJ2WScreenManager();
+		return mSKYModulesManage.getSKYScreenManager();
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class SKYHelper {
 	 */
 
 	public static final SKYThreadPoolManager threadPoolHelper() {
-		return mJ2WModulesManage.getJ2WThreadPoolManager();
+		return mSKYModulesManage.getSKYThreadPoolManager();
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SynchronousExecutor mainLooper() {
-		return mJ2WModulesManage.getSynchronousExecutor();
+		return mSKYModulesManage.getSynchronousExecutor();
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYDownloadManager downloader() {
-		return mJ2WModulesManage.getJ2WDownloadManager();
+		return mSKYModulesManage.getSKYDownloadManager();
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYDownloadManager downloader(int threadPoolSize) {
-		return mJ2WModulesManage.getJ2WDownloadManager(threadPoolSize);
+		return mSKYModulesManage.getSKYDownloadManager(threadPoolSize);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYSystemUiHider systemHider(AppCompatActivity activity, View anchorView, int flags) {
-		return mJ2WModulesManage.getJ2WSystemUiHider(activity, anchorView, flags);
+		return mSKYModulesManage.getSKYSystemUiHider(activity, anchorView, flags);
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYToast toast() {
-		return mJ2WModulesManage.getJ2WToast();
+		return mSKYModulesManage.getSKYToast();
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYIContact contact() {
-		return mJ2WModulesManage.getContactManage();
+		return mSKYModulesManage.getContactManage();
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class SKYHelper {
 	 * @return
 	 */
 	public static final SKYFileCacheManage fileCacheManage() {
-		return mJ2WModulesManage.getJ2WFileCacheManage();
+		return mSKYModulesManage.getSKYFileCacheManage();
 	}
 
 }

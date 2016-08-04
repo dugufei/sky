@@ -10,55 +10,55 @@ import jc.sky.modules.log.L;
 public final class SKYThreadPoolManager {
 
 	/** 线程服务-网络线程池 **/
-	private SKYHttpExecutorService j2WHttpExecutorService;
+	private SKYHttpExecutorService SKYHttpExecutorService;
 
 	/** 线程服务-并行工作线程池 **/
-	private SKYWorkExecutorService j2WWorkExecutorService;
+	private SKYWorkExecutorService SKYWorkExecutorService;
 
 	/** 线程服务-串行工作线程池 **/
-	private SKYSingleWorkExecutorServiece j2WSingleWorkExecutorServiece;
+	private SKYSingleWorkExecutorServiece SKYSingleWorkExecutorServiece;
 
 	public synchronized ExecutorService getHttpExecutorService() {
-		if (j2WHttpExecutorService == null) {
-			j2WHttpExecutorService = new SKYHttpExecutorService();
+		if (SKYHttpExecutorService == null) {
+			SKYHttpExecutorService = new SKYHttpExecutorService();
 		}
-		return j2WHttpExecutorService;
+		return SKYHttpExecutorService;
 	}
 
 	public synchronized ExecutorService getSingleWorkExecutorService() {
-		if (j2WSingleWorkExecutorServiece == null) {
-			j2WSingleWorkExecutorServiece = new SKYSingleWorkExecutorServiece();
+		if (SKYSingleWorkExecutorServiece == null) {
+			SKYSingleWorkExecutorServiece = new SKYSingleWorkExecutorServiece();
 		}
-		return j2WSingleWorkExecutorServiece;
+		return SKYSingleWorkExecutorServiece;
 	}
 
 	public synchronized ExecutorService getWorkExecutorService() {
-		if (j2WWorkExecutorService == null) {
-			j2WWorkExecutorService = new SKYWorkExecutorService();
+		if (SKYWorkExecutorService == null) {
+			SKYWorkExecutorService = new SKYWorkExecutorService();
 		}
-		return j2WWorkExecutorService;
+		return SKYWorkExecutorService;
 	}
 
 	public synchronized void finish() {
 		L.tag("SKYThreadPoolManager");
 		L.i("finish()");
-		if (j2WHttpExecutorService != null) {
+		if (SKYHttpExecutorService != null) {
 			L.tag("SKYThreadPoolManager");
-			L.i("j2WHttpExecutorService.shutdown()");
-			j2WHttpExecutorService.shutdown();
-			j2WHttpExecutorService = null;
+			L.i("SKYHttpExecutorService.shutdown()");
+			SKYHttpExecutorService.shutdown();
+			SKYHttpExecutorService = null;
 		}
-		if (j2WSingleWorkExecutorServiece != null) {
+		if (SKYSingleWorkExecutorServiece != null) {
 			L.tag("SKYThreadPoolManager");
-			L.i("j2WSingleWorkExecutorServiece.shutdown()");
-			j2WSingleWorkExecutorServiece.shutdown();
-			j2WSingleWorkExecutorServiece = null;
+			L.i("SKYSingleWorkExecutorServiece.shutdown()");
+			SKYSingleWorkExecutorServiece.shutdown();
+			SKYSingleWorkExecutorServiece = null;
 		}
-		if (j2WWorkExecutorService != null) {
+		if (SKYWorkExecutorService != null) {
 			L.tag("SKYThreadPoolManager");
-			L.i("j2WWorkExecutorService.shutdown()");
-			j2WWorkExecutorService.shutdown();
-			j2WWorkExecutorService = null;
+			L.i("SKYWorkExecutorService.shutdown()");
+			SKYWorkExecutorService.shutdown();
+			SKYWorkExecutorService = null;
 		}
 	}
 }

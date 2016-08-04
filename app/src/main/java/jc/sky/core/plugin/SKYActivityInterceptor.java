@@ -13,55 +13,55 @@ import jc.sky.view.SKYBuilder;
  */
 public interface SKYActivityInterceptor {
 
-	void build(SKYBuilder initialJ2WBuilder);
+	void build(SKYBuilder initialSKYBuilder);
 
-	void onCreate(SKYActivity j2WIView, Bundle bundle, Bundle savedInstanceState);
+	void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState);
 
-	void onStart(SKYActivity j2WIView);
+	void onStart(SKYActivity SKYIView);
 
-	void onResume(SKYActivity j2WIView);
+	void onResume(SKYActivity SKYIView);
 
-	void onPause(SKYActivity j2WIView);
+	void onPause(SKYActivity SKYIView);
 
-	void onStop(SKYActivity j2WIView);
+	void onStop(SKYActivity SKYIView);
 
-	void onDestroy(SKYActivity j2WIView);
+	void onDestroy(SKYActivity SKYIView);
 
-	void onRestart(SKYActivity j2WIView);
+	void onRestart(SKYActivity SKYIView);
 
 	void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
 	SKYActivityInterceptor NONE	= new SKYActivityInterceptor() {
 
-										@Override public void build(SKYBuilder initialJ2WBuilder) {
+										@Override public void build(SKYBuilder initialSKYBuilder) {
 
 										}
 
-										@Override public void onCreate(SKYActivity j2WIView, Bundle bundle, Bundle savedInstanceState) {
+										@Override public void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState) {
 
 										}
 
-										@Override public void onStart(SKYActivity j2WIView) {
+										@Override public void onStart(SKYActivity SKYIView) {
 
 										}
 
-										@Override public void onResume(SKYActivity j2WIView) {
+										@Override public void onResume(SKYActivity SKYIView) {
 
 										}
 
-										@Override public void onPause(SKYActivity j2WIView) {
+										@Override public void onPause(SKYActivity SKYIView) {
 
 										}
 
-										@Override public void onStop(SKYActivity j2WIView) {
+										@Override public void onStop(SKYActivity SKYIView) {
 
 										}
 
-										@Override public void onDestroy(SKYActivity j2WIView) {
+										@Override public void onDestroy(SKYActivity SKYIView) {
 
 										}
 
-										@Override public void onRestart(SKYActivity j2WIView) {
+										@Override public void onRestart(SKYActivity SKYIView) {
 
 										}
 

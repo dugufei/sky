@@ -11,46 +11,46 @@ import jc.sky.view.SKYFragment;
  */
 public interface SKYFragmentInterceptor {
 
-	void onFragmentCreated(SKYFragment j2WFragment, Bundle bundle, Bundle savedInstanceState);
+	void onFragmentCreated(SKYFragment SKYFragment, Bundle bundle, Bundle savedInstanceState);
 
-	void onFragmentStart(SKYFragment j2WFragment);
+	void onFragmentStart(SKYFragment SKYFragment);
 
-	void onFragmentResume(SKYFragment j2WFragment);
+	void onFragmentResume(SKYFragment SKYFragment);
 
-	void onFragmentPause(SKYFragment j2WFragment);
+	void onFragmentPause(SKYFragment SKYFragment);
 
-	void onFragmentStop(SKYFragment j2WFragment);
+	void onFragmentStop(SKYFragment SKYFragment);
 
-	void onFragmentDestroy(SKYFragment j2WFragment);
+	void onFragmentDestroy(SKYFragment SKYFragment);
 
 	SKYFragmentInterceptor NONE = new SKYFragmentInterceptor() {
 		@Override
-		public void onFragmentCreated(SKYFragment j2WFragment, Bundle bundle, Bundle savedInstanceState) {
+		public void onFragmentCreated(SKYFragment SKYFragment, Bundle bundle, Bundle savedInstanceState) {
 
 		}
 
 		@Override
-		public void onFragmentStart(SKYFragment j2WFragment) {
+		public void onFragmentStart(SKYFragment SKYFragment) {
 
 		}
 
 		@Override
-		public void onFragmentResume(SKYFragment j2WFragment) {
+		public void onFragmentResume(SKYFragment SKYFragment) {
 
 		}
 
 		@Override
-		public void onFragmentPause(SKYFragment j2WFragment) {
+		public void onFragmentPause(SKYFragment SKYFragment) {
 
 		}
 
 		@Override
-		public void onFragmentStop(SKYFragment j2WFragment) {
+		public void onFragmentStop(SKYFragment SKYFragment) {
 
 		}
 
 		@Override
-		public void onFragmentDestroy(SKYFragment j2WFragment) {
+		public void onFragmentDestroy(SKYFragment SKYFragment) {
 
 		}
 	};

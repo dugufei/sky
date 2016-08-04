@@ -94,17 +94,17 @@ public class SKYDownloadDispatcher extends Thread {
 				mRequest = mQueue.take(); // 从队列中取出指令
 
 				if (mRequest instanceof SKYDownloadRequest) { // 下载请求
-					SKYDownloadRequest j2WDownloadRequest = (SKYDownloadRequest) mRequest;
+					SKYDownloadRequest SKYDownloadRequest = (SKYDownloadRequest) mRequest;
 					mRedirectionCount = 0; // 重定向清零
-					L.i("请求ID = " + j2WDownloadRequest.getRequestId());
-					j2WDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
-					executeDownload(j2WDownloadRequest, j2WDownloadRequest.getDownloadUrl().toString());
+					L.i("请求ID = " + SKYDownloadRequest.getRequestId());
+					SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
+					executeDownload(SKYDownloadRequest, SKYDownloadRequest.getDownloadUrl().toString());
 				} else if (mRequest instanceof SKYUploadRequest) { // 上传请求
-					SKYUploadRequest j2WUploadRequest = (SKYUploadRequest) mRequest;
+					SKYUploadRequest SKYUploadRequest = (SKYUploadRequest) mRequest;
 					mRedirectionCount = 0; // 重定向清零
-					L.i("请求ID = " + j2WUploadRequest.getRequestId());
-					j2WUploadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
-					executeUpload(j2WUploadRequest, j2WUploadRequest.getUploadUrl().toString());
+					L.i("请求ID = " + SKYUploadRequest.getRequestId());
+					SKYUploadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
+					executeUpload(SKYUploadRequest, SKYUploadRequest.getUploadUrl().toString());
 				} else {
 					L.i("未知指令");
 				}
@@ -112,13 +112,13 @@ public class SKYDownloadDispatcher extends Thread {
 			} catch (InterruptedException e) {
 				if (mQuit) {
 					if (mRequest instanceof SKYDownloadRequest) { // 下载请求
-						SKYDownloadRequest j2WDownloadRequest = (SKYDownloadRequest) mRequest;
-						j2WDownloadRequest.finish();
-						updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
+						SKYDownloadRequest SKYDownloadRequest = (SKYDownloadRequest) mRequest;
+						SKYDownloadRequest.finish();
+						updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
 					} else if (mRequest instanceof SKYUploadRequest) { // 上传请求
-						SKYUploadRequest j2WUploadRequest = (SKYUploadRequest) mRequest;
-						j2WUploadRequest.finish();
-						updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消上传");
+						SKYUploadRequest SKYUploadRequest = (SKYUploadRequest) mRequest;
+						SKYUploadRequest.finish();
+						updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消上传");
 
 					} else {
 						L.i("未知指令");
@@ -137,105 +137,105 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 执行上传
 	 *
-	 * @param j2WUploadRequest
+	 * @param SKYUploadRequest
 	 *            下载请求
 	 * @param uploadUrl
 	 *            请求url
 	 */
-	private void executeUpload(SKYUploadRequest j2WUploadRequest, String uploadUrl) {
+	private void executeUpload(SKYUploadRequest SKYUploadRequest, String uploadUrl) {
 		URL url = null;
 		try {
 			url = new URL(uploadUrl);
 		} catch (MalformedURLException e) {
-			updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_MALFORMED_URI, "异常 : 不正确的地址");
+			updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_MALFORMED_URI, "异常 : 不正确的地址");
 			return;
 		}
-		updateUploadState(j2WUploadRequest, SKYDownloadManager.STATUS_CONNECTING);
+		updateUploadState(SKYUploadRequest, SKYDownloadManager.STATUS_CONNECTING);
 		// 创建文件体
-		SKYOkUploadBody j2WOkUploadBody = new SKYOkUploadBody(j2WUploadRequest, j2WUploadRequest.getJ2WUploadListener());
+		SKYOkUploadBody SKYOkUploadBody = new SKYOkUploadBody(SKYUploadRequest, SKYUploadRequest.getSKYUploadListener());
 		// 请求
-		Request request = new Request.Builder().tag(j2WUploadRequest.getRequestTag()).url(url).headers(j2WUploadRequest.getHeaders()).post(j2WOkUploadBody.build()).build();// 创建请求
+		Request request = new Request.Builder().tag(SKYUploadRequest.getRequestTag()).url(url).headers(SKYUploadRequest.getHeaders()).post(SKYOkUploadBody.build()).build();// 创建请求
 
 		try {
-			updateUploadState(j2WUploadRequest, SKYDownloadManager.STATUS_RUNNING);
+			updateUploadState(SKYUploadRequest, SKYDownloadManager.STATUS_RUNNING);
 			Response response = okHttpClient.newCall(request).execute();
 			final int responseCode = response.code();
 			L.i("请求头信息:" + request.headers().toString());
-			L.i("请求编号:" + j2WUploadRequest.getRequestId() + ", 响应编号 : " + responseCode);
+			L.i("请求编号:" + SKYUploadRequest.getRequestId() + ", 响应编号 : " + responseCode);
 
 			switch (responseCode) {
 				case HTTP_OK:
-					if (j2WUploadRequest.isCanceled()) {
-						j2WUploadRequest.finish();
-						updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
+					if (SKYUploadRequest.isCanceled()) {
+						SKYUploadRequest.finish();
+						updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
 						return;
 					}
 					if (!response.isSuccessful()) {
-						updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "成功响应,但上传失败！");
+						updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "成功响应,但上传失败！");
 						return;
 					}
 					shouldAllowRedirects = false;
-					postUploadComplete(j2WUploadRequest, response);// 上传成功
+					postUploadComplete(SKYUploadRequest, response);// 上传成功
 					return;
 				case HTTP_MOVED_PERM:
 				case HTTP_MOVED_TEMP:
 				case HTTP_SEE_OTHER:
 				case HTTP_TEMP_REDIRECT:
 					while (mRedirectionCount++ < MAX_REDIRECTS && shouldAllowRedirects) {
-						L.i("重定向 Id " + j2WUploadRequest.getRequestId());
+						L.i("重定向 Id " + SKYUploadRequest.getRequestId());
 						final String location = response.header("Location");
-						executeUpload(j2WUploadRequest, location); // 执行下载
+						executeUpload(SKYUploadRequest, location); // 执行下载
 						continue;
 					}
 
 					if (mRedirectionCount > MAX_REDIRECTS) {
-						updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_TOO_MANY_REDIRECTS, "重定向太多，导致下载失败,默认最多 5次重定向！");
+						updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_TOO_MANY_REDIRECTS, "重定向太多，导致下载失败,默认最多 5次重定向！");
 						return;
 					}
 					break;
 				case HTTP_REQUESTED_RANGE_NOT_SATISFIABLE:
-					updateUploadFailed(j2WUploadRequest, HTTP_REQUESTED_RANGE_NOT_SATISFIABLE, response.message());
+					updateUploadFailed(SKYUploadRequest, HTTP_REQUESTED_RANGE_NOT_SATISFIABLE, response.message());
 					break;
 				case HTTP_UNAVAILABLE:
-					updateUploadFailed(j2WUploadRequest, HTTP_UNAVAILABLE, response.message());
+					updateUploadFailed(SKYUploadRequest, HTTP_UNAVAILABLE, response.message());
 					break;
 				case HTTP_INTERNAL_ERROR:
-					updateUploadFailed(j2WUploadRequest, HTTP_INTERNAL_ERROR, response.message());
+					updateUploadFailed(SKYUploadRequest, HTTP_INTERNAL_ERROR, response.message());
 					break;
 				default:
-					updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_UNHANDLED_HTTP_CODE, "未处理的响应:" + responseCode + " 信息:" + response.message());
+					updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_UNHANDLED_HTTP_CODE, "未处理的响应:" + responseCode + " 信息:" + response.message());
 					break;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			updateUploadFailed(j2WUploadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "故障");
+			updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "故障");
 		}
 	}
 
 	/**
 	 * 更新状态 - 上传失败
 	 *
-	 * @param j2WUploadRequest
+	 * @param SKYUploadRequest
 	 * @param errorCode
 	 * @param errorMsg
 	 */
-	public void updateUploadFailed(SKYUploadRequest j2WUploadRequest, int errorCode, String errorMsg) {
+	public void updateUploadFailed(SKYUploadRequest SKYUploadRequest, int errorCode, String errorMsg) {
 		shouldAllowRedirects = false;
-		j2WUploadRequest.setDownloadState(SKYDownloadManager.STATUS_FAILED);
-		if (j2WUploadRequest.getJ2WUploadListener() != null) {
-			postUploadFailed(j2WUploadRequest, errorCode, errorMsg);
-			j2WUploadRequest.finish();
+		SKYUploadRequest.setDownloadState(SKYDownloadManager.STATUS_FAILED);
+		if (SKYUploadRequest.getSKYUploadListener() != null) {
+			postUploadFailed(SKYUploadRequest, errorCode, errorMsg);
+			SKYUploadRequest.finish();
 		}
 	}
 
 	/**
 	 * 更新状态 - 链接
 	 *
-	 * @param j2WUploadRequest
+	 * @param SKYUploadRequest
 	 * @param state
 	 */
-	public void updateUploadState(SKYUploadRequest j2WUploadRequest, int state) {
-		j2WUploadRequest.setDownloadState(state);
+	public void updateUploadState(SKYUploadRequest SKYUploadRequest, int state) {
+		SKYUploadRequest.setDownloadState(state);
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class SKYDownloadDispatcher extends Thread {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				request.getJ2WUploadListener().onUploadFailed(request.getRequestId(), errorCode, errorMsg);
+				request.getSKYUploadListener().onUploadFailed(request.getRequestId(), errorCode, errorMsg);
 			}
 		});
 	}
@@ -266,16 +266,16 @@ public class SKYDownloadDispatcher extends Thread {
 	public void postUploadComplete(final SKYUploadRequest request, final Response response) {
 		try {
 
-			final Class clazz = SKYAppUtil.getSuperClassGenricType(request.getJ2WUploadListener().getClass(), 0);
+			final Class clazz = SKYAppUtil.getSuperClassGenricType(request.getSKYUploadListener().getClass(), 0);
 
 			final Object value = SKYGsonUtils.readBody(gson, Charset.forName("UTF-8"), response.body(), clazz);
 			SKYHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
 					if (clazz == null) {
-						request.getJ2WUploadListener().onUploadComplete(request.getRequestId(), response);
+						request.getSKYUploadListener().onUploadComplete(request.getRequestId(), response);
 					} else {
-						request.getJ2WUploadListener().onUploadComplete(request.getRequestId(), value);
+						request.getSKYUploadListener().onUploadComplete(request.getRequestId(), value);
 					}
 
 				}
@@ -284,7 +284,7 @@ public class SKYDownloadDispatcher extends Thread {
 			e.printStackTrace();
 			SKYHelper.mainLooper().execute(new Runnable() {
 				public void run() {
-					request.getJ2WUploadListener().onUploadFailed(request.getRequestId(), 0, "上传成功-数据转换失败");
+					request.getSKYUploadListener().onUploadFailed(request.getRequestId(), 0, "上传成功-数据转换失败");
 				}
 			});
 		}
@@ -296,38 +296,38 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 执行下载
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 *            下载请求
 	 * @param downloadUrl
 	 *            请求url
 	 */
-	private void executeDownload(SKYDownloadRequest j2WDownloadRequest, String downloadUrl) {
+	private void executeDownload(SKYDownloadRequest SKYDownloadRequest, String downloadUrl) {
 
 		URL url = null;
 		try {
 			url = new URL(downloadUrl);
 		} catch (MalformedURLException e) {
-			updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_MALFORMED_URI, "异常 : 不正确的地址");
+			updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_MALFORMED_URI, "异常 : 不正确的地址");
 			return;
 		}
 
-		Request request = new Request.Builder().tag(j2WDownloadRequest.getRequestTag()).url(url).build();// 创建请求
+		Request request = new Request.Builder().tag(SKYDownloadRequest.getRequestTag()).url(url).build();// 创建请求
 		try {
 			Response response = okHttpClient.newCall(request).execute();
 
-			updateDownloadState(j2WDownloadRequest, SKYDownloadManager.STATUS_CONNECTING);
+			updateDownloadState(SKYDownloadRequest, SKYDownloadManager.STATUS_CONNECTING);
 
 			final int responseCode = response.code();
 
-			L.i("请求编号:" + j2WDownloadRequest.getRequestId() + ", 响应编号 : " + responseCode);
+			L.i("请求编号:" + SKYDownloadRequest.getRequestId() + ", 响应编号 : " + responseCode);
 
 			switch (responseCode) {
 				case HTTP_OK:
 					shouldAllowRedirects = false;
-					if (readResponseHeaders(j2WDownloadRequest, response) == 1) {
-						transferData(j2WDownloadRequest, response);
+					if (readResponseHeaders(SKYDownloadRequest, response) == 1) {
+						transferData(SKYDownloadRequest, response);
 					} else {
-						updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_SIZE_UNKNOWN, "服务端没有返回文件长度，长度不确定导致失败！");
+						updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_SIZE_UNKNOWN, "服务端没有返回文件长度，长度不确定导致失败！");
 					}
 					return;
 				case HTTP_MOVED_PERM:
@@ -335,64 +335,64 @@ public class SKYDownloadDispatcher extends Thread {
 				case HTTP_SEE_OTHER:
 				case HTTP_TEMP_REDIRECT:
 					while (mRedirectionCount++ < MAX_REDIRECTS && shouldAllowRedirects) {
-						L.i("重定向 Id " + j2WDownloadRequest.getRequestId());
+						L.i("重定向 Id " + SKYDownloadRequest.getRequestId());
 						final String location = response.header("Location");
-						executeDownload(j2WDownloadRequest, location); // 执行下载
+						executeDownload(SKYDownloadRequest, location); // 执行下载
 						continue;
 					}
 
 					if (mRedirectionCount > MAX_REDIRECTS) {
-						updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_TOO_MANY_REDIRECTS, "重定向太多，导致下载失败,默认最多 5次重定向！");
+						updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_TOO_MANY_REDIRECTS, "重定向太多，导致下载失败,默认最多 5次重定向！");
 						return;
 					}
 					break;
 				case HTTP_REQUESTED_RANGE_NOT_SATISFIABLE:
-					updateDownloadFailed(j2WDownloadRequest, HTTP_REQUESTED_RANGE_NOT_SATISFIABLE, response.message());
+					updateDownloadFailed(SKYDownloadRequest, HTTP_REQUESTED_RANGE_NOT_SATISFIABLE, response.message());
 					break;
 				case HTTP_UNAVAILABLE:
-					updateDownloadFailed(j2WDownloadRequest, HTTP_UNAVAILABLE, response.message());
+					updateDownloadFailed(SKYDownloadRequest, HTTP_UNAVAILABLE, response.message());
 					break;
 				case HTTP_INTERNAL_ERROR:
-					updateDownloadFailed(j2WDownloadRequest, HTTP_INTERNAL_ERROR, response.message());
+					updateDownloadFailed(SKYDownloadRequest, HTTP_INTERNAL_ERROR, response.message());
 					break;
 				default:
-					updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_UNHANDLED_HTTP_CODE, "未处理的响应:" + responseCode + " 信息:" + response.message());
+					updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_UNHANDLED_HTTP_CODE, "未处理的响应:" + responseCode + " 信息:" + response.message());
 					break;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "故障");
+			updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "故障");
 		}
 	}
 
 	/**
 	 * 流的读取
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param conn
 	 */
-	private void transferData(SKYDownloadRequest j2WDownloadRequest, Response conn) {
+	private void transferData(SKYDownloadRequest SKYDownloadRequest, Response conn) {
 		InputStream in = null;
 		OutputStream out = null;
-		cleanupDestination(j2WDownloadRequest);
+		cleanupDestination(SKYDownloadRequest);
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
 		try {
 			in = conn.body().byteStream();
 
-			File destinationFile = new File(j2WDownloadRequest.getDestinationUrl().getPath().toString());
+			File destinationFile = new File(SKYDownloadRequest.getDestinationUrl().getPath().toString());
 
 			try {
 				out = new FileOutputStream(destinationFile, true);
 			} catch (IOException e) {
 				e.printStackTrace();
-				updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_FILE_ERROR, "路径转换文件时错误");
+				updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_FILE_ERROR, "路径转换文件时错误");
 			}
 
 			bis = new BufferedInputStream(in);
 			bos = new BufferedOutputStream(out);
 
-			transferData(j2WDownloadRequest, bis, bos);
+			transferData(SKYDownloadRequest, bis, bos);
 
 		} finally {
 
@@ -418,37 +418,37 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 流的读取
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param in
 	 * @param out
 	 */
-	private void transferData(SKYDownloadRequest j2WDownloadRequest, BufferedInputStream in, BufferedOutputStream out) {
+	private void transferData(SKYDownloadRequest SKYDownloadRequest, BufferedInputStream in, BufferedOutputStream out) {
 		final byte data[] = new byte[BUFFER_SIZE];
 		mCurrentBytes = 0;
-		j2WDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_RUNNING);
-		L.i("内容长度: " + mContentLength + " 下载ID : " + j2WDownloadRequest.getRequestId());
+		SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_RUNNING);
+		L.i("内容长度: " + mContentLength + " 下载ID : " + SKYDownloadRequest.getRequestId());
 		for (;;) {
-			if (j2WDownloadRequest.isCanceled()) {
-				L.i("取消的请求Id " + j2WDownloadRequest.getRequestId());
+			if (SKYDownloadRequest.isCanceled()) {
+				L.i("取消的请求Id " + SKYDownloadRequest.getRequestId());
 				mRequest.finish();
-				updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
+				updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
 				return;
 			}
-			int bytesRead = readFromResponse(j2WDownloadRequest, data, in);
+			int bytesRead = readFromResponse(SKYDownloadRequest, data, in);
 
 			if (mContentLength != -1) {
 				int progress = (int) ((mCurrentBytes * 100) / mContentLength);
-				updateDownloadProgress(j2WDownloadRequest, progress, mCurrentBytes);
+				updateDownloadProgress(SKYDownloadRequest, progress, mCurrentBytes);
 			}
 
 			if (bytesRead == -1) {
-				updateDownloadComplete(j2WDownloadRequest);
+				updateDownloadComplete(SKYDownloadRequest);
 				return;
 			} else if (bytesRead == Integer.MIN_VALUE) {
 				return;
 			}
 
-			writeDataToDestination(j2WDownloadRequest, data, bytesRead, out);
+			writeDataToDestination(SKYDownloadRequest, data, bytesRead, out);
 			mCurrentBytes += bytesRead;
 		}
 	}
@@ -456,16 +456,16 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 从响应体里读取
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param data
 	 * @param entityStream
 	 * @return
 	 */
-	private int readFromResponse(SKYDownloadRequest j2WDownloadRequest, byte[] data, BufferedInputStream entityStream) {
+	private int readFromResponse(SKYDownloadRequest SKYDownloadRequest, byte[] data, BufferedInputStream entityStream) {
 		try {
 			return entityStream.read(data);
 		} catch (IOException ex) {
-			updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "无法读取响应");
+			updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_HTTP_DATA_ERROR, "无法读取响应");
 			return Integer.MIN_VALUE;
 		}
 	}
@@ -473,18 +473,18 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 下载数据到目标文件
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param data
 	 * @param bytesRead
 	 * @param out
 	 */
-	private void writeDataToDestination(SKYDownloadRequest j2WDownloadRequest, byte[] data, int bytesRead, BufferedOutputStream out) {
+	private void writeDataToDestination(SKYDownloadRequest SKYDownloadRequest, byte[] data, int bytesRead, BufferedOutputStream out) {
 		while (true) {
 			try {
 				out.write(data, 0, bytesRead);
 				return;
 			} catch (IOException ex) {
-				updateDownloadFailed(j2WDownloadRequest, SKYDownloadManager.ERROR_FILE_ERROR, "写入目标文件时，IO异常错误");
+				updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_FILE_ERROR, "写入目标文件时，IO异常错误");
 			}
 		}
 	}
@@ -492,17 +492,17 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 读取响应头信息
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param response
 	 * @return
 	 */
-	private int readResponseHeaders(SKYDownloadRequest j2WDownloadRequest, Response response) {
+	private int readResponseHeaders(SKYDownloadRequest SKYDownloadRequest, Response response) {
 		final String transferEncoding = response.header("Transfer-Encoding");
 
 		if (transferEncoding == null) {
 			mContentLength = getHeaderFieldLong(response, "Content-Length", -1);
 		} else {
-			L.i("长度无法确定的请求Id " + j2WDownloadRequest.getRequestId());
+			L.i("长度无法确定的请求Id " + SKYDownloadRequest.getRequestId());
 			mContentLength = -1;
 		}
 
@@ -532,9 +532,9 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 清理目标文件
 	 */
-	private void cleanupDestination(SKYDownloadRequest j2WDownloadRequest) {
-		L.i("目标文件路径 : " + j2WDownloadRequest.getDestinationUrl());
-		File destinationFile = new File(j2WDownloadRequest.getDestinationUrl().getPath().toString());
+	private void cleanupDestination(SKYDownloadRequest SKYDownloadRequest) {
+		L.i("目标文件路径 : " + SKYDownloadRequest.getDestinationUrl());
+		File destinationFile = new File(SKYDownloadRequest.getDestinationUrl().getPath().toString());
 		if (destinationFile.exists()) {
 			destinationFile.delete();
 		}
@@ -543,53 +543,53 @@ public class SKYDownloadDispatcher extends Thread {
 	/**
 	 * 更新状态 - 链接
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param state
 	 */
-	public void updateDownloadState(SKYDownloadRequest j2WDownloadRequest, int state) {
-		j2WDownloadRequest.setDownloadState(state);
+	public void updateDownloadState(SKYDownloadRequest SKYDownloadRequest, int state) {
+		SKYDownloadRequest.setDownloadState(state);
 	}
 
 	/**
 	 * 更新状态 - 下载成功
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 */
-	public void updateDownloadComplete(SKYDownloadRequest j2WDownloadRequest) {
-		j2WDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_SUCCESSFUL);
-		if (j2WDownloadRequest.getJ2WDownloadListener() != null) {
-			postDownloadComplete(j2WDownloadRequest);
-			j2WDownloadRequest.finish();
+	public void updateDownloadComplete(SKYDownloadRequest SKYDownloadRequest) {
+		SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_SUCCESSFUL);
+		if (SKYDownloadRequest.getSKYDownloadListener() != null) {
+			postDownloadComplete(SKYDownloadRequest);
+			SKYDownloadRequest.finish();
 		}
 	}
 
 	/**
 	 * 更新状态 - 下载失败
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param errorCode
 	 * @param errorMsg
 	 */
-	public void updateDownloadFailed(SKYDownloadRequest j2WDownloadRequest, int errorCode, String errorMsg) {
+	public void updateDownloadFailed(SKYDownloadRequest SKYDownloadRequest, int errorCode, String errorMsg) {
 		shouldAllowRedirects = false;
-		j2WDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_FAILED);
-		cleanupDestination(j2WDownloadRequest);
-		if (j2WDownloadRequest.getJ2WDownloadListener() != null) {
-			postDownloadFailed(j2WDownloadRequest, errorCode, errorMsg);
-			j2WDownloadRequest.finish();
+		SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_FAILED);
+		cleanupDestination(SKYDownloadRequest);
+		if (SKYDownloadRequest.getSKYDownloadListener() != null) {
+			postDownloadFailed(SKYDownloadRequest, errorCode, errorMsg);
+			SKYDownloadRequest.finish();
 		}
 	}
 
 	/**
 	 * 更新状态 - 加载进度
 	 * 
-	 * @param j2WDownloadRequest
+	 * @param SKYDownloadRequest
 	 * @param progress
 	 * @param downloadedBytes
 	 */
-	public void updateDownloadProgress(SKYDownloadRequest j2WDownloadRequest, int progress, long downloadedBytes) {
-		if (j2WDownloadRequest.getJ2WDownloadListener() != null) {
-			postProgressUpdate(j2WDownloadRequest, mContentLength, downloadedBytes, progress);
+	public void updateDownloadProgress(SKYDownloadRequest SKYDownloadRequest, int progress, long downloadedBytes) {
+		if (SKYDownloadRequest.getSKYDownloadListener() != null) {
+			postProgressUpdate(SKYDownloadRequest, mContentLength, downloadedBytes, progress);
 		}
 	}
 
@@ -603,7 +603,7 @@ public class SKYDownloadDispatcher extends Thread {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				request.getJ2WDownloadListener().onDownloadComplete(request.getRequestId());
+				request.getSKYDownloadListener().onDownloadComplete(request.getRequestId());
 			}
 		});
 	}
@@ -622,7 +622,7 @@ public class SKYDownloadDispatcher extends Thread {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				request.getJ2WDownloadListener().onDownloadFailed(request.getRequestId(), errorCode, errorMsg);
+				request.getSKYDownloadListener().onDownloadFailed(request.getRequestId(), errorCode, errorMsg);
 			}
 		});
 	}
@@ -641,7 +641,7 @@ public class SKYDownloadDispatcher extends Thread {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				request.getJ2WDownloadListener().onDownloadProgress(request.getRequestId(), totalBytes, downloadedBytes, progress);
+				request.getSKYDownloadListener().onDownloadProgress(request.getRequestId(), totalBytes, downloadedBytes, progress);
 			}
 		});
 	}

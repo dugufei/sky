@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import jc.sky.view.adapter.recycleview.stickyheader.J2WStickyHeaders;
+import jc.sky.view.adapter.recycleview.stickyheader.SKYStickyHeaders;
 import jc.sky.view.adapter.recycleview.stickyheader.util.OrientationProvider;
 
 
@@ -15,11 +15,11 @@ import jc.sky.view.adapter.recycleview.stickyheader.util.OrientationProvider;
  */
 public class HeaderViewCache implements HeaderProvider {
 
-  private final J2WStickyHeaders mAdapter;
+  private final SKYStickyHeaders mAdapter;
   private final LongSparseArray<View> mHeaderViews = new LongSparseArray<>();
   private final OrientationProvider mOrientationProvider;
 
-  public HeaderViewCache(J2WStickyHeaders adapter,
+  public HeaderViewCache(SKYStickyHeaders adapter,
       OrientationProvider orientationProvider) {
     mAdapter = adapter;
     mOrientationProvider = orientationProvider;

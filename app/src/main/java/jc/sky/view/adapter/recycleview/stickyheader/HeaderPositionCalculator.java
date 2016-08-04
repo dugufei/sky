@@ -17,7 +17,7 @@ import jc.sky.view.adapter.recycleview.stickyheader.util.OrientationProvider;
  */
 public class HeaderPositionCalculator {
 
-  private final J2WStickyHeaders mAdapter;
+  private final SKYStickyHeaders mAdapter;
   private final OrientationProvider mOrientationProvider;
   private final HeaderProvider mHeaderProvider;
   private final DimensionCalculator mDimensionCalculator;
@@ -29,7 +29,7 @@ public class HeaderPositionCalculator {
   private final Rect mTempRect1 = new Rect();
   private final Rect mTempRect2 = new Rect();
 
-  public HeaderPositionCalculator(J2WStickyHeaders adapter, HeaderProvider headerProvider,
+  public HeaderPositionCalculator(SKYStickyHeaders adapter, HeaderProvider headerProvider,
       OrientationProvider orientationProvider, DimensionCalculator dimensionCalculator) {
     mAdapter = adapter;
     mHeaderProvider = headerProvider;
@@ -69,7 +69,7 @@ public class HeaderPositionCalculator {
    * @param position of the list item in questions
    * @param isReverseLayout TRUE if layout manager has flag isReverseLayout
    * @return true if this item has a different header than the previous item in the list
-   * @see {@link J2WStickyHeaders#getHeaderId(int)}
+   * @see {@link SKYStickyHeaders#getHeaderId(int)}
    */
   public boolean hasNewHeader(int position, boolean isReverseLayout) {
     if (indexOutOfBounds(position)) {
