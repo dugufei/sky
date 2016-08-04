@@ -55,7 +55,7 @@ public class J2WDisplay implements J2WIDisplay {
 
 	/** 跳转fragment **/
 	@Override public void commitAdd(Fragment fragment) {
-		commitAdd(R.id.j2w_home, fragment);
+		commitAdd(R.id.sky_home, fragment);
 	}
 
 	@Override public void commitAdd(int layoutId, Fragment fragment) {
@@ -69,7 +69,7 @@ public class J2WDisplay implements J2WIDisplay {
 	}
 
 	@Override public void commitReplace(Fragment fragment) {
-		commitReplace(R.id.j2w_home, fragment);
+		commitReplace(R.id.sky_home, fragment);
 	}
 
 	@Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
@@ -93,7 +93,7 @@ public class J2WDisplay implements J2WIDisplay {
 	}
 
 	@Override public void commitBackStack(Fragment fragment) {
-		commitBackStack(R.id.j2w_home, fragment);
+		commitBackStack(R.id.sky_home, fragment);
 	}
 
 	@Override public void commitHideAndBackStack(Fragment srcFragment, Fragment fragment) {
@@ -103,7 +103,7 @@ public class J2WDisplay implements J2WIDisplay {
 		}
 		FragmentTransaction transaction = activity().getSupportFragmentManager().beginTransaction();
 		transaction.hide(srcFragment);
-		transaction.add(R.id.j2w_home, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		transaction.add(R.id.sky_home, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
 
@@ -114,7 +114,7 @@ public class J2WDisplay implements J2WIDisplay {
 		}
 		FragmentTransaction transaction = activity().getSupportFragmentManager().beginTransaction();
 		transaction.detach(srcFragment);
-		transaction.add(R.id.j2w_home, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+		transaction.add(R.id.sky_home, fragment, fragment.getClass().getName()).addToBackStack(fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
 

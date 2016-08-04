@@ -346,7 +346,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 				}
 			} else {
 
-				Object view = fragmentManager.findFragmentById(R.id.j2w_home);
+				Object view = fragmentManager.findFragmentById(R.id.sky_home);
 				if (view instanceof SKYFragment) {
 					return ((SKYFragment) view).onKeyBack();
 				}

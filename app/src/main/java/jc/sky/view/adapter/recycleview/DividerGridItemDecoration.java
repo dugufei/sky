@@ -23,7 +23,7 @@ import jc.sky.R;
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 {
 
-    private static final int[] ATTRS = new int[] { R.attr.RecyclerViewGridDivider };
+    private static final int[] ATTRS = new int[] { R.attr.SKYRecyclerViewGridDivider };
     private Drawable mDivider;
 
     public DividerGridItemDecoration(Context context)

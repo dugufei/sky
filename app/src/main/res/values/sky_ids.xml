@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="j2w_swipe_layout">false</item>
-    <item type="id" name="j2w_home">false</item>
+    <item type="id" name="sky_home">false</item>
 </resources>

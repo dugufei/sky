@@ -31,7 +31,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'j2w.team:structure:2.0.6'
+        compile 'jc:sky:1.0'
      }
 
 混淆

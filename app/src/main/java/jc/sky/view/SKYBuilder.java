@@ -840,7 +840,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private View createActionbar(View view) {
 		if (isOpenToolbar()) {
 			final RelativeLayout toolbarRoot = new RelativeLayout(j2WView.context());
-			toolbarRoot.setId(R.id.j2w_home);
+			toolbarRoot.setId(R.id.sky_home);
 			toolbarRoot.setFitsSystemWindows(true);
 			// 添加toolbar布局
 			mInflater.inflate(getToolbarLayoutId(), toolbarRoot, true);
@@ -891,7 +891,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 			return toolbarRoot;
 		} else if (isOpenCustomToolbar()) {
-			view.setId(R.id.j2w_home);
+			view.setId(R.id.sky_home);
 			view.setFitsSystemWindows(true);
 			toolbar = ButterKnife.findById(view, getToolbarId());
 
@@ -932,7 +932,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 			return view;
 		} else {
-			view.setId(R.id.j2w_home);
+			view.setId(R.id.sky_home);
 			view.setFitsSystemWindows(true);
 			return view;
 		}

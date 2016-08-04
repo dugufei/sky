@@ -18,7 +18,7 @@ import jc.sky.R;
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
-	private static final int[]	ATTRS			= new int[] { R.attr.RecyclerViewDivider };
+	private static final int[]	ATTRS			= new int[] { R.attr.SKYRecyclerViewDivider };
 
 	public static final int		HORIZONTAL_LIST	= LinearLayoutManager.HORIZONTAL;
 
