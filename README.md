@@ -37,11 +37,11 @@ App-build.gradle:
 
 proguard
 
-    ---sky
+    #sky
 
     -keep class jc.sky.** { * ; }
 
-    --- butterknife 8.1
+    #butterknife 8.1
 
     # Retain generated class which implement ViewBinder.
     -keep public class * implements butterknife.internal.ViewBinder { public <init>(); }
@@ -52,18 +52,18 @@ proguard
     -keepclasseswithmembernames class * { @butterknife.* <methods>; }
     -keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
-    --- nineoldandroids
+    #nineoldandroids
 
     -libraryjars /libs/nineoldandroids-2.4.0.jar
     -dontwarn com.nineoldandroids.**
     -keep class com.nineoldandroids.** { *;}
 
 
-    --- picasso
+    #picasso
 
      -dontwarn com.squareup.okhttp.**
 
-    --- glide
+    #glide
 
     -keep public class * implements com.bumptech.glide.module.GlideModule
     -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
@@ -71,7 +71,7 @@ proguard
         public *;
     }
 
-    --- eventbus3.0
+    #eventbus3.0
 
     -keepattributes *Annotation*
     -keepclassmembers class ** {
@@ -84,13 +84,13 @@ proguard
         <init>(java.lang.Throwable);
     }
 
-    --- okhttp3
+    #okhttp3
     -keep class com.squareup.okhttp3.** {*;}
 
-    --- commons-io-1.3.2.jar
+    #commons-io-1.3.2.jar
     -keep public class org.apache.commons.** {*;}
 
-    --- retrofit2
+    #retrofit2
     -dontwarn retrofit2.**
     -keep class retrofit2.** { *; }
     -keepattributes Signature
@@ -100,6 +100,6 @@ proguard
         @retrofit2.http.* <methods>;
     }
 
-    --- commons-lang3
+    #commons-lang3
 
-    --- commons-io
+    #commons-io
