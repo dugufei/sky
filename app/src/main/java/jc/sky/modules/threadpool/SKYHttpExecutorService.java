@@ -1,0 +1,17 @@
+package jc.sky.modules.threadpool;
+
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Created by sky on 15/2/20. 服务线程
+ */
+class SKYHttpExecutorService extends ThreadPoolExecutor {
+
+	private static final int	DEFAULT_THREAD_COUNT	= 5;
+
+	SKYHttpExecutorService() {
+		super(DEFAULT_THREAD_COUNT, DEFAULT_THREAD_COUNT, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+	}
+}
