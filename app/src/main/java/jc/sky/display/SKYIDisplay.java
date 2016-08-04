@@ -11,6 +11,7 @@ import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 
+import jc.sky.core.Impl;
 import jc.sky.view.SKYActivity;
 
 /**
@@ -18,6 +19,7 @@ import jc.sky.view.SKYActivity;
  * @创建时间 15/7/11 下午2:40
  * @类描述 统一控制TitleBar、Drawer以及所有Activity和Fragment跳转
  */
+@Impl(SKYDisplay.class)
 public interface SKYIDisplay {
 
 	/**
