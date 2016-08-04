@@ -1,6 +1,7 @@
 package jc.sky.display;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -28,8 +30,8 @@ public class SKYDisplay implements SKYIDisplay {
 		return SKYHelper.screenHelper().getCurrentActivity();
 	}
 
-	@Override public SKYActivity activity() {
-		SKYActivity j2WActivity = SKYHelper.screenHelper().getCurrentIsRunningActivity();
+	@Override public <T extends FragmentActivity> T activity() {
+		T j2WActivity = SKYHelper.screenHelper().getCurrentIsRunningActivity();
 		if (j2WActivity != null) {
 			return j2WActivity;
 		} else {

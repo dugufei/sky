@@ -5,9 +5,9 @@
 
 
     <style name="SKYTheme.Default" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/sky_click_pressed</item>
-        <item name="colorPrimaryDark">@color/sky_click_pressed</item>
-        <item name="colorAccent">@color/sky_click_pressed</item>
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="colorAccent">@android:color/white</item>
         <item name="android:progressBarStyle">@style/SKY.Layout.Wrap.ProgressBar</item>
         <!-- 列表分割线-->
         <!--<item name="RecyclerViewDivider">@drawable/sky_default_divider</item>-->
