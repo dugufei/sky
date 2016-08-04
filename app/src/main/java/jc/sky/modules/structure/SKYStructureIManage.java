@@ -4,9 +4,9 @@ import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
-import jc.sky.core.J2WIBiz;
-import jc.sky.core.J2WICommonBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYICommonBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 
 /**
@@ -20,15 +20,15 @@ public interface SKYStructureIManage {
 
 	void detach(SKYStructureModel view);
 
-	<D extends J2WIDisplay> D display(Class<D> displayClazz);
+	<D extends SKYIDisplay> D display(Class<D> displayClazz);
 
-	<B extends J2WIBiz> B biz(Class<B> bizClazz);
+	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
-	<B extends J2WIBiz> boolean isExist(Class<B> bizClazz);
+	<B extends SKYIBiz> boolean isExist(Class<B> bizClazz);
 
-	<B extends J2WICommonBiz> B common(Class<B> service);
+	<B extends SKYICommonBiz> B common(Class<B> service);
 
-	<B extends J2WIBiz> List<B> bizList(Class<B> service);
+	<B extends SKYIBiz> List<B> bizList(Class<B> service);
 
 	<H> H http(Class<H> httpClazz);
 

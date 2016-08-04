@@ -2,7 +2,7 @@ package jc.sky.view.adapter;
 
 import android.view.View;
 
-import jc.sky.display.J2WIDisplay;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYDialogFragment;
@@ -71,7 +71,7 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	 * @param <E>
 	 * @return
 	 */
-	protected <E extends J2WIDisplay> E display(Class<E> e) {
+	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return j2WView.display(e);
 	}
 

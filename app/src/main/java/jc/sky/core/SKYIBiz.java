@@ -6,7 +6,7 @@ import jc.sky.modules.structure.SKYStructureModel;
 /**
  * Created by sky on 15/2/7. 业务
  */
-public interface J2WIBiz {
+public interface SKYIBiz {
 
 	void initUI(SKYStructureModel j2WView);
 

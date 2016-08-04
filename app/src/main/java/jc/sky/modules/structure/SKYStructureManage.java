@@ -20,9 +20,9 @@ import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.core.Impl;
-import jc.sky.core.J2WIBiz;
-import jc.sky.core.J2WICommonBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYICommonBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYProxy;
 import jc.sky.view.SKYActivity;
@@ -145,7 +145,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		}
 	}
 
-	@Override public <B extends J2WIBiz> B biz(Class<B> biz) {
+	@Override public <B extends SKYIBiz> B biz(Class<B> biz) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
 			return createNullService(biz);
@@ -160,7 +160,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return (B) j2WStructureModel.getJ2WProxy().proxy;
 	}
 
-	@Override public <B extends J2WIBiz> boolean isExist(Class<B> biz) {
+	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
 			return false;
@@ -175,7 +175,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return true;
 	}
 
-	@Override public <D extends J2WIDisplay> D display(Class<D> displayClazz) {
+	@Override public <D extends SKYIDisplay> D display(Class<D> displayClazz) {
 		D display = (D) stackDisplay.get(displayClazz);
 		if (display == null) {
 			synchronized (stackDisplay) {
@@ -192,7 +192,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return display;
 	}
 
-	@Override public <B extends J2WICommonBiz> B common(Class<B> service) {
+	@Override public <B extends SKYICommonBiz> B common(Class<B> service) {
 		B b = (B) stackCommonBiz.get(service);
 		if (b == null) {
 			synchronized (stackCommonBiz) {
@@ -209,7 +209,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return b;
 	}
 
-	@Override public <B extends J2WIBiz> List<B> bizList(Class<B> service) {
+	@Override public <B extends SKYIBiz> List<B> bizList(Class<B> service) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(service);
 		List list = new ArrayList();
 		if (stack == null) {

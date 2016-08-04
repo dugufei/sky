@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jc.sky.SKYHelper;
-import jc.sky.core.J2WRunnable;
+import jc.sky.core.SKYRunnable;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.core.plugin.BizEndInterceptor;
 import jc.sky.core.plugin.SKYErrorInterceptor;
@@ -149,7 +149,7 @@ public final class SKYMethod {
 		return result;
 	}
 
-	private class MethodRunnable extends J2WRunnable {
+	private class MethodRunnable extends SKYRunnable {
 
 		Object[] objects;
 

@@ -2,13 +2,13 @@ package jc.sky.core;
 
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 
 /**
  * Created by sky on 15/2/1.
  */
-public abstract class J2WBiz<U> implements J2WIBiz {
+public abstract class SKYBiz<U> implements SKYIBiz {
 
 	private U					u;
 
@@ -30,14 +30,14 @@ public abstract class J2WBiz<U> implements J2WIBiz {
 		return j2WStructureModel.impl(inter);
 	}
 
-	protected <D extends J2WIDisplay> D display(Class<D> eClass) {
+	protected <D extends SKYIDisplay> D display(Class<D> eClass) {
 		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
 			return SKYHelper.display(eClass);
 		}
 		return j2WStructureModel.display(eClass);
 	}
 
-	public <C extends J2WIBiz> C biz(Class<C> service) {
+	public <C extends SKYIBiz> C biz(Class<C> service) {
 		if (j2WStructureModel != null && j2WStructureModel.isSupterClass(service)) {
 			if (j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);

@@ -8,10 +8,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import jc.sky.core.J2WIBiz;
-import jc.sky.core.J2WICommonBiz;
+import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
@@ -58,7 +58,7 @@ public class SKYHelper {
 	 * @param <D>
 	 * @return
 	 */
-	public static <D extends J2WIDisplay> D display(Class<D> eClass) {
+	public static <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return structureHelper().display(eClass);
 	}
 
@@ -69,7 +69,7 @@ public class SKYHelper {
 	 * @param <B>
 	 * @return
 	 */
-	public static final <B extends J2WIBiz> B biz(Class<B> service) {
+	public static final <B extends SKYIBiz> B biz(Class<B> service) {
 		return structureHelper().biz(service);
 	}
 
@@ -80,7 +80,7 @@ public class SKYHelper {
 	 * @param <B>
 	 * @return true 存在 false 不存在
 	 */
-	public static final <B extends J2WIBiz> boolean isExist(Class<B> service) {
+	public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
 		return structureHelper().isExist(service);
 	}
 
@@ -91,7 +91,7 @@ public class SKYHelper {
 	 * @param <B>
 	 * @return
 	 */
-	public static final <B extends J2WIBiz> List<B> bizList(Class<B> service) {
+	public static final <B extends SKYIBiz> List<B> bizList(Class<B> service) {
 		return structureHelper().bizList(service);
 	}
 
@@ -102,7 +102,7 @@ public class SKYHelper {
 	 * @param <B>
 	 * @return
 	 */
-	public static final <B extends J2WICommonBiz> B common(Class<B> service) {
+	public static final <B extends SKYICommonBiz> B common(Class<B> service) {
 		return structureHelper().common(service);
 	}
 

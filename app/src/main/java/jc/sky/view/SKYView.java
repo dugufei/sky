@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 
 import jc.sky.SKYHelper;
-import jc.sky.core.J2WIBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.common.utils.SKYCheckUtils;
 
 /**
@@ -104,7 +104,7 @@ public class SKYView {
 		return (D) mJ2WDialogFragment;
 	}
 
-	public <B extends J2WIBiz> B biz() {
+	public <B extends SKYIBiz> B biz() {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:
@@ -120,7 +120,7 @@ public class SKYView {
 		return b;
 	}
 
-	public <B extends J2WIBiz> B biz(Class<B> service) {
+	public <B extends SKYIBiz> B biz(Class<B> service) {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:
@@ -136,7 +136,7 @@ public class SKYView {
 		return b;
 	}
 
-	public <E extends J2WIDisplay> E display(Class<E> display) {
+	public <E extends SKYIDisplay> E display(Class<E> display) {
 		E e = null;
 		switch (state) {
 			case STATE_ACTIVITY:

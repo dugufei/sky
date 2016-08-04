@@ -2,7 +2,7 @@ package jc.sky.modules.methodProxy;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import jc.sky.core.J2WIBiz;
+import jc.sky.core.SKYIBiz;
 
 /**
  * @创建人 sky
@@ -22,8 +22,8 @@ public class SKYProxy {
      * 清空
      */
     public void clearProxy() {
-        if(impl instanceof J2WIBiz){
-            ((J2WIBiz)impl).detach();
+        if(impl instanceof SKYIBiz){
+            ((SKYIBiz)impl).detach();
         }
         impl = null;
         proxy = null;

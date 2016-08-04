@@ -17,8 +17,8 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.core.J2WIBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
@@ -28,7 +28,7 @@ import jc.sky.view.adapter.recycleview.SKYRVAdapter;
  * @创建时间 15/7/18 上午11:49
  * @类描述 View层碎片
  */
-public abstract class SKYFragment<B extends J2WIBiz> extends Fragment implements View.OnTouchListener {
+public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements View.OnTouchListener {
 
 	private boolean		targetActivity;
 
@@ -164,7 +164,7 @@ public abstract class SKYFragment<B extends J2WIBiz> extends Fragment implements
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentDestroy(this);
 	}
 
-	public <D extends J2WIDisplay> D display(Class<D> eClass) {
+	public <D extends SKYIDisplay> D display(Class<D> eClass) {
 		if (j2WStructureModel == null || j2WStructureModel.getView() == null) {
 			return SKYHelper.display(eClass);
 		}
@@ -179,7 +179,7 @@ public abstract class SKYFragment<B extends J2WIBiz> extends Fragment implements
 		return (B) j2WStructureModel.getJ2WProxy().proxy;
 	}
 
-	public <C extends J2WIBiz> C biz(Class<C> service) {
+	public <C extends SKYIBiz> C biz(Class<C> service) {
 		if (j2WStructureModel != null && service.equals(j2WStructureModel.getService())) {
 			if (j2WStructureModel == null || j2WStructureModel.getJ2WProxy() == null || j2WStructureModel.getJ2WProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);

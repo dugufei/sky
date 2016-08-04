@@ -3,11 +3,11 @@ package jc.sky.core;
 /**
  * Created by sky on 15/2/20.
  */
-public abstract class J2WRunnable implements Runnable {
+public abstract class SKYRunnable implements Runnable {
 
 	protected final String	name;
 
-	public J2WRunnable(String format, Object... args) {
+	public SKYRunnable(String format, Object... args) {
 		this.name = String.format(format, args);
 	}
 

@@ -6,8 +6,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import jc.sky.SKYHelper;
-import jc.sky.core.J2WIBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 
 /**
@@ -15,7 +15,7 @@ import jc.sky.modules.structure.SKYStructureModel;
  * @创建时间 15/8/15 下午7:39
  * @类描述 服务
  */
-public abstract class SKYService<B extends J2WIBiz> extends Service {
+public abstract class SKYService<B extends SKYIBiz> extends Service {
 
 	SKYStructureModel j2WStructureModel;
 
@@ -43,7 +43,7 @@ public abstract class SKYService<B extends J2WIBiz> extends Service {
 		initData();
 	}
 
-	public <D extends J2WIDisplay> D display(Class<D> eClass) {
+	public <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return j2WStructureModel.display(eClass);
 	}
 
@@ -51,7 +51,7 @@ public abstract class SKYService<B extends J2WIBiz> extends Service {
 		return (B) j2WStructureModel.getJ2WProxy().proxy;
 	}
 
-	public <C extends J2WIBiz> C biz(Class<C> service) {
+	public <C extends SKYIBiz> C biz(Class<C> service) {
 		if (j2WStructureModel.getService().equals(service)) {
 			return (C) j2WStructureModel.getJ2WProxy().proxy;
 		}

@@ -18,7 +18,7 @@ import jc.sky.view.SKYActivity;
  * @创建时间 15/7/11 下午2:40
  * @类描述 统一控制TitleBar、Drawer以及所有Activity和Fragment跳转
  */
-public interface J2WIDisplay {
+public interface SKYIDisplay {
 
 	/**
 	 * 获取上下文

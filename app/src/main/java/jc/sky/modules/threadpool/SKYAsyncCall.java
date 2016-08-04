@@ -2,13 +2,13 @@ package jc.sky.modules.threadpool;
 
 import java.lang.reflect.Method;
 
-import jc.sky.core.J2WRunnable;
+import jc.sky.core.SKYRunnable;
 import jc.sky.modules.methodProxy.Repeat;
 
 /**
  * Created by sky on 15/2/20.
  */
-public abstract class SKYAsyncCall extends J2WRunnable {
+public abstract class SKYAsyncCall extends SKYRunnable {
 
 	public String	mehtodName;
 

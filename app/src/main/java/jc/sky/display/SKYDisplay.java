@@ -22,7 +22,7 @@ import jc.sky.view.SKYActivity;
  * @创建时间 15/7/11 下午2:39
  * @类描述 统一控制TitleBar、Drawer以及所有Activity和Fragment跳转
  */
-public class J2WDisplay implements J2WIDisplay {
+public class SKYDisplay implements SKYIDisplay {
 
 	@Override public Context context() {
 		return SKYHelper.screenHelper().getCurrentActivity();

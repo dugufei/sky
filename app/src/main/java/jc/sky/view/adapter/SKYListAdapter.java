@@ -9,7 +9,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYDialogFragment;
 import jc.sky.view.SKYFragment;
@@ -190,7 +190,7 @@ public class SKYListAdapter extends BaseAdapter {
 	 * @param <E>
 	 * @return
 	 */
-	protected <E extends J2WIDisplay> E display(Class<E> e) {
+	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return j2WView.display(e);
 	}
 

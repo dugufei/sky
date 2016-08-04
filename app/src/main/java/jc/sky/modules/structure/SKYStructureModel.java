@@ -11,8 +11,8 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.core.Impl;
-import jc.sky.core.J2WBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.methodProxy.SKYProxy;
 
 /**
@@ -54,7 +54,7 @@ public class SKYStructureModel {
         Class tempClass = impl.getClass().getSuperclass();
 
         if (tempClass != null) {
-            while (!tempClass.equals(J2WBiz.class)) {
+            while (!tempClass.equals(SKYBiz.class)) {
 
                 if (tempClass.getInterfaces() != null) {
                     Class clazz = tempClass.getInterfaces()[0];
@@ -95,7 +95,7 @@ public class SKYStructureModel {
      * @param <D>
      * @return
      */
-    public <D extends J2WIDisplay> D display(Class<D> displayClazz) {
+    public <D extends SKYIDisplay> D display(Class<D> displayClazz) {
         if (stackDisplay == null) {
             return SKYHelper.display(displayClazz);
         }
@@ -185,8 +185,8 @@ public class SKYStructureModel {
             /** 创建类 **/
             Object o = c.newInstance();
             // 如果是业务类
-            if (o instanceof J2WBiz) {
-                ((J2WBiz) o).initUI(this);
+            if (o instanceof SKYBiz) {
+                ((SKYBiz) o).initUI(this);
             }
             return o;
         } catch (ClassNotFoundException e) {

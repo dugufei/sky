@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.J2WIBiz;
-import jc.sky.display.J2WIDisplay;
+import jc.sky.core.SKYIBiz;
+import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYDialogFragment;
 import jc.sky.view.SKYFragment;
@@ -173,7 +173,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		return j2WView;
 	}
 
-	public <B extends J2WIBiz> B biz(Class<B> service) {
+	public <B extends SKYIBiz> B biz(Class<B> service) {
 		return j2WView.biz(service);
 	}
 
@@ -184,7 +184,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 * @param <E>
 	 * @return
 	 */
-	protected <E extends J2WIDisplay> E display(Class<E> e) {
+	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return j2WView.display(e);
 	}
 
