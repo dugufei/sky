@@ -37,9 +37,13 @@ App-build.gradle:
 
 proguard
 
-    #sky
+    #sky--------------------------------------------------------------------------------------------------------
+    -keepattributes *Annotation*
 
-    -keep class jc.sky.** { * ; }
+    -keepclasseswithmembers class * {
+       <init> ();
+    }
+    -keep class jc.sky.** { *; }
 
     #butterknife 8.1
 
@@ -54,7 +58,6 @@ proguard
 
     #nineoldandroids
 
-    -libraryjars /libs/nineoldandroids-2.4.0.jar
     -dontwarn com.nineoldandroids.**
     -keep class com.nineoldandroids.** { *;}
 
@@ -73,7 +76,6 @@ proguard
 
     #eventbus3.0
 
-    -keepattributes *Annotation*
     -keepclassmembers class ** {
         @org.greenrobot.eventbus.Subscribe <methods>;
     }
@@ -99,7 +101,3 @@ proguard
     -keepclasseswithmembers class * {
         @retrofit2.http.* <methods>;
     }
-
-    #commons-lang3
-
-    #commons-io
