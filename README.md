@@ -105,16 +105,12 @@ proguard
 
 技术 | 简述
 -------- | --------
-[MVP](http://blog.csdn.net/lmj623565791/article/details/46596109) | 项目使用接口 来隔离 view层 和 biz 业务层 , 原理可以看blog
+[MVP](http://blog.csdn.net/lmj623565791/article/details/46596109) | 项目使用接口 来隔离 view层 和 biz 业务层 , 思想可以看blog
 [http](https://github.com/square/retrofit) | 网络使用retrofit2, 初始化进行封装, 通过SKYHelpter.http 使用
-[activity] | 采用builder 建造者模式  持续更新
-[display] | 支持跳转拦截,日志打印,方法前拦截 和 方法执行后拦截
 [appconfig](https://github.com/J2W/J2WStructure/wiki/SharedPreference%EF%BC%9AJ2WProperties) | 替代sharedpreferences  文件采用 Properties 存储
-[contact] | 通讯录的增删改查 持续更新
 [download](https://github.com/J2W/J2WStructure/wiki/HTTP%EF%BC%9A-Download) | 文件下载和上传
 [file](https://github.com/J2W/J2WStructure/wiki/Cache-:-J2WFileCacheManage) |  文件存储 支持 map, listmap, object, listobject
 [log](https://github.com/JakeWharton/timber) | 修改调用 L.i() 直接打印
-[screen] | activity 自动管理堆栈
 
 插件/工具 | 简述
 -------- | --------
