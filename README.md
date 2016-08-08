@@ -105,7 +105,7 @@ proguard
 
 技术 | 简述
 -------- | --------
-[MVP](http://blog.csdn.net/lmj623565791/article/details/46596109) | 项目使用接口 来隔离 view层 和 biz 业务层 , 思想可以看blog
+[MVP](https://github.com/googlesamples/android-architecture) | 项目使用接口 来隔离 view层 和 biz 业务层, 这里是google官方 使用不同的方式来实现mvp 可以参考
 [http](https://github.com/square/retrofit) | 网络使用retrofit2, 初始化进行封装, 通过SKYHelpter.http 使用
 [appconfig](https://github.com/J2W/J2WStructure/wiki/SharedPreference%EF%BC%9AJ2WProperties) | 替代sharedpreferences  文件采用 Properties 存储
 [download](https://github.com/J2W/J2WStructure/wiki/HTTP%EF%BC%9A-Download) | 文件下载和上传

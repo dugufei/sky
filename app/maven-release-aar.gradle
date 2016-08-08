@@ -7,7 +7,7 @@ ext {
     PUBLISH_VERSION = android.defaultConfig.versionName
     targetSdkVersion = 22
     compileSdkVersion = 22
-    buildToolsVersion = '22.0.0'
+    buildToolsVersion = '24.0.0'
     sourceCompatibilityVersion = JavaVersion.VERSION_1_7
     targetCompatibilityVersion = JavaVersion.VERSION_1_7
 }
