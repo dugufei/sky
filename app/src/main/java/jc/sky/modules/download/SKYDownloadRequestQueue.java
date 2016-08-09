@@ -2,13 +2,13 @@ package jc.sky.modules.download;
 
 import android.text.format.DateUtils;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import okhttp3.OkHttpClient;
 
 /**
  * @创建人 sky
@@ -119,7 +119,7 @@ public class SKYDownloadRequestQueue {
 	void cancelAll() {
 		synchronized (mCurrentRequests) {
 			for (SKYBaseRequest request : mCurrentRequests) {
-                request.cancel();
+				request.cancel();
 			}
 			mCurrentRequests.clear();
 		}
@@ -132,7 +132,7 @@ public class SKYDownloadRequestQueue {
 		synchronized (mCurrentRequests) {
 			for (SKYBaseRequest request : mCurrentRequests) {
 				if (request.getRequestId() == downloadId) {
-                    request.cancel();
+					request.cancel();
 					return 1;
 				}
 			}
@@ -149,7 +149,7 @@ public class SKYDownloadRequestQueue {
 	void finish(SKYBaseRequest request) {
 		if (mCurrentRequests != null) {
 			synchronized (mCurrentRequests) {
-                mCurrentRequests.remove(request);
+				mCurrentRequests.remove(request);
 			}
 		}
 	}
@@ -204,10 +204,10 @@ public class SKYDownloadRequestQueue {
 	 * @return 网络协议
 	 */
 	public final OkHttpClient getOkHttpClient() {
-		okHttpClient = new OkHttpClient();
-		okHttpClient.setConnectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);// 连接超时
-		okHttpClient.setReadTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);// 读取超时
-		okHttpClient.setWriteTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);// 写入超时
+		okHttpClient = new OkHttpClient.Builder().connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)// 连接超时
+				.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)// 读取超时
+				.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)// 写入超时
+				.build();
 		return okHttpClient;
 	}
 }

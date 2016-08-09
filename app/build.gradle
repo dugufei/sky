@@ -1,24 +1,19 @@
 //框架开发模式-需要测试
-//apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
-apply plugin: 'com.jakewharton.butterknife'
-
 android {
-    compileSdkVersion 22
-    buildToolsVersion '24.0.0'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
     }
     buildTypes {
         release {
-            // 支持自动去除没有使用的资源 默认关闭
-            minifyEnabled false
-            shrinkResources false
-            //混淆文件
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -29,23 +24,24 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     //外部依赖
-    compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
     //状态栏
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.bumptech.glide:okhttp-integration:1.4.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'org.jetbrains:annotations:13.0'
     compile 'com.google.code.gson:gson:2.7'
     compile 'org.apache.commons:commons-io:1.3.2'
+    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
-
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
 apply from: 'maven-release-aar.gradle'//打包
 

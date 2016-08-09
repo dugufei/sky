@@ -4,9 +4,6 @@ import android.os.Process;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,6 +21,9 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYGsonUtils;
 import jc.sky.modules.log.L;
 import jc.sky.common.utils.SKYAppUtil;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_MOVED_PERM;
@@ -53,7 +53,7 @@ public class SKYDownloadDispatcher extends Thread {
 	public final int							MAX_REDIRECTS							= 5;
 
 	/** 网络底层协议 **/
-	OkHttpClient								okHttpClient;
+	OkHttpClient okHttpClient;
 
 	/**
 	 * 网络响应

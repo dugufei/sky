@@ -38,12 +38,27 @@ App-build.gradle:
 proguard
 
     #sky--------------------------------------------------------------------------------------------------------
+    -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+    -keep class jc.sky.** { *; }
+
+    # Some methods are only called from tests, so make sure the shrinker keeps them.
+    -keep class android.support.v4.widget.DrawerLayout { *; }
+    -keep class android.support.test.espresso.IdlingResource { *; }
+    -keep class com.google.common.base.Preconditions { *; }
+
+    # For Guava:
+    -dontwarn javax.annotation.**
+    -dontwarn javax.inject.**
+    -dontwarn sun.misc.Unsafe
+
+    # Proguard rules that are applied to your test apk/code.
+    -ignorewarnings
+
     -keepattributes *Annotation*
 
     -keepclasseswithmembers class * {
-       <init> ();
+           <init> ();
     }
-    -keep class jc.sky.** { *; }
 
     #butterknife 8.1
 
@@ -57,50 +72,45 @@ proguard
     -keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
     #nineoldandroids
-
     -dontwarn com.nineoldandroids.**
     -keep class com.nineoldandroids.** { *;}
 
-
     #picasso
-
-     -dontwarn com.squareup.okhttp.**
+    -dontwarn com.squareup.okhttp.**
 
     #glide
-
     -keep public class * implements com.bumptech.glide.module.GlideModule
     -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-        **[] $VALUES;
-        public *;
+          **[] $VALUES;
+          public *;
     }
 
     #eventbus3.0
+        -keepclassmembers class ** {
+            @org.greenrobot.eventbus.Subscribe <methods>;
+        }
+        -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
-    -keepclassmembers class ** {
-        @org.greenrobot.eventbus.Subscribe <methods>;
-    }
-    -keep enum org.greenrobot.eventbus.ThreadMode { *; }
-
-    # Only required if you use AsyncExecutor
-    -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-        <init>(java.lang.Throwable);
-    }
+        # Only required if you use AsyncExecutor
+        -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+            <init>(java.lang.Throwable);
+        }
 
     #okhttp3
-    -keep class com.squareup.okhttp3.** {*;}
+        -keep class com.squareup.okhttp3.** {*;}
 
     #commons-io-1.3.2.jar
-    -keep public class org.apache.commons.** {*;}
+        -keep public class org.apache.commons.** {*;}
 
     #retrofit2
-    -dontwarn retrofit2.**
-    -keep class retrofit2.** { *; }
-    -keepattributes Signature
-    -keepattributes Exceptions
+        -dontwarn retrofit2.**
+        -keep class retrofit2.** { *; }
+        -keepattributes Signature
+        -keepattributes Exceptions
 
-    -keepclasseswithmembers class * {
-        @retrofit2.http.* <methods>;
-    }
+        -keepclasseswithmembers class * {
+            @retrofit2.http.* <methods>;
+        }
 # 结构
 
 技术 | 简述

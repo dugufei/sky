@@ -2,9 +2,8 @@ package jc.sky.modules.download;
 
 import android.net.Uri;
 
-import com.squareup.okhttp.Headers;
-
 import jc.sky.common.utils.SKYCheckUtils;
+import okhttp3.Headers;
 
 
 /**

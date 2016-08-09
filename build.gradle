@@ -3,19 +3,32 @@
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'com.jakewharton:butterknife-gradle-plugin:8.2.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        mavenCentral()
     }
 }
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    minSdkVersion = 11
+    targetSdkVersion = 22
+    compileSdkVersion = 22
+    buildToolsVersion = '24.0.0'
+
+    supportLibraryVersion = '22.2.0'
+    guavaVersion = '18.0'
+
+    versionCode = 1
+    versionName = '1.0'
+}
+

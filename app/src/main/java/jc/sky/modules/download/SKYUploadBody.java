@@ -1,11 +1,10 @@
 package jc.sky.modules.download;
 
-import com.squareup.okhttp.Headers;
-
 import java.io.File;
 import java.util.List;
 
 import jc.sky.common.utils.SKYCheckUtils;
+import okhttp3.Headers;
 
 /**
  * @创建人 sky

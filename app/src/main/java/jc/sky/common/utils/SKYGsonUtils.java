@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 
 import jc.sky.modules.log.L;
+import okhttp3.ResponseBody;
 
 /**
  * @创建人 sky
@@ -25,7 +25,7 @@ import jc.sky.modules.log.L;
  */
 public class SKYGsonUtils {
 
-	public static final Object readBody(Gson gson, Charset charset,ResponseBody body, Type type) throws IOException {
+	public static final Object readBody(Gson gson, Charset charset, ResponseBody body, Type type) throws IOException {
 		if (body.contentType() != null) {
 			charset = body.contentType().charset(charset);
 		}

@@ -1,16 +1,17 @@
 package jc.sky.modules.download;
 
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.internal.Util;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import jc.sky.modules.log.L;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.internal.Util;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -86,7 +87,9 @@ public class SKYOkUploadBody extends RequestBody {
 	public RequestBody build() {
 		// 请求头信息
 		Headers headers = SKYUploadRequest.getSKYUploadBody().getHeader();
-		MultipartBuilder multipartBuilder = new MultipartBuilder().type(MultipartBuilder.FORM);
+
+
+		MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 		if(file != null){
 			multipartBuilder.addPart(headers, this);
 		}

@@ -10,10 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
+
 import org.jetbrains.annotations.NotNull;
 
 import jc.sky.core.Impl;
-import jc.sky.view.SKYActivity;
 
 /**
  * @创建人 sky
