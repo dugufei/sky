@@ -3,8 +3,6 @@ package jc.sky.modules;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import org.greenrobot.eventbus.EventBus;
-
 import jc.sky.SKYApplication;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.modules.contact.ContactManage;
@@ -27,8 +25,6 @@ import retrofit2.Retrofit;
 public class SKYModulesManage {
 
 	private final SKYApplication		mSKYApplication;		// 全局上下文
-
-	private final EventBus				bus;					// 事件总线
 
 	private final SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
 
@@ -56,7 +52,6 @@ public class SKYModulesManage {
 
 	public SKYModulesManage(SKYApplication SKYApplication) {
 		this.mSKYApplication = SKYApplication;
-		this.bus = EventBus.getDefault();
 		this.SKYScreenManager = new SKYScreenManager();
 		this.SKYStructureManage = new SKYStructureManage();
 		this.SKYThreadPoolManager = new SKYThreadPoolManager();
@@ -94,10 +89,6 @@ public class SKYModulesManage {
 
 	public Retrofit getSKYRestAdapter() {
 		return this.mSKYRestAdapter;
-	}
-
-	public EventBus getBus() {
-		return bus;
 	}
 
 	public SKYScreenManager getSKYScreenManager() {

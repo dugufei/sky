@@ -4,8 +4,6 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 
 import jc.sky.core.SKYIBiz;
@@ -29,7 +27,7 @@ import retrofit2.Retrofit;
  */
 public class SKYHelper {
 
-	protected volatile static SKYModulesManage mSKYModulesManage	= null;
+	protected volatile static SKYModulesManage mSKYModulesManage = null;
 
 	/**
 	 * 单例模式-初始化SKYHelper
@@ -148,15 +146,6 @@ public class SKYHelper {
 	}
 
 	/**
-	 * 获取EventBus
-	 *
-	 * @return
-	 */
-	public static final EventBus eventBus() {
-		return mSKYModulesManage.getBus();
-	}
-
-	/**
 	 * 获取网络适配器
 	 *
 	 * @return
@@ -246,26 +235,6 @@ public class SKYHelper {
 	 */
 	public static final SKYIContact contact() {
 		return mSKYModulesManage.getContactManage();
-	}
-
-	/**
-	 * 提交Event
-	 *
-	 * @param object
-	 */
-	public static final void eventPost(final Object object) {
-		boolean isMainLooper = isMainLooperThread();
-
-		if (isMainLooper) {
-			mainLooper().execute(new Runnable() {
-
-				@Override public void run() {
-					eventBus().post(object);
-				}
-			});
-		} else {
-			eventBus().post(object);
-		}
 	}
 
 	/**

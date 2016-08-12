@@ -170,25 +170,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	@Override public void onResume() {
 		super.onResume();
-		/** 判断EventBus 是否注册 **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYHelper.eventBus().isRegistered(this)) {
-				SKYHelper.eventBus().register(this);
-			}
-		}
 		SKYHelper.structureHelper().printBackStackEntry(getFragmentManager());
 	}
 
 	@Override public void onPause() {
 		super.onPause();
-		/** 关闭event **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYBuilder.isNotCloseEventBus()) {
-				if (SKYHelper.eventBus().isRegistered(this)) {
-					SKYHelper.eventBus().unregister(this);
-				}
-			}
-		}
 		// 恢复初始化
 		listRefreshing(false);
 	}
@@ -201,10 +187,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public void onDestroy() {
 		super.onDestroy();
 		detach();
-		/** 关闭event **/
-		if (SKYHelper.eventBus().isRegistered(this)) {
-			SKYHelper.eventBus().unregister(this);
-		}
 		/** 移除builder **/
 		SKYBuilder.detach();
 		SKYBuilder = null;

@@ -408,31 +408,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	/**
-	 * EventBus开关
-	 */
-	private boolean	isOpenEventBus;
-
-	private boolean	isNotCloseEvent;	// 是否关闭
-
-	// 获取
-	boolean isOpenEventBus() {
-		return isOpenEventBus;
-	}
-
-	boolean isNotCloseEventBus() {
-		return isNotCloseEvent;
-	}
-
-	// 设置
-	public void isOpenEventBus(boolean isOpenEventBus) {
-		this.isOpenEventBus = isOpenEventBus;
-	}
-
-	public void isNoCloseEventBus(boolean isNotCloseEvent) {
-		this.isNotCloseEvent = isNotCloseEvent;
-	}
-
-	/**
 	 * ListView
 	 */
 	private SKYListAdapter				SKYListAdapter;

@@ -118,13 +118,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		super.onResume();
 		SKYHelper.screenHelper().onResume(this);
 		SKYHelper.methodsProxy().activityInterceptor().onResume(this);
-
-		/** 判断EventBus 是否注册 **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYHelper.eventBus().isRegistered(this)) {
-				SKYHelper.eventBus().register(this);
-			}
-		}
 		listLoadMoreOpen();
 	}
 
@@ -146,14 +139,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		super.onPause();
 		SKYHelper.screenHelper().onPause(this);
 		SKYHelper.methodsProxy().activityInterceptor().onPause(this);
-		/** 判断EventBus 是否销毁 **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYBuilder.isNotCloseEventBus()) {
-				if (SKYHelper.eventBus().isRegistered(this)) {
-					SKYHelper.eventBus().unregister(this);
-				}
-			}
-		}
 		// 恢复初始化
 		listRefreshing(false);
 	}
@@ -171,10 +156,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	@Override protected void onDestroy() {
 		super.onDestroy();
 		detach();
-		/** 关闭event **/
-		if (SKYHelper.eventBus().isRegistered(this)) {
-			SKYHelper.eventBus().unregister(this);
-		}
 		/** 移除builder **/
 		SKYBuilder.detach();
 		SKYBuilder = null;

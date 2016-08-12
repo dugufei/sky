@@ -100,12 +100,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public void onResume() {
 		super.onResume();
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentResume(this);
-		/** 判断EventBus 是否注册 **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYHelper.eventBus().isRegistered(this)) {
-				SKYHelper.eventBus().register(this);
-			}
-		}
 		SKYHelper.structureHelper().printBackStackEntry(getFragmentManager());
 		listLoadMoreOpen();
 	}
@@ -113,14 +107,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public void onPause() {
 		super.onPause();
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentPause(this);
-		/** 关闭event **/
-		if (SKYBuilder.isOpenEventBus()) {
-			if (!SKYBuilder.isNotCloseEventBus()) {
-				if (SKYHelper.eventBus().isRegistered(this)) {
-					SKYHelper.eventBus().unregister(this);
-				}
-			}
-		}
 		// 恢复初始化
 		listRefreshing(false);
 	}
@@ -141,9 +127,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public void onDetach() {
 		super.onDetach();
 		detach();
-		if (SKYHelper.eventBus().isRegistered(this)) {
-			SKYHelper.eventBus().unregister(this);
-		}
 		/** 移除builder **/
 		SKYBuilder.detach();
 		SKYBuilder = null;
