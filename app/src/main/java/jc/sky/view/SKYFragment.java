@@ -1,6 +1,7 @@
 package jc.sky.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -102,6 +103,11 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentResume(this);
 		SKYHelper.structureHelper().printBackStackEntry(getFragmentManager());
 		listLoadMoreOpen();
+	}
+
+	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
 	@Override public void onPause() {

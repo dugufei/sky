@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -253,6 +254,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			menu.clear();
 			this.getActivity().getMenuInflater().inflate(SKYBuilder.getToolbarMenuId(), menu);
 		}
+	}
+
+	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
 	/**

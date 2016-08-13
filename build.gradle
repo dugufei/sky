@@ -12,10 +12,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        def androidHome = System.getenv("ANDROID_HOME")
-        maven {
-            url "$androidHome/extras/android/m2repository/"
-        }
     }
 }
 
@@ -25,11 +21,10 @@ task clean(type: Delete) {
 
 ext {
     minSdkVersion = 11
-    targetSdkVersion = 22
-    compileSdkVersion = 22
+    compileSdkVersion = 24
     buildToolsVersion = '24.0.0'
 
-    supportLibraryVersion = '22.2.1'
+    supportLibraryVersion = '24.0.0'
     guavaVersion = '18.0'
 
     versionCode = 4
