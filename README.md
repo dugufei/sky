@@ -112,6 +112,7 @@ proguard
 
 技术 | 简述
 -------- | --------
+[结构模板](https://github.com/skyJinc/sky/wiki/%E7%BB%93%E6%9E%84%E6%A8%A1%E6%9D%BF) | Android Studio sky架构的模板生成
 [MVP](https://github.com/googlesamples/android-architecture) | 项目使用接口 来隔离 view层 和 biz 业务层, 这里是google官方 使用不同的方式来实现mvp 可以参考
 [http](https://github.com/square/retrofit) | 网络使用retrofit2, 初始化进行封装, 通过SKYHelpter.http 使用
 [appconfig](https://github.com/J2W/J2WStructure/wiki/SharedPreference%EF%BC%9AJ2WProperties) | 替代sharedpreferences  文件采用 Properties 存储
@@ -205,3 +206,7 @@ proguard
 [Leisure](https://github.com/MummyDing/Leisure) | 闲暇(Leisure)是一款集"知乎日报", "果壳科学人", "新华网新闻"以及"豆瓣图书"于一体的阅读类 Android 应用, 项目里面有多语言切换、夜间模式以及无图模式, 如果你还不知道这些技术怎么实现, 不妨参考一下这个项目
 [Meizhi](https://github.com/drakeet/Meizhi) | 开发者是许晓峰(Drakeet), 该 app 是数据来自代码家干货网站 [gank.io](http://gank.io), 有很多开发者都纷纷为这网站做客户端 app, 因为代码家大神开放该网站的 Api, 更重要的是该网站每天除了有干货还有漂亮妹子看呢, 该 App 使用到的技术有 RxJava + Retrofit, 代码结构非常清晰, 值得一看的开源 App.
 [Bingo](https://github.com/sfsheng0322/Bingo) | 开发者是[孙福生](http://weibo.com/u/3852192525), Bingo 是一款 IT 阅读学习类的开源软件, 作者收集一些干货学习内容, 你也可以在 App 上分享你的认为干货文章, 该项目使用动态代理 AOP 编程框架, 使开发起来更简洁, 更高效. 里面有一个功能就是多种主题切换, 感兴趣的可以看看怎么实现
+
+
+
+
