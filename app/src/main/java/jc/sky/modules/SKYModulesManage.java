@@ -5,6 +5,7 @@ import android.view.View;
 
 import jc.sky.SKYApplication;
 import jc.sky.core.SynchronousExecutor;
+import jc.sky.core.exception.SKYNullPointerException;
 import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
@@ -120,6 +121,10 @@ public class SKYModulesManage {
 	}
 
 	public SKYStructureManage getSKYStructureManage() {
+
+		if(SKYStructureManage == null){
+			throw new SKYNullPointerException("Application没有继承SKYApplication");
+		}
 		return SKYStructureManage;
 	}
 
