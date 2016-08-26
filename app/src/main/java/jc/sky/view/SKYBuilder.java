@@ -759,7 +759,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 
 		// 进度条
-		layoutLoadingId = layoutLoadingId > 0 ? layoutLoadingId : SKYHelper.getInstance().layoutLoading();
+		layoutLoadingId = layoutLoadingId > 0 ? layoutLoadingId : SKYHelper.getComnonView() == null ? 0 : SKYHelper.getComnonView().layoutLoading();
 		if (layoutLoadingId > 0) {
 			vsLoading = new ViewStub(skyView.activity());
 			vsLoading.setLayoutResource(layoutLoadingId);
@@ -767,7 +767,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 
 		// 空布局
-		layoutEmptyId = layoutEmptyId > 0 ? layoutEmptyId : SKYHelper.getInstance().layoutEmpty();
+		layoutEmptyId = layoutEmptyId > 0 ? layoutEmptyId : SKYHelper.getComnonView() == null ? 0 : SKYHelper.getComnonView().layoutEmpty();
 		if (layoutEmptyId > 0) {
 			layoutEmpty = mInflater.inflate(layoutEmptyId, null, false);
 			SKYCheckUtils.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
@@ -776,7 +776,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 
 		// 业务错误布局
-		layoutBizErrorId = layoutBizErrorId > 0 ? layoutBizErrorId : SKYHelper.getInstance().layoutBizError();
+		layoutBizErrorId = layoutBizErrorId > 0 ? layoutBizErrorId : SKYHelper.getComnonView() == null ? 0 : SKYHelper.getComnonView().layoutBizError();
 		if (layoutBizErrorId > 0) {
 			layoutBizError = mInflater.inflate(layoutBizErrorId, null, false);
 			SKYCheckUtils.checkNotNull(layoutBizError, "无法根据布局文件ID,获取layoutBizError");
@@ -785,7 +785,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 
 		// 网络错误布局
-		layoutHttpErrorId = layoutHttpErrorId > 0 ? layoutHttpErrorId : SKYHelper.getInstance().layoutHttpError();
+		layoutHttpErrorId = layoutHttpErrorId > 0 ? layoutHttpErrorId : SKYHelper.getComnonView() == null ? 0 : SKYHelper.getComnonView().layoutHttpError();
 		if (layoutHttpErrorId > 0) {
 			SKYCheckUtils.checkArgument(layoutHttpErrorId > 0, "网络错误布局Id不能为空,重写公共布局Application.layoutBizError 或者 在Buider.layout里设置");
 			layoutHttpError = mInflater.inflate(layoutHttpErrorId, null, false);

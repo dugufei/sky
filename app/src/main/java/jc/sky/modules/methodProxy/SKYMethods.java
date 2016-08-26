@@ -83,7 +83,7 @@ public final class SKYMethods {
 
 				SKYMethod SKYMethod = loadSKYMethod(SKYProxy, method, service);
 				// 开始
-				if (!SKYHelper.getInstance().isLogOpen()) {
+				if (!SKYHelper.isLogOpen()) {
 					return SKYMethod.invoke(SKYProxy.impl, args);
 				}
 				enterMethod(method, args);
@@ -124,7 +124,7 @@ public final class SKYMethods {
 				}
 				SKYMethod SKYMethod = loadDisplaySKYMethod(SKYProxy, method, service);
 				// 开始
-				if (!SKYHelper.getInstance().isLogOpen()) {
+				if (!SKYHelper.isLogOpen()) {
 					return SKYMethod.invoke(SKYProxy.impl, args);
 				}
 				enterMethod(method, args);
@@ -227,7 +227,7 @@ public final class SKYMethods {
 					item.interceptStart(impl.getClass().getName(), service, method, args);
 				}
 				Object backgroundResult;
-				if (!SKYHelper.getInstance().isLogOpen()) {
+				if (!SKYHelper.isLogOpen()) {
 					backgroundResult = method.invoke(impl, args);// 执行
 				} else {
 					enterMethod(method, args);

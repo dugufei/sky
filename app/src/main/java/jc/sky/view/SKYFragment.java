@@ -154,10 +154,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	}
 
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
-			return SKYHelper.display(eClass);
-		}
-		return SKYStructureModel.display(eClass);
+		return SKYHelper.display(eClass);
 	}
 
 	public B biz() {

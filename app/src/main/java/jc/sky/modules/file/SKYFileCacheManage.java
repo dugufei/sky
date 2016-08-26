@@ -39,7 +39,7 @@ public class SKYFileCacheManage {
 		BASE_CACHE_PATH = context.getApplicationInfo().dataDir + File.separator + "files" + File.separator + "CacheUtils";
 
 		if (new File(BASE_CACHE_PATH).mkdirs()) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, BASE_CACHE_PATH + " created.");
 			}
 		}
@@ -56,7 +56,7 @@ public class SKYFileCacheManage {
 			Type listType = new TypeToken<List<Map<String, T>>>() {}.getType();
 			return SKYGsonHelper.buildGson().fromJson(dataString, listType);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, "failed to read json" + e.toString());
 			}
 			return new ArrayList<Map<String, T>>();
@@ -67,7 +67,7 @@ public class SKYFileCacheManage {
 		try {
 			return SKYGsonHelper.buildGson().toJson(dataMaps);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, "failed to write json" + e.toString());
 			}
 			return "[]";
@@ -83,7 +83,7 @@ public class SKYFileCacheManage {
 		try {
 			return IOUtils.toString(new FileInputStream(pathForCacheEntry(fileName)), ENCODING);
 		} catch (IOException e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, "read cache file failure" + e.toString());
 			}
 			return null;
@@ -100,7 +100,7 @@ public class SKYFileCacheManage {
 		try {
 			IOUtils.write(fileContent, new FileOutputStream(pathForCacheEntry(fileName)), ENCODING);
 		} catch (IOException e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, "write cache file failure" + e.toString());
 			}
 		}
@@ -130,7 +130,7 @@ public class SKYFileCacheManage {
 		try {
 			return SKYGsonHelper.buildGson().fromJson(dataString, t);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.v(TAG, "failed to read json" + e.toString());
 			}
 			return null;
@@ -141,7 +141,7 @@ public class SKYFileCacheManage {
 		try {
 			return SKYGsonHelper.buildGson().fromJson(dataString, t);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.v(TAG, "failed to read json" + e.toString());
 			}
 			return null;
@@ -152,7 +152,7 @@ public class SKYFileCacheManage {
 		try {
 			return SKYGsonHelper.buildGson().toJson(o);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Log.v(TAG, "failed to write json" + e.toString());
 			}
 			return null;
@@ -191,7 +191,7 @@ public class SKYFileCacheManage {
 			Type t = new TypeToken<Map<String, T>>() {}.getType();
 			return SKYGsonHelper.buildGson().fromJson(dataString, t);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				L.v(TAG, "failed to read json" + e.toString());
 			}
 			return new HashMap<String, T>();
@@ -202,7 +202,7 @@ public class SKYFileCacheManage {
 		try {
 			return SKYGsonHelper.buildGson().toJson(dataMap);
 		} catch (Exception e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				L.v(TAG, "failed to write json" + e.toString());
 			}
 			return "{}";
@@ -238,7 +238,7 @@ public class SKYFileCacheManage {
 		try {
 			FileUtils.forceDelete(new File(pathForCacheEntry(fileName)));
 		} catch (IOException e) {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				L.v(TAG, "not delete " + e.toString());
 			}
 		}

@@ -88,10 +88,7 @@ public class SKYEmbedActivity<T extends SKYIBiz> extends AppCompatActivity {
     }
 
     public <D extends SKYIDisplay> D display(Class<D> eClass) {
-        if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
-            return SKYHelper.display(eClass);
-        }
-        return SKYStructureModel.display(eClass);
+        return SKYHelper.display(eClass);
     }
 
 

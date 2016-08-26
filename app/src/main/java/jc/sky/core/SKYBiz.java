@@ -17,24 +17,15 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 	private SKYStructureModel SKYStructureModel;
 
 	protected <H> H http(Class<H> hClass) {
-		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
-			return SKYHelper.http(hClass);
-		}
-		return SKYStructureModel.http(hClass);
+		return SKYHelper.http(hClass);
 	}
 
-	protected <I> I impl(Class<I> inter) {
-		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
-			return SKYHelper.impl(inter);
-		}
-		return SKYStructureModel.impl(inter);
+	protected <I> I interfaces(Class<I> inter) {
+		return SKYHelper.interfaces(inter);
 	}
 
 	protected <D extends SKYIDisplay> D display(Class<D> eClass) {
-		if (SKYStructureModel == null || SKYStructureModel.getView() == null) {
-			return SKYHelper.display(eClass);
-		}
-		return SKYStructureModel.display(eClass);
+		return SKYHelper.display(eClass);
 	}
 
 	public <C extends SKYIBiz> C biz(Class<C> service) {

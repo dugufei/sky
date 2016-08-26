@@ -68,7 +68,7 @@ public class SKYScreenHolder {
 	}
 
 	private void log(String message) {
-		if (SKYHelper.getInstance().isLogOpen()) {
+		if (SKYHelper.isLogOpen()) {
 			Log.i("SKYActivityManager", activityName + message);
 		}
 	}

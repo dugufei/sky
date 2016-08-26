@@ -1,5 +1,6 @@
 package jc.sky;
 
+import android.app.Application;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,6 +21,8 @@ import jc.sky.modules.structure.SKYStructureIManage;
 import jc.sky.modules.systemuihider.SKYSystemUiHider;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
+import jc.sky.view.SKYBuilder;
+import jc.sky.view.common.SKYIViewCommon;
 import retrofit2.Retrofit;
 
 /**
@@ -27,232 +30,260 @@ import retrofit2.Retrofit;
  */
 public class SKYHelper {
 
-	protected volatile static SKYModulesManage mSKYModulesManage = null;
+    private static SKYModulesManage mSKYModulesManage = null;
 
-	/**
-	 * 单例模式-初始化SKYHelper
-	 *
-	 * @param SKYModulesManage
-	 *            Modules
-	 */
-	public static void with(SKYModulesManage SKYModulesManage) {
-		mSKYModulesManage = SKYModulesManage;
-	}
+    /**
+     * 绑定架构
+     *
+     * @param iskyBind
+     */
+    public static void bind(ISKYBind iskyBind) {
+        mSKYModulesManage = iskyBind.getModulesManage();
+        mSKYModulesManage.init(iskyBind,null);
+    }
 
-	/**
-	 * 获取管理
-	 * 
-	 * @param <M>
-	 * @return
-	 */
-	protected static <M> M getManage() {
-		return (M) mSKYModulesManage;
-	}
+    /**
+     * 绑定架构
+     *
+     * @param iskyBind
+     * @param skyiViewCommon
+     */
+    public static void bind(ISKYBind iskyBind, SKYIViewCommon skyiViewCommon) {
+        mSKYModulesManage = iskyBind.getModulesManage();
+        mSKYModulesManage.init(iskyBind,skyiViewCommon);
+    }
 
-	/**
-	 * 获取启动管理器
-	 * 
-	 * @param eClass
-	 * @param <D>
-	 * @return
-	 */
-	public static <D extends SKYIDisplay> D display(Class<D> eClass) {
-		return structureHelper().display(eClass);
-	}
+    /**
+     * 获取管理
+     *
+     * @param <M>
+     * @return
+     */
+    protected static <M> M getManage() {
+        return (M) mSKYModulesManage;
+    }
 
-	/**
-	 * 获取业务
-	 * 
-	 * @param service
-	 * @param <B>
-	 * @return
-	 */
-	public static final <B extends SKYIBiz> B biz(Class<B> service) {
-		return structureHelper().biz(service);
-	}
+    /**
+     * 获取启动管理器
+     *
+     * @param eClass
+     * @param <D>
+     * @return
+     */
+    public static <D extends SKYIDisplay> D display(Class<D> eClass) {
+        return mSKYModulesManage.getCacheManager().display(eClass);
+    }
 
-	/**
-	 * 业务是否存在
-	 * 
-	 * @param service
-	 * @param <B>
-	 * @return true 存在 false 不存在
-	 */
-	public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
-		return structureHelper().isExist(service);
-	}
+    /**
+     * 获取业务
+     *
+     * @param service
+     * @param <B>
+     * @return
+     */
+    public static final <B extends SKYIBiz> B biz(Class<B> service) {
+        return structureHelper().biz(service);
+    }
 
-	/**
-	 * 获取业务
-	 * 
-	 * @param service
-	 * @param <B>
-	 * @return
-	 */
-	public static final <B extends SKYIBiz> List<B> bizList(Class<B> service) {
-		return structureHelper().bizList(service);
-	}
+    /**
+     * 业务是否存在
+     *
+     * @param service
+     * @param <B>
+     * @return true 存在 false 不存在
+     */
+    public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
+        return structureHelper().isExist(service);
+    }
 
-	/**
-	 * 公用
-	 * 
-	 * @param service
-	 * @param <B>
-	 * @return
-	 */
-	public static final <B extends SKYICommonBiz> B common(Class<B> service) {
-		return structureHelper().common(service);
-	}
+    /**
+     * 获取业务
+     *
+     * @param service
+     * @param <B>
+     * @return
+     */
+    public static final <B extends SKYIBiz> List<B> bizList(Class<B> service) {
+        return structureHelper().bizList(service);
+    }
 
-	/**
-	 * 获取网络
-	 * 
-	 * @param httpClazz
-	 * @param <H>
-	 * @return
-	 */
-	public static final <H> H http(Class<H> httpClazz) {
-		return structureHelper().http(httpClazz);
+    /**
+     * 公用
+     *
+     * @param service
+     * @param <B>
+     * @return
+     */
+    public static final <B extends SKYICommonBiz> B common(Class<B> service) {
+        return mSKYModulesManage.getCacheManager().common(service);
+    }
 
-	}
+    /**
+     * 获取网络
+     *
+     * @param httpClazz
+     * @param <H>
+     * @return
+     */
+    public static final <H> H http(Class<H> httpClazz) {
+        return mSKYModulesManage.getCacheManager().http(httpClazz);
 
-	/**
-	 * 获取实现类
-	 * 
-	 * @param implClazz
-	 * @param <P>
-	 * @return
-	 */
-	public static final <P> P impl(Class<P> implClazz) {
-		return structureHelper().impl(implClazz);
-	}
+    }
 
-	/**
-	 * 获取方法代理
-	 * 
-	 * @return
-	 */
-	public static final SKYMethods methodsProxy() {
-		return mSKYModulesManage.getSKYMethods();
-	}
+    /**
+     * 获取实现类
+     *
+     * @param implClazz
+     * @param <I>
+     * @return
+     */
+    public static final <I> I interfaces(Class<I> implClazz) {
+        return mSKYModulesManage.getCacheManager().interfaces(implClazz);
+    }
 
-	/**
-	 * 获取全局上下文
-	 *
-	 * @return
-	 */
-	public static SKYApplication getInstance() {
-		return mSKYModulesManage.getSKYApplication();
-	}
+    /**
+     * 获取方法代理
+     *
+     * @return
+     */
+    public static final SKYMethods methodsProxy() {
+        return mSKYModulesManage.getSKYMethods();
+    }
 
-	/**
-	 * 获取网络适配器
-	 *
-	 * @return
-	 */
-	public static final Retrofit httpAdapter() {
-		return mSKYModulesManage.getSKYRestAdapter();
-	}
+    /**
+     * 获取全局上下文
+     *
+     * @return
+     */
+    public static Application getInstance() {
+        return mSKYModulesManage.getApplication();
+    }
 
-	/**
-	 * 结构管理器
-	 * 
-	 * @return 管理器
-	 */
-	public static final SKYStructureIManage structureHelper() {
-		return mSKYModulesManage.getSKYStructureManage();
-	}
+    /**
+     * 获取网络适配器
+     *
+     * @return
+     */
+    public static final Retrofit httpAdapter() {
+        return mSKYModulesManage.getSKYRestAdapter();
+    }
 
-	/**
-	 * activity管理器
-	 *
-	 * @return 管理器
-	 */
-	public static final SKYScreenManager screenHelper() {
-		return mSKYModulesManage.getSKYScreenManager();
-	}
+    /**
+     * 结构管理器
+     *
+     * @return 管理器
+     */
+    public static final SKYStructureIManage structureHelper() {
+        return mSKYModulesManage.getSKYStructureManage();
+    }
 
-	/**
-	 * SKYThreadPoolManager 线程池管理器
-	 */
+    /**
+     * activity管理器
+     *
+     * @return 管理器
+     */
+    public static final SKYScreenManager screenHelper() {
+        return mSKYModulesManage.getSKYScreenManager();
+    }
 
-	public static final SKYThreadPoolManager threadPoolHelper() {
-		return mSKYModulesManage.getSKYThreadPoolManager();
-	}
+    /**
+     * SKYThreadPoolManager 线程池管理器
+     */
 
-	/**
-	 * MainLooper 主线程中执行
-	 *
-	 * @return
-	 */
-	public static final SynchronousExecutor mainLooper() {
-		return mSKYModulesManage.getSynchronousExecutor();
-	}
+    public static final SKYThreadPoolManager threadPoolHelper() {
+        return mSKYModulesManage.getSKYThreadPoolManager();
+    }
 
-	/**
-	 * 下载器工具
-	 *
-	 * @return
-	 */
-	public static final SKYDownloadManager downloader() {
-		return mSKYModulesManage.getSKYDownloadManager();
-	}
+    /**
+     * MainLooper 主线程中执行
+     *
+     * @return
+     */
+    public static final SynchronousExecutor mainLooper() {
+        return mSKYModulesManage.getSynchronousExecutor();
+    }
 
-	/**
-	 * 下载器工具 - 控制线程数量
-	 *
-	 * @return
-	 */
-	public static final SKYDownloadManager downloader(int threadPoolSize) {
-		return mSKYModulesManage.getSKYDownloadManager(threadPoolSize);
-	}
+    /**
+     * 下载器工具
+     *
+     * @return
+     */
+    public static final SKYDownloadManager downloader() {
+        return mSKYModulesManage.getSKYDownloadManager();
+    }
 
-	/**
-	 * 控制状态栏和标题栏
-	 * 
-	 * @param activity
-	 * @param anchorView
-	 * @param flags
-	 * @return
-	 */
-	public static final SKYSystemUiHider systemHider(AppCompatActivity activity, View anchorView, int flags) {
-		return mSKYModulesManage.getSKYSystemUiHider(activity, anchorView, flags);
-	}
+    /**
+     * 下载器工具 - 控制线程数量
+     *
+     * @return
+     */
+    public static final SKYDownloadManager downloader(int threadPoolSize) {
+        return mSKYModulesManage.getSKYDownloadManager(threadPoolSize);
+    }
 
-	/**
-	 * Toast 提示信息
-	 * 
-	 * @return
-	 */
-	public static final SKYToast toast() {
-		return mSKYModulesManage.getSKYToast();
-	}
+    /**
+     * 控制状态栏和标题栏
+     *
+     * @param activity
+     * @param anchorView
+     * @param flags
+     * @return
+     */
+    public static final SKYSystemUiHider systemHider(AppCompatActivity activity, View anchorView, int flags) {
+        return mSKYModulesManage.getSKYSystemUiHider(activity, anchorView, flags);
+    }
 
-	/**
-	 * 通讯录管理器
-	 * 
-	 * @return
-	 */
-	public static final SKYIContact contact() {
-		return mSKYModulesManage.getContactManage();
-	}
+    /**
+     * Toast 提示信息
+     *
+     * @return
+     */
+    public static final SKYToast toast() {
+        return mSKYModulesManage.getSKYToast();
+    }
 
-	/**
-	 * 判断是否是主线程
-	 * 
-	 * @return true 子线程 false 主线程
-	 */
-	public static final boolean isMainLooperThread() {
-		return Looper.getMainLooper().getThread() != Thread.currentThread();
-	}
+    /**
+     * 通讯录管理器
+     *
+     * @return
+     */
+    public static final SKYIContact contact() {
+        return mSKYModulesManage.getContactManage();
+    }
 
-	/**
-	 * 文件缓存管理器
-	 * 
-	 * @return
-	 */
-	public static final SKYFileCacheManage fileCacheManage() {
-		return mSKYModulesManage.getSKYFileCacheManage();
-	}
+    /**
+     * 判断是否是主线程
+     *
+     * @return true 子线程 false 主线程
+     */
+    public static final boolean isMainLooperThread() {
+        return Looper.getMainLooper().getThread() != Thread.currentThread();
+    }
 
+    /**
+     * 文件缓存管理器
+     *
+     * @return
+     */
+    public static final SKYFileCacheManage fileCacheManage() {
+        return mSKYModulesManage.getSKYFileCacheManage();
+    }
+
+    /**
+     * 是否打印日志
+     *
+     * @return
+     */
+    public static boolean isLogOpen() {
+        return mSKYModulesManage.isLog();
+    }
+
+    /**
+     * 公共视图
+     *
+     * @return
+     */
+    public static SKYIViewCommon getComnonView() {
+        return mSKYModulesManage.getSkyiViewCommon();
+    }
 }

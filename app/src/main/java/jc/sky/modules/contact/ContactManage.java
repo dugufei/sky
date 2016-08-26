@@ -41,10 +41,10 @@ import jc.sky.modules.contact.bean.ContactWebsite;
  */
 public class ContactManage implements SKYIContact, SKYIWriteContact {
 
-	private final Context	context;
+	private final Context context;
 
-	public ContactManage(Context context) {
-		this.context = context;
+	public ContactManage() {
+		this.context = SKYHelper.getInstance();
 	}
 
 	private static final String[]	CONTACTS_ID			= new String[] { Contacts.NAME_RAW_CONTACT_ID };
@@ -542,8 +542,8 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 		return contactModel;
 	}
 
-	@Override public void writeSystemContact(String name, String organization, String note, List<ContactPhone> phone, List<ContactAddress> address, List<ContactEmail> emails) throws RemoteException,
-			OperationApplicationException {
+	@Override public void writeSystemContact(String name, String organization, String note, List<ContactPhone> phone, List<ContactAddress> address, List<ContactEmail> emails)
+			throws RemoteException, OperationApplicationException {
 		ContentResolver resolver = context.getContentResolver();
 		Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
 
@@ -843,7 +843,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 			}
 
 			ContentProviderResult rs[] = resolver.applyBatch(ContactsContract.AUTHORITY, operations);
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				for (ContentProviderResult item : rs) {
 					L.i(item.toString());
 				}
@@ -1011,14 +1011,14 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 			}
 			if (operations.size() > 0) {
 				ContentProviderResult rsDelete[] = resolver.applyBatch(ContactsContract.AUTHORITY, operationsDelete);
-				if (SKYHelper.getInstance().isLogOpen()) {
+				if (SKYHelper.isLogOpen()) {
 
 					for (ContentProviderResult s : rsDelete) {
 						L.i(s.toString());
 					}
 				}
 				ContentProviderResult rs[] = resolver.applyBatch(ContactsContract.AUTHORITY, operations);
-				if (SKYHelper.getInstance().isLogOpen()) {
+				if (SKYHelper.isLogOpen()) {
 					for (ContentProviderResult s : rs) {
 						L.i(s.toString());
 					}

@@ -22,9 +22,6 @@ public class SKYProxy {
      * 清空
      */
     public void clearProxy() {
-        if(impl instanceof SKYIBiz){
-            ((SKYIBiz)impl).detach();
-        }
         impl = null;
         proxy = null;
         methodCache.clear();

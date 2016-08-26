@@ -5,11 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.KeyEvent;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -19,12 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.Impl;
 import jc.sky.core.SKYIBiz;
-import jc.sky.core.SKYICommonBiz;
-import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
-import jc.sky.modules.methodProxy.SKYProxy;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
 
@@ -36,22 +28,10 @@ import jc.sky.view.SKYFragment;
 
 public class SKYStructureManage implements SKYStructureIManage {
 
-	private final ConcurrentHashMap<Class<?>, Object>										stackDisplay;
-
-	private final ConcurrentHashMap<Class<?>, Object>										stackHttp;
-
-	private final ConcurrentHashMap<Class<?>, Object>										stackCommonBiz;
-
-	private final ConcurrentHashMap<Class<?>, Object>										stackImpl;
-
 	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>	statckRepeatBiz;
 
 	public SKYStructureManage() {
 		/** 初始化集合 **/
-		stackHttp = new ConcurrentHashMap<>();
-		stackCommonBiz = new ConcurrentHashMap<>();
-		stackDisplay = new ConcurrentHashMap<>();
-		stackImpl = new ConcurrentHashMap<>();
 		statckRepeatBiz = new ConcurrentHashMap<>();
 
 	}
@@ -81,67 +61,6 @@ public class SKYStructureManage implements SKYStructureIManage {
 				}
 				SKYStructureModel.clearAll();
 			}
-		}
-		synchronized (stackImpl) {
-			stackImpl.clear();
-		}
-		synchronized (stackDisplay) {
-			stackDisplay.clear();
-		}
-		synchronized (stackCommonBiz) {
-			stackCommonBiz.clear();
-		}
-		synchronized (stackHttp) {
-			stackHttp.clear();
-		}
-	}
-
-	/**
-	 * 获取实现类
-	 *
-	 * @param service
-	 * @param <D>
-	 * @return
-	 */
-	private <D> Object getImplClass(@NotNull Class<D> service) {
-		validateServiceClass(service);
-		try {
-			// 获取注解
-			Impl impl = service.getAnnotation(Impl.class);
-			SKYCheckUtils.checkNotNull(impl, "该接口没有指定实现类～");
-			/** 加载类 **/
-			Class clazz = Class.forName(impl.value().getName());
-			Constructor c = clazz.getDeclaredConstructor();
-			c.setAccessible(true);
-			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
-			/** 创建类 **/
-			Object o = c.newInstance();
-			return o;
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！");
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！");
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！");
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！");
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！");
-		}
-	}
-
-	/**
-	 * 验证类 - 判断是否是一个接口
-	 *
-	 * @param service
-	 * @param <T>
-	 */
-	private <T> void validateServiceClass(Class<T> service) {
-		if (service == null || !service.isInterface()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(service);
-			stringBuilder.append("，该类不是接口！");
-			throw new IllegalArgumentException(stringBuilder.toString());
 		}
 	}
 
@@ -175,40 +94,6 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return true;
 	}
 
-	@Override public <D extends SKYIDisplay> D display(Class<D> displayClazz) {
-		D display = (D) stackDisplay.get(displayClazz);
-		if (display == null) {
-			synchronized (stackDisplay) {
-				if (display == null) {
-					SKYCheckUtils.checkNotNull(displayClazz, "display接口不能为空");
-					SKYCheckUtils.validateServiceInterface(displayClazz);
-					Object impl = getImplClass(displayClazz);
-					SKYProxy SKYProxy = SKYHelper.methodsProxy().createDisplay(displayClazz, impl);
-					stackDisplay.put(displayClazz, SKYProxy.proxy);
-					display = (D) SKYProxy.proxy;
-				}
-			}
-		}
-		return display;
-	}
-
-	@Override public <B extends SKYICommonBiz> B common(Class<B> service) {
-		B b = (B) stackCommonBiz.get(service);
-		if (b == null) {
-			synchronized (stackCommonBiz) {
-				if (b == null) {
-					SKYCheckUtils.checkNotNull(service, "biz接口不能为空～");
-					SKYCheckUtils.validateServiceInterface(service);
-					Object impl = getImplClass(service);
-					SKYProxy SKYProxy = SKYHelper.methodsProxy().create(service, impl);
-					stackCommonBiz.put(service, SKYProxy.proxy);
-					b = (B) SKYProxy.proxy;
-				}
-			}
-		}
-		return b;
-	}
-
 	@Override public <B extends SKYIBiz> List<B> bizList(Class<B> service) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(service);
 		List list = new ArrayList();
@@ -225,36 +110,6 @@ public class SKYStructureManage implements SKYStructureIManage {
 			}
 		}
 		return list;
-	}
-
-	@Override public <H> H http(Class<H> httpClazz) {
-		H http = (H) stackHttp.get(httpClazz);
-		if (http == null) {
-			synchronized (stackHttp) {
-				if (http == null) {
-					SKYCheckUtils.checkNotNull(httpClazz, "http接口不能为空");
-					SKYCheckUtils.validateServiceInterface(httpClazz);
-					http = SKYHelper.httpAdapter().create(httpClazz);
-					stackHttp.put(httpClazz, http);
-				}
-			}
-		}
-		return http;
-	}
-
-	@Override public <P> P impl(Class<P> implClazz) {
-		P impl = (P) stackImpl.get(implClazz);
-		if (impl == null) {
-			synchronized (stackImpl) {
-				if (impl == null) {
-					SKYCheckUtils.checkNotNull(implClazz, "impl接口不能为空");
-					SKYCheckUtils.validateServiceInterface(implClazz);
-					impl = SKYHelper.methodsProxy().createImpl(implClazz, getImplClass(implClazz));
-					stackImpl.put(implClazz, impl);
-				}
-			}
-		}
-		return impl;
 	}
 
 	@Override public <T> T createMainLooper(Class<T> service, final Object ui) {
@@ -286,7 +141,7 @@ public class SKYStructureManage implements SKYStructureIManage {
                             }
 							method.invoke(ui, args);
 						} catch (Exception throwable) {
-							if (SKYHelper.getInstance().isLogOpen()) {
+							if (SKYHelper.isLogOpen()) {
 								throwable.printStackTrace();
 							}
 							return;
@@ -305,7 +160,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 			@Override public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
 
-				if (SKYHelper.getInstance().isLogOpen()) {
+				if (SKYHelper.isLogOpen()) {
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.append("UI被销毁,回调接口继续执行");
 					stringBuilder.append("方法[");
@@ -359,7 +214,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 	}
 
 	@Override public void printBackStackEntry(FragmentManager fragmentManager) {
-		if (SKYHelper.getInstance().isLogOpen()) {
+		if (SKYHelper.isLogOpen()) {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("[");
 			for (Fragment fragment : fragmentManager.getFragments()) {

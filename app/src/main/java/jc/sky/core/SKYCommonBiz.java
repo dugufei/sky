@@ -14,8 +14,8 @@ public class SKYCommonBiz implements SKYICommonBiz {
 		return SKYHelper.http(hClass);
 	}
 
-	protected <I> I impl(Class<I> inter) {
-		return SKYHelper.impl(inter);
+	protected <I> I interfaces(Class<I> inter) {
+		return SKYHelper.interfaces(inter);
 	}
 
 	protected <D extends SKYIDisplay> D display(Class<D> eClass) {

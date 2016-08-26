@@ -20,19 +20,11 @@ public interface SKYStructureIManage {
 
 	void detach(SKYStructureModel view);
 
-	<D extends SKYIDisplay> D display(Class<D> displayClazz);
-
 	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
 	<B extends SKYIBiz> boolean isExist(Class<B> bizClazz);
 
-	<B extends SKYICommonBiz> B common(Class<B> service);
-
 	<B extends SKYIBiz> List<B> bizList(Class<B> service);
-
-	<H> H http(Class<H> httpClazz);
-
-	<P> P impl(Class<P> implClazz);
 
 	<T> T createMainLooper(final Class<T> service, Object ui);
 

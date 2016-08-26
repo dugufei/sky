@@ -103,7 +103,7 @@ public final class SKYMethod {
 		T result = null;
 		if (!isRepeat) {
 			if (isExe) { // 如果存在什么都不做
-				if (SKYHelper.getInstance().isLogOpen()) {
+				if (SKYHelper.isLogOpen()) {
 					L.tag("SKY-Method");
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.append(impl.getClass().getSimpleName());
@@ -218,7 +218,7 @@ public final class SKYMethod {
 					try {
 						method.invoke(impl, objects);
 					} catch (Exception throwable) {
-						if (SKYHelper.getInstance().isLogOpen()) {
+						if (SKYHelper.isLogOpen()) {
 							throwable.printStackTrace();
 						}
 						return;
@@ -232,7 +232,7 @@ public final class SKYMethod {
 				SKYHelper.methodsProxy().displayEndInterceptor.interceptEnd(implName, service, method, interceptor, clazzName, objects, backgroundResult);
 			}
 		} else {
-			if (SKYHelper.getInstance().isLogOpen()) {
+			if (SKYHelper.isLogOpen()) {
 				Object[] parameterValues = objects;
 				StringBuilder builder = new StringBuilder("\u21E2 ");
 				builder.append(method.getName()).append('(');
@@ -264,7 +264,7 @@ public final class SKYMethod {
 	}
 
 	public void exeError(Method method, Throwable throwable) {
-		if (SKYHelper.getInstance().isLogOpen()) {
+		if (SKYHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
 //		if (throwable.getCause() instanceof SKYError) {

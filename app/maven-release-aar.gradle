@@ -1,24 +1,14 @@
 // 1.maven-插件
 apply plugin: 'maven'
-// 2.maven-信息
-ext {
-    PUBLISH_GROUP_ID = 'jc'
-    PUBLISH_ARTIFACT_ID = 'sky'
-    PUBLISH_VERSION = android.defaultConfig.versionName
-    compileSdkVersion = 24
-    buildToolsVersion = '24.0.0'
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_7
-    targetCompatibilityVersion = JavaVersion.VERSION_1_7
-}
 // 3.maven-路径
 uploadArchives {
     repositories.mavenDeployer {
         def deployPath = file(getProperty('aar.deployPath'))
         repository(url: "file://${deployPath.absolutePath}")
         pom.project {
-            groupId project.PUBLISH_GROUP_ID
-            artifactId project.PUBLISH_ARTIFACT_ID
-            version project.PUBLISH_VERSION
+            groupId rootProject.ext.PUBLISH_GROUP_ID
+            artifactId rootProject.ext.PUBLISH_ARTIFACT_ID
+            version rootProject.ext.PUBLISH_VERSION
         }
     }
 }

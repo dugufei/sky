@@ -1,11 +1,15 @@
 package jc.sky.modules;
 
+import android.app.Application;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import jc.sky.ISKYBind;
 import jc.sky.SKYApplication;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.core.exception.SKYNullPointerException;
+import jc.sky.modules.cache.CacheManager;
+import jc.sky.modules.cache.ICacheManager;
 import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
@@ -16,6 +20,7 @@ import jc.sky.modules.structure.SKYStructureManage;
 import jc.sky.modules.systemuihider.SKYSystemUiHider;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
+import jc.sky.view.common.SKYIViewCommon;
 import retrofit2.Retrofit;
 
 /**
@@ -25,7 +30,9 @@ import retrofit2.Retrofit;
  */
 public class SKYModulesManage {
 
-	private final SKYApplication		mSKYApplication;		// 全局上下文
+	private Application					application;
+
+	private final CacheManager			cacheManager;			// 缓存管理器
 
 	private final SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
 
@@ -51,28 +58,40 @@ public class SKYModulesManage {
 
 	private SKYFileCacheManage			SKYFileCacheManage;		// 文件缓存管理器
 
-	public SKYModulesManage(SKYApplication SKYApplication) {
-		this.mSKYApplication = SKYApplication;
+	private boolean						isLog;
+
+	private SKYIViewCommon				skyiViewCommon;
+
+	public SKYModulesManage() {
+		this.cacheManager = new CacheManager();
 		this.SKYScreenManager = new SKYScreenManager();
 		this.SKYStructureManage = new SKYStructureManage();
 		this.SKYThreadPoolManager = new SKYThreadPoolManager();
 		this.synchronousExecutor = new SynchronousExecutor();
 		this.SKYDownloadManager = new SKYDownloadManager();
 		this.SKYToast = new SKYToast();
-		this.contactManage = new ContactManage(mSKYApplication);
 		this.SKYFileCacheManage = new SKYFileCacheManage();
+		this.contactManage = new ContactManage();
 	}
 
-	public SKYApplication getSKYApplication() {
-		return this.mSKYApplication;
+	public void init(ISKYBind iskyBind, SKYIViewCommon skyiViewCommon) {
+		this.skyiViewCommon = skyiViewCommon;
+		application = iskyBind.getApplication();
+		isLog = iskyBind.isLogOpen();
+		// 初始化 LOG
+		initLog();
+		// 初始化 HTTP
+		this.mSKYRestAdapter = iskyBind.getRestAdapter(new Retrofit.Builder());
+		// 初始化 代理方法
+		this.SKYMethods = iskyBind.getMethodInterceptor(new SKYMethods.Builder());
 	}
 
-	public void initSKYRestAdapter(Retrofit SKYRestAdapter) {
-		this.mSKYRestAdapter = SKYRestAdapter;
+	public ICacheManager getCacheManager() {
+		return this.cacheManager;
 	}
 
-	public void initLog(boolean logOpen) {
-		if (logOpen) {
+	public void initLog() {
+		if (isLog) {
 			if (debugTree == null) {
 				debugTree = new L.DebugTree();
 			}
@@ -80,8 +99,16 @@ public class SKYModulesManage {
 		}
 	}
 
-	public void initMehtodProxy(SKYMethods methodInterceptor) {
-		SKYMethods = methodInterceptor;
+	public Application getApplication() {
+		return application;
+	}
+
+	public boolean isLog() {
+		return isLog;
+	}
+
+	public SKYIViewCommon getSkyiViewCommon() {
+		return skyiViewCommon;
 	}
 
 	public SKYMethods getSKYMethods() {
@@ -122,7 +149,7 @@ public class SKYModulesManage {
 
 	public SKYStructureManage getSKYStructureManage() {
 
-		if(SKYStructureManage == null){
+		if (SKYStructureManage == null) {
 			throw new SKYNullPointerException("Application没有继承SKYApplication");
 		}
 		return SKYStructureManage;

@@ -44,7 +44,7 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 	}
 
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-		return SKYStructureModel.display(eClass);
+		return SKYHelper.display(eClass);
 	}
 
 	public B biz() {
