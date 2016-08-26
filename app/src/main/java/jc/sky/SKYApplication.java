@@ -17,10 +17,6 @@ public class SKYApplication extends Application implements ISKYBind {
 		return true;
 	}
 
-	@Override public Application getApplication() {
-		return this;
-	}
-
 	@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {
 		builder.baseUrl("http://skyJC.com");
 		return builder.build();
@@ -36,6 +32,6 @@ public class SKYApplication extends Application implements ISKYBind {
 	 * @return
 	 */
 	@Override public SKYModulesManage getModulesManage() {
-		return new SKYModulesManage();
+		return new SKYModulesManage(this);
 	}
 }

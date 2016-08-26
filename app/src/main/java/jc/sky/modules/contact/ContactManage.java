@@ -43,7 +43,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 
 	private final Context context;
 
-	public ContactManage() {
+	public ContactManage(Context context) {
 		this.context = SKYHelper.getInstance();
 	}
 

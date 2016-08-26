@@ -62,7 +62,8 @@ public class SKYModulesManage {
 
 	private SKYIViewCommon				skyiViewCommon;
 
-	public SKYModulesManage() {
+	public SKYModulesManage(Application application) {
+		this.application = application;
 		this.cacheManager = new CacheManager();
 		this.SKYScreenManager = new SKYScreenManager();
 		this.SKYStructureManage = new SKYStructureManage();
@@ -71,12 +72,11 @@ public class SKYModulesManage {
 		this.SKYDownloadManager = new SKYDownloadManager();
 		this.SKYToast = new SKYToast();
 		this.SKYFileCacheManage = new SKYFileCacheManage();
-		this.contactManage = new ContactManage();
+		this.contactManage = new ContactManage(application);
 	}
 
 	public void init(ISKYBind iskyBind, SKYIViewCommon skyiViewCommon) {
 		this.skyiViewCommon = skyiViewCommon;
-		application = iskyBind.getApplication();
 		isLog = iskyBind.isLogOpen();
 		// 初始化 LOG
 		initLog();

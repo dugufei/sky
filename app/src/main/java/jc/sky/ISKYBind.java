@@ -21,13 +21,6 @@ public interface ISKYBind {
 	boolean isLogOpen();
 
 	/**
-	 * 获取全局上下文
-	 * 
-	 * @return
-	 */
-	Application getApplication();
-
-	/**
 	 * 获取网络适配器
 	 *
 	 * @return
