@@ -44,7 +44,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	private final Context context;
 
 	public ContactManage(Context context) {
-		this.context = SKYHelper.getInstance();
+		this.context = context;
 	}
 
 	private static final String[]	CONTACTS_ID			= new String[] { Contacts.NAME_RAW_CONTACT_ID };
