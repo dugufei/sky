@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import jc.sky.ISKYBind;
-import jc.sky.SKYApplication;
 import jc.sky.core.SynchronousExecutor;
-import jc.sky.core.exception.SKYNullPointerException;
 import jc.sky.modules.cache.CacheManager;
 import jc.sky.modules.cache.ICacheManager;
 import jc.sky.modules.contact.ContactManage;
@@ -135,23 +133,7 @@ public class SKYModulesManage {
 		return SKYDownloadManager;
 	}
 
-	public SKYDownloadManager getSKYDownloadManager(int threadPoolSize) {
-		if (SKYDownloadManager == null) {
-			synchronized (this) {
-				if (SKYDownloadManager == null) {
-					SKYDownloadManager = new SKYDownloadManager(threadPoolSize);
-				}
-			}
-		}
-
-		return SKYDownloadManager;
-	}
-
 	public SKYStructureManage getSKYStructureManage() {
-
-		if (SKYStructureManage == null) {
-			throw new SKYNullPointerException("Application没有继承SKYApplication");
-		}
 		return SKYStructureManage;
 	}
 

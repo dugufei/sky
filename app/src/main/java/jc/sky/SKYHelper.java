@@ -213,15 +213,6 @@ public class SKYHelper {
 	}
 
 	/**
-	 * 下载器工具 - 控制线程数量
-	 *
-	 * @return
-	 */
-	public static final SKYDownloadManager downloader(int threadPoolSize) {
-		return mSKYModulesManage.getSKYDownloadManager(threadPoolSize);
-	}
-
-	/**
 	 * 控制状态栏和标题栏
 	 *
 	 * @param activity
