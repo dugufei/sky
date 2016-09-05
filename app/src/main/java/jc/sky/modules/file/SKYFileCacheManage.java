@@ -35,7 +35,7 @@ public class SKYFileCacheManage {
 
 	private final String	TAG			= "CACHE_UTILS";
 
-	public void configureCache(Context context) {
+	public void configureCustomerCache(Context context) {
 		BASE_CACHE_PATH = context.getApplicationInfo().dataDir + File.separator + "files" + File.separator + "CacheUtils";
 
 		if (new File(BASE_CACHE_PATH).mkdirs()) {
@@ -45,12 +45,16 @@ public class SKYFileCacheManage {
 		}
 	}
 
+	public void configurePhoneCache(Context context){
+		BASE_CACHE_PATH = context.getCacheDir().getAbsolutePath();
+	}
+
 	private String pathForCacheEntry(String name) {
 		return BASE_CACHE_PATH + File.separator + name + FILE_SUFFIX;
 	}
 
 	private <T> List<Map<String, T>> dataMapsFromJson(String dataString) {
-		if (StringUtils.isEmpty(dataString)) return new ArrayList<Map<String, T>>();
+		if (StringUtils.isEmpty(dataString)) return new ArrayList<>();
 
 		try {
 			Type listType = new TypeToken<List<Map<String, T>>>() {}.getType();
@@ -59,7 +63,7 @@ public class SKYFileCacheManage {
 			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, "failed to read json" + e.toString());
 			}
-			return new ArrayList<Map<String, T>>();
+			return new ArrayList<>();
 		}
 	}
 
