@@ -6,8 +6,8 @@ Gradle 版本
 1.classpath 'com.android.tools.build:gradle:2.1.2'<br />
 2.版本 - gradle-2.14-all.zip<br />
 
-项目引用
------------------------------------
+项目引用 - 方法1
+----------
 Project-build.gradle
 
      buildscript {
@@ -33,8 +33,23 @@ App-build.gradle:
      dependencies {
         compile 'jc:sky:1.5'
      }
+     
+项目引用 - 方法2
+----------
+Project-build.gradle
 
+    allprojects {
+    		repositories {
+    			...
+    			maven { url "https://jitpack.io" }
+    		}
+    	}
 
+App-build.gradle:
+ 
+      dependencies {
+         compile 'com.github.skyJinc:sky:1.5'
+      }   	
 proguard
 
     #sky--------------------------------------------------------------------------------------------------------
