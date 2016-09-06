@@ -31,7 +31,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:1.3'
+        compile 'jc:sky:1.5'
      }
 
 
