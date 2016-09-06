@@ -1,22 +1,9 @@
 language: android
 jdk:
   - oraclejdk8
-sudo: false
-android:
-  components:
-  - platform-tools
-  - tools
-  - build-tools-24.0.0
-  - android-24
-  - android-22
-  - extra-android-m2repository
-  - sys-img-armeabi-v7a-android-22
 
 before_install:
   - wget http://services.gradle.org/distributions/gradle-2.14-bin.zip
   - unzip gradle-2.14-bin.zip
   - export GRADLE_HOME=$PWD/gradle-2.14
   - export PATH=$GRADLE_HOME/bin:$PATH
-
-
-script: gradle uploadArchives
