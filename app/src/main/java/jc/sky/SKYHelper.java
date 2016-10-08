@@ -10,7 +10,7 @@ import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.DaggerSKYIComponent;
-import jc.sky.modules.Sky_Module;
+import jc.sky.modules.SKYModule;
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
@@ -62,7 +62,7 @@ public class SKYHelper {
 			if (mSKYModulesManage == null) {
 				throw new RuntimeException("Sky架构:SKYModulesManage没有设置");
 			}
-			DaggerSKYIComponent.builder().sKYModule(new Sky_Module(application)).build().inject(mSKYModulesManage);
+			DaggerSKYIComponent.builder().sKYModule(new SKYModule(application)).build().inject(mSKYModulesManage);
 			mSKYModulesManage.init(iskyBind, skyiViewCommon);
 		}
 
