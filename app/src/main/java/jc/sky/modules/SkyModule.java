@@ -24,11 +24,11 @@ import retrofit2.Retrofit;
  * @类描述
  */
 @Module
-public class SkyModule {
+public class SKYModule {
 
 	Application application;
 
-	public SkyModule(Application application) {
+	public SKYModule(Application application) {
 		this.application = application;
 	}
 
