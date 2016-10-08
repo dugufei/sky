@@ -1,21 +1,16 @@
 package jc.sky;
 
 import android.app.Application;
-import android.os.Build;
 import android.os.Looper;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.DaggerSKYIComponent;
-import jc.sky.modules.SKYModule;
+import jc.sky.modules.SkyModule;
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
@@ -23,10 +18,8 @@ import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureIManage;
-import jc.sky.modules.systemuihider.SKYSystemUiHider;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
-import jc.sky.view.SKYBuilder;
 import jc.sky.view.common.SKYIViewCommon;
 import retrofit2.Retrofit;
 
@@ -69,7 +62,7 @@ public class SKYHelper {
 			if (mSKYModulesManage == null) {
 				throw new RuntimeException("Sky架构:SKYModulesManage没有设置");
 			}
-			DaggerSKYIComponent.builder().sKYModule(new SKYModule(application)).build().inject(mSKYModulesManage);
+			DaggerSKYIComponent.builder().sKYModule(new SkyModule(application)).build().inject(mSKYModulesManage);
 			mSKYModulesManage.init(iskyBind, skyiViewCommon);
 		}
 
