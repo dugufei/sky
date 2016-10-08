@@ -30,6 +30,10 @@ public class SKYHelper {
 
 	private static SKYModulesManage mSKYModulesManage = null;
 
+	public static Bind newBind(){
+		return new Bind();
+	}
+
 	public static class Bind {
 
 		ISKYBind iskyBind;
