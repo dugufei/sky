@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - wget http://services.gradle.org/distributions/gradle-2.14-bin.zip
-  - unzip gradle-2.14-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-2.14
+  - wget http://services.gradle.org/distributions/gradle-3.0-bin.zip
+  - unzip gradle-3.0-bin.zip
+  - export GRADLE_HOME=$PWD/gradle-3.0
   - export PATH=$GRADLE_HOME/bin:$PATH
