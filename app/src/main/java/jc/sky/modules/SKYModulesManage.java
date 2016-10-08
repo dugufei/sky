@@ -1,8 +1,8 @@
 package jc.sky.modules;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+
+import javax.inject.Inject;
 
 import jc.sky.ISKYBind;
 import jc.sky.core.SynchronousExecutor;
@@ -11,11 +11,9 @@ import jc.sky.modules.cache.ICacheManager;
 import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
-import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureManage;
-import jc.sky.modules.systemuihider.SKYSystemUiHider;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
 import jc.sky.view.common.SKYIViewCommon;
@@ -28,73 +26,51 @@ import retrofit2.Retrofit;
  */
 public class SKYModulesManage {
 
-	private Application					application;
+	@Inject public Application			application;
 
-	private final CacheManager			cacheManager;			// 缓存管理器
+	@Inject public CacheManager			cacheManager;			// 缓存管理器
 
-	private final SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
+	@Inject public SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
 
-	private final SKYThreadPoolManager	SKYThreadPoolManager;	// 线程池管理
+	@Inject public SKYThreadPoolManager	SKYThreadPoolManager;	// 线程池管理
 
-	private final SKYStructureManage	SKYStructureManage;		// 结构管理器
+	@Inject public SKYStructureManage	SKYStructureManage;		// 结构管理器
 
-	private final SynchronousExecutor	synchronousExecutor;	// 主线程
+	@Inject public SynchronousExecutor	synchronousExecutor;	// 主线程
 
-	private final SKYToast				SKYToast;				// 提示信息
+	@Inject public SKYToast				SKYToast;				// 提示信息
 
-	private final ContactManage			contactManage;			// 通讯录
+	@Inject public ContactManage		contactManage;			// 通讯录
 
-	private SKYSystemUiHider			SKYSystemUiHider;		// 标题栏和状态栏控制
+	@Inject public SKYFileCacheManage	SKYFileCacheManage;		// 文件缓存管理器
 
-	private L.DebugTree					debugTree;				// 打印信息
+	@Inject public SKYMethods.Builder	skyMethodsBuilder;		// 方法代理编辑器
 
-	private SKYMethods					SKYMethods;				// 方法代理
+	public SKYMethods					SKYMethods;				// 方法代理
 
-	private SKYDownloadManager			SKYDownloadManager;		// 下载和上传管理
+	@Inject public Retrofit.Builder		retrofitBuilder;		// 网络编辑器
 
-	private Retrofit					mSKYRestAdapter;		// 网络适配器
+	public Retrofit						mSKYRestAdapter;		// 网络适配器
 
-	private SKYFileCacheManage			SKYFileCacheManage;		// 文件缓存管理器
+	@Inject public SKYDownloadManager			SKYDownloadManager;		// 下载和上传管理
 
-	private boolean						isLog;
+	public boolean						isLog;
 
-	private SKYIViewCommon				skyiViewCommon;
+	public SKYIViewCommon				skyiViewCommon;
 
-	public SKYModulesManage(Application application) {
-		this.application = application;
-		this.cacheManager = new CacheManager();
-		this.SKYScreenManager = new SKYScreenManager();
-		this.SKYStructureManage = new SKYStructureManage();
-		this.SKYThreadPoolManager = new SKYThreadPoolManager();
-		this.synchronousExecutor = new SynchronousExecutor();
-		this.SKYDownloadManager = new SKYDownloadManager();
-		this.SKYToast = new SKYToast();
-		this.SKYFileCacheManage = new SKYFileCacheManage();
-		this.contactManage = new ContactManage(application);
-	}
+	public SKYModulesManage() {}
 
 	public void init(ISKYBind iskyBind, SKYIViewCommon skyiViewCommon) {
 		this.skyiViewCommon = skyiViewCommon;
 		isLog = iskyBind.isLogOpen();
-		// 初始化 LOG
-		initLog();
 		// 初始化 HTTP
-		this.mSKYRestAdapter = iskyBind.getRestAdapter(new Retrofit.Builder());
+		this.mSKYRestAdapter = iskyBind.getRestAdapter(retrofitBuilder);
 		// 初始化 代理方法
-		this.SKYMethods = iskyBind.getMethodInterceptor(new SKYMethods.Builder());
+		this.SKYMethods = iskyBind.getMethodInterceptor(skyMethodsBuilder);
 	}
 
 	public ICacheManager getCacheManager() {
 		return this.cacheManager;
-	}
-
-	public void initLog() {
-		if (isLog) {
-			if (debugTree == null) {
-				debugTree = new L.DebugTree();
-			}
-			L.plant(debugTree);
-		}
 	}
 
 	public Application getApplication() {
@@ -143,17 +119,6 @@ public class SKYModulesManage {
 
 	public ContactManage getContactManage() {
 		return contactManage;
-	}
-
-	public SKYSystemUiHider getSKYSystemUiHider(AppCompatActivity activity, View anchorView, int flags) {
-		if (SKYSystemUiHider == null) {
-			synchronized (this) {
-				if (SKYSystemUiHider == null) {
-					SKYSystemUiHider = SKYSystemUiHider.getInstance(activity, anchorView, flags);
-				}
-			}
-		}
-		return SKYSystemUiHider;
 	}
 
 	public SKYFileCacheManage getSKYFileCacheManage() {

@@ -1,7 +1,5 @@
 package jc.sky;
 
-import android.app.Application;
-
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.methodProxy.SKYMethods;
 import retrofit2.Retrofit;
@@ -41,4 +39,27 @@ public interface ISKYBind {
 	 * @return
 	 */
 	SKYModulesManage getModulesManage();
+
+	/**
+	 * 默认方法
+	 */
+	ISKYBind ISKY_BIND = new ISKYBind() {
+
+		@Override public boolean isLogOpen() {
+			return true;
+		}
+
+		@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {
+			builder.baseUrl("http://www.jincanshen.com");
+			return builder.build();
+		}
+
+		@Override public SKYMethods getMethodInterceptor(SKYMethods.Builder builder) {
+			return builder.build();
+		}
+
+		@Override public SKYModulesManage getModulesManage() {
+			return new SKYModulesManage();
+		}
+	};
 }

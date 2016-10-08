@@ -1,16 +1,21 @@
 package jc.sky;
 
 import android.app.Application;
+import android.os.Build;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.display.SKYIDisplay;
+import jc.sky.modules.DaggerSKYIComponent;
+import jc.sky.modules.SKYModule;
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
@@ -32,25 +37,42 @@ public class SKYHelper {
 
 	private static SKYModulesManage mSKYModulesManage = null;
 
-	/**
-	 * 绑定架构
-	 *
-	 * @param iskyBind
-	 */
-	public static void bind(ISKYBind iskyBind) {
-		mSKYModulesManage = iskyBind.getModulesManage();
-		mSKYModulesManage.init(iskyBind, null);
-	}
+	public static class Bind {
 
-	/**
-	 * 绑定架构
-	 *
-	 * @param iskyBind
-	 * @param skyiViewCommon
-	 */
-	public static void bind(ISKYBind iskyBind, SKYIViewCommon skyiViewCommon) {
-		mSKYModulesManage = iskyBind.getModulesManage();
-		mSKYModulesManage.init(iskyBind, skyiViewCommon);
+		ISKYBind iskyBind;
+
+		public Bind setSkyBind(ISKYBind iskyBind) {
+			this.iskyBind = iskyBind;
+			return this;
+		}
+
+		SKYIViewCommon skyiViewCommon;
+
+		public Bind setIViewCommon(SKYIViewCommon skyiViewCommon) {
+			this.skyiViewCommon = skyiViewCommon;
+			return this;
+		}
+
+		public void Inject(Application application) {
+			if (application == null) {
+				throw new RuntimeException("Sky架构:Application没有设置");
+			}
+
+			if (this.iskyBind == null) {
+				this.iskyBind = ISKYBind.ISKY_BIND;
+			}
+			if (this.skyiViewCommon == null) {
+				this.skyiViewCommon = SKYIViewCommon.SKYI_VIEW_COMMON;
+			}
+
+			mSKYModulesManage = iskyBind.getModulesManage();
+			if (mSKYModulesManage == null) {
+				throw new RuntimeException("Sky架构:SKYModulesManage没有设置");
+			}
+			DaggerSKYIComponent.builder().sKYModule(new SKYModule(application)).build().inject(mSKYModulesManage);
+			mSKYModulesManage.init(iskyBind, skyiViewCommon);
+		}
+
 	}
 
 	/**
@@ -210,18 +232,6 @@ public class SKYHelper {
 	 */
 	public static final SKYDownloadManager downloader() {
 		return mSKYModulesManage.getSKYDownloadManager();
-	}
-
-	/**
-	 * 控制状态栏和标题栏
-	 *
-	 * @param activity
-	 * @param anchorView
-	 * @param flags
-	 * @return
-	 */
-	public static final SKYSystemUiHider systemHider(AppCompatActivity activity, View anchorView, int flags) {
-		return mSKYModulesManage.getSKYSystemUiHider(activity, anchorView, flags);
 	}
 
 	/**

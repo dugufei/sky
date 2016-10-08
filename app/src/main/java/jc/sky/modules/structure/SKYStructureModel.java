@@ -5,14 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
-import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.core.Impl;
 import jc.sky.core.SKYBiz;
-import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.methodProxy.SKYProxy;
 
 /**
@@ -124,6 +122,10 @@ public class SKYStructureModel {
 			stringBuilder.append("，该类不是接口！");
 			throw new IllegalArgumentException(stringBuilder.toString());
 		}
+	}
+
+	public int getKey(){
+		return key;
 	}
 
 	public Object getView() {

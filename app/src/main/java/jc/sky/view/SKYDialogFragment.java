@@ -70,6 +70,13 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
+	 * 初始化dagger
+	 */
+	protected void initDagger(){
+
+	}
+
+	/**
 	 * 数据
 	 *
 	 * @param savedInstanceState
@@ -165,6 +172,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		}
+		/** 初始化dagger **/
+		initDagger();
 		createData(savedInstanceState);
 		initData(getArguments());
 	}

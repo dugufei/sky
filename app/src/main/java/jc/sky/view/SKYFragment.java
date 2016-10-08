@@ -46,6 +46,13 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
+	 * 初始化dagger
+	 */
+	protected void initDagger(){
+
+	}
+
+	/**
 	 * 数据
 	 *
 	 * @param savedInstanceState
@@ -89,6 +96,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentCreated(this, getArguments(), savedInstanceState);
+		/** 初始化dagger **/
+		initDagger();
 		createData(savedInstanceState);
 		initData(getArguments());
 	}

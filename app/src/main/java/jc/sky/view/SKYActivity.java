@@ -46,6 +46,13 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
+	 * 初始化dagger
+	 */
+	protected void initDagger(){
+
+	}
+
+	/**
 	 * 数据
 	 * 
 	 * @param savedInstanceState
@@ -104,6 +111,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		tintManager.setStatusBarTintResource(SKYBuilder.getTintColor());
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
+		/** 初始化dagger **/
+		initDagger();
 		/** 初始化数据 **/
 		createData(savedInstanceState);
 		/** 初始化数据 **/
