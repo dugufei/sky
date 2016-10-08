@@ -10,7 +10,7 @@ import dagger.Component;
  * @类描述
  */
 @Singleton
-@Component(modules = SKYModule.class)
+@Component(modules = Sky_Module.class)
 public interface SKYIComponent {
     void inject(SKYModulesManage skyModulesManage);
 }
