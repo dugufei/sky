@@ -3,8 +3,8 @@
 
 Gradle 版本
 -----------------------------------
-1.classpath 'com.android.tools.build:gradle:2.1.2'<br />
-2.版本 - gradle-2.14-all.zip<br />
+1.classpath 'com.android.tools.build:gradle:2.2.0'<br />
+2.版本 - gradle-3.0-all.zip<br />
 
 项目引用 - 方法1
 ----------
@@ -16,7 +16,7 @@ Project-build.gradle
              jcenter()
          }
          dependencies {
-             classpath 'com.android.tools.build:gradle:2.1.2'
+             classpath 'com.android.tools.build:gradle:2.2.0'
          }
      }
 
@@ -31,7 +31,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:1.5'
+        compile 'jc:sky:2.0'
      }
      
 项目引用 - 方法2
@@ -48,7 +48,7 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:1.5'
+         compile 'com.github.skyJinc:sky:2.0'
       }   	
 proguard
 
