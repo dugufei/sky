@@ -82,3 +82,22 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# 不通知
+-dontnote android.**
+-dontnote dalvik.**
+-dontnote com.android.**
+-dontnote google.**
+-dontnote com.google.**
+-dontnote java.**
+-dontnote javax.**
+-dontnote junit.**
+-dontnote org.apache.**
+-dontnote org.json.**
+-dontnote org.w3c.dom.**
+-dontnote org.xml.sax.**
+-dontnote org.xmlpull.v1.**
+-dontnote sun.misc.Unsafe
+-dontnote okhttp3.**
+-dontnote retrofit2.**
+-dontnote butterknife.**
