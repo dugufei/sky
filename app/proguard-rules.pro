@@ -4,6 +4,11 @@
 -keep class jc.sky.** { *; }
 -dontwarn jc.sky.**
 
+-keep class sun.misc.Unsafe { *; }
+
+-keep class javax.inject.** { *; }
+
+
 # Some methods are only called from tests, so make sure the shrinker keeps them.
 -keep class android.support.v4.widget.DrawerLayout { *; }
 -keep class android.support.test.espresso.IdlingResource { *; }
@@ -11,8 +16,6 @@
 
 -keep class com.google.common.** {*;}
 -dontwarn com.google.common.**
-
--dontwarn sun.misc.Unsafe
 
 -dontnote android.net.http.*
 -dontnote org.apache.commons.codec.**
@@ -76,7 +79,6 @@
 }
 
 # Okio
--keep class sun.misc.Unsafe { *; }
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
