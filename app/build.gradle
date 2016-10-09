@@ -15,6 +15,9 @@ android {
         release {
             minifyEnabled true
             useProguard true
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-guava.pro'
+            proguardFile 'proguard-support-v7.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

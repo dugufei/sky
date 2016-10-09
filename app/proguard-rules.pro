@@ -1,77 +1,82 @@
-    #sky--------------------------------------------------------------------------------------------------------
-    -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
-    -keep class jc.sky.** { *; }
+#sky--------------------------------------------------------------------------------------------------------
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+-dontoptimize
+-keep class jc.sky.** { *; }
+-dontwarn jc.sky.**
 
-    # Some methods are only called from tests, so make sure the shrinker keeps them.
-    -keep class android.support.v4.widget.DrawerLayout { *; }
-    -keep class android.support.test.espresso.IdlingResource { *; }
-    -keep class com.google.common.base.Preconditions { *; }
+# Some methods are only called from tests, so make sure the shrinker keeps them.
+-keep class android.support.v4.widget.DrawerLayout { *; }
+-keep class android.support.test.espresso.IdlingResource { *; }
+-keep class com.google.common.base.Preconditions { *; }
 
-    # Proguard rules that are applied to your test apk/code.
-    -ignorewarnings
+-keep class com.google.common.** {*;}
+-dontwarn com.google.common.**
 
-    -keepattributes *Annotation*
+-dontwarn sun.misc.Unsafe
 
-    -keepclasseswithmembers class * {
-           <init> ();
-    }
+-dontnote android.net.http.*
+-dontnote org.apache.commons.codec.**
+-dontnote org.apache.http.**
 
-    #butterknife 8.1
+-keepattributes *Annotation*
+-keepattributes Exceptions
+-keepattributes Signature
 
-    # Retain generated class which implement ViewBinder.
-    -keep public class * implements butterknife.internal.ViewBinder { public <init>(); }
+-keepclasseswithmembers class * {
+   <init> ();
+}
 
-    # Prevent obfuscation of types which use ButterKnife annotations since the simple name
-    # is used to reflectively look up the generated ViewBinder.
-    -keep class butterknife.*
-    -keepclasseswithmembernames class * { @butterknife.* <methods>; }
-    -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+#butterknife 8.1
 
-    #nineoldandroids
-    -dontwarn com.nineoldandroids.**
-    -keep class com.nineoldandroids.** { *;}
+# Retain generated class which implement ViewBinder.
+-keep public class * implements butterknife.internal.ViewBinder { public <init>(); }
 
-    #glide
-    -keep public class * implements com.bumptech.glide.module.GlideModule
-    -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-      **[] $VALUES;
-      public *;
-    }
+# Prevent obfuscation of types which use ButterKnife annotations since the simple name
+# is used to reflectively look up the generated ViewBinder.
+-keep class butterknife.*
+-keepclasseswithmembernames class * { @butterknife.* <methods>; }
+-keepclasseswithmembernames class * { @butterknife.* <fields>; }
 
-    #eventbus3.0
-    -keepclassmembers class ** {
-        @org.greenrobot.eventbus.Subscribe <methods>;
-    }
-    -keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#nineoldandroids
+-dontwarn com.nineoldandroids.**
+-keep class com.nineoldandroids.** { *;}
 
-    # Only required if you use AsyncExecutor
-    -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-        <init>(java.lang.Throwable);
-    }
+#glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
 
-    #okhttp3
-    -keep class com.squareup.okhttp3.** {*;}
+#okhttp3
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
 
-    #commons-io-1.3.2.jar
-    -keep public class org.apache.commons.** {*;}
 
-    #retrofit2
-    -dontnote retrofit2.Platform
-    -dontnote retrofit2.Platform$IOS$MainThreadExecutor
-    -dontwarn retrofit2.Platform$Java8
-    -keepattributes Signature
-    -keepattributes Exceptions
+#commons-io-1.3.2.jar
+-keep public class org.apache.commons.** {*;}
 
-    #glide
-    -keep public class * implements com.bumptech.glide.module.GlideModule
-    -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-      **[] $VALUES;
-      public *;
-    }
-    #guava
-    -keep class com.google.j2objc.annotations.** { *; }
-    -dontwarn   com.google.j2objc.annotations.**
-    -keep class java.lang.ClassValue { *; }
-    -dontwarn   java.lang.ClassValue
-    -keep class org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement { *; }
-    -dontwarn   org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+#retrofit2
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+# glide
+# https://github.com/bumptech/glide
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+
+# Okio
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okio.**
