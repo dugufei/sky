@@ -7,10 +7,12 @@ import java.lang.reflect.Method;
 
 import jc.sky.SKYHelper;
 import jc.sky.core.SKYRunnable;
+import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.core.plugin.BizEndInterceptor;
 import jc.sky.core.plugin.SKYErrorInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
+import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.log.L;
 import jc.sky.modules.threadpool.BackgroundType;
 
@@ -267,13 +269,12 @@ public final class SKYMethod {
 		if (SKYHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
-//		if (throwable.getCause() instanceof SKYError) {
-//			// 网络错误拦截器
-//			for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptor) {
-//				item.methodError(service, method, interceptor, (SKYError) throwable.getCause());
-//			}
-//		} else
-		if (throwable.getCause() instanceof SKYNotUIPointerException) {
+		if (throwable.getCause() instanceof SKYHttpException) {
+			// 网络错误拦截器
+			for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptors) {
+				item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+			}
+		} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
 			// 忽略
 			return;
 		} else {

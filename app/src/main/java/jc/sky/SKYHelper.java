@@ -3,11 +3,13 @@ package jc.sky;
 import android.app.Application;
 import android.os.Looper;
 
+import java.io.IOException;
 import java.util.List;
 
 import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
+import jc.sky.core.exception.SKYHttpException;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.DaggerSKYIComponent;
 import jc.sky.modules.SKYModule;
@@ -21,6 +23,8 @@ import jc.sky.modules.structure.SKYStructureIManage;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
 import jc.sky.view.common.SKYIViewCommon;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
@@ -30,7 +34,7 @@ public class SKYHelper {
 
 	private static SKYModulesManage mSKYModulesManage = null;
 
-	public static Bind newBind(){
+	public static Bind newBind() {
 		return new Bind();
 	}
 
@@ -185,6 +189,60 @@ public class SKYHelper {
 	 */
 	public static final Retrofit httpAdapter() {
 		return mSKYModulesManage.getSKYRestAdapter();
+	}
+
+	/**
+	 * 获取网络数据
+	 * 
+	 * @param call
+	 * @param <D>
+	 * @return
+	 */
+	public static final <D> D httpBody(Call<D> call) {
+		if (call == null) {
+			throw new SKYHttpException("Call 不能为空～");
+		}
+		Call<D> skyCall;
+		if (call.isExecuted()) {
+			skyCall = call.clone();
+		} else {
+			skyCall = call;
+		}
+
+		try {
+			Response<D> response = skyCall.execute();
+			if (!response.isSuccessful()) {
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append("code:");
+				stringBuilder.append(response.code());
+				stringBuilder.append(" ");
+				stringBuilder.append("message:");
+				stringBuilder.append(response.message());
+				stringBuilder.append(" ");
+				stringBuilder.append("errorBody:");
+				stringBuilder.append(response.errorBody().string());
+				throw new SKYHttpException(stringBuilder.toString());
+			}
+
+			return response.body();
+		} catch (IOException e) {
+			throw new SKYHttpException("网络异常", e.getCause());
+		}
+	}
+
+	/**
+	 * 取消网络请求
+	 * 
+	 * @param call
+	 */
+	public static final void httpCancel(Call call) {
+		if (call == null) {
+			return;
+		}
+
+		if (call.isExecuted()) {
+			call.cancel();
+		}
 	}
 
 	/**

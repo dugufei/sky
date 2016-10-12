@@ -21,6 +21,7 @@ import jc.sky.core.plugin.SKYErrorInterceptor;
 import jc.sky.core.plugin.SKYFragmentInterceptor;
 import jc.sky.core.plugin.ImplStartInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
+import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 
 /**
  * @创建人 sky
@@ -29,9 +30,9 @@ import jc.sky.core.plugin.BizStartInterceptor;
  */
 public final class SKYMethods {
 
-	final SKYActivityInterceptor SKYActivityInterceptor;
+	final SKYActivityInterceptor				SKYActivityInterceptor;
 
-	final SKYFragmentInterceptor SKYFragmentInterceptor;
+	final SKYFragmentInterceptor				SKYFragmentInterceptor;
 
 	final ArrayList<BizStartInterceptor>		bizStartInterceptor;		// 方法开始拦截器
 
@@ -47,9 +48,12 @@ public final class SKYMethods {
 
 	final ArrayList<SKYErrorInterceptor>		SKYErrorInterceptor;		// 方法错误拦截器
 
+	final ArrayList<SKYHttpErrorInterceptor>	SKYHttpErrorInterceptors;	// 网络错误拦截器
+
 	public SKYMethods(SKYActivityInterceptor SKYActivityInterceptor, SKYFragmentInterceptor SKYFragmentInterceptor, ArrayList<BizStartInterceptor> bizStartInterceptor,
-					  DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor, DisplayEndInterceptor displayEndInterceptor,
-					  ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors, ArrayList<SKYErrorInterceptor> SKYErrorInterceptor) {
+			DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor, DisplayEndInterceptor displayEndInterceptor,
+			ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors, ArrayList<SKYErrorInterceptor> SKYErrorInterceptor,
+			ArrayList<SKYHttpErrorInterceptor> skyHttpErrorInterceptors) {
 		this.bizEndInterceptor = bizEndInterceptor;
 		this.displayEndInterceptor = displayEndInterceptor;
 		this.displayStartInterceptor = displayStartInterceptor;
@@ -59,6 +63,7 @@ public final class SKYMethods {
 		this.implEndInterceptors = implEndInterceptors;
 		this.SKYActivityInterceptor = SKYActivityInterceptor;
 		this.SKYFragmentInterceptor = SKYFragmentInterceptor;
+		this.SKYHttpErrorInterceptors = skyHttpErrorInterceptors;
 	}
 
 	/**
@@ -309,9 +314,9 @@ public final class SKYMethods {
 
 	public static class Builder {
 
-		private SKYActivityInterceptor SKYActivityInterceptor;		// activity拦截器
+		private SKYActivityInterceptor				SKYActivityInterceptor;		// activity拦截器
 
-		private SKYFragmentInterceptor SKYFragmentInterceptor;		// activity拦截器
+		private SKYFragmentInterceptor				SKYFragmentInterceptor;		// activity拦截器
 
 		private ArrayList<BizStartInterceptor>		SKYStartInterceptors;		// 方法开始拦截器
 
@@ -326,6 +331,8 @@ public final class SKYMethods {
 		private DisplayStartInterceptor				displayStartInterceptor;	// 方法开始拦截器
 
 		private DisplayEndInterceptor				displayEndInterceptor;		// 方法结束拦截器
+
+		private ArrayList<SKYHttpErrorInterceptor>	skyHttpErrorInterceptors;	// 网络错误拦截
 
 		public void setActivityInterceptor(SKYActivityInterceptor SKYActivityInterceptor) {
 			this.SKYActivityInterceptor = SKYActivityInterceptor;
@@ -395,11 +402,20 @@ public final class SKYMethods {
 			}
 		}
 
+		public void addHttpErrorInterceptor(SKYHttpErrorInterceptor skyHttpErrorInterceptor) {
+			if (skyHttpErrorInterceptors == null) {
+				skyHttpErrorInterceptors = new ArrayList<>();
+			}
+			if (!skyHttpErrorInterceptors.contains(skyHttpErrorInterceptor)) {
+				skyHttpErrorInterceptors.add(skyHttpErrorInterceptor);
+			}
+		}
+
 		public SKYMethods build() {
 			// 默认值
 			ensureSaneDefaults();
 			return new SKYMethods(SKYActivityInterceptor, SKYFragmentInterceptor, SKYStartInterceptors, displayStartInterceptor, bizEndInterceptors, displayEndInterceptor, implStartInterceptors,
-					implEndInterceptors, SKYErrorInterceptors);
+					implEndInterceptors, SKYErrorInterceptors, skyHttpErrorInterceptors);
 		}
 
 		private void ensureSaneDefaults() {
@@ -423,6 +439,9 @@ public final class SKYMethods {
 			}
 			if (implEndInterceptors == null) {
 				implEndInterceptors = new ArrayList<>();
+			}
+			if (skyHttpErrorInterceptors == null) {
+				skyHttpErrorInterceptors = new ArrayList<>();
 			}
 		}
 
