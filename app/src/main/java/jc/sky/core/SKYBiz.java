@@ -117,9 +117,7 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 		}
 		for (int i = 0; i < count; i++) {
 			Call call = callVector.get(i);
-			if (call.isExecuted()) {
-				call.cancel();
-			}
+			SKYHelper.httpCancel(call);
 		}
 		callVector.removeAllElements();
 		callVector = null;
