@@ -18,7 +18,7 @@ Project-build.gradle
              jcenter()
          }
          dependencies {
-             classpath 'com.android.tools.build:gradle:2.2.0'
+             classpath 'com.android.tools.build:gradle:2.2.1'
          }
      }
 
@@ -33,7 +33,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:2.0'
+        compile 'jc:sky:2.2'
      }
      
 项目引用 - 方法2
@@ -50,7 +50,7 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.0'
+         compile 'com.github.skyJinc:sky:2.2'
       }   	
 proguard
 
