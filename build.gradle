@@ -28,8 +28,8 @@ ext {
     supportLibraryVersion = '24.0.0'
     guavaVersion = '19.0'
 
-    versionCode = 22
-    versionName = '2.2'
+    versionCode = 23
+    versionName = '2.2.1'
 
     //aar 打包信息
     PUBLISH_GROUP_ID = 'jc'
