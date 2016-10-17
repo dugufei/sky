@@ -15,10 +15,19 @@ android {
         release {
             minifyEnabled true
             useProguard true
-            proguardFile 'proguard-gson.pro'
-            proguardFile 'proguard-guava.pro'
-            proguardFile 'proguard-support-v7.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile("proguard/proguard-default.pro")
+            proguardFile('proguard/proguard-sky.pro')
+            proguardFile("proguard/proguard-butterknife.pro")
+            proguardFile("proguard/proguard-glide.pro")
+            proguardFile("proguard/proguard-gson.pro")
+            proguardFile("proguard/proguard-guava.pro")
+            proguardFile("proguard/proguard-nineoldandroids.pro")
+            proguardFile("proguard/proguard-okhttp3.pro")
+            proguardFile("proguard/proguard-support-v7.pro")
+            proguardFile("proguard/proguard-okio.pro")
+            proguardFile("proguard/proguard-retrofit2.pro")
         }
     }
     lintOptions {

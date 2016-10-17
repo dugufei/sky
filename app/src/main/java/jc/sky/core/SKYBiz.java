@@ -1,6 +1,5 @@
 package jc.sky.core;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import jc.sky.SKYHelper;
