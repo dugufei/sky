@@ -20,6 +20,7 @@ android {
             proguardFile("proguard/proguard-default.pro")
             proguardFile("proguard/proguard-sky.pro")
             proguardFile("proguard/proguard-butterknife.pro")
+            proguardFile("proguard/proguard-commons-io.pro")
             proguardFile("proguard/proguard-glide.pro")
             proguardFile("proguard/proguard-gson.pro")
             proguardFile("proguard/proguard-guava.pro")
