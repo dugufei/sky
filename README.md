@@ -33,7 +33,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:2.2.2'
+        compile 'jc:sky:2.2.4'
      }
      
 项目引用 - 方法2
@@ -50,7 +50,7 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.2.2'
+         compile 'com.github.skyJinc:sky:2.2.4'
       }   	
       
 proguard
