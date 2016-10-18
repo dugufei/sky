@@ -1,7 +1,3 @@
-# Configuration for Guava 18.0
-#
-# disagrees with instructions provided by Guava project: https://code.google.com/p/guava-libraries/wiki/UsingProGuardWithGuava
-
 -keep class com.google.common.io.Resources {
     public static <methods>;
 }
@@ -23,13 +19,9 @@
 # http://stackoverflow.com/questions/9120338/proguard-configuration-for-guava-with-obfuscation-and-optimization
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
 
 # Guava 19.0
 -dontwarn java.lang.ClassValue
 -dontwarn com.google.j2objc.annotations.Weak
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
-
--dontoptimize
--dontobfuscate
--dontwarn com.google.common.collect.MinMaxPriorityQueue
