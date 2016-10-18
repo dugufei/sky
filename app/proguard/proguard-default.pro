@@ -97,5 +97,3 @@
     java.lang.Object readResolve();
 }
 
-# sun公司
--dontwarn sun.misc.Unsafe

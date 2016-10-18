@@ -97,15 +97,15 @@ public class SKYStructureModel {
 			}
 			return o;
 		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！");
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
 		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！");
+			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
 		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！");
+			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
 		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！");
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
 		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！");
+			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
 		}
 	}
 
@@ -124,7 +124,7 @@ public class SKYStructureModel {
 		}
 	}
 
-	public int getKey(){
+	public int getKey() {
 		return key;
 	}
 

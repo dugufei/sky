@@ -17,18 +17,18 @@ android {
             useProguard true
 
             proguardFile getDefaultProguardFile('proguard-android.txt')
-            proguardFile("proguard/proguard-default.pro")
-            proguardFile("proguard/proguard-sky.pro")
-            proguardFile("proguard/proguard-butterknife.pro")
-            proguardFile("proguard/proguard-commons-io.pro")
-            proguardFile("proguard/proguard-glide.pro")
-            proguardFile("proguard/proguard-gson.pro")
-            proguardFile("proguard/proguard-guava.pro")
-            proguardFile("proguard/proguard-nineoldandroids.pro")
-            proguardFile("proguard/proguard-okhttp3.pro")
-            proguardFile("proguard/proguard-support-v7.pro")
-            proguardFile("proguard/proguard-okio.pro")
-            proguardFile("proguard/proguard-retrofit2.pro")
+            proguardFile('proguard/proguard-default.pro')
+            proguardFile('proguard/proguard-sky.pro')
+            proguardFile('proguard/proguard-butterknife.pro')
+            proguardFile('proguard/proguard-commons-io.pro')
+            proguardFile('proguard/proguard-glide.pro')
+            proguardFile('proguard/proguard-gson.pro')
+            proguardFile('proguard/proguard-guava.pro')
+            proguardFile('proguard/proguard-nineoldandroids.pro')
+            proguardFile('proguard/proguard-okhttp3.pro')
+            proguardFile('proguard/proguard-support-v7.pro')
+            proguardFile('proguard/proguard-okio.pro')
+            proguardFile('proguard/proguard-retrofit2.pro')
         }
     }
     lintOptions {
