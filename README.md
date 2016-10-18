@@ -5,7 +5,7 @@
 
 Gradle 版本
 -----------------------------------
-1.classpath 'com.android.tools.build:gradle:2.2.0'<br />
+1.classpath 'com.android.tools.build:gradle:2.2.1'<br />
 2.版本 - gradle-3.0-all.zip<br />
 
 项目引用 - 方法1
@@ -33,7 +33,7 @@ Project-build.gradle
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:2.2'
+        compile 'jc:sky:2.2.2'
      }
      
 项目引用 - 方法2
@@ -50,14 +50,14 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.2'
+         compile 'com.github.skyJinc:sky:2.2.2'
       }   	
       
 proguard
 
     proguardFile getDefaultProguardFile('proguard-android.txt')
     proguardFile("proguard/proguard-default.pro")
-    proguardFile('proguard/proguard-sky.pro')
+    proguardFile("proguard/proguard-sky.pro")
     proguardFile("proguard/proguard-butterknife.pro")
     proguardFile("proguard/proguard-glide.pro")
     proguardFile("proguard/proguard-gson.pro")
