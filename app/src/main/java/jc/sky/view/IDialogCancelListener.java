@@ -17,7 +17,8 @@
 package jc.sky.view;
 
 /**
- * 所有dialog取消回调接口
+ * @author sky
+ * @version 版本
  */
 public interface IDialogCancelListener {
 

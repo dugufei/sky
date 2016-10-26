@@ -1,7 +1,8 @@
 package jc.sky.modules.appconfig;
 
 /**
- * Created by sky on 15/3/14.
+ * @author sky
+ * @version 版本
  */
 public interface PropertyCallback {
      void onSuccess();

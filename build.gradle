@@ -19,22 +19,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    minSdkVersion = 11
-    compileSdkVersion = 24
-    buildToolsVersion = '24.0.0'
-
-    supportLibraryVersion = '24.0.0'
-    guavaVersion = '19.0'
-
-    versionCode = 26
-    versionName = '2.2.4'
-
-    //aar 打包信息
-    PUBLISH_GROUP_ID = 'jc'
-    PUBLISH_ARTIFACT_ID = 'sky'
-    PUBLISH_VERSION = versionName
-
-}
-

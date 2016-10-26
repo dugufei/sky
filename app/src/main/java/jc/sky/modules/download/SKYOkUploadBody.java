@@ -1,6 +1,5 @@
 package jc.sky.modules.download;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -17,25 +16,24 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/7 上午9:36
- * @类描述 Okhttp 请求体
+ * @author sky
+ * @version 版本
  */
 public class SKYOkUploadBody extends RequestBody {
 
-	private static final int		SEGMENT_SIZE	= 2048; // okio.Segment.SIZE
+	private static final int		SEGMENT_SIZE	= 2048;	// okio.Segment.SIZE
 
 	private final File				file;					// 上传的问题件
 
-	private final SKYUploadListener listener;				// 事件
+	private final SKYUploadListener	listener;				// 事件
 
 	private long					totalSize;				// 待上传文件总大小
 
-	private final SKYUploadRequest SKYUploadRequest;		// 请求
+	private final SKYUploadRequest	SKYUploadRequest;		// 请求
 
 	public SKYOkUploadBody(SKYUploadRequest SKYUploadRequest, SKYUploadListener listener) {
 		this.file = SKYUploadRequest.getSKYUploadBody().file;
-		if(file != null){
+		if (file != null) {
 			totalSize = file.length();
 		}
 		this.SKYUploadRequest = SKYUploadRequest;
@@ -56,6 +54,12 @@ public class SKYOkUploadBody extends RequestBody {
 		return MediaType.parse(buffer.toString());
 	}
 
+	/**
+	 * @param sink
+	 *            参数
+	 * @throws IOException
+	 *             异常
+	 */
 	@Override public void writeTo(BufferedSink sink) throws IOException {
 		Source source = null;
 		try {
@@ -82,22 +86,21 @@ public class SKYOkUploadBody extends RequestBody {
 	/**
 	 * 建造
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public RequestBody build() {
 		// 请求头信息
 		Headers headers = SKYUploadRequest.getSKYUploadBody().getHeader();
 
-
 		MultipartBody.Builder multipartBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-		if(file != null){
+		if (file != null) {
 			multipartBuilder.addPart(headers, this);
 		}
 		List<SKYFromData> SKYHeadersBeans = SKYUploadRequest.getSKYUploadBody().SKYFromData;
 		if (SKYHeadersBeans != null && SKYHeadersBeans.size() > 0) {
 			int count = SKYUploadRequest.getSKYUploadBody().SKYFromData.size();
 			for (int i = 0; i < count; i++) {
-				multipartBuilder.addFormDataPart(SKYHeadersBeans.get(i).key,SKYHeadersBeans.get(i).value);
+				multipartBuilder.addFormDataPart(SKYHeadersBeans.get(i).key, SKYHeadersBeans.get(i).value);
 			}
 		}
 		RequestBody requestBody = multipartBuilder.build();

@@ -14,99 +14,231 @@ import java.util.regex.Pattern;
 import static java.util.Collections.unmodifiableList;
 
 /**
- * Create by sky
+ * @author sky
+ * @version 版本
  */
 public final class L {
 
-	/** Log a verbose message with optional format args. */
+	/**
+	 * Log a verbose message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void v(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.v(message, args);
 	}
 
-	/** Log a verbose exception and a message with optional format args. */
+	/**
+	 * Log a verbose exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void v(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.v(t, message, args);
 	}
 
-	/** Log a debug message with optional format args. */
+	/**
+	 * Log a debug message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void d(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.d(message, args);
 	}
 
-	/** Log a debug exception and a message with optional format args. */
+	/**
+	 * Log a debug exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void d(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.d(t, message, args);
 	}
 
-	/** Log an info message with optional format args. */
+	/**
+	 * Log an info message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void i(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.i(message, args);
 	}
 
-	/** Log an info exception and a message with optional format args. */
+	/**
+	 * Log an info exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void i(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.i(t, message, args);
 	}
 
-	/** Log a warning message with optional format args. */
+	/**
+	 * Log a warning message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void w(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.w(message, args);
 	}
 
-	/** Log a warning exception and a message with optional format args. */
+	/**
+	 * Log a warning exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void w(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.w(t, message, args);
 	}
 
-	/** Log an error message with optional format args. */
+	/**
+	 * Log an error message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void e(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.e(message, args);
 	}
 
-	/** Log an error exception and a message with optional format args. */
+	/**
+	 * Log an error exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void e(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.e(t, message, args);
 	}
 
-	/** Log an assert message with optional format args. */
+	/**
+	 * Log an assert message with optional format args.
+	 * 
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void wtf(@NonNls String message, Object... args) {
 		TREE_OF_SOULS.wtf(message, args);
 	}
 
-	/** Log an assert exception and a message with optional format args. */
+	/**
+	 * Log an assert exception and a message with optional format args.
+	 * 
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void wtf(Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.wtf(t, message, args);
 	}
 
-	/** Log at {@code priority} a message with optional format args. */
+	/**
+	 * Log at {@code priority} a message with optional format args.
+	 * 
+	 * @param priority
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void log(int priority, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.log(priority, message, args);
 	}
 
-	/** Log at {@code priority} an exception and a message with optional format args. */
+	/**
+	 * Log at {@code priority} an exception and a message with optional format
+	 * args.
+	 * 
+	 * @param priority
+	 *            参数
+	 * @param t
+	 *            参数
+	 * @param message
+	 *            参数
+	 * @param args
+	 *            参数
+	 */
 	public static void log(int priority, Throwable t, @NonNls String message, Object... args) {
 		TREE_OF_SOULS.log(priority, t, message, args);
 	}
 
 	/**
-	 * A view into Timber's planted trees as a tree itself. This can be used for injecting a logger
-	 * instance rather than using static methods or to facilitate testing.
+	 * A view into Timber's planted trees as a tree itself. This can be used for
+	 * injecting a logger instance rather than using static methods or to
+	 * facilitate testing.
+	 * 
+	 * @return 返回值
 	 */
 	public static Tree asTree() {
 		return TREE_OF_SOULS;
 	}
 
-	/** Set a one-time tag for use on the next logging call. */
+	/**
+	 * Set a one-time tag for use on the next logging call.
+	 * 
+	 * @param tag
+	 *            参数
+	 * @return 返回值
+	 */
 	public static Tree tag(String tag) {
 		Tree[] forest = forestAsArray;
-		//noinspection ForLoopReplaceableByForEach
+		// noinspection ForLoopReplaceableByForEach
 		for (int i = 0, count = forest.length; i < count; i++) {
 			forest[i].explicitTag.set(tag);
 		}
 		return TREE_OF_SOULS;
 	}
 
-	/** Add a new logging tree. */
+	/**
+	 * Add a new logging tree.
+	 * 
+	 * @param tree
+	 *            参数
+	 */
 	public static void plant(Tree tree) {
 		if (tree == null) {
 			throw new NullPointerException("tree == null");
@@ -120,7 +252,12 @@ public final class L {
 		}
 	}
 
-	/** Remove a planted tree. */
+	/**
+	 * Remove a planted tree.
+	 * 
+	 * @param tree
+	 *            参数
+	 */
 	public static void uproot(Tree tree) {
 		synchronized (FOREST) {
 			if (!FOREST.remove(tree)) {
@@ -138,143 +275,171 @@ public final class L {
 		}
 	}
 
-	/** Return a copy of all planted {@linkplain Tree trees}. */
+	/**
+	 * Return a copy of all planted {@linkplain Tree trees}.
+	 * 
+	 * @return 返回值
+	 */
 	public static List<Tree> forest() {
 		synchronized (FOREST) {
 			return unmodifiableList(new ArrayList<>(FOREST));
 		}
 	}
 
-	private static final Tree[] TREE_ARRAY_EMPTY = new Tree[0];
+	private static final Tree[]		TREE_ARRAY_EMPTY	= new Tree[0];
+
 	// Both fields guarded by 'FOREST'.
-	private static final List<Tree> FOREST = new ArrayList<>();
-	static volatile Tree[] forestAsArray = TREE_ARRAY_EMPTY;
+	private static final List<Tree>	FOREST				= new ArrayList<>();
 
-	/** A {@link Tree} that delegates to all planted trees in the {@linkplain #FOREST forest}. */
-	private static final Tree TREE_OF_SOULS = new Tree() {
-		@Override public void v(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].v(message, args);
-			}
-		}
+	static volatile Tree[]			forestAsArray		= TREE_ARRAY_EMPTY;
 
-		@Override public void v(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].v(t, message, args);
-			}
-		}
+	/**
+	 * A {@link Tree} that delegates to all planted trees in the
+	 * {@linkplain #FOREST forest}.
+	 */
+	private static final Tree		TREE_OF_SOULS		= new Tree() {
 
-		@Override public void d(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].d(message, args);
-			}
-		}
+															@Override public void v(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].v(message, args);
+																}
+															}
 
-		@Override public void d(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].d(t, message, args);
-			}
-		}
+															@Override public void v(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].v(t, message, args);
+																}
+															}
 
-		@Override public void i(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].i(message, args);
-			}
-		}
+															@Override public void d(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].d(message, args);
+																}
+															}
 
-		@Override public void i(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].i(t, message, args);
-			}
-		}
+															@Override public void d(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].d(t, message, args);
+																}
+															}
 
-		@Override public void w(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].w(message, args);
-			}
-		}
+															@Override public void i(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].i(message, args);
+																}
+															}
 
-		@Override public void w(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].w(t, message, args);
-			}
-		}
+															@Override public void i(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].i(t, message, args);
+																}
+															}
 
-		@Override public void e(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].e(message, args);
-			}
-		}
+															@Override public void w(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].w(message, args);
+																}
+															}
 
-		@Override public void e(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].e(t, message, args);
-			}
-		}
+															@Override public void w(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].w(t, message, args);
+																}
+															}
 
-		@Override public void wtf(String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].wtf(message, args);
-			}
-		}
+															@Override public void e(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].e(message, args);
+																}
+															}
 
-		@Override public void wtf(Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].wtf(t, message, args);
-			}
-		}
+															@Override public void e(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].e(t, message, args);
+																}
+															}
 
-		@Override public void log(int priority, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].log(priority, message, args);
-			}
-		}
+															@Override public void wtf(String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].wtf(message, args);
+																}
+															}
 
-		@Override public void log(int priority, Throwable t, String message, Object... args) {
-			Tree[] forest = forestAsArray;
-			//noinspection ForLoopReplaceableByForEach
-			for (int i = 0, count = forest.length; i < count; i++) {
-				forest[i].log(priority, t, message, args);
-			}
-		}
+															@Override public void wtf(Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].wtf(t, message, args);
+																}
+															}
 
-		@Override protected void log(int priority, String tag, String message, Throwable t) {
-			throw new AssertionError("Missing override for log method.");
-		}
-	};
+															@Override public void log(int priority, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].log(priority, message, args);
+																}
+															}
+
+															@Override public void log(int priority, Throwable t, String message, Object... args) {
+																Tree[] forest = forestAsArray;
+																// noinspection
+																// ForLoopReplaceableByForEach
+																for (int i = 0, count = forest.length; i < count; i++) {
+																	forest[i].log(priority, t, message, args);
+																}
+															}
+
+															@Override protected void log(int priority, String tag, String message, Throwable t) {
+																throw new AssertionError("Missing override for log method.");
+															}
+														};
 
 	private L() {
 		throw new AssertionError("No instances.");
 	}
 
-	/** A facade for handling logging calls. Install instances via {@link #plant Timber.plant()}. */
+	/**
+	 * A facade for handling logging calls. Install instances via {@link #plant
+	 * Timber.plant()}.
+	 */
 	public static abstract class Tree {
+
 		final ThreadLocal<String> explicitTag = new ThreadLocal<>();
 
 		String getTag() {
@@ -285,77 +450,130 @@ public final class L {
 			return tag;
 		}
 
-		/** Log a verbose message with optional format args. */
+		/**
+		 * Log a verbose message with optional format args.
+		 * 
+		 * @param message
+		 *            参数
+		 * @param args
+		 *            参数
+		 */
 		public void v(String message, Object... args) {
 			prepareLog(Log.VERBOSE, null, message, args);
 		}
 
-		/** Log a verbose exception and a message with optional format args. */
+		/**
+		 * Log a verbose exception and a message with optional format args.
+		 * 
+		 * @param t
+		 *            参数
+		 * @param message
+		 *            参数
+		 * @param args
+		 *            参数
+		 */
 		public void v(Throwable t, String message, Object... args) {
 			prepareLog(Log.VERBOSE, t, message, args);
 		}
 
-		/** Log a debug message with optional format args. */
+		/** Log a debug message with optional format args.
+		 * @param message     参数
+		 * @param args  参数*/
 		public void d(String message, Object... args) {
 			prepareLog(Log.DEBUG, null, message, args);
 		}
 
-		/** Log a debug exception and a message with optional format args. */
+		/** Log a debug exception and a message with optional format args.
+		 * @param t           参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void d(Throwable t, String message, Object... args) {
 			prepareLog(Log.DEBUG, t, message, args);
 		}
 
-		/** Log an info message with optional format args. */
+		/** Log an info message with optional format args.
+		 * @param message     参数
+		 * @param args 参数*/
 		public void i(String message, Object... args) {
 			prepareLog(Log.INFO, null, message, args);
 		}
 
-		/** Log an info exception and a message with optional format args. */
+		/** Log an info exception and a message with optional format args.
+		 * @param t           参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void i(Throwable t, String message, Object... args) {
 			prepareLog(Log.INFO, t, message, args);
 		}
 
-		/** Log a warning message with optional format args. */
+		/** Log a warning message with optional format args.
+		 * @param message     参数
+		 * @param args 参数*/
 		public void w(String message, Object... args) {
 			prepareLog(Log.WARN, null, message, args);
 		}
 
-		/** Log a warning exception and a message with optional format args. */
+		/** Log a warning exception and a message with optional format args.
+		 * @param t           参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void w(Throwable t, String message, Object... args) {
 			prepareLog(Log.WARN, t, message, args);
 		}
 
-		/** Log an error message with optional format args. */
+		/** Log an error message with optional format args.
+		 * @param message     参数
+		 * @param args 参数*/
 		public void e(String message, Object... args) {
 			prepareLog(Log.ERROR, null, message, args);
 		}
 
-		/** Log an error exception and a message with optional format args. */
+		/** Log an error exception and a message with optional format args.
+		 * @param t           参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void e(Throwable t, String message, Object... args) {
 			prepareLog(Log.ERROR, t, message, args);
 		}
 
-		/** Log an assert message with optional format args. */
+		/** Log an assert message with optional format args.
+		 * @param message     参数
+		 * @param args 参数*/
 		public void wtf(String message, Object... args) {
 			prepareLog(Log.ASSERT, null, message, args);
 		}
 
-		/** Log an assert exception and a message with optional format args. */
+		/** Log an assert exception and a message with optional format args.
+		 * @param t           参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void wtf(Throwable t, String message, Object... args) {
 			prepareLog(Log.ASSERT, t, message, args);
 		}
 
-		/** Log at {@code priority} a message with optional format args. */
+		/** Log at {@code priority} a message with optional format args.
+		 * @param priority     参数
+		 * @param message 参数
+		 * @param args 参数*/
 		public void log(int priority, String message, Object... args) {
 			prepareLog(priority, null, message, args);
 		}
 
-		/** Log at {@code priority} an exception and a message with optional format args. */
+		/**
+		 * Log at {@code priority} an exception and a message with optional
+		 * format args.
+		 * @param priority     参数
+		 * @param t 参数
+		 * @param message 参数
+		 * @param args 参数
+		 */
 		public void log(int priority, Throwable t, String message, Object... args) {
 			prepareLog(priority, t, message, args);
 		}
 
-		/** Return whether a message at {@code priority} should be logged. */
+		/** Return whether a message at {@code priority} should be logged.
+		 * @param priority     参数
+		 * @return 返回值*/
 		protected boolean isLoggable(int priority) {
 			return true;
 		}
@@ -369,7 +587,8 @@ public final class L {
 			}
 			if (message == null) {
 				if (t == null) {
-					return; // Swallow message if it's null and there's no throwable.
+					return; // Swallow message if it's null and there's no
+							// throwable.
 				}
 				message = getStackTraceString(t);
 			} else {
@@ -395,28 +614,44 @@ public final class L {
 		}
 
 		/**
-		 * Write a log message to its destination. Called for all level-specific methods by default.
+		 * Write a log message to its destination. Called for all level-specific
+		 * methods by default.
 		 *
-		 * @param priority Log level. See {@link Log} for constants.
-		 * @param tag Explicit or inferred tag. May be {@code null}.
-		 * @param message Formatted log message. May be {@code null}, but then {@code t} will not be.
-		 * @param t Accompanying exceptions. May be {@code null}, but then {@code message} will not be.
+		 * @param priority
+		 *            Log level. See {@link Log} for constants.
+		 * @param tag
+		 *            Explicit or inferred tag. May be {@code null}.
+		 * @param message
+		 *            Formatted log message. May be {@code null}, but then
+		 *            {@code t} will not be.
+		 * @param t
+		 *            Accompanying exceptions. May be {@code null}, but then
+		 *            {@code message} will not be.
 		 */
 		protected abstract void log(int priority, String tag, String message, Throwable t);
 	}
 
-	/** A {@link Tree Tree} for debug builds. Automatically infers the tag from the calling class. */
+	/**
+	 * A {@link Tree Tree} for debug builds. Automatically infers the tag from
+	 * the calling class.
+	 */
 	public static class DebugTree extends Tree {
-		private static final int MAX_LOG_LENGTH = 4000;
-		private static final int CALL_STACK_INDEX = 5;
-		private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
+
+		private static final int		MAX_LOG_LENGTH		= 4000;
+
+		private static final int		CALL_STACK_INDEX	= 5;
+
+		private static final Pattern	ANONYMOUS_CLASS		= Pattern.compile("(\\$\\d+)+$");
 
 		/**
-		 * Extract the tag which should be used for the message from the {@code element}. By default
-		 * this will use the class name without any anonymous class suffixes (e.g., {@code Foo$1}
-		 * becomes {@code Foo}).
+		 * Extract the tag which should be used for the message from the
+		 * {@code element}. By default this will use the class name without any
+		 * anonymous class suffixes (e.g., {@code Foo$1} becomes {@code Foo}).
 		 * <p>
-		 * Note: This will not be called if a {@linkplain #tag(String) manual tag} was specified.
+		 * Note: This will not be called if a {@linkplain #tag(String) manual
+		 * tag} was specified.
+		 * @param element     参数
+		 * @return 返回值
 		 */
 		protected String createStackElementTag(StackTraceElement element) {
 			String tag = element.getClassName();
@@ -433,20 +668,21 @@ public final class L {
 				return tag;
 			}
 
-			// DO NOT switch this to Thread.getCurrentThread().getStackTrace(). The test will pass
-			// because Robolectric runs them on the JVM but on Android the elements are different.
+			// DO NOT switch this to Thread.getCurrentThread().getStackTrace().
+			// The test will pass
+			// because Robolectric runs them on the JVM but on Android the
+			// elements are different.
 			StackTraceElement[] stackTrace = new Throwable().getStackTrace();
 			if (stackTrace.length <= CALL_STACK_INDEX) {
-				throw new IllegalStateException(
-						"Synthetic stacktrace didn't have enough elements: are you using proguard?");
+				throw new IllegalStateException("Synthetic stacktrace didn't have enough elements: are you using proguard?");
 			}
 			return createStackElementTag(stackTrace[CALL_STACK_INDEX]);
 		}
 
 		/**
-		 * Break up {@code message} into maximum-length chunks (if needed) and send to either
-		 * {@link Log#println(int, String, String) Log.println()} or
-		 * {@link Log#wtf(String, String) Log.wtf()} for logging.
+		 * Break up {@code message} into maximum-length chunks (if needed) and
+		 * send to either {@link Log#println(int, String, String) Log.println()}
+		 * or {@link Log#wtf(String, String) Log.wtf()} for logging.
 		 *
 		 * {@inheritDoc}
 		 */
@@ -460,7 +696,8 @@ public final class L {
 				return;
 			}
 
-			// Split by line, then ensure each line can fit into Log's maximum length.
+			// Split by line, then ensure each line can fit into Log's maximum
+			// length.
 			for (int i = 0, length = message.length(); i < length; i++) {
 				int newline = message.indexOf('\n', i);
 				newline = newline != -1 ? newline : length;
@@ -478,4 +715,3 @@ public final class L {
 		}
 	}
 }
-

@@ -1,7 +1,8 @@
 package jc.sky.core;
 
 /**
- * Created by sky on 15/2/20.
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYRunnable implements Runnable {
 

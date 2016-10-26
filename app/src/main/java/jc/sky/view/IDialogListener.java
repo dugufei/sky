@@ -2,7 +2,8 @@ package jc.sky.view;
 
 
 /**
- * Created by sky on 15/3/2. 按钮事件整合
+ * @author sky
+ * @version 版本
  */
 public interface IDialogListener extends IDialogCancelListener {
 }

@@ -5,9 +5,8 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 /**
- * @创建人 sky
- * @创建时间 15/5/4 下午5:33
- * @类描述 联系人实体类
+ * @author sky
+ * @version 版本
  */
 public class ContactModel implements Cloneable {
 
@@ -44,7 +43,7 @@ public class ContactModel implements Cloneable {
 	/**
 	 * 克隆
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public Object clone() {
 		try {

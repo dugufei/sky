@@ -32,6 +32,10 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_SEE_OTHER;
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 
+/**
+ * @author sky
+ * @version 版本
+ */
 public class SKYDownloadDispatcher extends Thread {
 
 	/** 下载队列请求服务. */
@@ -41,7 +45,7 @@ public class SKYDownloadDispatcher extends Thread {
 	private volatile boolean					mQuit									= false;
 
 	/** 请求 */
-	private SKYBaseRequest mRequest;
+	private SKYBaseRequest						mRequest;
 
 	/** 数据流缓冲大小 */
 	public final int							BUFFER_SIZE								= 4096;
@@ -53,22 +57,23 @@ public class SKYDownloadDispatcher extends Thread {
 	public final int							MAX_REDIRECTS							= 5;
 
 	/** 网络底层协议 **/
-	OkHttpClient okHttpClient;
+	OkHttpClient								okHttpClient;
 
 	/**
 	 * 网络响应
 	 */
-	private final int							HTTP_REQUESTED_RANGE_NOT_SATISFIABLE	= 416;		// 资源范围
+	private final int							HTTP_REQUESTED_RANGE_NOT_SATISFIABLE	= 416;	// 资源范围
 
-	private final int							HTTP_TEMP_REDIRECT						= 307;		// 重定向
+	private final int							HTTP_TEMP_REDIRECT						= 307;	// 重定向
 
 	private long								mContentLength;									// 内容长度
 
-	private long								mCurrentBytes;										// 下载字节
+	private long								mCurrentBytes;									// 下载字节
 
 	boolean										shouldAllowRedirects					= true;	// 是否开启重定向
 
-	Gson		gson;
+	Gson										gson;
+
 	/**
 	 * 初始化调度器
 	 *
@@ -216,8 +221,11 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 上传失败
 	 *
 	 * @param SKYUploadRequest
+	 *            参数
 	 * @param errorCode
+	 *            参数
 	 * @param errorMsg
+	 *            参数
 	 */
 	public void updateUploadFailed(SKYUploadRequest SKYUploadRequest, int errorCode, String errorMsg) {
 		shouldAllowRedirects = false;
@@ -232,7 +240,9 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 链接
 	 *
 	 * @param SKYUploadRequest
+	 *            参数
 	 * @param state
+	 *            参数
 	 */
 	public void updateUploadState(SKYUploadRequest SKYUploadRequest, int state) {
 		SKYUploadRequest.setDownloadState(state);
@@ -262,6 +272,8 @@ public class SKYDownloadDispatcher extends Thread {
 	 *
 	 * @param request
 	 *            请求
+	 * @param response
+	 *            参数
 	 */
 	public void postUploadComplete(final SKYUploadRequest request, final Response response) {
 		try {
@@ -283,6 +295,7 @@ public class SKYDownloadDispatcher extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 			SKYHelper.mainLooper().execute(new Runnable() {
+
 				public void run() {
 					request.getSKYUploadListener().onUploadFailed(request.getRequestId(), 0, "上传成功-数据转换失败");
 				}
@@ -369,7 +382,9 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 流的读取
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param conn
+	 *            参数
 	 */
 	private void transferData(SKYDownloadRequest SKYDownloadRequest, Response conn) {
 		InputStream in = null;
@@ -419,8 +434,11 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 流的读取
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param in
+	 *            参数
 	 * @param out
+	 *            参数
 	 */
 	private void transferData(SKYDownloadRequest SKYDownloadRequest, BufferedInputStream in, BufferedOutputStream out) {
 		final byte data[] = new byte[BUFFER_SIZE];
@@ -457,9 +475,12 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 从响应体里读取
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param data
+	 *            参数
 	 * @param entityStream
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private int readFromResponse(SKYDownloadRequest SKYDownloadRequest, byte[] data, BufferedInputStream entityStream) {
 		try {
@@ -474,9 +495,13 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 下载数据到目标文件
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param data
+	 *            参数
 	 * @param bytesRead
+	 *            参数
 	 * @param out
+	 *            参数
 	 */
 	private void writeDataToDestination(SKYDownloadRequest SKYDownloadRequest, byte[] data, int bytesRead, BufferedOutputStream out) {
 		while (true) {
@@ -493,8 +518,10 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 读取响应头信息
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param response
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private int readResponseHeaders(SKYDownloadRequest SKYDownloadRequest, Response response) {
 		final String transferEncoding = response.header("Transfer-Encoding");
@@ -517,9 +544,12 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 读取头信息
 	 * 
 	 * @param conn
+	 *            参数
 	 * @param field
+	 *            参数 参数
 	 * @param defaultValue
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public long getHeaderFieldLong(Response conn, String field, long defaultValue) {
 		try {
@@ -531,6 +561,9 @@ public class SKYDownloadDispatcher extends Thread {
 
 	/**
 	 * 清理目标文件
+	 * 
+	 * @param SKYDownloadRequest
+	 *            参数
 	 */
 	private void cleanupDestination(SKYDownloadRequest SKYDownloadRequest) {
 		L.i("目标文件路径 : " + SKYDownloadRequest.getDestinationUrl());
@@ -544,7 +577,9 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 链接
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param state
+	 *            参数
 	 */
 	public void updateDownloadState(SKYDownloadRequest SKYDownloadRequest, int state) {
 		SKYDownloadRequest.setDownloadState(state);
@@ -554,6 +589,7 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 下载成功
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 */
 	public void updateDownloadComplete(SKYDownloadRequest SKYDownloadRequest) {
 		SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_SUCCESSFUL);
@@ -567,8 +603,11 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 下载失败
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param errorCode
+	 *            参数
 	 * @param errorMsg
+	 *            参数
 	 */
 	public void updateDownloadFailed(SKYDownloadRequest SKYDownloadRequest, int errorCode, String errorMsg) {
 		shouldAllowRedirects = false;
@@ -584,8 +623,11 @@ public class SKYDownloadDispatcher extends Thread {
 	 * 更新状态 - 加载进度
 	 * 
 	 * @param SKYDownloadRequest
+	 *            参数
 	 * @param progress
+	 *            参数
 	 * @param downloadedBytes
+	 *            参数
 	 */
 	public void updateDownloadProgress(SKYDownloadRequest SKYDownloadRequest, int progress, long downloadedBytes) {
 		if (SKYDownloadRequest.getSKYDownloadListener() != null) {
@@ -635,7 +677,9 @@ public class SKYDownloadDispatcher extends Thread {
 	 * @param totalBytes
 	 *            总字节数
 	 * @param downloadedBytes
+	 *            参数
 	 * @param progress
+	 *            参数
 	 */
 	public void postProgressUpdate(final SKYDownloadRequest request, final long totalBytes, final long downloadedBytes, final int progress) {
 		SKYHelper.mainLooper().execute(new Runnable() {

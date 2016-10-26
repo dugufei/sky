@@ -21,9 +21,8 @@ import jc.sky.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**
- * @创建人 sky
- * @创建时间 16/5/25 下午8:12
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYFileCacheManage {
 
@@ -35,6 +34,10 @@ public class SKYFileCacheManage {
 
 	private final String	TAG			= "CACHE_UTILS";
 
+	/**
+	 * @param context
+	 *            参数
+	 */
 	public void configureCustomerCache(Context context) {
 		BASE_CACHE_PATH = context.getApplicationInfo().dataDir + File.separator + "files" + File.separator + "CacheUtils";
 
@@ -45,14 +48,30 @@ public class SKYFileCacheManage {
 		}
 	}
 
-	public void configurePhoneCache(Context context){
+	/**
+	 * @param context
+	 *            参数
+	 */
+	public void configurePhoneCache(Context context) {
 		BASE_CACHE_PATH = context.getCacheDir().getAbsolutePath();
 	}
 
+	/**
+	 * @param name
+	 *            参数
+	 * @return 返回值
+	 */
 	private String pathForCacheEntry(String name) {
 		return BASE_CACHE_PATH + File.separator + name + FILE_SUFFIX;
 	}
 
+	/**
+	 * @param dataString
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> List<Map<String, T>> dataMapsFromJson(String dataString) {
 		if (StringUtils.isEmpty(dataString)) return new ArrayList<>();
 
@@ -67,6 +86,13 @@ public class SKYFileCacheManage {
 		}
 	}
 
+	/**
+	 * @param dataMaps
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> String dataMapstoJson(List<Map<String, T>> dataMaps) {
 		try {
 			return SKYGsonHelper.buildGson().toJson(dataMaps);
@@ -111,6 +137,8 @@ public class SKYFileCacheManage {
 	}
 
 	/**
+	 * @param <T>
+	 *            参数
 	 * @param fileName
 	 *            the name of the file
 	 * @param dataMaps
@@ -121,6 +149,8 @@ public class SKYFileCacheManage {
 	}
 
 	/**
+	 * @param <T>
+	 *            参数
 	 * @param fileName
 	 *            the name of the file
 	 * @return the map list you previous stored, an empty {@link List} will be
@@ -130,6 +160,17 @@ public class SKYFileCacheManage {
 		return dataMapsFromJson(readFile(fileName));
 	}
 
+	/**
+	 * @param <T>
+	 *            参数
+	 * @param dataString
+	 *            参数
+	 * @param t
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> T objectFromJson(String dataString, Type t) {
 		try {
 			return SKYGsonHelper.buildGson().fromJson(dataString, t);
@@ -141,6 +182,15 @@ public class SKYFileCacheManage {
 		}
 	}
 
+	/**
+	 * @param dataString
+	 *            参数
+	 * @param t
+	 *            番薯
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> T objectFromJson(String dataString, Class<T> t) {
 		try {
 			return SKYGsonHelper.buildGson().fromJson(dataString, t);
@@ -152,6 +202,13 @@ public class SKYFileCacheManage {
 		}
 	}
 
+	/**
+	 * @param o
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> String objectToJson(T o) {
 		try {
 			return SKYGsonHelper.buildGson().toJson(o);
@@ -178,16 +235,36 @@ public class SKYFileCacheManage {
 	/**
 	 * @param fileName
 	 *            the name of the file
+	 * @param type
+	 *            参数
+	 * @param <T>
+	 *            参数
 	 * @return the {@link T} type object you previous stored
 	 */
 	public <T> T readObjectFile(String fileName, Type type) {
 		return objectFromJson(readFile(fileName), type);
 	}
 
+	/**
+	 * @param fileName
+	 *            参数
+	 * @param clazz
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	public <T> T readObjectFile(String fileName, Class<T> clazz) {
 		return objectFromJson(readFile(fileName), clazz);
 	}
 
+	/**
+	 * @param dataString
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> Map<String, T> dataMapFromJson(String dataString) {
 		if (StringUtils.isEmpty(dataString)) return new HashMap<String, T>();
 
@@ -202,6 +279,13 @@ public class SKYFileCacheManage {
 		}
 	}
 
+	/**
+	 * @param dataMap
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	private <T> String dataMaptoJson(Map<String, T> dataMap) {
 		try {
 			return SKYGsonHelper.buildGson().toJson(dataMap);
@@ -218,6 +302,8 @@ public class SKYFileCacheManage {
 	 *            the name of the file
 	 * @param dataMap
 	 *            the map data you want to store
+	 * @param <T>
+	 *            参数
 	 */
 	public <T> void writeDataMapFile(String fileName, Map<String, T> dataMap) {
 		writeFile(fileName, dataMaptoJson(dataMap));
@@ -226,6 +312,8 @@ public class SKYFileCacheManage {
 	/**
 	 * @param fileName
 	 *            the name of the file
+	 * @param <T>
+	 *            参数
 	 * @return the map data you previous stored
 	 */
 	public <T> Map<String, T> readDataMapFile(String fileName) {

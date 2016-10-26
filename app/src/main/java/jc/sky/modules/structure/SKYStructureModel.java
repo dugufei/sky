@@ -14,9 +14,8 @@ import jc.sky.core.SKYBiz;
 import jc.sky.modules.methodProxy.SKYProxy;
 
 /**
- * @创建人 sky
- * @创建时间 16/4/11 下午1:29
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYStructureModel {
 

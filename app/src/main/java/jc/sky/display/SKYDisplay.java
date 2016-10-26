@@ -20,9 +20,8 @@ import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.view.SKYActivity;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/11 下午2:39
- * @类描述 统一控制TitleBar、Drawer以及所有Activity和Fragment跳转
+ * @author sky
+ * @version 版本
  */
 public class SKYDisplay implements SKYIDisplay {
 

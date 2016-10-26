@@ -3,9 +3,8 @@ package jc.sky.modules.download;
 import android.net.Uri;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 上午11:46
- * @类描述 下载请求
+ * @author sky
+ * @version 版本
  */
 public class SKYDownloadRequest extends SKYBaseRequest {
 
@@ -75,6 +74,8 @@ public class SKYDownloadRequest extends SKYBaseRequest {
 	 * 设置目标地址
 	 * 
 	 * @param destinationUrl
+	 *            参数
+	 * @return 返回值
 	 */
 	public SKYDownloadRequest setDestinationUrl(Uri destinationUrl) {
 		this.destinationUrl = destinationUrl;
@@ -86,7 +87,7 @@ public class SKYDownloadRequest extends SKYBaseRequest {
 	 * 
 	 * @param SKYDownloadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYDownloadRequest setSKYDownloadListener(SKYDownloadListener SKYDownloadListener) {
 		this.SKYDownloadListener = SKYDownloadListener;

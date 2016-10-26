@@ -7,9 +7,8 @@ import jc.sky.common.utils.SKYCheckUtils;
 import okhttp3.Headers;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/8 上午11:10
- * @类描述 头部信息 - 仅仅支持一种 还需要完善
+ * @author sky
+ * @version 版本
  */
 public class SKYUploadBody<T> {
 

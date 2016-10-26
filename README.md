@@ -5,8 +5,8 @@
 
 Gradle 版本
 -----------------------------------
-1.classpath 'com.android.tools.build:gradle:2.2.1'<br />
-2.版本 - gradle-3.0-all.zip<br />
+1.插件 com.android.tools.build:gradle:2.2.1'<br />
+2.版本 - gradle-3.1-all.zip<br />
 
 项目引用 - 方法1
 ----------

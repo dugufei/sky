@@ -9,7 +9,8 @@ import jc.sky.modules.structure.SKYStructureModel;
 import retrofit2.Call;
 
 /**
- * Created by sky on 15/2/1.
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYBiz<U> implements SKYIBiz {
 
@@ -52,7 +53,7 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 	/**
 	 * View层 回调引用
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	protected U ui() {
 		if (u == null) {
@@ -66,8 +67,10 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 	 * View层 回调
 	 * 
 	 * @param clazz
+	 *            参数
 	 * @param <V>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected <V> V ui(Class<V> clazz) {
 		if (clazz.equals(ui)) {
@@ -77,6 +80,13 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 		}
 	}
 
+	/**
+	 * @param call
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
 	protected <D> D httpBody(Call<D> call) {
 		callVector.add(call);
 		return SKYHelper.httpBody(call);
@@ -85,12 +95,16 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 	/**
 	 * View层 是否存在
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public boolean isUI() {
 		return u != null;
 	}
 
+	/**
+	 * @param SKYStructureModel
+	 *            参数
+	 */
 	@Override public void initUI(SKYStructureModel SKYStructureModel) {
 		this.SKYStructureModel = SKYStructureModel;
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);

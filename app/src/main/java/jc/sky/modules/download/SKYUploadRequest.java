@@ -5,23 +5,21 @@ import android.net.Uri;
 import jc.sky.common.utils.SKYCheckUtils;
 import okhttp3.Headers;
 
-
 /**
- * @创建人 sky
- * @创建时间 15/4/3 下午3:25
- * @类描述 上传请求
+ * @author sky
+ * @version 版本
  */
 public class SKYUploadRequest extends SKYBaseRequest {
 
 	private Uri					uploadUri;
 
-	private SKYUploadListener SKYUploadListener;
+	private SKYUploadListener	SKYUploadListener;
 
 	Headers.Builder				headers;
 
-	SKYContentType SKYContentType;
+	SKYContentType				SKYContentType;
 
-	SKYUploadBody SKYUploadBody;
+	SKYUploadBody				SKYUploadBody;
 
 	/**
 	 * 初始化
@@ -53,8 +51,10 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 * 添加头信息
 	 *
 	 * @param headerName
+	 *            参数
 	 * @param headerValue
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public SKYUploadRequest addHeader(String headerName, String headerValue) {
 		headers.add(headerName, headerValue);
@@ -65,8 +65,10 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 * 添加头信息
 	 *
 	 * @param headerName
+	 *            参数
 	 * @param headerValue
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public SKYUploadRequest addHeaderBody(String headerName, String headerValue) {
 		headers.add(headerName, headerValue);
@@ -76,7 +78,7 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	/**
 	 * 返回请求头信息
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public Headers getHeaders() {
 		return headers.build();
@@ -85,7 +87,7 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	/**
 	 * 返回请求体
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYUploadBody getSKYUploadBody() {
 		return SKYUploadBody;
@@ -94,7 +96,7 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	/**
 	 * 返回类型
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYContentType getSKYContentType() {
 		return SKYContentType;
@@ -123,7 +125,7 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 *
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYUploadRequest setSKYUploadListener(SKYUploadListener SKYUploadListener) {
 		this.SKYUploadListener = SKYUploadListener;

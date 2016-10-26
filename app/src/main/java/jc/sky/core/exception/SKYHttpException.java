@@ -1,9 +1,8 @@
 package jc.sky.core.exception;
 
 /**
- * @创建人 sky
- * @创建时间 16/10/12 上午10:47
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYHttpException extends RuntimeException {
 

@@ -28,12 +28,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 /**
- * Created by sky on 15/1/28. helper 管理
+ * @author sky
+ * @version 版本 版本
  */
 public class SKYHelper {
 
 	private static SKYModulesManage mSKYModulesManage = null;
 
+	/**
+	 * @return 返回值
+	 */
 	public static Bind newBind() {
 		return new Bind();
 	}
@@ -42,6 +46,11 @@ public class SKYHelper {
 
 		ISKYBind iskyBind;
 
+		/**
+		 * @param iskyBind
+		 *            参数
+		 * @return 返回值
+		 */
 		public Bind setSkyBind(ISKYBind iskyBind) {
 			this.iskyBind = iskyBind;
 			return this;
@@ -49,11 +58,20 @@ public class SKYHelper {
 
 		SKYIViewCommon skyiViewCommon;
 
+		/**
+		 * @param skyiViewCommon
+		 *            参数
+		 * @return 返回值
+		 */
 		public Bind setIViewCommon(SKYIViewCommon skyiViewCommon) {
 			this.skyiViewCommon = skyiViewCommon;
 			return this;
 		}
 
+		/**
+		 * @param application
+		 *            参数
+		 */
 		public void Inject(Application application) {
 			if (application == null) {
 				throw new RuntimeException("Sky架构:Application没有设置");
@@ -80,7 +98,8 @@ public class SKYHelper {
 	 * 获取管理
 	 *
 	 * @param <M>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected static <M> M getManage() {
 		return (M) mSKYModulesManage;
@@ -90,8 +109,10 @@ public class SKYHelper {
 	 * 获取启动管理器
 	 *
 	 * @param eClass
+	 *            参数
 	 * @param <D>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return mSKYModulesManage.getCacheManager().display(eClass);
@@ -101,8 +122,10 @@ public class SKYHelper {
 	 * 获取业务
 	 *
 	 * @param service
+	 *            参数
 	 * @param <B>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <B extends SKYIBiz> B biz(Class<B> service) {
 		return structureHelper().biz(service);
@@ -112,7 +135,9 @@ public class SKYHelper {
 	 * 业务是否存在
 	 *
 	 * @param service
+	 *            参数
 	 * @param <B>
+	 *            参数
 	 * @return true 存在 false 不存在
 	 */
 	public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
@@ -123,8 +148,10 @@ public class SKYHelper {
 	 * 获取业务
 	 *
 	 * @param service
+	 *            参数
 	 * @param <B>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <B extends SKYIBiz> List<B> bizList(Class<B> service) {
 		return structureHelper().bizList(service);
@@ -134,8 +161,10 @@ public class SKYHelper {
 	 * 公用
 	 *
 	 * @param service
+	 *            参数
 	 * @param <B>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <B extends SKYICommonBiz> B common(Class<B> service) {
 		return mSKYModulesManage.getCacheManager().common(service);
@@ -145,8 +174,10 @@ public class SKYHelper {
 	 * 获取网络
 	 *
 	 * @param httpClazz
+	 *            参数
 	 * @param <H>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <H> H http(Class<H> httpClazz) {
 		return mSKYModulesManage.getCacheManager().http(httpClazz);
@@ -157,8 +188,10 @@ public class SKYHelper {
 	 * 获取实现类
 	 *
 	 * @param implClazz
+	 *            参数
 	 * @param <I>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <I> I interfaces(Class<I> implClazz) {
 		return mSKYModulesManage.getCacheManager().interfaces(implClazz);
@@ -167,7 +200,7 @@ public class SKYHelper {
 	/**
 	 * 获取方法代理
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYMethods methodsProxy() {
 		return mSKYModulesManage.getSKYMethods();
@@ -176,7 +209,7 @@ public class SKYHelper {
 	/**
 	 * 获取全局上下文
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static Application getInstance() {
 		return mSKYModulesManage.getApplication();
@@ -185,7 +218,7 @@ public class SKYHelper {
 	/**
 	 * 获取网络适配器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final Retrofit httpAdapter() {
 		return mSKYModulesManage.getSKYRestAdapter();
@@ -195,8 +228,10 @@ public class SKYHelper {
 	 * 获取网络数据
 	 * 
 	 * @param call
+	 *            参数
 	 * @param <D>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static final <D> D httpBody(Call<D> call) {
 		if (call == null) {
@@ -234,6 +269,7 @@ public class SKYHelper {
 	 * 取消网络请求
 	 * 
 	 * @param call
+	 *            参数
 	 */
 	public static final void httpCancel(Call call) {
 		if (call == null) {
@@ -265,8 +301,9 @@ public class SKYHelper {
 
 	/**
 	 * SKYThreadPoolManager 线程池管理器
+	 * 
+	 * @return 返回值
 	 */
-
 	public static final SKYThreadPoolManager threadPoolHelper() {
 		return mSKYModulesManage.getSKYThreadPoolManager();
 	}
@@ -274,7 +311,7 @@ public class SKYHelper {
 	/**
 	 * MainLooper 主线程中执行
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SynchronousExecutor mainLooper() {
 		return mSKYModulesManage.getSynchronousExecutor();
@@ -283,7 +320,7 @@ public class SKYHelper {
 	/**
 	 * 下载器工具
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYDownloadManager downloader() {
 		return mSKYModulesManage.getSKYDownloadManager();
@@ -292,7 +329,7 @@ public class SKYHelper {
 	/**
 	 * Toast 提示信息
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYToast toast() {
 		return mSKYModulesManage.getSKYToast();
@@ -301,7 +338,7 @@ public class SKYHelper {
 	/**
 	 * 通讯录管理器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYIContact contact() {
 		return mSKYModulesManage.getContactManage();
@@ -319,7 +356,7 @@ public class SKYHelper {
 	/**
 	 * 文件缓存管理器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYFileCacheManage fileCacheManage() {
 		return mSKYModulesManage.getSKYFileCacheManage();
@@ -328,7 +365,7 @@ public class SKYHelper {
 	/**
 	 * 是否打印日志
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static boolean isLogOpen() {
 		return mSKYModulesManage.isLog();
@@ -337,7 +374,7 @@ public class SKYHelper {
 	/**
 	 * 公共视图
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public static SKYIViewCommon getComnonView() {
 		return mSKYModulesManage.getSkyiViewCommon();

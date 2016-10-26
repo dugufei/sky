@@ -5,7 +5,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by sky on 15/3/20.
+ * @author sky
+ * @version 版本
  */
 public class SKYWorkExecutorService extends ThreadPoolExecutor {
 

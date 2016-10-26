@@ -1,9 +1,8 @@
 package jc.sky.modules.download;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 下午2:13
- * @类描述 进度回调接口
+ * @author sky
+ * @version 版本
  */
 public interface SKYDownloadListener {
 

@@ -10,15 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import jc.sky.core.Impl;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/11 下午2:40
- * @类描述 统一控制TitleBar、Drawer以及所有Activity和Fragment跳转
+ * @author sky
+ * @version 版本
  */
 @Impl(SKYDisplay.class)
 public interface SKYIDisplay {
@@ -26,18 +24,26 @@ public interface SKYIDisplay {
 	/**
 	 * 获取上下文
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	Context context();
 
+	/**
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	<T extends FragmentActivity> T activity();
 
 	/**
 	 * 跳转
 	 * 
 	 * @param clazz
+	 *            参数
 	 * @param fragment
+	 *            参数
 	 * @param requestCode
+	 *            参数
 	 */
 	void intentFromFragment(@NotNull Class clazz, @NotNull Fragment fragment, int requestCode);
 
@@ -45,8 +51,11 @@ public interface SKYIDisplay {
 	 * 跳转
 	 * 
 	 * @param intent
+	 *            参数
 	 * @param fragment
+	 *            参数
 	 * @param requestCode
+	 *            参数
 	 */
 	void intentFromFragment(@NotNull Intent intent, @NotNull Fragment fragment, int requestCode);
 
@@ -55,71 +64,282 @@ public interface SKYIDisplay {
 	 */
 	void onKeyHome();
 
+	/**
+	 * 
+	 */
 	void popBackStack();
 
+	/**
+	 * @param clazz
+	 *            参数
+	 */
 	void popBackStack(@NotNull Class clazz);
 
+	/**
+	 * @param clazzName
+	 *            参数
+	 */
 	void popBackStack(@NotNull String clazzName);
 
+	/**
+	 * 
+	 */
 	void popBackStackAll();
 
+	/**
+	 * @param fragment
+	 *            参数
+	 */
 	void commitAdd(@NotNull Fragment fragment);
 
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitAdd(@IdRes int layoutId, @NotNull Fragment fragment);
 
+	/**
+	 * @param fragment
+	 *            参数
+	 */
 	void commitReplace(@NotNull Fragment fragment);
 
+	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitChildReplace(@NotNull Fragment srcFragment, @IdRes int layoutId, @NotNull Fragment fragment);
 
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitReplace(@IdRes int layoutId, @NotNull Fragment fragment);
 
+	/**
+	 * @param fragment
+	 *            参数
+	 */
 	void commitBackStack(@NotNull Fragment fragment);
 
+	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitHideAndBackStack(@NotNull Fragment srcFragment, @NotNull Fragment fragment);
 
+	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitDetachAndBackStack(@NotNull Fragment srcFragment, @NotNull Fragment fragment);
 
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void commitBackStack(@IdRes int layoutId, @NotNull Fragment fragment);
 
+	/**
+	 * @param layoutId
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 * @param animation
+	 *            参数
+	 */
 	void commitBackStack(@IdRes int layoutId, @NotNull Fragment fragment, int animation);
 
-	/** 跳转intent **/
+	/**
+	 * 跳转intent
+	 * 
+	 * @param clazz
+	 *            参数
+	 **/
 
 	void intent(@NotNull Class clazz);
 
+	/**
+	 * @param clazzName
+	 *            参数
+	 */
 	void intent(@NotNull String clazzName);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 */
 	void intentNotAnimation(@NotNull Class clazz);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 */
 	void intent(@NotNull Class clazz, Bundle bundle);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 */
 	void intentNotAnimation(@NotNull Class clazz, @NotNull Bundle bundle);
 
+	/**
+	 * @param intent
+	 *            参数
+	 */
 	void intent(@NotNull Intent intent);
 
+	/**
+	 * @param intent
+	 *            参数
+	 * @param options
+	 *            参数
+	 */
 	void intent(@NotNull Intent intent, @NotNull Bundle options);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResult(@NotNull Class clazz, int requestCode);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
 	void intentForResultFromFragment(@NotNull Class clazz, Bundle bundle, int requestCode, @NotNull Fragment fragment);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResult(@NotNull Class clazz, @NotNull Bundle bundle, int requestCode);
 
+	/**
+	 * @param intent
+	 *            参数
+	 * @param requestCod
+	 *            参数
+	 */
 	void intentForResult(@NotNull Intent intent, int requestCod);
 
+	/**
+	 * @param intent
+	 *            参数
+	 * @param options
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResult(@NotNull Intent intent, @NotNull Bundle options, int requestCode);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param view
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 */
 	void intentAnimation(@NotNull Class clazz, @NotNull View view, Bundle bundle);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param in
+	 *            参数
+	 * @param out
+	 *            参数
+	 */
 	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param in
+	 *            参数
+	 * @param out
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 */
 	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param view
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResultAnimation(@NotNull Class clazz, @NotNull View view, int requestCode);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param view
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResultAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bundle bundle, int requestCode);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param in
+	 *            参数
+	 * @param out
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, int requestCode);
 
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param in
+	 *            参数
+	 * @param out
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 * @param requestCode
+	 *            参数
+	 */
 	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle, int requestCode);
 }

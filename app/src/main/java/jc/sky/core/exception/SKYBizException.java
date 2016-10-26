@@ -1,9 +1,8 @@
 package jc.sky.core.exception;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/13 上午1:10
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYBizException extends RuntimeException {
 

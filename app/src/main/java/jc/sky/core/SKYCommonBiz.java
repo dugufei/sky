@@ -4,9 +4,8 @@ import jc.sky.SKYHelper;
 import jc.sky.display.SKYIDisplay;
 
 /**
- * @创建人 sky
- * @创建时间 16/4/13 下午6:02
- * @类描述 公共接口
+ * @author sky
+ * @version 版本
  */
 public class SKYCommonBiz implements SKYICommonBiz {
 

@@ -1,9 +1,8 @@
 package jc.sky.view.model;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/16 下午8:20
- * @类描述 一句话说明这个类是干什么的
+ * @author sky
+ * @version 版本
  */
 public final class TabsType {
 

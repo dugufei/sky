@@ -6,9 +6,8 @@ import java.io.File;
 import java.util.List;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 上午11:52
- * @类描述 下载管理器接口
+ * @author sky
+ * @version 版本
  */
 public interface SKYIDownloadMagnager {
 
@@ -110,7 +109,7 @@ public interface SKYIDownloadMagnager {
 	 * 
 	 * @param downloadId
 	 *            请求ID
-	 * @return
+	 * @return 返回值
 	 */
 	int query(int downloadId);
 
@@ -128,6 +127,7 @@ public interface SKYIDownloadMagnager {
 	 *            文件名
 	 * @param SKYDownloadListener
 	 *            事件
+	 * @return 返回值
 	 */
 	int download(String url, String fileName, SKYDownloadListener SKYDownloadListener);
 
@@ -142,6 +142,7 @@ public interface SKYIDownloadMagnager {
 	 *            文件名
 	 * @param SKYDownloadListener
 	 *            事件
+	 * @return 返回值
 	 */
 	int download(String url, String destination, String fileName, SKYDownloadListener SKYDownloadListener);
 
@@ -154,6 +155,7 @@ public interface SKYIDownloadMagnager {
 	 *            路径
 	 * @param SKYDownloadListener
 	 *            事件
+	 * @return 返回值
 	 */
 	int download(Uri downloadUri, Uri destinationUri, SKYDownloadListener SKYDownloadListener);
 
@@ -163,11 +165,12 @@ public interface SKYIDownloadMagnager {
 	 * @param uploadUri
 	 *            上传地址
 	 * @param SKYUploadHeader
+	 *            参数
 	 * @param SKYUploadBody
 	 *            请求体
 	 * @param SKYUploadListener
 	 *            上传事件
-	 * @return
+	 * @return 返回值
 	 */
 	int upload(Uri uploadUri, SKYUploadHeader SKYUploadHeader, SKYUploadBody SKYUploadBody, SKYUploadListener SKYUploadListener);
 
@@ -184,7 +187,7 @@ public interface SKYIDownloadMagnager {
 	 *            类型
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	int upload(Uri uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 
@@ -197,7 +200,7 @@ public interface SKYIDownloadMagnager {
 	 *            文件
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	int upload(String uploadUri, File file, SKYUploadListener SKYUploadListener);
 
@@ -212,7 +215,7 @@ public interface SKYIDownloadMagnager {
 	 *            请求头信息
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	int upload(String uploadUri, File file, SKYUploadHeader SKYUploadHeader, SKYUploadListener SKYUploadListener);
 
@@ -227,11 +230,37 @@ public interface SKYIDownloadMagnager {
 	 *            文件
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYUploadListener SKYUploadListener);
 
+	/**
+	 * @param uploadUri
+	 *            参数
+	 * @param SKYUploadHeaders
+	 *            参数
+	 * @param file
+	 *            参数
+	 * @param SKYContentType
+	 *            参数
+	 * @param SKYUploadListener
+	 *            参数
+	 * @return 返回值
+	 */
 	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 
+	/**
+	 * @param uploadUri
+	 *            参数
+	 * @param SKYUploadHeaders
+	 *            参数
+	 * @param SKYUploadBody
+	 *            参数
+	 * @param SKYContentType
+	 *            参数
+	 * @param SKYUploadListener
+	 *            参数
+	 * @return 返回值
+	 */
 	int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener);
 }

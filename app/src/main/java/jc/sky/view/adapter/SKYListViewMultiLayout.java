@@ -1,9 +1,8 @@
 package jc.sky.view.adapter;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/13 上午9:39
- * @类描述 ListView 多布局接口
+ * @author sky
+ * @version 版本
  */
 public interface SKYListViewMultiLayout {
 
@@ -11,14 +10,15 @@ public interface SKYListViewMultiLayout {
 	 * 类型
 	 * 
 	 * @param position
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	int getSKYViewType(int position);
 
 	/**
 	 * 类型数量
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	int getSKYViewTypeCount();
 
@@ -26,7 +26,8 @@ public interface SKYListViewMultiLayout {
 	 * 根据类型获取适配器Item
 	 * 
 	 * @param type
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	SKYAdapterItem getSKYAdapterItem(int type);
 }

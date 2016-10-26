@@ -14,9 +14,8 @@ import jc.sky.view.SKYFragment;
 import jc.sky.view.SKYView;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/17 上午10:51
- * @类描述 RecyclerView 适配器
+ * @author sky 15/7/17 上午10:51
+ * @version 版本 RecyclerView 适配器
  */
 public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.Adapter<V> {
 
@@ -29,7 +28,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 */
 	private List	mItems;
 
-	private SKYView SKYView;
+	private SKYView	SKYView;
 
 	public SKYRVAdapter(SKYActivity SKYActivity) {
 		SKYCheckUtils.checkNotNull(SKYActivity, "View层不存在");
@@ -152,7 +151,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	/**
 	 * 获取适配器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	protected SKYRVAdapter getAdapter() {
 		return this;
@@ -160,9 +159,12 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	/**
 	 * 获取fragment
-	 *
+	 * 
+	 * @param <T>
+	 *            参数
 	 * @param clazz
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
@@ -181,8 +183,10 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 * 获取调度
 	 *
 	 * @param e
+	 *            参数
 	 * @param <E>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return SKYView.display(e);

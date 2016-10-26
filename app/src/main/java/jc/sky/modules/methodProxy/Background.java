@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 import jc.sky.modules.threadpool.BackgroundType;
 
 /**
- * Created by sky on 15/2/20.
+ * @author sky
+ * @version 版本
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

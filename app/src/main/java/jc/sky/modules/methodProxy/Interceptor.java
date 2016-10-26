@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by sky on 15/2/20.
+ * @author sky
+ * @version 版本
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @创建人 sky
- * @创建时间 16/2/27
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYScreenManager {
 
@@ -36,6 +35,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 检查当前应用程序是否正在运行或不运行。如果应用程序 在背景-按下按钮或某种方式中断-然后它 假定应用程序不运行
+	 * @return 返回值
 	 */
 	public boolean isApplicationRunning() {
 		synchronized (activities) {
@@ -47,6 +47,8 @@ public class SKYScreenManager {
 
 	/**
 	 * 返回当前活动活动
+	 * @param <T> 参数
+	 * @return 返回值
 	 */
 	public <T extends FragmentActivity> T getCurrentIsRunningActivity() {
 		if (activities.size() > 0) {
@@ -70,6 +72,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 保持参考下一个活动，这是必要的，以目前 活动，而不是整理前一个
+	 * @param transporter    参数
 	 */
 	public void setNextStep(SKYActivityTransporter transporter) {
 		nextStep = transporter;
@@ -77,6 +80,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 从当前活动中开始预定义的临时活动的预定义活动， 如果需要的话，必须完成
+	 * @param finishThis    参数
 	 */
 	public void moveForward(boolean finishThis) {
 		if (nextStep != null) {
@@ -97,6 +101,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 开始
+	 * @param activity    参数
 	 */
 	public void onCreate(FragmentActivity activity) {
 		onCreate(activity, false);
@@ -104,6 +109,8 @@ public class SKYScreenManager {
 
 	/**
 	 * 附加阵列，具有实例的活动，并指定了 活动是登陆一个或不。#这种方法仅仅是保持跟踪 对给定的活动没有影响
+	 * @param activity     参数
+	 * @param asLanding 参数
 	 */
 	public void onCreate(FragmentActivity activity, boolean asLanding) {
 		synchronized (activities) {
@@ -113,6 +120,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 开始一系列新的活动
+	 * @param array    参数
 	 */
 	@SuppressLint("NewApi") public void startWithNewArray(Intent[] array) {
 		if (Build.VERSION.SDK_INT < HONEYCOMB) {
@@ -132,6 +140,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 返回登陆活动的实例
+	 * @return 返回值
 	 */
 	public SKYScreenHolder getLanding() {
 		synchronized (activities) {
@@ -144,6 +153,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 改变活动的登陆属性
+	 * @param activity    参数
 	 */
 	public void setAsLanding(FragmentActivity activity) {
 		synchronized (activities) {
@@ -168,6 +178,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 确定已经有一个活动
+	 * @return 返回值
 	 */
 	public boolean hasLanding() {
 		synchronized (activities) {
@@ -180,6 +191,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 改变给定活动的状态，因为它不再运行了。#这 方法只是保持跟踪对给定的活动没有影响
+	 * @param activity    参数
 	 */
 	public void onPause(Activity activity) {
 		synchronized (activities) {
@@ -227,6 +239,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 如果给定类的任何实例存在，则结束并将其从 数组。
+	 * @param clazz    参数
 	 */
 	public void finishInstance(Class<?> clazz) {
 		synchronized (activities) {
@@ -242,7 +255,7 @@ public class SKYScreenManager {
 	/**
 	 * 出栈不相等的activity
 	 *
-	 * @param clazz
+	 * @param clazz    参数
 	 */
 	public void finishNotInstance(Class<?> clazz) {
 		synchronized (activities) {
@@ -286,6 +299,7 @@ public class SKYScreenManager {
 
 	/**
 	 * 完成所有的活动，直到给定类的实例
+	 * @param clazz    参数
 	 */
 	public void toInstanceOf(Class<?> clazz) {
 		synchronized (activities) {

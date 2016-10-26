@@ -10,9 +10,8 @@ import android.widget.Toast;
 import jc.sky.SKYHelper;
 
 /**
- * @创建人 sky
- * @创建时间 15/6/18 下午4:03
- * @类描述 自定义Toast
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYCusomToast {
 
@@ -23,16 +22,23 @@ public abstract class SKYCusomToast {
 	/**
 	 * 布局ID
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public abstract int layoutId();
 
+	/**
+	 * 
+	 * @param view
+	 *            参数
+	 * @param msg
+	 *            参数
+	 */
 	public abstract void init(View view, String msg);
 
 	/**
 	 * 位置
 	 * 
-	 * @return 默认 居中
+	 * @return 返回值 默认 居中
 	 */
 	public int getGravity() {
 		return Gravity.CENTER;
@@ -41,7 +47,7 @@ public abstract class SKYCusomToast {
 	/**
 	 * 设置显示时间
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public int getDuration() {
 		return Toast.LENGTH_SHORT;
@@ -51,6 +57,7 @@ public abstract class SKYCusomToast {
 	 * 显示
 	 * 
 	 * @param msg
+	 *            参数
 	 */
 	public void show(final String msg) {
 		// 判断是否在主线程
@@ -72,6 +79,9 @@ public abstract class SKYCusomToast {
 	 * 显示
 	 * 
 	 * @param msg
+	 *            参数
+	 * @param duration
+	 *            参数
 	 */
 	public void show(final String msg, final int duration) {
 		// 判断是否在主线程
@@ -93,7 +103,9 @@ public abstract class SKYCusomToast {
 	 * 显示
 	 *
 	 * @param msg
+	 *            参数
 	 * @param duration
+	 *            参数
 	 */
 	protected void cusomShow(String msg, int duration) {
 		if (mToast == null) {

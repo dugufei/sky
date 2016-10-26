@@ -1,9 +1,8 @@
 package jc.sky.modules.contact.bean;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/26
- * @类描述 用户
+ * @author sky
+ * @version 版本
  */
 public class ContactUser {
 

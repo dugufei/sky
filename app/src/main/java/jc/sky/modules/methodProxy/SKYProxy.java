@@ -5,9 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import jc.sky.core.SKYIBiz;
 
 /**
- * @创建人 sky
- * @创建时间 16/4/8 下午9:37
- * @类描述 代理类
+ * @author sky
+ * @version 版本
  */
 public class SKYProxy {
 

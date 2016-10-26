@@ -49,9 +49,8 @@ import jc.sky.view.common.SKYFooterListener;
 import jc.sky.view.common.SKYRefreshListener;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/16 下午8:12
- * @类描述 编辑
+ * @author sky
+ * @version 版本
  */
 public class SKYBuilder implements AbsListView.OnScrollListener {
 
@@ -69,7 +68,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * 构造器
 	 *
 	 * @param skyActivity
+	 *            参数
 	 * @param inflater
+	 *            参数
 	 */
 	public SKYBuilder(@NonNull SKYActivity skyActivity, @NonNull LayoutInflater inflater) {
 		skyView = new SKYView();
@@ -81,7 +82,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * 构造器
 	 *
 	 * @param SKYFragment
+	 *            参数
 	 * @param inflater
+	 *            参数
 	 */
 	public SKYBuilder(@NonNull SKYFragment SKYFragment, @NonNull LayoutInflater inflater) {
 		skyView = new SKYView();
@@ -93,7 +96,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * 构造器
 	 *
 	 * @param SKYDialogFragment
+	 *            参数
 	 * @param inflater
+	 *            参数
 	 */
 	public SKYBuilder(@NonNull SKYDialogFragment SKYDialogFragment, @NonNull LayoutInflater inflater) {
 		skyView = new SKYView();

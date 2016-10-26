@@ -3,15 +3,16 @@ package jc.sky.view.common;
 import android.view.View;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/16 下午3:49
- * @类描述 事件
+ * @author sky
+ * @version 版本
  */
 public interface SKYViewPagerChangeListener {
 
 	/**
 	 * ViewPager 滑动事件 - 滑动过程
 	 *
+	 * @param position
+	 *            参数
 	 * @param left
 	 *            左视图
 	 * @param right
@@ -41,6 +42,7 @@ public interface SKYViewPagerChangeListener {
 	 * ViewPager 滑动事件 - 滑动改变
 	 *
 	 * @param i
+	 *            参数
 	 */
 	void onExtraPageScrollStateChanged(int i);
 }

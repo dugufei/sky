@@ -25,30 +25,30 @@ import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/18 上午11:49
- * @类描述 View层碎片
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements View.OnTouchListener {
 
 	private boolean		targetActivity;
 
-	SKYStructureModel SKYStructureModel;
+	SKYStructureModel	SKYStructureModel;
 
-	private Unbinder unbinder;
+	private Unbinder	unbinder;
 
 	/**
 	 * 定制
 	 *
 	 * @param initialSKYBuilder
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 **/
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
 	 * 初始化dagger
 	 */
-	protected void initDagger(){
+	protected void initDagger() {
 
 	}
 
@@ -56,6 +56,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * 数据
 	 *
 	 * @param savedInstanceState
+	 *            参数
 	 */
 	protected void createData(Bundle savedInstanceState) {
 
@@ -87,7 +88,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		SKYBuilder = new SKYBuilder(this, inflater);
 		View view = build(SKYBuilder).create();
 		/** 初始化所有组建 **/
-		unbinder  = ButterKnife.bind(this, view);
+		unbinder = ButterKnife.bind(this, view);
 		/** 初始化点击事件 **/
 		view.setOnTouchListener(this);// 设置点击事件
 		return view;
@@ -187,7 +188,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	/**
 	 * 是否设置目标活动
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public boolean isTargetActivity() {
 		return targetActivity;
@@ -197,6 +198,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * 设置目标活动
 	 * 
 	 * @param targetActivity
+	 *            参数
 	 */
 	public void setTargetActivity(boolean targetActivity) {
 		this.targetActivity = targetActivity;
@@ -217,6 +219,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	/**
 	 * 返回键
+	 * 
+	 * @return 返回值
 	 */
 	public boolean onKeyBack() {
 		getActivity().onBackPressed();
@@ -227,6 +231,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * 设置输入法
 	 * 
 	 * @param mode
+	 *            参数
 	 */
 	public void setSoftInputMode(int mode) {
 		getActivity().getWindow().setSoftInputMode(mode);
@@ -235,9 +240,12 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	/********************** View业务代码 *********************/
 	/**
 	 * 获取fragment
-	 *
+	 * 
+	 * @param <T>
+	 *            参数
 	 * @param clazz
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
@@ -248,7 +256,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * 获取activity
 	 *
 	 * @param <A>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected <A extends SKYActivity> A activity() {
 		return (A) getActivity();
@@ -290,13 +299,21 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		}
 	}
 
-	/********************** Actionbar业务代码 *********************/
+	/**********************
+	 * Actionbar业务代码
+	 * 
+	 * @return 返回值
+	 *********************/
 	public Toolbar toolbar() {
 		return SKYBuilder.getToolbar();
 
 	}
 
-	/********************** RecyclerView业务代码 *********************/
+	/**********************
+	 * RecyclerView业务代码
+	 * 
+	 * @return 返回值
+	 *********************/
 
 	protected SKYRVAdapter recyclerAdapter() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();

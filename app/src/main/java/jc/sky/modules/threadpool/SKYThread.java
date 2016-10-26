@@ -4,7 +4,8 @@ import android.os.Process;
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 /**
- * Created by sky on 15/2/20. 自定义线程
+ * @author sky
+ * @version 版本
  */
 class SKYThread extends Thread {
 

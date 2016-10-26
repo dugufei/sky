@@ -11,14 +11,18 @@ import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/15 下午7:39
- * @类描述 服务
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYService<B extends SKYIBiz> extends Service {
 
 	SKYStructureModel SKYStructureModel;
 
+	/**
+	 * @param intent
+	 *            参数
+	 * @return 返回值
+	 */
 	@Nullable @Override public IBinder onBind(Intent intent) {
 		return null;
 	}
@@ -32,6 +36,13 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 
 	/**
 	 * 运行
+	 * 
+	 * @param intent
+	 *            参数
+	 * @param flags
+	 *            参数
+	 * @param startId
+	 *            参数
 	 */
 	protected abstract void running(Intent intent, int flags, int startId);
 
@@ -43,14 +54,31 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 		initData();
 	}
 
+	/**
+	 * @param eClass
+	 *            参数
+	 * @param <D>
+	 *            参数
+	 * @return 返回值
+	 */
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return SKYHelper.display(eClass);
 	}
 
+	/**
+	 * @return 返回值
+	 */
 	public B biz() {
 		return (B) SKYStructureModel.getSKYProxy().proxy;
 	}
 
+	/**
+	 * @param service
+	 *            参数
+	 * @param <C>
+	 *            参数
+	 * @return 返回值
+	 */
 	public <C extends SKYIBiz> C biz(Class<C> service) {
 		if (SKYStructureModel.getService().equals(service)) {
 			return (C) SKYStructureModel.getSKYProxy().proxy;
@@ -63,6 +91,15 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 		SKYHelper.structureHelper().detach(SKYStructureModel);
 	}
 
+	/**
+	 * @param intent
+	 *            参数
+	 * @param flags
+	 *            参数
+	 * @param startId
+	 *            参数
+	 * @return 返回值
+	 */
 	@Override public int onStartCommand(Intent intent, int flags, int startId) {
 		running(intent, flags, startId);
 		return START_NOT_STICKY;

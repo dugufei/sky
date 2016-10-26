@@ -6,7 +6,8 @@ import android.widget.Toast;
 import jc.sky.SKYHelper;
 
 /**
- * Created by wungko on 15/3/17. 弱交互Tost 消息弹窗 Update by skyJC on 15/8/05
+ * @author sky
+ * @version 版本
  */
 public class SKYToast {
 
@@ -16,6 +17,7 @@ public class SKYToast {
 	 * 简单Toast 消息弹出
 	 * 
 	 * @param msg
+	 *            参数
 	 */
 	public void show(final String msg) {
 		// 判断是否在主线程
@@ -37,6 +39,7 @@ public class SKYToast {
 	 * 简单Toast 消息弹出
 	 * 
 	 * @param msg
+	 *            参数
 	 */
 	public void show(final int msg) {
 		// 判断是否在主线程
@@ -58,8 +61,11 @@ public class SKYToast {
 	 * 简单Toast 消息弹出
 	 * 
 	 * @param msg
+	 *            参数
+	 * @param duration
+	 *            参数
 	 */
-	public void show(final String msg,final int duration) {
+	public void show(final String msg, final int duration) {
 		// 判断是否在主线程
 		boolean isMainLooper = Looper.getMainLooper().getThread() != Thread.currentThread();
 
@@ -79,8 +85,11 @@ public class SKYToast {
 	 * 简单Toast 消息弹出
 	 * 
 	 * @param msg
+	 *            参数
+	 * @param duration
+	 *            参数
 	 */
-	public void show(final int msg,final int duration) {
+	public void show(final int msg, final int duration) {
 		// 判断是否在主线程
 		boolean isMainLooper = Looper.getMainLooper().getThread() != Thread.currentThread();
 
@@ -100,7 +109,9 @@ public class SKYToast {
 	 * 弹出提示
 	 * 
 	 * @param text
+	 *            参数
 	 * @param duration
+	 *            参数
 	 */
 	protected void showToast(String text, int duration) {
 		if (mToast == null) {

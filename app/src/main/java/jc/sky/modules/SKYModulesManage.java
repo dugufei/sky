@@ -20,9 +20,8 @@ import jc.sky.view.common.SKYIViewCommon;
 import retrofit2.Retrofit;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/5 下午3:17
- * @类描述 Modules管理
+ * @author sky
+ * @version 版本
  */
 public class SKYModulesManage {
 

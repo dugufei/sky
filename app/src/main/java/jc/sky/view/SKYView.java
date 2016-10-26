@@ -10,9 +10,8 @@ import jc.sky.display.SKYIDisplay;
 import jc.sky.common.utils.SKYCheckUtils;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/18 下午11:43
- * @类描述 UI层引用
+ * @author sky
+ * @version 版本
  */
 public class SKYView {
 
@@ -30,17 +29,22 @@ public class SKYView {
 	/** 类型 **/
 	private int					state;
 
-	private SKYActivity mSKYActivity;
+	private SKYActivity			mSKYActivity;
 
 	private Context				context;
 
-	private SKYFragment mSKYFragment;
+	private SKYFragment			mSKYFragment;
 
-	private SKYDialogFragment mSKYDialogFragment;
+	private SKYDialogFragment	mSKYDialogFragment;
 
 	private FragmentManager		fragmentManager;
 
-	/** 初始化 **/
+	/**
+	 * 初始化
+	 * 
+	 * @param mSKYActivity
+	 *            参数
+	 **/
 	public void initUI(SKYActivity mSKYActivity) {
 		this.state = STATE_ACTIVITY;
 		this.mSKYActivity = mSKYActivity;

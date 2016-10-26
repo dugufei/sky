@@ -19,15 +19,18 @@ import jc.sky.modules.toast.SKYToast;
 import retrofit2.Retrofit;
 
 /**
- * @创建人 sky
- * @创建时间 16/9/23 下午5:11
- * @类描述
+ * @author sky
+ * @version 版本
  */
 @Module
 public class SKYModule {
 
 	Application application;
 
+	/**
+	 * @param application
+	 *            参数
+	 */
 	public SKYModule(Application application) {
 		this.application = application;
 	}
@@ -39,7 +42,7 @@ public class SKYModule {
 	/**
 	 * 网络编辑器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public Retrofit.Builder provideRetrofit() {
 		return new Retrofit.Builder();
@@ -48,7 +51,7 @@ public class SKYModule {
 	/**
 	 * 方法编辑器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYMethods.Builder provideSKYMethods() {
 		return new SKYMethods.Builder();
@@ -57,7 +60,7 @@ public class SKYModule {
 	/**
 	 * 缓存管理器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public CacheManager provideCacheManager() {
 		return new CacheManager();
@@ -66,7 +69,7 @@ public class SKYModule {
 	/**
 	 * Activity堆栈管理
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYScreenManager provideSKYScreenManager() {
 		return new SKYScreenManager();
@@ -75,7 +78,7 @@ public class SKYModule {
 	/**
 	 * 线程池管理
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYThreadPoolManager provideSKYThreadPoolManager() {
 		return new SKYThreadPoolManager();
@@ -84,7 +87,7 @@ public class SKYModule {
 	/**
 	 * 结构管理器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYStructureManage provideSKYStructureManage() {
 		return new SKYStructureManage();
@@ -93,7 +96,7 @@ public class SKYModule {
 	/**
 	 * 主线程
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SynchronousExecutor provideSynchronousExecutor() {
 		return new SynchronousExecutor();
@@ -102,7 +105,7 @@ public class SKYModule {
 	/**
 	 * 提示信息
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYToast provideSKYToast() {
 		return new SKYToast();
@@ -111,7 +114,9 @@ public class SKYModule {
 	/**
 	 * 通讯录管理器
 	 * 
-	 * @return
+	 * @param application
+	 *            参数
+	 * @return 返回值
 	 */
 	@Provides @Singleton public ContactManage provideContactManage(Application application) {
 		return new ContactManage(application);
@@ -120,7 +125,7 @@ public class SKYModule {
 	/**
 	 * 下载管理
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYDownloadManager provideSKYDownloadManager() {
 		return new SKYDownloadManager();
@@ -129,7 +134,7 @@ public class SKYModule {
 	/**
 	 * 文件缓存管理器
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYFileCacheManage provideSKYFileCacheManage() {
 		return new SKYFileCacheManage();

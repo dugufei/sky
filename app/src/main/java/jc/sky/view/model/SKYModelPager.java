@@ -3,7 +3,8 @@ package jc.sky.view.model;
 import jc.sky.view.SKYFragment;
 
 /**
- * Created by sky on 15/3/8. ViewPager模型
+ * @author sky
+ * @version 版本
  */
 public class SKYModelPager {
 

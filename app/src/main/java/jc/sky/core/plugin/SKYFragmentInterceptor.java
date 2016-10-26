@@ -5,9 +5,8 @@ import android.os.Bundle;
 import jc.sky.view.SKYFragment;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/6
- * @类描述 fragment拦截器
+ * @author sky
+ * @version 版本
  */
 public interface SKYFragmentInterceptor {
 

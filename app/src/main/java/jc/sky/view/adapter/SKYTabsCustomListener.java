@@ -5,9 +5,8 @@ import android.view.View;
 import jc.sky.view.model.SKYModelPager;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/16 下午5:55
- * @类描述 ViewPager Tabs 自定义
+ * @author sky
+ * @version 版本
  */
 public interface SKYTabsCustomListener {
 

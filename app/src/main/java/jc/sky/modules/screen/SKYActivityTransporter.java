@@ -3,9 +3,8 @@ package jc.sky.modules.screen;
 import java.util.ArrayList;
 
 /**
- * @创建人 sky
- * @创建时间 16/2/27
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYActivityTransporter {
 
@@ -18,6 +17,9 @@ public class SKYActivityTransporter {
 
     /**
      * It is only possible to send strings as extra.
+     * @param key      参数
+     * @param value 参数
+     * @return 返回值
      */
     public SKYActivityTransporter addExtra(String key, String value) {
         if (extras == null)

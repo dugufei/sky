@@ -35,9 +35,8 @@ import jc.sky.modules.contact.bean.ContactPhone;
 import jc.sky.modules.contact.bean.ContactWebsite;
 
 /**
- * @创建人 sky
- * @创建时间 15/5/4 下午5:26
- * @类描述 电话本工具类
+ * @author sky
+ * @version 版本 1
  */
 public class ContactManage implements SKYIContact, SKYIWriteContact {
 
@@ -185,7 +184,8 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	 * 返回联系人电话号码
 	 *
 	 * @param contactId
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private List<ContactPhone> getContactPhoneNumbersById(String contactId) {
 		List<ContactPhone> phoneNumbers = new ArrayList<>();
@@ -207,8 +207,8 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	/**
 	 * 返回联系人邮箱
 	 *
-	 * @param contactId
-	 * @return
+	 * @param contactId 参数
+	 * @return 返回值
 	 */
 	private List<ContactEmail> getContactEmailByContactId(String contactId) {
 		List<ContactEmail> emails = new ArrayList<>();
@@ -229,7 +229,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	/**
 	 * 获取所有联系人 - 详情
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public List<ContactDetailModel> getAllPhoneDetailContacts(String userName) {
 		List<ContactDetailModel> contacts = new ArrayList<>();
@@ -394,7 +394,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	/**
 	 * 获取所有联系人 - 详情
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public List<ContactDetailModel> getAllPhoneDetailContacts() {
 		return getAllPhoneDetailContacts("");
@@ -405,7 +405,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	 * 
 	 * @param version
 	 *            版本
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public List<ContactDetailModel> getAllPhoneDetailContacts(int version) {
 		List<ContactDetailModel> contacts = new ArrayList<>();
@@ -427,7 +427,7 @@ public class ContactManage implements SKYIContact, SKYIWriteContact {
 	/**
 	 * 获取版本
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int getVersion() {
 		ContentResolver contentResolver = context.getContentResolver();

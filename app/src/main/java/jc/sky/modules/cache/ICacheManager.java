@@ -4,9 +4,8 @@ import jc.sky.core.SKYICommonBiz;
 import jc.sky.display.SKYIDisplay;
 
 /**
- * @创建人 sky
- * @创建时间 16/8/24 下午7:28
- * @类描述 缓存接口
+ * @author sky
+ * @version 版本
  */
 public interface ICacheManager {
 
@@ -14,8 +13,10 @@ public interface ICacheManager {
 	 * 调度
 	 * 
 	 * @param displayClazz
+	 *            参数
 	 * @param <D>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	<D extends SKYIDisplay> D display(Class<D> displayClazz);
 
@@ -23,8 +24,10 @@ public interface ICacheManager {
 	 * 公共方法
 	 * 
 	 * @param service
+	 *            参数
 	 * @param <B>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	<B extends SKYICommonBiz> B common(Class<B> service);
 
@@ -32,8 +35,10 @@ public interface ICacheManager {
 	 * 接口注解@Impl
 	 * 
 	 * @param implClazz
+	 *            参数
 	 * @param <I>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	<I> I interfaces(Class<I> implClazz);
 
@@ -41,8 +46,10 @@ public interface ICacheManager {
 	 * 网络
 	 * 
 	 * @param httpClazz
+	 *            参数
 	 * @param <H>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	<H> H http(Class<H> httpClazz);
 

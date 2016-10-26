@@ -1,9 +1,8 @@
 package jc.sky.modules.download;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/7 上午9:59
- * @类描述 上传事件回调
+ * @author sky
+ * @version 版本
  */
 public interface SKYUploadListener<T> {
 

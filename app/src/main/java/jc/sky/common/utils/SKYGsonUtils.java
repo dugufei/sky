@@ -19,9 +19,8 @@ import jc.sky.modules.log.L;
 import okhttp3.ResponseBody;
 
 /**
- * @创建人 sky
- * @创建时间 15/9/10 上午11:55
- * @类描述 Gson工具
+ * @author sky
+ * @version 版本
  */
 public class SKYGsonUtils {
 

@@ -1,9 +1,8 @@
 package jc.sky.modules.screen;
 
 /**
- * @创建人 sky
- * @创建时间 16/2/27
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYActivityExtra {
 

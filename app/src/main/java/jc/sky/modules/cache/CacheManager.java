@@ -20,9 +20,8 @@ import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYProxy;
 
 /**
- * @创建人 sky
- * @创建时间 16/8/24 下午4:50
- * @类描述 缓存管理器
+ * @author sky
+ * @version 版本
  */
 public final class CacheManager implements ICacheManager {
 

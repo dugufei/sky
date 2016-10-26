@@ -10,7 +10,8 @@ import jc.sky.view.SKYFragment;
 import jc.sky.view.SKYView;
 
 /**
- * Created by sky on 15/2/6. 适配器
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYAdapterItem<T> implements Cloneable {
 
@@ -47,7 +48,6 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	 */
 	public abstract void bindData(T t, int position, int count);
 
-
 	public <V extends SKYFragment> V fragment() {
 		return SKYView.fragment();
 	}
@@ -68,8 +68,10 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	 * 获取调度
 	 *
 	 * @param e
+	 *            参数
 	 * @param <E>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return SKYView.display(e);
@@ -78,8 +80,10 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	/**
 	 * 获取fragment
 	 *
+	 * @param <T> 参数
 	 * @param clazz
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
@@ -89,8 +93,7 @@ public abstract class SKYAdapterItem<T> implements Cloneable {
 	/**
 	 * 克隆
 	 * 
-	 * @return
-	 * @throws CloneNotSupportedException
+	 * @return 返回值
 	 */
 	@Override protected final Object clone() {
 		try {

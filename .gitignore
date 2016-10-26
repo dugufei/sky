@@ -37,4 +37,3 @@ captures/
 *.jks
 
 .idea
-gradle.properties

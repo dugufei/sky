@@ -11,9 +11,8 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 /**
- * @创建人 sky
- * @创建时间 15/6/1 下午9:18
- * @类描述 图片工具类
+ * @author sky
+ * @version 版本
  */
 public class SKYImgUtils {
 
@@ -21,8 +20,10 @@ public class SKYImgUtils {
 	 * 获取相册地址
 	 * 
 	 * @param context
+	 *            参数
 	 * @param uri
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	@TargetApi(Build.VERSION_CODES.KITKAT) public static String getPath(final Context context, final Uri uri) {
 		final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;

@@ -1,9 +1,8 @@
 package jc.sky.modules.contact.bean;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/16 下午8:46
- * @类描述 网址
+ * @author sky
+ * @version 版本
  */
 public class ContactWebsite implements Cloneable {
 
@@ -14,7 +13,7 @@ public class ContactWebsite implements Cloneable {
 	/**
 	 * 克隆
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public Object clone() {
 		try {

@@ -3,9 +3,8 @@ package jc.sky.modules.download;
 import java.nio.charset.Charset;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/8 上午9:37
- * @类描述 常量类
+ * @author sky
+ * @version 版本
  */
 public class SKYDownloadConstants {
 

@@ -6,7 +6,8 @@ import android.os.Looper;
 import java.util.concurrent.Executor;
 
 /**
- * Created by sky on 15/2/16. 同步执行
+ * @author sky
+ * @version 版本
  */
 public class SynchronousExecutor implements Executor {
 

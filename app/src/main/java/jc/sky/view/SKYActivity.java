@@ -31,9 +31,8 @@ import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/8 上午12:15
- * @类描述 activity
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 
@@ -41,14 +40,15 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * 定制
 	 *
 	 * @param initialSKYBuilder
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 **/
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
 	 * 初始化dagger
 	 */
-	protected void initDagger(){
+	protected void initDagger() {
 
 	}
 
@@ -56,6 +56,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * 数据
 	 * 
 	 * @param savedInstanceState
+	 *            参数
 	 */
 	protected void createData(Bundle savedInstanceState) {
 
@@ -72,14 +73,15 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	/**
 	 * View层编辑器
 	 **/
-	private SKYBuilder SKYBuilder;
+	private SKYBuilder	SKYBuilder;
 
-	SKYStructureModel SKYStructureModel;
+	SKYStructureModel	SKYStructureModel;
 
 	/**
 	 * 初始化
 	 *
 	 * @param savedInstanceState
+	 *            参数
 	 */
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -140,6 +142,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * 设置输入法
 	 *
 	 * @param mode
+	 *            参数
 	 */
 	public void setSoftInputMode(int mode) {
 		getWindow().setSoftInputMode(mode);
@@ -197,7 +200,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * 创建menu
 	 *
 	 * @param menu
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	@Override public boolean onCreateOptionsMenu(Menu menu) {
 		if (SKYBuilder != null && SKYBuilder.getToolbarMenuId() > 0) {
@@ -237,8 +241,16 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 
 	/**********************
 	 * View业务代码
-	 *********************/
+	 *******************
+	 */
 
+	/**
+	 * @param <T>
+	 *            参数
+	 * @param clazz
+	 *            参数
+	 * @return 返回值
+	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
 		return (T) getSupportFragmentManager().findFragmentByTag(clazz.getName());
@@ -284,23 +296,33 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 
 	/**********************
 	 * Actionbar业务代码
-	 *********************/
+	 ********************
+	 * @return 参数
+	 */
 	public Toolbar toolbar() {
 		return SKYBuilder == null ? null : SKYBuilder.getToolbar();
 	}
 
 	/**********************
 	 * RecyclerView业务代码
-	 *********************/
+	 ********************
+	 * @return 参数
+	 */
 
 	protected SKYRVAdapter recyclerAdapter() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();
 	}
 
+	/**
+	 * @return 返回值
+	 */
 	protected RecyclerView.LayoutManager recyclerLayoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
+	/**
+	 * @return 返回值
+	 */
 	protected RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
@@ -359,6 +381,14 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		return true;
 	}
 
+	/**
+	 * @param requestCode
+	 *            参数
+	 * @param permissions
+	 *            参数
+	 * @param grantResults
+	 *            参数
+	 */
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);

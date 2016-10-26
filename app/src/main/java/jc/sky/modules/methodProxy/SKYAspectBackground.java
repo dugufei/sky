@@ -4,9 +4,8 @@ package jc.sky.modules.methodProxy;
 /**
  * TODO 测试
  * 
- * @创建人 sky
- * @创建时间 16/2/29
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYAspectBackground {
 

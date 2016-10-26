@@ -7,9 +7,8 @@ import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/6
- * @类描述 activity拦截器
+ * @author sky
+ * @version 版本
  */
 public interface SKYActivityInterceptor {
 

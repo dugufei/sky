@@ -12,9 +12,9 @@ import android.view.View;
 import jc.sky.R;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/17 下午3:20
- * @类描述 分割线
+ * @author sky
+ *  15/7/17 下午3:20
+ * @version 版本 分割线
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

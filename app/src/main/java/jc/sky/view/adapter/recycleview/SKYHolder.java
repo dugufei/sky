@@ -6,9 +6,9 @@ import android.view.View;
 import butterknife.ButterKnife;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/17 上午10:58
- * @类描述 适配器优化holder
+ * @author sky
+ *  15/7/17 上午10:58
+ * @version 版本 适配器优化holder
  */
 public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 

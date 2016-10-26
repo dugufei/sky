@@ -1,8 +1,5 @@
 package jc.sky.common.utils;
 
-/**
- * Created by sky on 15/3/12.
- */
 import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;
@@ -10,19 +7,24 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+/**
+ * @author sky
+ * @version 版本
+ */
 public class SKYKeyboardUtils {
 
 	/***
 	 * 隐藏键盘
 	 *
 	 * @param acitivity
+	 *            参数
 	 */
 	public static void hideSoftInput(Activity acitivity) {
-		if(acitivity == null){
+		if (acitivity == null) {
 			return;
 		}
 		InputMethodManager imm = (InputMethodManager) acitivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if(acitivity.getWindow() ==null || acitivity.getWindow().getDecorView() == null){
+		if (acitivity.getWindow() == null || acitivity.getWindow().getDecorView() == null) {
 			return;
 		}
 		imm.hideSoftInputFromWindow(acitivity.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -32,7 +34,9 @@ public class SKYKeyboardUtils {
 	 * 显示键盘
 	 *
 	 * @param acitivity
+	 *            参数
 	 * @param et
+	 *            参数
 	 */
 	public static void showSoftInput(Activity acitivity, EditText et) {
 		if (et == null) return;
@@ -46,7 +50,9 @@ public class SKYKeyboardUtils {
 	 * 延迟300毫秒-显示键盘 说明：延迟会解决 有时弹不出键盘的问题
 	 *
 	 * @param acitivity
+	 *            参数
 	 * @param et
+	 *            参数
 	 */
 	public static void showSoftInputDelay(final Activity acitivity, final EditText et) {
 		et.postDelayed(new Runnable() {
@@ -59,8 +65,10 @@ public class SKYKeyboardUtils {
 
 	/**
 	 * 判断是否显示
+	 * 
 	 * @param activity
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isSoftInput(Activity activity) {
 		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -71,8 +79,10 @@ public class SKYKeyboardUtils {
 	 * 判断键盘是否显示 如果是显示就隐藏
 	 * 
 	 * @param v
+	 *            参数
 	 * @param event
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isShouldHideInput(View v, MotionEvent event) {
 		if (v != null && (v instanceof EditText)) {

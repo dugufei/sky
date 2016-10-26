@@ -5,12 +5,12 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * @创建人 sky
- * @创建时间 16/9/28 下午4:44
- * @类描述
+ * @author sky
+ * @version 版本
  */
 @Singleton
 @Component(modules = SKYModule.class)
 public interface SKYIComponent {
-    void inject(SKYModulesManage skyModulesManage);
+
+	void inject(SKYModulesManage skyModulesManage);
 }

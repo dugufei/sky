@@ -6,9 +6,9 @@ uploadArchives {
         def deployPath = file(getProperty('aar.deployPath'))
         repository(url: "file://${deployPath.absolutePath}")
         pom.project {
-            groupId rootProject.ext.PUBLISH_GROUP_ID
-            artifactId rootProject.ext.PUBLISH_ARTIFACT_ID
-            version rootProject.ext.PUBLISH_VERSION
+            groupId GROUP
+            artifactId POM_NAME
+            version VERSION_NAME
         }
     }
 }

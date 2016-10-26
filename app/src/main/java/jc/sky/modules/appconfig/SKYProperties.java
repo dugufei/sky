@@ -20,17 +20,22 @@ import jc.sky.modules.log.L;
 import jc.sky.common.utils.SKYCheckUtils;
 
 /**
- * Created by sky on 9/10/14. 临时信息存储
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYProperties {
 
 	/**
 	 * 获取TAG标记 *
+	 * 
+	 * @return 返回值
 	 */
 	public abstract String initTag();
 
 	/**
 	 * 从那里打开文件*
+	 * 
+	 * @return 返回值
 	 */
 	public abstract int initType();
 
@@ -79,6 +84,9 @@ public abstract class SKYProperties {
 
 	/**
 	 * 构造函数
+	 * 
+	 * @param context
+	 *            参数
 	 */
 	public SKYProperties(@NonNull Context context) {
 		this(context, "config");
@@ -102,7 +110,7 @@ public abstract class SKYProperties {
 	/**
 	 * 获取存储路径
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public File getPropertyFilePath() {
 		return context.getFilesDir();// 存储到/DATA/DATA/
@@ -110,6 +118,9 @@ public abstract class SKYProperties {
 
 	/**
 	 * asset文件夹下的文件 *
+	 * 
+	 * @param resources
+	 *            参数
 	 */
 	private void openAssetProperties(Resources resources) {
 		synchronized (mProperties) {
@@ -168,6 +179,12 @@ public abstract class SKYProperties {
 
 	/**
 	 * 所有返回类型
+	 * 
+	 * @param key
+	 *            参数
+	 * @param defaultValue
+	 *            参数
+	 * @return 返回值
 	 */
 	private int getInt(String key, int defaultValue) {
 		String value = null;
@@ -359,6 +376,11 @@ public abstract class SKYProperties {
 
 	/**
 	 * 设置属性值 *
+	 * 
+	 * @param field
+	 *            参数
+	 * @param propertiesName
+	 *            参数
 	 */
 	private void setFieldValue(Field field, String propertiesName) {
 		Object value = getPropertyValue(field.getType(), propertiesName);
@@ -375,6 +397,11 @@ public abstract class SKYProperties {
 
 	/**
 	 * 设置属性值 *
+	 * 
+	 * @param field
+	 *            参数
+	 * @param propertiesName
+	 *            参数
 	 */
 	private void setFieldDefaultValue(Field field, String propertiesName) {
 		Object value = getPropertyDefaultValue(field.getType());
@@ -391,6 +418,12 @@ public abstract class SKYProperties {
 
 	/**
 	 * 获取类型 *
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param key
+	 *            参数
+	 * @return 返回值
 	 */
 	private Object getPropertyValue(Class<?> clazz, String key) {
 		if (clazz == String.class) {
@@ -412,6 +445,10 @@ public abstract class SKYProperties {
 
 	/**
 	 * 获取类型 *
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @return 返回值
 	 */
 	private Object getPropertyDefaultValue(Class<?> clazz) {
 		if (clazz == String.class) {
@@ -473,6 +510,7 @@ public abstract class SKYProperties {
 	 * 提交
 	 * 
 	 * @param callback
+	 *            参数
 	 */
 	public void commit(PropertyCallback callback) {
 		synchronized (mProperties) {

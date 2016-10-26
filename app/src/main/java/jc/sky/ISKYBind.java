@@ -5,9 +5,8 @@ import jc.sky.modules.methodProxy.SKYMethods;
 import retrofit2.Retrofit;
 
 /**
- * @创建人 sky
- * @创建时间 16/8/26 下午8:29
- * @类描述 初始化接口
+ * @author sky
+ * @version 版本 版本
  */
 public interface ISKYBind {
 
@@ -21,7 +20,9 @@ public interface ISKYBind {
 	/**
 	 * 获取网络适配器
 	 *
-	 * @return
+	 * @param builder
+	 *            参数
+	 * @return 返回值 返回值
 	 */
 	Retrofit getRestAdapter(Retrofit.Builder builder);
 
@@ -29,14 +30,15 @@ public interface ISKYBind {
 	 * 方法拦截器适配
 	 *
 	 * @param builder
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	SKYMethods getMethodInterceptor(SKYMethods.Builder builder);
 
 	/**
 	 * 获取配置管理器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	SKYModulesManage getModulesManage();
 
@@ -45,19 +47,35 @@ public interface ISKYBind {
 	 */
 	ISKYBind ISKY_BIND = new ISKYBind() {
 
+		/**
+		 * @return 返回值
+		 */
 		@Override public boolean isLogOpen() {
 			return true;
 		}
 
+		/**
+		 * @param builder
+		 *            参数
+		 * @return 返回值
+		 */
 		@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {
 			builder.baseUrl("http://www.jincanshen.com");
 			return builder.build();
 		}
 
+		/**
+		 * @param builder
+		 *            参数
+		 * @return 返回值
+		 */
 		@Override public SKYMethods getMethodInterceptor(SKYMethods.Builder builder) {
 			return builder.build();
 		}
 
+		/**
+		 * @return 返回值
+		 */
 		@Override public SKYModulesManage getModulesManage() {
 			return new SKYModulesManage();
 		}

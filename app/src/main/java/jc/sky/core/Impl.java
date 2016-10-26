@@ -8,7 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Created by sky on 15/2/27.
+ * @author sky
+ * @version 版本
  */
 @Documented
 @Target(TYPE)

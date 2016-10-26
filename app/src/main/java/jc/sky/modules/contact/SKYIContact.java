@@ -11,9 +11,8 @@ import jc.sky.modules.contact.bean.ContactModel;
 import jc.sky.modules.contact.bean.ContactUser;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/16 下午10:16
- * @类描述 通讯录接口
+ * @author sky
+ * @version 版本
  */
 @Impl(ContactManage.class)
 public interface SKYIContact extends SKYIWriteContact {
@@ -22,7 +21,8 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 获取联系人头像
 	 *
 	 * @param id
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	Bitmap getContactPhotoByContactId(@NonNull String id);
 
@@ -30,11 +30,12 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 根据名称搜索
 	 *
 	 * @param partialName
+	 *            参数
 	 * @param isPhone
 	 *            开关
 	 * @param isEmail
 	 *            开关
-	 * @return
+	 * @return 返回值
 	 */
 	ContactModel getPhoneContactByName(String partialName, boolean isPhone, boolean isEmail);
 
@@ -47,7 +48,7 @@ public interface SKYIContact extends SKYIWriteContact {
 	 *            开关
 	 * @param isEmail
 	 *            开关
-	 * @return
+	 * @return 返回值
 	 */
 	List<ContactModel> getAllPhoneContacts(String userName, boolean isPhone, boolean isEmail);
 
@@ -55,9 +56,12 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 获取联系人 - 根据ID
 	 * 
 	 * @param id
+	 *            参数
 	 * @param isPhone
+	 *            参数
 	 * @param isEmail
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	List<ContactModel> getAllPhoneContactsByContactId(int id, boolean isPhone, boolean isEmail);
 
@@ -65,15 +69,17 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 获取联系人 - 所有人
 	 * 
 	 * @param isPhone
+	 *            参数
 	 * @param isEmail
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	List<ContactModel> getAllPhoneContacts(boolean isPhone, boolean isEmail);
 
 	/**
 	 * 获取联系人 - 取单个手机号
 	 * 
-	 * @return
+	 * @return 返回值 返回值
 	 */
 	List<ContactModel> getAllPhoneContacts();
 
@@ -82,28 +88,28 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 
 	 * @param userName
 	 *            名称
-	 * @return
+	 * @return 返回值
 	 */
 	List<ContactDetailModel> getAllPhoneDetailContacts(String userName);
 
 	/**
 	 * 获取联系人-详情
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	List<ContactDetailModel> getAllPhoneDetailContacts();
 
 	/**
 	 * 获取联系人
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	List<String> getAllPhoneDetailIDs();
 
 	/**
 	 * 获取所有用户
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	List<ContactUser> getAllUser();
 
@@ -111,26 +117,39 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 搜索用户
 	 * 
 	 * @param name
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	List<ContactUser> getAllUser(String name);
-	List<ContactUser> getAllUser(int  version);
 
+	/**
+	 * @param version 参数
+	 * @return 返回值
+	 */
+	List<ContactUser> getAllUser(int version);
+
+	/**
+	 * @param name 参数
+	 * @param contactIds 参数
+	 * @return 返回值
+	 */
 	List<ContactUser> getAllUser(String name, List<String> contactIds);
 
 	/**
 	 * 获取联系人ID - 根据版本
 	 * 
 	 * @param version
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	List<String> getAllPhoneDetailIDs(int version);
 
 	/**
 	 * 根据手机号 过滤获取用户ID
-	 * 
+	 *
 	 * @param number
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	List<String> getFilterPhoneNumber(String number);
 
@@ -139,14 +158,14 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 
 	 * @param version
 	 *            版本
-	 * @return
+	 * @return 返回值
 	 */
 	List<ContactDetailModel> getAllPhoneDetailContacts(int version);
 
 	/**
 	 * 获取版本
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	int getVersion();
 
@@ -154,7 +173,8 @@ public interface SKYIContact extends SKYIWriteContact {
 	 * 根据ID 获取详细数据
 	 * 
 	 * @param id
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	ContactDetailModel getContactDataByContactId(String id);
 }

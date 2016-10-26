@@ -30,7 +30,8 @@ import jc.sky.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**
- * Created by sky on 15/1/29 程序工具包
+ * @author sky
+ * @version 版本
  */
 public final class SKYAppUtil {
 
@@ -75,7 +76,10 @@ public final class SKYAppUtil {
 	 * 获取泛型类型
 	 * 
 	 * @param clazz
-	 * @return
+	 *            参数
+	 * @param index
+	 *            参数
+	 * @return 返回值
 	 */
 	public static Class getClassGenricType(final Class clazz, final int index) {
 		Type type = clazz.getGenericSuperclass();
@@ -97,6 +101,12 @@ public final class SKYAppUtil {
 
 	/**
 	 * 通过反射, 获得定义Class时声明的父类的泛型参数的类型. 如无法找到, 返回Object.class. 1.因为获取泛型类型-所以增加逻辑判定
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param index
+	 *            参数
+	 * @return 返回值
 	 */
 	public static Class<Object> getSuperClassGenricType(final Class clazz, final int index) {
 
@@ -144,6 +154,8 @@ public final class SKYAppUtil {
 
 	/**
 	 * 判断SDCard状态是否可以读写
+	 * 
+	 * @return 返回值
 	 */
 	public static boolean isSDCardState() {
 		final String state = Environment.getExternalStorageState();
@@ -153,6 +165,8 @@ public final class SKYAppUtil {
 	/**
 	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
 	 * 
+	 * @param activity
+	 *            参数
 	 * @return true 表示开启
 	 */
 	public static final boolean isOpenGps(Activity activity) {
@@ -171,7 +185,9 @@ public final class SKYAppUtil {
 	/**
 	 * 判断当前手机是否联网
 	 * 
-	 * @return
+	 * @param activity
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isNetworkConnected(Activity activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -182,7 +198,9 @@ public final class SKYAppUtil {
 	/**
 	 * 判断当前联网状态是否为Wifi
 	 * 
-	 * @return
+	 * @param activity
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isWifiConnected(Activity activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -193,7 +211,9 @@ public final class SKYAppUtil {
 	/**
 	 * 判断当前手机运营商网络是否可用
 	 * 
-	 * @return
+	 * @param activity
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isMobileConnected(Activity activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -205,6 +225,8 @@ public final class SKYAppUtil {
 	/**
 	 * 获取手机屏幕宽高
 	 * 
+	 * @param activity
+	 *            参数
 	 * @return 显示器信息实体类
 	 */
 	public static final DisplayMetrics getWindowsSize(FragmentActivity activity) {
@@ -216,7 +238,7 @@ public final class SKYAppUtil {
 	/**
 	 * 获取手机宽高
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public static final DisplayMetrics getWindowsSize() {
 		DisplayMetrics dm = SKYHelper.getInstance().getResources().getDisplayMetrics();
@@ -224,10 +246,10 @@ public final class SKYAppUtil {
 	}
 
 	/**
-	 * 需要权限 <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-	 * 设置手机飞行模式
+	 * 需要权限 设置手机飞行模式
 	 * 
 	 * @param context
+	 *            参数
 	 * @param enabling
 	 *            true:设置为飞行模式 false:取消飞行模式
 	 */
@@ -242,6 +264,7 @@ public final class SKYAppUtil {
 	 * 判断手机是否是飞行模式
 	 * 
 	 * @param context
+	 *            参数
 	 * @return true 飞行模式 false 不是飞行模式
 	 */
 	public static boolean isAirplaneMode(Context context) {
@@ -253,6 +276,7 @@ public final class SKYAppUtil {
 	 * 检查Sim卡
 	 * 
 	 * @param context
+	 *            参数
 	 * @return true 无卡 false 有卡
 	 */
 	public static boolean isSimMode(Context context) {
@@ -270,8 +294,10 @@ public final class SKYAppUtil {
 	 * PX 转换DP
 	 * 
 	 * @param context
+	 *            参数
 	 * @param px
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static int getDIP(Context context, int px) {
 		DisplayMetrics dm = context.getResources().getDisplayMetrics();
@@ -282,8 +308,10 @@ public final class SKYAppUtil {
 	 * PX 转换 SP
 	 * 
 	 * @param context
+	 *            参数
 	 * @param px
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static int getSP(Context context, int px) {
 		DisplayMetrics dm = context.getResources().getDisplayMetrics();
@@ -294,7 +322,8 @@ public final class SKYAppUtil {
 	 * 获取状态栏高度
 	 * 
 	 * @param context
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static int getStatusBarHeight(Context context) {
 		int result = 0;
@@ -309,8 +338,10 @@ public final class SKYAppUtil {
 	 * 意图响应检查
 	 * 
 	 * @param context
+	 *            参数
 	 * @param intent
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean checkResponseIntent(Context context, Intent intent) {
 		if (context == null || intent == null) return false;
@@ -322,7 +353,9 @@ public final class SKYAppUtil {
 	 * 键盘自动关闭
 	 *
 	 * @param ev
-	 * @return
+	 *            参数
+	 * @param activiy
+	 *            参数
 	 */
 	public static void keyBoardAutoHidden(MotionEvent ev, Activity activiy) {
 		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -336,6 +369,9 @@ public final class SKYAppUtil {
 
 	/**
 	 * 设置全屏
+	 * 
+	 * @param activity
+	 *            参数
 	 */
 	public static void openFullScreen(Activity activity) {
 
@@ -353,6 +389,7 @@ public final class SKYAppUtil {
 	 * 关闭全屏
 	 * 
 	 * @param activity
+	 *            参数
 	 */
 	public static void closeFullScreen(Activity activity) {
 		WindowManager.LayoutParams attr = activity.getWindow().getAttributes();
@@ -368,8 +405,10 @@ public final class SKYAppUtil {
 	 * 判断是否运行
 	 * 
 	 * @param context
+	 *            参数
 	 * @param packageName
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public static boolean isAppAlive(Context context, String packageName) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -388,7 +427,11 @@ public final class SKYAppUtil {
 	 * 后台唤醒到前台
 	 * 
 	 * @param context
+	 *            参数
 	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
 	 */
 	public static void awaken(Context context, Class clazz, Bundle bundle) {
 		Intent mainIntent = new Intent(context, clazz);

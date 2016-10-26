@@ -24,9 +24,8 @@ import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/5
- * @类描述 方法代理处理
+ * @author sky
+ * @version 版本
  */
 public final class SKYMethods {
 
@@ -70,8 +69,12 @@ public final class SKYMethods {
 	 * 创建 BIZ
 	 *
 	 * @param service
+	 *            参数
+	 * @param impl
+	 *            参数
 	 * @param <T>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> SKYProxy create(final Class<T> service, Object impl) {
 		SKYCheckUtils.validateServiceInterface(service);
@@ -111,8 +114,12 @@ public final class SKYMethods {
 	 * 创建 Display
 	 *
 	 * @param service
+	 *            参数
+	 * @param impl
+	 *            参数
 	 * @param <T>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> SKYProxy createDisplay(final Class<T> service, Object impl) {
 		SKYCheckUtils.validateServiceInterface(service);
@@ -197,8 +204,10 @@ public final class SKYMethods {
 	 * 获取方法唯一标记
 	 * 
 	 * @param method
+	 *            参数
 	 * @param classes
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private String getKey(Method method, Class[] classes) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -219,8 +228,12 @@ public final class SKYMethods {
 	 * 创建 IMPL
 	 *
 	 * @param service
+	 *            参数
+	 * @param impl
+	 *            参数
 	 * @param <T>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> T createImpl(final Class<T> service, final Object impl) {
 		SKYCheckUtils.validateServiceInterface(service);
@@ -255,7 +268,7 @@ public final class SKYMethods {
 	/**
 	 * 获取拦截器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYActivityInterceptor activityInterceptor() {
 		return SKYActivityInterceptor;
@@ -264,7 +277,7 @@ public final class SKYMethods {
 	/**
 	 * 获取拦截器
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public SKYFragmentInterceptor fragmentInterceptor() {
 		return SKYFragmentInterceptor;
@@ -274,10 +287,14 @@ public final class SKYMethods {
 	 * 加载接口
 	 *
 	 * @param SKYProxy
+	 *            参数
 	 * @param method
+	 *            参数
 	 * @param service
+	 *            参数
 	 * @param <T>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private <T> SKYMethod loadSKYMethod(SKYProxy SKYProxy, Method method, Class<T> service) {
 		synchronized (SKYProxy.methodCache) {
@@ -295,10 +312,14 @@ public final class SKYMethods {
 	 * 加载接口
 	 *
 	 * @param SKYProxy
+	 *            参数
 	 * @param method
+	 *            参数
 	 * @param service
+	 *            参数
 	 * @param <T>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private <T> SKYMethod loadDisplaySKYMethod(SKYProxy SKYProxy, Method method, Class<T> service) {
 		synchronized (SKYProxy.methodCache) {

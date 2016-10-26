@@ -4,9 +4,8 @@ import android.content.Context;
 import android.provider.ContactsContract;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/16 下午5:31
- * @类描述 电话
+ * @author sky
+ * @version 版本
  */
 public class ContactPhone implements Cloneable {
 
@@ -22,7 +21,7 @@ public class ContactPhone implements Cloneable {
 	/**
 	 * 克隆
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public Object clone() {
 		try {

@@ -1,12 +1,10 @@
 package jc.sky.modules.download;
 
-
 import jc.sky.modules.log.L;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 下午3:05
- * @类描述 请求父类
+ * @author sky
+ * @version 版本
  */
 public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 
@@ -55,7 +53,7 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 	/**
 	 * 请求队列
 	 */
-	SKYDownloadRequestQueue mRequestQueue;
+	SKYDownloadRequestQueue	mRequestQueue;
 
 	/**
 	 * 获取请求Id
@@ -79,7 +77,7 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 	/**
 	 * 获取请求TAG
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public final String getRequestTag() {
 		return mReuestTag;
@@ -97,7 +95,7 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 	/**
 	 * 初始化优先级 - 默认正常
 	 */
-	protected Priority	mPriority	= Priority.NORMAL;
+	protected Priority mPriority = Priority.NORMAL;
 
 	/**
 	 * 获取优先级
@@ -120,7 +118,7 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 
 	/**
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public boolean isCanceled() {
 		return mCanceled;
@@ -136,7 +134,7 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 	/**
 	 * 获取状态
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	int getDownloadState() {
 		return mDownloadState;
@@ -152,31 +150,31 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 			case SKYIDownloadMagnager.STATUS_PENDING:
 				L.tag("SKYIDownloadMagnager");
 				L.i("目前正在等待状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_STARTED:
 				L.tag("SKYIDownloadMagnager");
 				L.i("开始状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_CONNECTING:
 				L.tag("SKYIDownloadMagnager");
 				L.i("联网状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_RUNNING:
 				L.tag("SKYIDownloadMagnager");
 				L.i("运行状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_SUCCESSFUL:
 				L.tag("SKYIDownloadMagnager");
 				L.i("完成状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_FAILED:
 				L.tag("SKYIDownloadMagnager");
 				L.i("失败状态");
-                break;
+				break;
 			case SKYIDownloadMagnager.STATUS_NOT_FOUND:
 				L.tag("SKYIDownloadMagnager");
 				L.i("失败状态 - 没有找到");
-                break;
+				break;
 		}
 		this.mDownloadState = mDownloadState;
 	}
@@ -192,7 +190,8 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 	 * 排序
 	 *
 	 * @param another
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	@Override public int compareTo(SKYBaseRequest another) {
 		Priority left = this.getPriority();

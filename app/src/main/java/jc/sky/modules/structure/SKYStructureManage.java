@@ -21,9 +21,8 @@ import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
 
 /**
- * @创建人 sky
- * @创建时间 15/9/10 下午3:57
- * @类描述 结构管理器
+ * @author sky
+ * @version 版本
  */
 
 public class SKYStructureManage implements SKYStructureIManage {

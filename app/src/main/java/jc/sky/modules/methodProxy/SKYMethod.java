@@ -17,9 +17,8 @@ import jc.sky.modules.log.L;
 import jc.sky.modules.threadpool.BackgroundType;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/5
- * @类描述 代理方法-执行
+ * @author sky
+ * @version 版本
  */
 public final class SKYMethod {
 
@@ -309,11 +308,15 @@ public final class SKYMethod {
 	 * 构造函数
 	 *
 	 * @param interceptor
+	 *            参数
 	 * @param method
+	 *            参数
 	 * @param type
 	 *            执行类型
 	 * @param isRepeat
+	 *            参数
 	 * @param service
+	 *            参数
 	 */
 	public SKYMethod(int interceptor, Method method, int type, boolean isRepeat, Class service) {
 		this.interceptor = interceptor;

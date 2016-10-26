@@ -6,7 +6,8 @@ import jc.sky.core.SKYRunnable;
 import jc.sky.modules.methodProxy.Repeat;
 
 /**
- * Created by sky on 15/2/20.
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYAsyncCall extends SKYRunnable {
 

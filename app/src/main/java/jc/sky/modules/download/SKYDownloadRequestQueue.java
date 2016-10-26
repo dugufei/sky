@@ -11,9 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import okhttp3.OkHttpClient;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 下午12:11
- * @类描述 请求队列
+ * @author sky
+ * @version 版本
  */
 public class SKYDownloadRequestQueue {
 

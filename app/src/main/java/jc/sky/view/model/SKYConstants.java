@@ -1,9 +1,8 @@
 package jc.sky.view.model;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/9 下午10:56
- * @类描述 常量数据
+ * @author sky
+ * @version 版本
  */
 public class SKYConstants {
 

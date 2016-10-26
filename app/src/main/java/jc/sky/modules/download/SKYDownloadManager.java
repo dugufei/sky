@@ -9,17 +9,16 @@ import java.util.List;
 import jc.sky.SKYHelper;
 
 /**
- * @创建人 sky
- * @创建时间 15/4/3 下午12:07
- * @类描述 下载管理器
+ * @author sky
+ * @version 版本
  */
 public class SKYDownloadManager implements SKYIDownloadMagnager {
 
-	private SKYDownloadRequest SKYDownloadRequest;
+	private SKYDownloadRequest		SKYDownloadRequest;
 
-	private SKYUploadRequest SKYUploadRequest;
+	private SKYUploadRequest		SKYUploadRequest;
 
-	private SKYDownloadRequestQueue mRequestQueue;
+	private SKYDownloadRequestQueue	mRequestQueue;
 
 	public SKYDownloadManager() {
 		mRequestQueue = new SKYDownloadRequestQueue();
@@ -36,7 +35,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 * 
 	 * @param request
 	 *            请求指令
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int add(SKYBaseRequest request) {
 		if (request == null) {
@@ -50,7 +49,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 * 
 	 * @param downloadId
 	 *            请求ID
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int cancel(int downloadId) {
 		return mRequestQueue.cancel(downloadId);
@@ -68,7 +67,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 * 
 	 * @param downloadId
 	 *            请求ID
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int query(int downloadId) {
 		return mRequestQueue.query(downloadId);
@@ -155,11 +154,12 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 * @param uploadUri
 	 *            上传地址
 	 * @param SKYUploadHeader
+	 *            参数
 	 * @param SKYUploadBody
 	 *            请求体
 	 * @param SKYUploadListener
 	 *            上传事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(Uri uploadUri, SKYUploadHeader SKYUploadHeader, SKYUploadBody SKYUploadBody, SKYUploadListener SKYUploadListener) {
 		List<SKYUploadHeader> SKYUploadHeaders = new ArrayList<>();
@@ -182,7 +182,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            类型
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(Uri uploadUri, List<SKYUploadHeader> SKYUploadHeaders, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener) {
 		SKYUploadRequest = new SKYUploadRequest(uploadUri, SKYUploadBody, SKYContentType);
@@ -202,7 +202,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            文件
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(String uploadUri, File file, SKYUploadListener SKYUploadListener) {
 		return upload(uploadUri, file, null, SKYUploadListener);
@@ -219,7 +219,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            请求头信息
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(String uploadUri, File file, SKYUploadHeader SKYUploadHeader, SKYUploadListener SKYUploadListener) {
 		List<SKYUploadHeader> SKYUploadHeaders = new ArrayList<>();
@@ -240,7 +240,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            文件
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYUploadListener SKYUploadListener) {
 		return upload(uploadUri, SKYUploadHeaders, file, SKYContentType.DEFAULT_FILE, SKYUploadListener);
@@ -257,7 +257,7 @@ public class SKYDownloadManager implements SKYIDownloadMagnager {
 	 *            文件
 	 * @param SKYUploadListener
 	 *            事件
-	 * @return
+	 * @return 返回值
 	 */
 	@Override public int upload(String uploadUri, List<SKYUploadHeader> SKYUploadHeaders, File file, SKYContentType SKYContentType, SKYUploadListener SKYUploadListener) {
 		Uri uri = Uri.parse(uploadUri);

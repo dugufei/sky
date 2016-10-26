@@ -10,32 +10,80 @@ import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 
 /**
- * @创建人 sky
- * @创建时间 15/9/10 下午3:57
- * @类描述 结构管理器
+ * @author sky
+ * @version 版本 版本
  */
 public interface SKYStructureIManage {
 
+	/**
+	 * @param view
+	 *            参数
+	 */
 	void attach(SKYStructureModel view);
 
+	/**
+	 * @param view
+	 *            参数
+	 */
 	void detach(SKYStructureModel view);
 
+	/**
+	 * @param bizClazz
+	 *            参数
+	 * @param <B>
+	 *            参数
+	 * @return 返回值
+	 */
 	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
+	/**
+	 * @param bizClazz
+	 *            参数
+	 * @param <B>
+	 *            参数
+	 * @return 返回值
+	 */
 	<B extends SKYIBiz> boolean isExist(Class<B> bizClazz);
 
+	/**
+	 * @param service
+	 *            参数
+	 * @param <B>
+	 *            参数
+	 * @return 返回值
+	 */
 	<B extends SKYIBiz> List<B> bizList(Class<B> service);
 
+	/**
+	 * @param service
+	 *            参数
+	 * @param ui
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
 	<T> T createMainLooper(final Class<T> service, Object ui);
 
+	/**
+	 * @param service
+	 *            参数
+	 * @param <U>
+	 *            参数
+	 * @return 返回值
+	 */
 	<U> U createNullService(final Class<U> service);
+
 	/**
 	 * 拦截back 交给 fragment onKeyBack
 	 *
 	 * @param keyCode
+	 *            参数
 	 * @param fragmentManager
+	 *            参数
 	 * @param bSKYActivity
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	boolean onKeyBack(int keyCode, FragmentManager fragmentManager, SKYActivity bSKYActivity);
 
@@ -43,6 +91,7 @@ public interface SKYStructureIManage {
 	 * 打印堆栈内容
 	 *
 	 * @param fragmentManager
+	 *            参数
 	 */
 	void printBackStackEntry(FragmentManager fragmentManager);
 

@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-
+/**
+ * @author sky
+ * @version 版本
+ */
 final class Strings {
   static String toString(Object obj) {
     if (obj == null) {

@@ -3,9 +3,8 @@ package jc.sky.core.plugin;
 import java.lang.reflect.Method;
 
 /**
- * @创建人 sky
- * @创建时间 16/1/6
- * @类描述 执行结束拦截
+ * @author sky
+ * @version 版本
  */
 public interface DisplayEndInterceptor {
 

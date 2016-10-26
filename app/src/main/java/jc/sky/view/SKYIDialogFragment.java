@@ -6,16 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 /**
- * @创建人 sky
- * @创建时间 15/8/8 下午9:49
- * @类描述 接口
+ * @author sky
+ * @version 版本
  */
 public interface SKYIDialogFragment {
 
 	/**
 	 * 显示碎片
 	 *
-	 * @return
+	 * @param fragmentManager
+	 *            参数
+	 * @return 返回值
 	 */
 	DialogFragment show(FragmentManager fragmentManager);
 
@@ -32,7 +33,9 @@ public interface SKYIDialogFragment {
 	/**
 	 * 显示碎片-不保存activity状态
 	 *
-	 * @return
+	 * @param fragmentManager
+	 *            参数
+	 * @return 返回值
 	 */
 	DialogFragment showAllowingStateLoss(FragmentManager fragmentManager);
 

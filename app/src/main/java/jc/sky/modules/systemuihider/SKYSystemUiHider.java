@@ -5,9 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 /**
- * @创建人 sky
- * @创建时间 15/9/5 上午1:09
- * @类描述 控制标题栏和状态栏
+ * @author sky
+ * @version 版本
  */
 public abstract class SKYSystemUiHider {
     public static final int FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES = 0x1;

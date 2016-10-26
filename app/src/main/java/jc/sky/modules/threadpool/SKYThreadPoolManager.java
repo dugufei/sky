@@ -5,7 +5,8 @@ import java.util.concurrent.ExecutorService;
 import jc.sky.modules.log.L;
 
 /**
- * Created by sky on 15/2/20.调度
+ * @author sky
+ * @version 版本
  */
 public final class SKYThreadPoolManager {
 

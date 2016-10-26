@@ -5,9 +5,8 @@ import java.util.List;
 import android.graphics.Bitmap;
 
 /**
- * @创建人 sky
- * @创建时间 15/5/4 下午5:33
- * @类描述 联系人实体类
+ * @author sky
+ * @version 版本
  */
 public class ContactDetailModel implements Cloneable {
 
@@ -89,7 +88,7 @@ public class ContactDetailModel implements Cloneable {
 	/**
 	 * 克隆
 	 *
-	 * @return
+	 * @return 返回值
 	 */
 	public Object clone() {
 		try {
@@ -99,10 +98,12 @@ public class ContactDetailModel implements Cloneable {
 		}
 	}
 
+	/**
+	 * @return 返回值
+	 */
 	@Override public String toString() {
 		return "ContactDetailModel{" + "name='" + name + '\'' + ", nickname='" + nickname + '\'' + ", organization='" + organization + '\'' + ", networkPhone='" + networkPhone + '\'' + ", birthday='"
 				+ birthday + '\'' + ", lunarBirthday='" + lunarBirthday + '\'' + ", note='" + note + '\'' + ", contactId='" + contactId + '\'' + ", photo=" + photo + ", emailAddresses="
-				+ emailAddresses + ", phoneNumbers=" + phoneNumbers + ", contactIMs=" + contactIMs + ",  contactAddresses=" + contactAddresses
-				+ ", contactWebsites=" + contactWebsites + '}';
+				+ emailAddresses + ", phoneNumbers=" + phoneNumbers + ", contactIMs=" + contactIMs + ",  contactAddresses=" + contactAddresses + ", contactWebsites=" + contactWebsites + '}';
 	}
 }

@@ -16,9 +16,8 @@ import jc.sky.view.SKYFragment;
 import jc.sky.view.SKYView;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/13 上午10:26
- * @类描述 列表适配器
+ * @author sky
+ * @version 版本
  */
 public class SKYListAdapter extends BaseAdapter {
 
@@ -33,17 +32,17 @@ public class SKYListAdapter extends BaseAdapter {
 	 * View
 	 */
 
-	SKYView SKYView;
+	SKYView							SKYView;
 
 	/**
 	 * 适配器Item
 	 */
-	private SKYAdapterItem SKYAdapterItem;
+	private SKYAdapterItem			SKYAdapterItem;
 
 	/**
 	 * 多布局接口
 	 */
-	private SKYListViewMultiLayout SKYListViewMultiLayout;
+	private SKYListViewMultiLayout	SKYListViewMultiLayout;
 
 	public SKYListAdapter(SKYView SKYView, SKYAdapterItem SKYAdapterItem) {
 		SKYCheckUtils.checkNotNull(SKYView, "View层不存在");
@@ -187,8 +186,10 @@ public class SKYListAdapter extends BaseAdapter {
 	 * 获取调度
 	 *
 	 * @param e
+	 *            参数
 	 * @param <E>
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	protected <E extends SKYIDisplay> E display(Class<E> e) {
 		return SKYView.display(e);
@@ -196,9 +197,12 @@ public class SKYListAdapter extends BaseAdapter {
 
 	/**
 	 * 获取fragment
-	 *
+	 * 
+	 * @param <T>
+	 *            参数
 	 * @param clazz
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	public <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
@@ -208,7 +212,7 @@ public class SKYListAdapter extends BaseAdapter {
 	/**
 	 * 单类型
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	private SKYAdapterItem createItem() {
 		SKYAdapterItem itemClone = (SKYAdapterItem) this.SKYAdapterItem.clone();
@@ -220,7 +224,8 @@ public class SKYListAdapter extends BaseAdapter {
 	 * 多类型
 	 * 
 	 * @param position
-	 * @return
+	 *            参数
+	 * @return 返回值
 	 */
 	private SKYAdapterItem createMultiItem(int position) {
 		int type = getItemViewType(position);

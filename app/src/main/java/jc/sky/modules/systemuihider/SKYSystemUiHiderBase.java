@@ -5,9 +5,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 /**
- * @创建人 sky
- * @创建时间 15/9/5 上午1:11
- * @类描述 控制标题栏和状态栏
+ * @author sky
+ * @version 版本
  */
 public class SKYSystemUiHiderBase extends SKYSystemUiHider {
 

@@ -9,9 +9,8 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * @创建人 sky
- * @创建时间 16/5/25 下午8:19
- * @类描述
+ * @author sky
+ * @version 版本
  */
 public class SKYGsonHelper {
 

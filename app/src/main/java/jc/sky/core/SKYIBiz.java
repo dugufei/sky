@@ -4,7 +4,8 @@ package jc.sky.core;
 import jc.sky.modules.structure.SKYStructureModel;
 
 /**
- * Created by sky on 15/2/7. 业务
+ * @author sky
+ * @version 版本
  */
 public interface SKYIBiz {
 

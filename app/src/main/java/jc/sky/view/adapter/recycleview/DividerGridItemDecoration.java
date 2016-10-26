@@ -16,9 +16,9 @@ import android.view.View;
 import jc.sky.R;
 
 /**
- * @创建人 sky
- * @创建时间 15/7/17 下午4:32
- * @类描述 Grid分割线
+ * @author sky
+ *  15/7/17 下午4:32
+ * @version 版本 Grid分割线
  */
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration
 {
