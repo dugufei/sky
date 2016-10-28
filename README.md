@@ -8,36 +8,17 @@ Gradle 版本
 1.插件 com.android.tools.build:gradle:2.2.1'<br />
 2.版本 - gradle-3.1-all.zip<br />
 
-项目引用 - 方法1
-----------
-Project-build.gradle
-
-     buildscript {
-         repositories {
-             //从中央库里面获取依赖
-             jcenter()
-         }
-         dependencies {
-             classpath 'com.android.tools.build:gradle:2.2.1'
-         }
-     }
-
-     allprojects {
-         repositories {
-             jcenter()
-             //远程仓库
-             maven { url "https://github.com/J2W/mvn-repo-j2w/raw/master/repository" }
-         }
-     }
+项目引用 - 方法1 - maven 中央库
+----------------------
 
 App-build.gradle:
 
      dependencies {
-        compile 'jc:sky:2.2.4'
+        compile 'com.jincanshen:sky:2.2.4'
      }
      
-项目引用 - 方法2
-----------
+项目引用 - 方法2 - JitPack
+--------------------
 Project-build.gradle
 
     allprojects {
