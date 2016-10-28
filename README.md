@@ -151,5 +151,5 @@ proguard
 
 
 
-[mavenbadge-svg]: https://maven-badges.herokuapp.com/maven-central/com.google.dagger/dagger/badge.svg
-[mavenbadge]: https://maven-badges.herokuapp.com/maven-central/com.google.dagger/dagger
+[mavenbadge-svg]: https://maven-badges.herokuapp.com/maven-central/com.jincanshen/sky/badge.svg
+[mavenbadge]: https://maven-badges.herokuapp.com/maven-central/com.jincanshen/sky
