@@ -3,6 +3,9 @@
 
 [![](https://jitpack.io/v/skyJinc/sky.svg)](https://jitpack.io/#skyJinc/sky)
 
+[![Maven Central][mavenbadge-svg]][mavenbadge]
+
+
 Gradle 版本
 -----------------------------------
 1.插件 com.android.tools.build:gradle:2.2.1'<br />
@@ -151,3 +154,5 @@ proguard
 
 
 
+[mavenbadge-svg]: https://maven-badges.herokuapp.com/maven-central/com.google.dagger/dagger/badge.svg
+[mavenbadge]: https://maven-badges.herokuapp.com/maven-central/com.google.dagger/dagger
