@@ -14,7 +14,7 @@ Gradle 版本
 App-build.gradle:
 
      dependencies {
-        compile 'com.jincanshen:sky:2.2.4'
+        compile 'com.jincanshen:sky:2.2.6'
      }
      
 项目引用 - 方法2 - JitPack
@@ -31,9 +31,31 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.2.4'
+         compile 'com.github.skyJinc:sky:2.2.6'
       }   	
       
+
+
+
+项目引用 - 方法3 - 本地引用
+-----------------
+Project-build.gradle
+
+    allprojects {
+        repositories {
+            jcenter()
+    
+            //本地仓库 - 这里换成自己的地址
+            maven { url "file://Users/sky/GitHub/mvn-repo-j2w/repository"}
+        }
+    }
+    
+App-build.gradle:
+
+    dependencies {
+        compile 'com.jincanshen:AndroidSkyLibrary:2.2.6'
+    }   
+
 proguard
 
     proguardFile getDefaultProguardFile('proguard-android.txt')

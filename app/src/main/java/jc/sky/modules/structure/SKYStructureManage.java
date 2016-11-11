@@ -10,6 +10,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.R;
@@ -27,7 +29,7 @@ import jc.sky.view.SKYFragment;
 
 public class SKYStructureManage implements SKYStructureIManage {
 
-	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>	statckRepeatBiz;
+	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> statckRepeatBiz;
 
 	public SKYStructureManage() {
 		/** 初始化集合 **/
@@ -64,11 +66,23 @@ public class SKYStructureManage implements SKYStructureIManage {
 	}
 
 	@Override public <B extends SKYIBiz> B biz(Class<B> biz) {
+		return biz(biz, 0);
+	}
+
+	@Override public <B extends SKYIBiz> B biz(Class<B> biz, int position) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
+			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
+			for (Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> entry : entrySet) {
+				SimpleArrayMap<Integer, SKYStructureModel> simpleArrayMap = entry.getValue();
+				if (simpleArrayMap.valueAt(position).isSupterClass(biz)) {
+					return (B) simpleArrayMap.valueAt(position).getSKYProxy().proxy;
+				}
+			}
+
 			return createNullService(biz);
 		}
-		SKYStructureModel SKYStructureModel = stack.valueAt(0);
+		SKYStructureModel SKYStructureModel = stack.valueAt(position);
 		if (SKYStructureModel == null) {
 			return createNullService(biz);
 		}
@@ -118,26 +132,26 @@ public class SKYStructureManage implements SKYStructureIManage {
 			@Override public Object invoke(Object proxy, final Method method, final Object[] args) throws Throwable {
 				// 如果有返回值 - 直接执行
 				if (!method.getReturnType().equals(void.class)) {
-                    if(ui == null){
-                        return null;
-                    }
+					if (ui == null) {
+						return null;
+					}
 					return method.invoke(ui, args);
 				}
 
 				// 如果是主线程 - 直接执行
 				if (!SKYHelper.isMainLooperThread()) {// 子线程
-                    if(ui == null){
-                        return null;
-                    }
+					if (ui == null) {
+						return null;
+					}
 					return method.invoke(ui, args);
 				}
 				Runnable runnable = new Runnable() {
 
 					@Override public void run() {
 						try {
-                            if(ui == null){
-                                return;
-                            }
+							if (ui == null) {
+								return;
+							}
 							method.invoke(ui, args);
 						} catch (Exception throwable) {
 							if (SKYHelper.isLogOpen()) {

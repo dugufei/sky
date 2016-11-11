@@ -37,6 +37,19 @@ public interface SKYStructureIManage {
 	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
 	/**
+	 * 业务
+	 * 
+	 * @param bizClazz
+	 *            参数
+	 * @param position
+	 *            参数
+	 * @param <B>
+	 *            参数
+	 * @return 返回值
+	 */
+	<B extends SKYIBiz> B biz(Class<B> bizClazz, int position);
+
+	/**
 	 * @param bizClazz
 	 *            参数
 	 * @param <B>
