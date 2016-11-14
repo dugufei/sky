@@ -294,7 +294,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private boolean	navigationBarTintEnabled	= true;
 
-	private boolean fitsSystem = true;
+	private boolean	fitsSystem					= true;
+
+	private boolean	tint;
 
 	int getTintColor() {
 		return tintColor;
@@ -304,7 +306,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		return tintColor > 0;
 	}
 
-	public boolean isFitsSystem(){
+	public boolean isFitsSystem() {
 		return fitsSystem;
 	}
 
@@ -314,6 +316,14 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	public boolean getNavigationBarTintEnabled() {
 		return navigationBarTintEnabled;
+	}
+
+	public boolean isTint() {
+		return tint;
+	}
+
+	public void tintIs(boolean isTint) {
+		this.tint = isTint;
 	}
 
 	public void tintColor(@ColorRes int tintColor) {
@@ -328,9 +338,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.navigationBarTintEnabled = isNavigationBar;
 	}
 
-	public void tintFitsSystem(boolean isFitsSystem){
+	public void tintFitsSystem(boolean isFitsSystem) {
 		this.fitsSystem = isFitsSystem;
 	}
+
 	/**
 	 * actionbar
 	 */

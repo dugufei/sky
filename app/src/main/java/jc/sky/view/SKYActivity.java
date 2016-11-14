@@ -109,12 +109,16 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 			}
 		}
 		/** 状态栏颜色 **/
-		tintManager = new SystemBarTintManager(this);
-		// enable status bar tint
-		tintManager.setStatusBarTintEnabled(SKYBuilder.getStatusBarTintEnabled());
-		// enable navigation bar tint
-		tintManager.setNavigationBarTintEnabled(SKYBuilder.getNavigationBarTintEnabled());
-		tintManager.setStatusBarTintResource(SKYBuilder.getTintColor());
+		if(SKYBuilder.isTint()){
+			tintManager = new SystemBarTintManager(this);
+			// enable status bar tint
+			tintManager.setStatusBarTintEnabled(SKYBuilder.getStatusBarTintEnabled());
+			// enable navigation bar tint
+			tintManager.setNavigationBarTintEnabled(SKYBuilder.getNavigationBarTintEnabled());
+			tintManager.setStatusBarTintResource(SKYBuilder.getTintColor());
+		}
+
+
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
 		/** 初始化dagger **/
