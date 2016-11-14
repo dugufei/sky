@@ -132,6 +132,19 @@ public class SKYHelper {
 	}
 
 	/**
+	 * 获取业务
+	 *
+	 * @param service
+	 *            参数
+	 * @param <B>
+	 *            参数
+	 * @return 返回值
+	 */
+	public static final <B extends SKYIBiz> B biz(Class<B> service,int position) {
+		return structureHelper().biz(service,position);
+	}
+
+	/**
 	 * 业务是否存在
 	 *
 	 * @param service
