@@ -77,6 +77,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 
 	SKYStructureModel	SKYStructureModel;
 
+	private SystemBarTintManager tintManager;
+
 	/**
 	 * 初始化
 	 *
@@ -99,13 +101,15 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		SKYHelper.methodsProxy().activityInterceptor().build(SKYBuilder);
 		setContentView(build(SKYBuilder).create());
 		/** 状态栏高度 **/
-		ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-		View parentView = contentFrameLayout.getChildAt(0);
-		if (parentView != null && Build.VERSION.SDK_INT >= 14) {
-			parentView.setFitsSystemWindows(true);
+		if(SKYBuilder.isFitsSystem()){
+			ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+			View parentView = contentFrameLayout.getChildAt(0);
+			if (parentView != null && Build.VERSION.SDK_INT >= 14) {
+				parentView.setFitsSystemWindows(true);
+			}
 		}
 		/** 状态栏颜色 **/
-		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+		tintManager = new SystemBarTintManager(this);
 		// enable status bar tint
 		tintManager.setStatusBarTintEnabled(SKYBuilder.getStatusBarTintEnabled());
 		// enable navigation bar tint
@@ -392,5 +396,9 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
+
+	protected SystemBarTintManager tintManager(){
+		return tintManager;
 	}
 }
