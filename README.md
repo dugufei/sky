@@ -14,7 +14,7 @@ Gradle 版本
 App-build.gradle:
 
      dependencies {
-        compile 'com.jincanshen:sky:2.2.8'
+        compile 'com.jincanshen:sky:2.2.9'
      }
      
 项目引用 - 方法2 - JitPack
@@ -31,7 +31,7 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.2.8'
+         compile 'com.github.skyJinc:sky:2.2.9'
       }   	
       
 
@@ -53,7 +53,7 @@ Project-build.gradle
 App-build.gradle:
 
     dependencies {
-        compile 'com.jincanshen:AndroidSkyLibrary:2.2.8'
+        compile 'com.jincanshen:AndroidSkyLibrary:2.2.9'
     }   
 
 proguard
