@@ -1,6 +1,7 @@
 package jc.sky.modules.methodProxy;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -190,21 +191,24 @@ public final class SKYMethod {
 	private void exeDisplayMethod(final Method method, final Object impl, final Object[] objects) throws InvocationTargetException, IllegalAccessException {
 		boolean isExe = true;
 		String clazzName = null;
+		Bundle bundle = null;
 		// 业务拦截器 - 前
 		if (SKYHelper.methodsProxy().displayStartInterceptor != null) {
 			String name = method.getName();
-			if (name.startsWith("intent")) {
-				Object object = objects == null || objects.length < 1 ? null : objects[0];
-				if (object != null) {
-					if (object instanceof Class) {
-						clazzName = ((Class) object).getName();
-					} else if (object instanceof Intent) {
-						clazzName = ((Intent) object).getComponent().getClassName();
+			if (name.startsWith("intent") && objects != null) {
+				for (Object item : objects) {
+					if (item instanceof Class) {
+						clazzName = ((Class) item).getName();
+					} else if (item instanceof Intent) {
+						clazzName = ((Intent) item).getComponent().getClassName();
+						bundle = ((Intent) item).getExtras();
+					} else if (item instanceof Bundle) {
+						bundle = (Bundle) item;
 					}
 				}
 			}
 
-			isExe = SKYHelper.methodsProxy().displayStartInterceptor.interceptStart(implName, service, method, interceptor, clazzName, objects);
+			isExe = SKYHelper.methodsProxy().displayStartInterceptor.interceptStart(implName, service, method, interceptor, clazzName, bundle);
 		}
 
 		if (isExe) {
@@ -230,7 +234,7 @@ public final class SKYMethod {
 			backgroundResult = null;// 执行
 			// 业务拦截器 - 后
 			if (SKYHelper.methodsProxy().displayEndInterceptor != null) {
-				SKYHelper.methodsProxy().displayEndInterceptor.interceptEnd(implName, service, method, interceptor, clazzName, objects, backgroundResult);
+				SKYHelper.methodsProxy().displayEndInterceptor.interceptEnd(implName, service, method, interceptor, clazzName, bundle, backgroundResult);
 			}
 		} else {
 			if (SKYHelper.isLogOpen()) {

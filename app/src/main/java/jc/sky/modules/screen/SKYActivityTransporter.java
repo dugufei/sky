@@ -1,6 +1,6 @@
 package jc.sky.modules.screen;
 
-import java.util.ArrayList;
+import android.os.Bundle;
 
 /**
  * @author sky
@@ -8,32 +8,23 @@ import java.util.ArrayList;
  */
 public class SKYActivityTransporter {
 
-    private Class<?> toClazz;
-    private ArrayList<SKYActivityExtra> extras;
+	private Class<?>	toClazz;
 
-    public SKYActivityTransporter(Class<?> toClazz) {
-        this.toClazz = toClazz;
-    }
+	private Bundle		bundle;
 
-    /**
-     * It is only possible to send strings as extra.
-     * @param key      参数
-     * @param value 参数
-     * @return 返回值
-     */
-    public SKYActivityTransporter addExtra(String key, String value) {
-        if (extras == null)
-            extras = new ArrayList<>();
+	public SKYActivityTransporter(Class<?> toClazz) {
+		this.toClazz = toClazz;
+	}
 
-        extras.add(new SKYActivityExtra(key, value));
-        return this;
-    }
+	public void setBundle(Bundle bundle) {
+		this.bundle = bundle;
+	}
 
-    public Class<?> toClazz() {
-        return toClazz;
-    }
+	public Class<?> toClazz() {
+		return toClazz;
+	}
 
-    public ArrayList<SKYActivityExtra> getExtras() {
-        return extras;
-    }
+	public Bundle getBundle() {
+		return this.bundle;
+	}
 }

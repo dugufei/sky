@@ -94,11 +94,8 @@ public class SKYScreenManager {
 			Activity current = getCurrentActivity();
 			if (current != null) {
 				Intent intent = new Intent(current, nextStep.toClazz());
-				if (nextStep.getExtras() != null) {
-					for (int i = 0; i < nextStep.getExtras().size(); i++) {
-						SKYActivityExtra extra = nextStep.getExtras().get(i);
-						intent.putExtra(extra.getKey(), extra.getValue());
-					}
+				if (nextStep.getBundle() != null) {
+					intent.putExtras(nextStep.getBundle());
 				}
 				getCurrentActivity().startActivity(intent);
 				if (finishThis) current.finish();
@@ -196,7 +193,8 @@ public class SKYScreenManager {
 	/**
 	 * 属性
 	 * 
-	 * @param className class名称
+	 * @param className
+	 *            class名称
 	 */
 	public void setAsLanding(String className) {
 		synchronized (activities) {

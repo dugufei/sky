@@ -1,5 +1,7 @@
 package jc.sky.core.plugin;
 
+import android.os.Bundle;
+
 import java.lang.reflect.Method;
 
 /**
@@ -8,6 +10,6 @@ import java.lang.reflect.Method;
  */
 public interface DisplayStartInterceptor {
 
-	<T> boolean interceptStart(String viewName, Class<T> service, Method method, int interceptor,String intent, Object[] objects);
+	<T> boolean interceptStart(String viewName, Class<T> service, Method method, int interceptor,String intent, Bundle bundle);
 
 }
