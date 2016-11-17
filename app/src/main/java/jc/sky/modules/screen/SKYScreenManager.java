@@ -104,6 +104,29 @@ public class SKYScreenManager {
 	}
 
 	/**
+	 * 从当前活动中开始预定义的临时活动的预定义活动， 如果需要的话，必须完成
+	 *
+	 * @param iScreenCallBack
+	 *            回调
+	 * @param finishThis
+	 *            是否关闭
+	 */
+	public void moveForward(IScreenCallBack iScreenCallBack, boolean finishThis) {
+		if (nextStep != null) {
+			Activity current = getCurrentActivity();
+			if (current != null) {
+				if (iScreenCallBack != null) {
+					boolean isCallBack = iScreenCallBack.CallBack(nextStep);
+					if (isCallBack) {
+						return;
+					}
+					moveForward(finishThis);
+				}
+			}
+		}
+	}
+
+	/**
 	 * 开始
 	 * 
 	 * @param activity
