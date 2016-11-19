@@ -93,8 +93,19 @@ public class SKYStructureManage implements SKYStructureIManage {
 	}
 
 	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz) {
+		return isExist(biz, 0);
+	}
+
+	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz, int position) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
+			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
+			for (Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> entry : entrySet) {
+				SimpleArrayMap<Integer, SKYStructureModel> simpleArrayMap = entry.getValue();
+				if (simpleArrayMap.valueAt(position).isSupterClass(biz)) {
+					return true;
+				}
+			}
 			return false;
 		}
 		SKYStructureModel SKYStructureModel = stack.valueAt(0);

@@ -140,8 +140,8 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <B extends SKYIBiz> B biz(Class<B> service,int position) {
-		return structureHelper().biz(service,position);
+	public static final <B extends SKYIBiz> B biz(Class<B> service, int position) {
+		return structureHelper().biz(service, position);
 	}
 
 	/**
@@ -155,6 +155,21 @@ public class SKYHelper {
 	 */
 	public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
 		return structureHelper().isExist(service);
+	}
+
+	/**
+	 * 业务是否存在
+	 *
+	 * @param service
+	 *            参数
+	 * @param position
+	 *            下标
+	 * @param <B>
+	 *            参数
+	 * @return true 存在 false 不存在
+	 */
+	public static final <B extends SKYIBiz> boolean isExist(Class<B> service, int position) {
+		return structureHelper().isExist(service, position);
 	}
 
 	/**

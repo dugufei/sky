@@ -59,6 +59,17 @@ public interface SKYStructureIManage {
 	<B extends SKYIBiz> boolean isExist(Class<B> bizClazz);
 
 	/**
+	 * @param biz
+	 *            参数
+	 * @param position
+	 *            下标
+	 * @param <B>
+	 *            返回值
+	 * @return 返回值
+	 */
+	<B extends SKYIBiz> boolean isExist(Class<B> biz, int position);
+
+	/**
 	 * @param service
 	 *            参数
 	 * @param <B>
