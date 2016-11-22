@@ -5,7 +5,7 @@
 
 Gradle 版本
 -----------------------------------
-1.插件 com.android.tools.build:gradle:2.2.1'<br />
+1.插件 com.android.tools.build:gradle:2.2.2'<br />
 2.版本 - gradle-3.1-all.zip<br />
 
 项目引用 - 方法1 - maven 中央库
@@ -14,7 +14,7 @@ Gradle 版本
 App-build.gradle:
 
      dependencies {
-        compile 'com.jincanshen:sky:2.2.9'
+        compile 'com.jincanshen:sky:2.3.2'
      }
      
 项目引用 - 方法2 - JitPack
@@ -31,7 +31,7 @@ Project-build.gradle
 App-build.gradle:
  
       dependencies {
-         compile 'com.github.skyJinc:sky:2.2.9'
+         compile 'com.github.skyJinc:sky:2.3.2'
       }   	
       
 
@@ -53,7 +53,7 @@ Project-build.gradle
 App-build.gradle:
 
     dependencies {
-        compile 'com.jincanshen:AndroidSkyLibrary:2.2.9'
+        compile 'com.jincanshen:AndroidSkyLibrary:2.3.2'
     }   
 
 proguard
