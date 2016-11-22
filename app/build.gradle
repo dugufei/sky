@@ -45,23 +45,23 @@ dependencies {
     compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     compile "com.google.guava:guava:$GUAVA_VERSION"
     //外部依赖
-    compile 'com.jakewharton:butterknife:8.2.1'
-    compile 'com.nineoldandroids:library:2.4.0'
+    compile "com.jakewharton:butterknife:$butterknife"
+    compile "com.nineoldandroids:library:$nineoldandroids"
     //状态栏
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'org.apache.commons:commons-io:1.3.2'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.google.dagger:dagger:2.7'
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    compile 'com.google.guava:guava:19.0'
+    compile "com.readystatesoftware.systembartint:systembartint:$systembartint"
+    compile "org.apache.commons:commons-lang3:$commons_lang"
+    compile "com.google.code.gson:gson:$gson"
+    compile "org.apache.commons:commons-io:$commons_io"
+    compile "com.squareup.retrofit2:retrofit:$retrofit"
+    compile "com.github.bumptech.glide:okhttp3-integration:$glide_okhttp3"
+    compile "com.squareup.okhttp3:okhttp:$okhttp3"
+    compile "org.jetbrains:annotations-java5:$annotations_java5"
+    compile "com.github.bumptech.glide:glide:$glide"
+    compile "com.google.dagger:dagger:$DAGGER"
+    apt "com.google.dagger:dagger-compiler:$DAGGER"
+    compile "com.google.guava:guava:$guava"
 }
 
-apply from: 'maven-github-aar.gradle'//Github打包
-//apply from: 'maven-center-aar.gradle'//Github打包
+//apply from: 'maven-github-aar.gradle'//Github打包
+apply from: 'maven-center-aar.gradle'//Github打包
 
