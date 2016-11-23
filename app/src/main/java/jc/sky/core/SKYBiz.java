@@ -125,7 +125,6 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 	protected void httpCancel() {
 		int count = callVector.size();
 		if (count < 1) {
-			callVector = null;
 			return;
 		}
 		for (int i = 0; i < count; i++) {
@@ -133,6 +132,5 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 			SKYHelper.httpCancel(call);
 		}
 		callVector.removeAllElements();
-		callVector = null;
 	}
 }
