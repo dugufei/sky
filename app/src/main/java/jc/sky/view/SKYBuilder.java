@@ -841,7 +841,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (isOpenToolbar()) {
 			final RelativeLayout toolbarRoot = new RelativeLayout(skyView.context());
 			toolbarRoot.setId(R.id.sky_home);
-			toolbarRoot.setFitsSystemWindows(true);
+			toolbarRoot.setFitsSystemWindows(fitsSystem);
 			// 添加toolbar布局
 			mInflater.inflate(getToolbarLayoutId(), toolbarRoot, true);
 			// 添加内容布局
@@ -892,7 +892,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			return toolbarRoot;
 		} else if (isOpenCustomToolbar()) {
 			view.setId(R.id.sky_home);
-			view.setFitsSystemWindows(true);
+			view.setFitsSystemWindows(fitsSystem);
 			toolbar = ButterKnife.findById(view, getToolbarId());
 
 			SKYCheckUtils.checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
@@ -933,7 +933,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			return view;
 		} else {
 			view.setId(R.id.sky_home);
-			view.setFitsSystemWindows(true);
+			view.setFitsSystemWindows(fitsSystem);
 			return view;
 		}
 	}
