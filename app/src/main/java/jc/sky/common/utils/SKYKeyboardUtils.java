@@ -99,4 +99,22 @@ public class SKYKeyboardUtils {
 		// 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditView上，和用户用轨迹球选择其他的焦点
 		return true;
 	}
+
+	/**
+	 * 键盘自动关闭
+	 *
+	 * @param ev
+	 *            参数
+	 * @param activiy
+	 *            参数
+	 */
+	public static void keyBoardAutoHidden(MotionEvent ev, Activity activiy) {
+		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+			// 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点）
+			View v = activiy.getCurrentFocus();
+			if (SKYKeyboardUtils.isShouldHideInput(v, ev)) {
+				SKYKeyboardUtils.hideSoftInput(activiy);
+			}
+		}
+	}
 }

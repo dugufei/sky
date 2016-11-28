@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -291,34 +292,6 @@ public final class SKYAppUtil {
 	}
 
 	/**
-	 * PX 转换DP
-	 * 
-	 * @param context
-	 *            参数
-	 * @param px
-	 *            参数
-	 * @return 返回值
-	 */
-	public static int getDIP(Context context, int px) {
-		DisplayMetrics dm = context.getResources().getDisplayMetrics();
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, dm);
-	}
-
-	/**
-	 * PX 转换 SP
-	 * 
-	 * @param context
-	 *            参数
-	 * @param px
-	 *            参数
-	 * @return 返回值
-	 */
-	public static int getSP(Context context, int px) {
-		DisplayMetrics dm = context.getResources().getDisplayMetrics();
-		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, px, dm);
-	}
-
-	/**
 	 * 获取状态栏高度
 	 * 
 	 * @param context
@@ -347,24 +320,6 @@ public final class SKYAppUtil {
 		if (context == null || intent == null) return false;
 		List<ResolveInfo> activitys = context.getPackageManager().queryIntentActivities(intent, 10);
 		return activitys.size() > 0;
-	}
-
-	/**
-	 * 键盘自动关闭
-	 *
-	 * @param ev
-	 *            参数
-	 * @param activiy
-	 *            参数
-	 */
-	public static void keyBoardAutoHidden(MotionEvent ev, Activity activiy) {
-		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-			// 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点）
-			View v = activiy.getCurrentFocus();
-			if (SKYKeyboardUtils.isShouldHideInput(v, ev)) {
-				SKYKeyboardUtils.hideSoftInput(activiy);
-			}
-		}
 	}
 
 	/**
@@ -442,5 +397,37 @@ public final class SKYAppUtil {
 			mainIntent.putExtras(bundle);
 		}
 		context.startActivity(mainIntent);
+	}
+
+	/**
+	 * 转换
+	 * 
+	 * @param dp
+	 *            dp
+	 * @param context
+	 *            上下文
+	 * @return 结果
+	 */
+	public static float convertDpToPixel(float dp, Context context) {
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+		return px;
+	}
+
+	/**
+	 * 转换
+	 * 
+	 * @param px
+	 *            px
+	 * @param context
+	 *            上下文
+	 * @return 结果
+	 */
+	public static float convertPixelsToDp(float px, Context context) {
+		Resources resources = context.getResources();
+		DisplayMetrics metrics = resources.getDisplayMetrics();
+		float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+		return dp;
 	}
 }
