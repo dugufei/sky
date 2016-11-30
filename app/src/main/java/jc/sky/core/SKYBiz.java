@@ -6,6 +6,7 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
+import jc.sky.view.SKYActivity;
 import retrofit2.Call;
 
 /**
@@ -132,5 +133,85 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 			SKYHelper.httpCancel(call);
 		}
 		callVector.removeAllElements();
+	}
+
+	protected void showEmpty() {
+		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyActivity.showEmpty();
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				skyActivity.showEmpty();
+			}
+		});
+	}
+
+	protected void showContent() {
+		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyActivity.showContent();
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				skyActivity.showContent();
+			}
+		});
+	}
+
+	protected void showHttpError() {
+		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyActivity.showHttpError();
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				skyActivity.showHttpError();
+			}
+		});
+	}
+
+	protected void showLoading() {
+		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyActivity.showLoading();
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				skyActivity.showLoading();
+			}
+		});
+	}
+
+	protected void showBizError() {
+		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyActivity.showBizError();
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				skyActivity.showBizError();
+			}
+		});
 	}
 }

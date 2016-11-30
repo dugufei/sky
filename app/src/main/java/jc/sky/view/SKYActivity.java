@@ -272,31 +272,31 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * Actionbar业务代码
 	 *********************/
 
-	protected void showContent() {
+	public void showContent() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutContent();
 		}
 	}
 
-	protected void showLoading() {
+	public void showLoading() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutLoading();
 		}
 	}
 
-	protected void showBizError() {
+	public void showBizError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutBizError();
 		}
 	}
 
-	protected void showEmpty() {
+	public void showEmpty() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutEmpty();
 		}
 	}
 
-	protected void showHttpError() {
+	public void showHttpError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 		}
