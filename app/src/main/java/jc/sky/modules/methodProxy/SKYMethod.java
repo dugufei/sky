@@ -7,6 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jc.sky.SKYHelper;
+import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYIIntercept;
 import jc.sky.core.SKYRunnable;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
@@ -272,18 +274,27 @@ public final class SKYMethod {
 		if (SKYHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
+
+		SKYIIntercept skyiIntercept = (SKYIIntercept) impl;
+
 		if (throwable.getCause() instanceof SKYHttpException) {
-			// 网络错误拦截器
-			for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptors) {
-				item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+			if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
+				// 网络错误拦截器
+				for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptors) {
+					item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+				}
 			}
 		} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
 			// 忽略
+			if (!skyiIntercept.interceptUIError((SKYNotUIPointerException) throwable.getCause())) {
+			}
 			return;
 		} else {
-			// 业务错误拦截器
-			for (SKYErrorInterceptor item : SKYHelper.methodsProxy().SKYErrorInterceptor) {
-				item.interceptorError(implName, service, method, interceptor, throwable);
+			if (!skyiIntercept.interceptBizError(throwable.getCause())) {
+				// 业务错误拦截器
+				for (SKYErrorInterceptor item : SKYHelper.methodsProxy().SKYErrorInterceptor) {
+					item.interceptorError(implName, service, method, interceptor, throwable);
+				}
 			}
 		}
 	}

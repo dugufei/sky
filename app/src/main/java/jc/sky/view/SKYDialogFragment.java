@@ -34,6 +34,7 @@ import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
 import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.adapter.SKYListAdapter;
@@ -43,7 +44,7 @@ import jc.sky.view.adapter.recycleview.SKYRVAdapter;
  * @author sky
  * @version 版本
  */
-public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener {
+public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener, SKYIView {
 
 	private boolean				targetActivity;
 
@@ -287,33 +288,34 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	/********************** Actionbar业务代码 *********************/
 
-	protected void showContent() {
+	@Override public void showContent() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutContent();
 		}
 	}
 
-	protected void showLoading() {
+	@Override public void showLoading() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutLoading();
 		}
 	}
 
-	protected void showBizError() {
+	@Override public void showBizError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutBizError();
 		}
 	}
 
-	protected void showEmpty() {
+	@Override public void showEmpty() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutEmpty();
 		}
 	}
 
-	protected void showHttpError() {
+	@Override public void showHttpError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
+			listRefreshing(false);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package jc.sky.core;
 
-
 import jc.sky.modules.structure.SKYStructureModel;
 
 /**
@@ -15,5 +14,4 @@ public interface SKYIBiz {
 	 * 清空
 	 */
 	void detach();
-
 }

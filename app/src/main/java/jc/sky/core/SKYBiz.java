@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.core.exception.SKYHttpException;
+import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.SKYActivity;
@@ -13,7 +15,7 @@ import retrofit2.Call;
  * @author sky
  * @version 版本
  */
-public abstract class SKYBiz<U> implements SKYIBiz {
+public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	private U					u;
 
@@ -135,83 +137,95 @@ public abstract class SKYBiz<U> implements SKYIBiz {
 		callVector.removeAllElements();
 	}
 
-	protected void showEmpty() {
-		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+	@Override public void showEmpty() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyActivity.showEmpty();
+			skyiView.showEmpty();
 			return;
 		}
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				skyActivity.showEmpty();
+				skyiView.showEmpty();
 			}
 		});
 	}
 
-	protected void showContent() {
-		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+	@Override public void showContent() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyActivity.showContent();
+			skyiView.showContent();
 			return;
 		}
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				skyActivity.showContent();
+				skyiView.showContent();
 			}
 		});
 	}
 
-	protected void showHttpError() {
-		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+	@Override public void showHttpError() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyActivity.showHttpError();
+			skyiView.showHttpError();
 			return;
 		}
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				skyActivity.showHttpError();
+				skyiView.showHttpError();
 			}
 		});
 	}
 
-	protected void showLoading() {
-		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+	@Override public void showLoading() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyActivity.showLoading();
+			skyiView.showLoading();
 			return;
 		}
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				skyActivity.showLoading();
+				skyiView.showLoading();
 			}
 		});
 	}
 
-	protected void showBizError() {
-		final SKYActivity skyActivity = (SKYActivity) this.SKYStructureModel.getView();
+	@Override public void showBizError() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyActivity.showBizError();
+			skyiView.showBizError();
 			return;
 		}
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				skyActivity.showBizError();
+				skyiView.showBizError();
 			}
 		});
+	}
+
+	@Override public boolean interceptBizError(Throwable throwable) {
+		return false;
+	}
+
+	@Override public boolean interceptHttpError(SKYHttpException sKYHttpException) {
+		return false;
+	}
+
+	@Override public boolean interceptUIError(SKYNotUIPointerException sKYNotUIPointerException) {
+		return false;
 	}
 }

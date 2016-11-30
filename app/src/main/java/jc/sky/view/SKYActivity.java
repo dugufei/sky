@@ -25,6 +25,7 @@ import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
 import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.adapter.SKYListAdapter;
@@ -34,7 +35,7 @@ import jc.sky.view.adapter.recycleview.SKYRVAdapter;
  * @author sky
  * @version 版本
  */
-public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
+public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity implements SKYIView {
 
 	/**
 	 * 定制
@@ -73,11 +74,11 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	/**
 	 * View层编辑器
 	 **/
-	private SKYBuilder	SKYBuilder;
+	private SKYBuilder				SKYBuilder;
 
-	SKYStructureModel	SKYStructureModel;
+	SKYStructureModel				SKYStructureModel;
 
-	private SystemBarTintManager tintManager;
+	private SystemBarTintManager	tintManager;
 
 	/**
 	 * 初始化
@@ -101,7 +102,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		SKYHelper.methodsProxy().activityInterceptor().build(SKYBuilder);
 		setContentView(build(SKYBuilder).create());
 		/** 状态栏高度 **/
-		if(SKYBuilder.isFitsSystem()){
+		if (SKYBuilder.isFitsSystem()) {
 			ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
 			View parentView = contentFrameLayout.getChildAt(0);
 			if (parentView != null && Build.VERSION.SDK_INT >= 14) {
@@ -109,7 +110,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 			}
 		}
 		/** 状态栏颜色 **/
-		if(SKYBuilder.isTint()){
+		if (SKYBuilder.isTint()) {
 			tintManager = new SystemBarTintManager(this);
 			// enable status bar tint
 			tintManager.setStatusBarTintEnabled(SKYBuilder.getStatusBarTintEnabled());
@@ -117,7 +118,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 			tintManager.setNavigationBarTintEnabled(SKYBuilder.getNavigationBarTintEnabled());
 			tintManager.setStatusBarTintResource(SKYBuilder.getTintColor());
 		}
-
 
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
@@ -272,33 +272,34 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 	 * Actionbar业务代码
 	 *********************/
 
-	public void showContent() {
+	@Override public void showContent() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutContent();
 		}
 	}
 
-	public void showLoading() {
+	@Override public void showLoading() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutLoading();
 		}
 	}
 
-	public void showBizError() {
+	@Override public void showBizError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutBizError();
 		}
 	}
 
-	public void showEmpty() {
+	@Override public void showEmpty() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutEmpty();
 		}
 	}
 
-	public void showHttpError() {
+	@Override public void showHttpError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
+			listRefreshing(false);
 		}
 	}
 
@@ -402,7 +403,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity {
 		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
-	protected SystemBarTintManager tintManager(){
+	protected SystemBarTintManager tintManager() {
 		return tintManager;
 	}
 }
