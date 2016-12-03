@@ -139,7 +139,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showEmpty() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-
+		if(skyiView == null){
+			return;
+		}
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
 			skyiView.showEmpty();
@@ -148,6 +150,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
+				if(skyiView == null){
+					return;
+				}
 				skyiView.showEmpty();
 			}
 		});
@@ -155,7 +160,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showContent() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-
+		if(skyiView == null){
+			return;
+		}
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
 			skyiView.showContent();
@@ -164,6 +171,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
+				if(skyiView == null){
+					return;
+				}
 				skyiView.showContent();
 			}
 		});
@@ -171,7 +181,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showHttpError() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-
+		if(skyiView == null){
+			return;
+		}
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
 			skyiView.showHttpError();
@@ -180,6 +192,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
+				if(skyiView == null){
+					return;
+				}
 				skyiView.showHttpError();
 			}
 		});
@@ -187,7 +202,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showLoading() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-
+		if(skyiView == null){
+			return;
+		}
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
 			skyiView.showLoading();
@@ -196,6 +213,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
+				if(skyiView == null){
+					return;
+				}
 				skyiView.showLoading();
 			}
 		});
@@ -203,7 +223,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showBizError() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-
+		if(skyiView == null){
+			return;
+		}
 		// 如果是主线程 - 直接执行
 		if (!SKYHelper.isMainLooperThread()) { // 主线程
 			skyiView.showBizError();
@@ -212,6 +234,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
+				if(skyiView == null){
+					return;
+				}
 				skyiView.showBizError();
 			}
 		});
