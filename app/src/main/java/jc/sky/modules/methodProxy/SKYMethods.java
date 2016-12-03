@@ -14,6 +14,7 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.core.plugin.DisplayEndInterceptor;
 import jc.sky.core.plugin.DisplayStartInterceptor;
+import jc.sky.core.plugin.SKYLayoutInterceptor;
 import jc.sky.core.plugin.SKYActivityInterceptor;
 import jc.sky.core.plugin.ImplEndInterceptor;
 import jc.sky.core.plugin.BizEndInterceptor;
@@ -29,9 +30,11 @@ import jc.sky.core.plugin.SKYHttpErrorInterceptor;
  */
 public final class SKYMethods {
 
-	final SKYActivityInterceptor				SKYActivityInterceptor;
+	final SKYActivityInterceptor				skyActivityInterceptor;
 
-	final SKYFragmentInterceptor				SKYFragmentInterceptor;
+	final SKYLayoutInterceptor					skyLayoutInterceptor;
+
+	final SKYFragmentInterceptor				skyFragmentInterceptor;
 
 	final ArrayList<BizStartInterceptor>		bizStartInterceptor;		// 方法开始拦截器
 
@@ -45,24 +48,25 @@ public final class SKYMethods {
 
 	private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-	final ArrayList<SKYErrorInterceptor>		SKYErrorInterceptor;		// 方法错误拦截器
+	final ArrayList<SKYErrorInterceptor>		skyErrorInterceptor;		// 方法错误拦截器
 
-	final ArrayList<SKYHttpErrorInterceptor>	SKYHttpErrorInterceptors;	// 网络错误拦截器
+	final ArrayList<SKYHttpErrorInterceptor>	skyHttpErrorInterceptors;	// 网络错误拦截器
 
-	public SKYMethods(SKYActivityInterceptor SKYActivityInterceptor, SKYFragmentInterceptor SKYFragmentInterceptor, ArrayList<BizStartInterceptor> bizStartInterceptor,
-			DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor, DisplayEndInterceptor displayEndInterceptor,
-			ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors, ArrayList<SKYErrorInterceptor> SKYErrorInterceptor,
-			ArrayList<SKYHttpErrorInterceptor> skyHttpErrorInterceptors) {
+	public SKYMethods(SKYLayoutInterceptor skyLayoutInterceptor, SKYActivityInterceptor SKYActivityInterceptor, SKYFragmentInterceptor SKYFragmentInterceptor,
+			ArrayList<BizStartInterceptor> bizStartInterceptor, DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor,
+			DisplayEndInterceptor displayEndInterceptor, ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors,
+			ArrayList<SKYErrorInterceptor> SKYErrorInterceptor, ArrayList<SKYHttpErrorInterceptor> skyHttpErrorInterceptors) {
+		this.skyLayoutInterceptor = skyLayoutInterceptor;
 		this.bizEndInterceptor = bizEndInterceptor;
 		this.displayEndInterceptor = displayEndInterceptor;
 		this.displayStartInterceptor = displayStartInterceptor;
 		this.bizStartInterceptor = bizStartInterceptor;
-		this.SKYErrorInterceptor = SKYErrorInterceptor;
+		this.skyErrorInterceptor = SKYErrorInterceptor;
 		this.implStartInterceptors = implStartInterceptors;
 		this.implEndInterceptors = implEndInterceptors;
-		this.SKYActivityInterceptor = SKYActivityInterceptor;
-		this.SKYFragmentInterceptor = SKYFragmentInterceptor;
-		this.SKYHttpErrorInterceptors = skyHttpErrorInterceptors;
+		this.skyActivityInterceptor = SKYActivityInterceptor;
+		this.skyFragmentInterceptor = SKYFragmentInterceptor;
+		this.skyHttpErrorInterceptors = skyHttpErrorInterceptors;
 	}
 
 	/**
@@ -271,7 +275,16 @@ public final class SKYMethods {
 	 * @return 返回值
 	 */
 	public SKYActivityInterceptor activityInterceptor() {
-		return SKYActivityInterceptor;
+		return skyActivityInterceptor;
+	}
+
+	/**
+	 * 获取拦截器
+	 *
+	 * @return 返回值
+	 */
+	public SKYLayoutInterceptor layoutInterceptor() {
+		return skyLayoutInterceptor;
 	}
 
 	/**
@@ -280,7 +293,7 @@ public final class SKYMethods {
 	 * @return 返回值
 	 */
 	public SKYFragmentInterceptor fragmentInterceptor() {
-		return SKYFragmentInterceptor;
+		return skyFragmentInterceptor;
 	}
 
 	/**
@@ -335,11 +348,13 @@ public final class SKYMethods {
 
 	public static class Builder {
 
-		private SKYActivityInterceptor				SKYActivityInterceptor;		// activity拦截器
+		private SKYLayoutInterceptor				skyLayoutInterceptor;		// 布局切换拦截器
 
-		private SKYFragmentInterceptor				SKYFragmentInterceptor;		// activity拦截器
+		private SKYActivityInterceptor				skyActivityInterceptor;		// activity拦截器
 
-		private ArrayList<BizStartInterceptor>		SKYStartInterceptors;		// 方法开始拦截器
+		private SKYFragmentInterceptor				skyFragmentInterceptor;		// activity拦截器
+
+		private ArrayList<BizStartInterceptor>		skyStartInterceptors;		// 方法开始拦截器
 
 		private ArrayList<BizEndInterceptor>		bizEndInterceptors;			// 方法结束拦截器
 
@@ -347,7 +362,7 @@ public final class SKYMethods {
 
 		private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-		private ArrayList<SKYErrorInterceptor>		SKYErrorInterceptors;		// 方法错误拦截器
+		private ArrayList<SKYErrorInterceptor>		skyErrorInterceptors;		// 方法错误拦截器
 
 		private DisplayStartInterceptor				displayStartInterceptor;	// 方法开始拦截器
 
@@ -356,20 +371,23 @@ public final class SKYMethods {
 		private ArrayList<SKYHttpErrorInterceptor>	skyHttpErrorInterceptors;	// 网络错误拦截
 
 		public void setActivityInterceptor(SKYActivityInterceptor SKYActivityInterceptor) {
-			this.SKYActivityInterceptor = SKYActivityInterceptor;
+			this.skyActivityInterceptor = SKYActivityInterceptor;
 		}
 
 		public void setFragmentInterceptor(SKYFragmentInterceptor SKYFragmentInterceptor) {
-			this.SKYFragmentInterceptor = SKYFragmentInterceptor;
+			this.skyFragmentInterceptor = SKYFragmentInterceptor;
+		}
 
+		public void setSkyLayoutInterceptor(SKYLayoutInterceptor skyLayoutInterceptor) {
+			this.skyLayoutInterceptor = skyLayoutInterceptor;
 		}
 
 		public Builder addStartInterceptor(BizStartInterceptor bizStartInterceptor) {
-			if (SKYStartInterceptors == null) {
-				SKYStartInterceptors = new ArrayList<>();
+			if (skyStartInterceptors == null) {
+				skyStartInterceptors = new ArrayList<>();
 			}
-			if (!SKYStartInterceptors.contains(bizStartInterceptor)) {
-				SKYStartInterceptors.add(bizStartInterceptor);
+			if (!skyStartInterceptors.contains(bizStartInterceptor)) {
+				skyStartInterceptors.add(bizStartInterceptor);
 			}
 			return this;
 		}
@@ -415,11 +433,11 @@ public final class SKYMethods {
 		}
 
 		public void addErrorInterceptor(SKYErrorInterceptor SKYErrorInterceptor) {
-			if (SKYErrorInterceptors == null) {
-				SKYErrorInterceptors = new ArrayList<>();
+			if (skyErrorInterceptors == null) {
+				skyErrorInterceptors = new ArrayList<>();
 			}
-			if (!SKYErrorInterceptors.contains(SKYErrorInterceptor)) {
-				SKYErrorInterceptors.add(SKYErrorInterceptor);
+			if (!skyErrorInterceptors.contains(SKYErrorInterceptor)) {
+				skyErrorInterceptors.add(SKYErrorInterceptor);
 			}
 		}
 
@@ -435,25 +453,28 @@ public final class SKYMethods {
 		public SKYMethods build() {
 			// 默认值
 			ensureSaneDefaults();
-			return new SKYMethods(SKYActivityInterceptor, SKYFragmentInterceptor, SKYStartInterceptors, displayStartInterceptor, bizEndInterceptors, displayEndInterceptor, implStartInterceptors,
-					implEndInterceptors, SKYErrorInterceptors, skyHttpErrorInterceptors);
+			return new SKYMethods(skyLayoutInterceptor, skyActivityInterceptor, skyFragmentInterceptor, skyStartInterceptors, displayStartInterceptor, bizEndInterceptors, displayEndInterceptor,
+					implStartInterceptors, implEndInterceptors, skyErrorInterceptors, skyHttpErrorInterceptors);
 		}
 
 		private void ensureSaneDefaults() {
-			if (SKYStartInterceptors == null) {
-				SKYStartInterceptors = new ArrayList<>();
+			if (skyStartInterceptors == null) {
+				skyStartInterceptors = new ArrayList<>();
 			}
 			if (bizEndInterceptors == null) {
 				bizEndInterceptors = new ArrayList<>();
 			}
-			if (SKYErrorInterceptors == null) {
-				SKYErrorInterceptors = new ArrayList<>();
+			if (skyErrorInterceptors == null) {
+				skyErrorInterceptors = new ArrayList<>();
 			}
-			if (SKYFragmentInterceptor == null) {
-				SKYFragmentInterceptor = SKYFragmentInterceptor.NONE;
+			if (skyFragmentInterceptor == null) {
+				skyFragmentInterceptor = SKYFragmentInterceptor.NONE;
 			}
-			if (SKYActivityInterceptor == null) {
-				SKYActivityInterceptor = SKYActivityInterceptor.NONE;
+			if (skyActivityInterceptor == null) {
+				skyActivityInterceptor = SKYActivityInterceptor.NONE;
+			}
+			if(skyLayoutInterceptor == null){
+				skyLayoutInterceptor = SKYLayoutInterceptor.NONE;
 			}
 			if (implStartInterceptors == null) {
 				implStartInterceptors = new ArrayList<>();

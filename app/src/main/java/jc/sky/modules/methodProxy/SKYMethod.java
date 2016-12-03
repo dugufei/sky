@@ -280,7 +280,7 @@ public final class SKYMethod {
 		if (throwable.getCause() instanceof SKYHttpException) {
 			if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
 				// 网络错误拦截器
-				for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().SKYHttpErrorInterceptors) {
+				for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
 					item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
 				}
 			}
@@ -292,7 +292,7 @@ public final class SKYMethod {
 		} else {
 			if (!skyiIntercept.interceptBizError(throwable.getCause())) {
 				// 业务错误拦截器
-				for (SKYErrorInterceptor item : SKYHelper.methodsProxy().SKYErrorInterceptor) {
+				for (SKYErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
 					item.interceptorError(implName, service, method, interceptor, throwable);
 				}
 			}

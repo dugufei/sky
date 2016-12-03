@@ -22,7 +22,7 @@ public interface SKYFragmentInterceptor {
 
 	void onFragmentDestroy(SKYFragment SKYFragment);
 
-	SKYFragmentInterceptor NONE = new SKYFragmentInterceptor() {
+	public SKYFragmentInterceptor NONE = new SKYFragmentInterceptor() {
 		@Override
 		public void onFragmentCreated(SKYFragment SKYFragment, Bundle bundle, Bundle savedInstanceState) {
 

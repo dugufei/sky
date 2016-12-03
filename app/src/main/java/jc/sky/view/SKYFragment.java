@@ -83,7 +83,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
 		SKYStructureModel = new SKYStructureModel(this);
-
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
@@ -271,30 +270,35 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	/********************** Actionbar业务代码 *********************/
 
 	@Override public void showContent() {
+		SKYHelper.methodsProxy().layoutInterceptor().showContent(this);
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutContent();
 		}
 	}
 
 	@Override public void showLoading() {
+		SKYHelper.methodsProxy().layoutInterceptor().showLoading(this);
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutLoading();
 		}
 	}
 
 	@Override public void showBizError() {
+		SKYHelper.methodsProxy().layoutInterceptor().showBizError(this);
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutBizError();
 		}
 	}
 
 	@Override public void showEmpty() {
+		SKYHelper.methodsProxy().layoutInterceptor().showEmpty(this);
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutEmpty();
 		}
 	}
 
 	@Override public void showHttpError() {
+		SKYHelper.methodsProxy().layoutInterceptor().showHttpError(this);
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			listRefreshing(false);
