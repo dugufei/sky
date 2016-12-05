@@ -115,6 +115,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 */
 	private int			layoutId;
 
+	private int			layoutStateId;
+
 	private FrameLayout	contentRoot;
 
 	private int			contentRootColor;
@@ -125,6 +127,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	public void layoutId(@LayoutRes int layoutId) {
 		this.layoutId = layoutId;
+	}
+
+	public void layoutStateId(@LayoutRes int layoutId) {
+		this.layoutStateId = layoutId;
 	}
 
 	public void layoutColor(@ColorRes int color) {
@@ -144,6 +150,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	private int			layoutHttpErrorId;
 
 	private View		layoutContent;
+
+	private View		layoutStateContent;
 
 	private ViewStub	vsLoading;
 
@@ -181,7 +189,12 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		changeShowAnimation(layoutEmpty, false);
 		changeShowAnimation(layoutBizError, false);
 		changeShowAnimation(layoutHttpError, false);
-		changeShowAnimation(layoutContent, true);
+
+		if (layoutStateContent != null) {
+			changeShowAnimation(layoutStateContent, true);
+		} else {
+			changeShowAnimation(layoutContent, true);
+		}
 	}
 
 	void layoutLoading() {
@@ -191,7 +204,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		changeShowAnimation(layoutEmpty, false);
 		changeShowAnimation(layoutBizError, false);
 		changeShowAnimation(layoutHttpError, false);
-		changeShowAnimation(layoutContent, false);
+		if (layoutStateContent != null) {
+			changeShowAnimation(layoutStateContent, false);
+		} else {
+			changeShowAnimation(layoutContent, false);
+		}
 		if (layoutLoading == null && vsLoading != null) {
 			layoutLoading = vsLoading.inflate();
 			SKYCheckUtils.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
@@ -205,7 +222,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 		changeShowAnimation(layoutBizError, false);
 		changeShowAnimation(layoutHttpError, false);
-		changeShowAnimation(layoutContent, false);
+		if (layoutStateContent != null) {
+			changeShowAnimation(layoutStateContent, false);
+		} else {
+			changeShowAnimation(layoutContent, false);
+		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutEmpty, true);
 	}
@@ -216,7 +237,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 		changeShowAnimation(layoutEmpty, false);
 		changeShowAnimation(layoutHttpError, false);
-		changeShowAnimation(layoutContent, false);
+		if (layoutStateContent != null) {
+			changeShowAnimation(layoutStateContent, false);
+		} else {
+			changeShowAnimation(layoutContent, false);
+		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutBizError, true);
 	}
@@ -227,7 +252,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		}
 		changeShowAnimation(layoutEmpty, false);
 		changeShowAnimation(layoutBizError, false);
-		changeShowAnimation(layoutContent, false);
+		if (layoutStateContent != null) {
+			changeShowAnimation(layoutStateContent, false);
+		} else {
+			changeShowAnimation(layoutContent, false);
+		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutHttpError, true);
 	}
@@ -779,6 +808,13 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		// 内容
 		if (getLayoutId() > 0) {
 			layoutContent = mInflater.inflate(getLayoutId(), null, false);
+			if (layoutStateId > 0) {
+				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				layoutStateContent = view.getChildAt(0);
+				if (layoutStateContent == null) {
+					SKYCheckUtils.checkNotNull(layoutContent, "指定切换状态布局后,内容不能为空");
+				}
+			}
 			SKYCheckUtils.checkNotNull(layoutContent, "无法根据布局文件ID,获取layoutContent");
 			contentRoot.addView(layoutContent, layoutParams);
 		}
@@ -788,7 +824,13 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (layoutLoadingId > 0) {
 			vsLoading = new ViewStub(skyView.activity());
 			vsLoading.setLayoutResource(layoutLoadingId);
-			contentRoot.addView(vsLoading, layoutParams);
+
+			if (layoutStateId > 0) {
+				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				view.addView(vsLoading,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+			} else {
+				contentRoot.addView(vsLoading, layoutParams);
+			}
 		}
 
 		// 空布局
@@ -796,7 +838,13 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (layoutEmptyId > 0) {
 			layoutEmpty = mInflater.inflate(layoutEmptyId, null, false);
 			SKYCheckUtils.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
-			contentRoot.addView(layoutEmpty, layoutParams);
+
+			if (layoutStateId > 0) {
+				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				view.addView(layoutEmpty,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+			} else {
+				contentRoot.addView(layoutEmpty, layoutParams);
+			}
 			layoutEmpty.setVisibility(View.GONE);
 		}
 
@@ -805,7 +853,12 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (layoutBizErrorId > 0) {
 			layoutBizError = mInflater.inflate(layoutBizErrorId, null, false);
 			SKYCheckUtils.checkNotNull(layoutBizError, "无法根据布局文件ID,获取layoutBizError");
-			contentRoot.addView(layoutBizError, layoutParams);
+			if (layoutStateId > 0) {
+				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				view.addView(layoutBizError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+			} else {
+				contentRoot.addView(layoutBizError, layoutParams);
+			}
 			layoutBizError.setVisibility(View.GONE);
 		}
 
@@ -815,7 +868,12 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			SKYCheckUtils.checkArgument(layoutHttpErrorId > 0, "网络错误布局Id不能为空,重写公共布局Application.layoutBizError 或者 在Buider.layout里设置");
 			layoutHttpError = mInflater.inflate(layoutHttpErrorId, null, false);
 			SKYCheckUtils.checkNotNull(layoutHttpError, "无法根据布局文件ID,获取layoutHttpError");
-			contentRoot.addView(layoutHttpError, layoutParams);
+			if (layoutStateId > 0) {
+				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				view.addView(layoutHttpError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+			} else {
+				contentRoot.addView(layoutHttpError, layoutParams);
+			}
 			layoutHttpError.setVisibility(View.GONE);
 		}
 	}
