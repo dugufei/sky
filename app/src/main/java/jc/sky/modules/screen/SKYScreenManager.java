@@ -84,6 +84,15 @@ public class SKYScreenManager {
 	}
 
 	/**
+	 * 获取
+	 * 
+	 * @return 返回值
+	 */
+	public SKYActivityTransporter getNextStep() {
+		return nextStep;
+	}
+
+	/**
 	 * 从当前活动中开始预定义的临时活动的预定义活动， 如果需要的话，必须完成
 	 * 
 	 * @param finishThis
