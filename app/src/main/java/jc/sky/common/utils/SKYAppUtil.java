@@ -170,7 +170,7 @@ public final class SKYAppUtil {
 	 *            参数
 	 * @return true 表示开启
 	 */
-	public static final boolean isOpenGps(Activity activity) {
+	public static final boolean isOpenGps(Context activity) {
 		LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 		// 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
 		boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -190,7 +190,7 @@ public final class SKYAppUtil {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static boolean isNetworkConnected(Activity activity) {
+	public static boolean isNetworkConnected(Context activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
 		return mNetworkInfo == null ? false : mNetworkInfo.isAvailable();
@@ -203,7 +203,7 @@ public final class SKYAppUtil {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static boolean isWifiConnected(Activity activity) {
+	public static boolean isWifiConnected(Context activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mWiFiNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		return mWiFiNetworkInfo == null ? false : mWiFiNetworkInfo.isAvailable();
@@ -216,7 +216,7 @@ public final class SKYAppUtil {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static boolean isMobileConnected(Activity activity) {
+	public static boolean isMobileConnected(Context activity) {
 		ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mMobileNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		return mMobileNetworkInfo == null ? false : mMobileNetworkInfo.isAvailable();
