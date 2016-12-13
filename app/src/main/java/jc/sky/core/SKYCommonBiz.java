@@ -4,6 +4,7 @@ import jc.sky.SKYHelper;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.display.SKYIDisplay;
+import retrofit2.Call;
 
 /**
  * @author sky
@@ -13,6 +14,10 @@ public class SKYCommonBiz implements SKYICommonBiz {
 
 	protected <H> H http(Class<H> hClass) {
 		return SKYHelper.http(hClass);
+	}
+
+	protected <D> D httpBody(Call<D> call) {
+		return SKYHelper.httpBody(call);
 	}
 
 	protected <I> I interfaces(Class<I> inter) {
