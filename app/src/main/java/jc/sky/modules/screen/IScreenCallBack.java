@@ -12,6 +12,7 @@ public interface IScreenCallBack {
 	 * 
 	 * @param nextStep
 	 *            内容
+	 * @return 参数
 	 */
 	boolean CallBack(SKYActivityTransporter nextStep);
 }

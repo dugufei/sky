@@ -113,6 +113,22 @@ public class SKYScreenManager {
 	}
 
 	/**
+	 * 获取
+	 * 
+	 * @return 数据
+	 */
+	public ArrayList<Intent> getIntents() {
+		synchronized (activities) {
+			ArrayList<Intent> intentList = new ArrayList<>();
+
+			for (int i = 0; i < activities.size(); i++) {
+				intentList.add((Intent) activities.get(i).getActivity().getIntent().clone());
+			}
+			return intentList;
+		}
+	}
+
+	/**
 	 * 从当前活动中开始预定义的临时活动的预定义活动， 如果需要的话，必须完成
 	 *
 	 * @param iScreenCallBack
