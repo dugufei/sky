@@ -273,35 +273,45 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 *********************/
 
 	@Override public void showContent() {
-		SKYHelper.methodsProxy().layoutInterceptor().showContent(this);
+		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+			SKYHelper.methodsProxy().layoutInterceptor().showContent(this);
+		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutContent();
 		}
 	}
 
 	@Override public void showLoading() {
-		SKYHelper.methodsProxy().layoutInterceptor().showLoading(this);
+		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+			SKYHelper.methodsProxy().layoutInterceptor().showLoading(this);
+		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutLoading();
 		}
 	}
 
 	@Override public void showBizError() {
-		SKYHelper.methodsProxy().layoutInterceptor().showBizError(this);
+		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+			SKYHelper.methodsProxy().layoutInterceptor().showBizError(this);
+		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutBizError();
 		}
 	}
 
 	@Override public void showEmpty() {
-		SKYHelper.methodsProxy().layoutInterceptor().showEmpty(this);
+		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+			SKYHelper.methodsProxy().layoutInterceptor().showEmpty(this);
+		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutEmpty();
 		}
 	}
 
 	@Override public void showHttpError() {
-		SKYHelper.methodsProxy().layoutInterceptor().showHttpError(this);
+		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+			SKYHelper.methodsProxy().layoutInterceptor().showHttpError(this);
+		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			listRefreshing(false);
