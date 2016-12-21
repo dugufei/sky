@@ -21,9 +21,7 @@ public class SKYHandler implements Thread.UncaughtExceptionHandler {
 	protected SKYExceptionData mExceptionData;
 
 	@Override public void uncaughtException(Thread thread, Throwable throwable) {
-		if (SKYHelper.isLogOpen()) {
-			throwable.printStackTrace();
-		}
+
 
 		Writer writer = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
@@ -37,7 +35,9 @@ public class SKYHandler implements Thread.UncaughtExceptionHandler {
 
 		String exceptionType = throwable.getClass().getName();
 		String exceptionMsg = writer.toString();
-
+		if (SKYHelper.isLogOpen()) {
+			L.i("SKYHandler"+exceptionMsg);
+		}
 		String throwClassName;
 		String throwMethodName;
 		int throwLineNumber;
