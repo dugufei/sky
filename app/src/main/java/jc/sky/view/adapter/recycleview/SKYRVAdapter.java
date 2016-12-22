@@ -85,7 +85,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 			return;
 		}
 		mItems.addAll(position, list);
-		notifyItemRangeInserted(position, list.size());
+		notifyItemRangeInserted(position, mItems.size());
 
 	}
 
@@ -95,7 +95,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		}
 		int postion = getItemCount();
 		mItems.addAll(list);
-		notifyItemRangeInserted(postion, list.size());
+		notifyItemRangeInserted(postion, mItems.size());
 	}
 
 	public void delete(int position) {
@@ -112,7 +112,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		}
 		int position = getItemCount();
 		mItems.removeAll(list);
-		notifyItemRangeRemoved(position, list.size());
+		notifyItemRangeRemoved(position, mItems.size());
 	}
 
 	public void delete(int position, List list) {
@@ -120,7 +120,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 			return;
 		}
 		mItems.removeAll(list);
-		notifyItemRangeRemoved(position, list.size());
+		notifyItemRangeRemoved(position, mItems.size());
 	}
 
 	public void clear() {
