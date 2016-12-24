@@ -85,7 +85,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 			return;
 		}
 		mItems.addAll(position, list);
-		notifyItemRangeInserted(position, mItems.size());
+		notifyItemRangeInserted(position, list.size());
 
 	}
 
@@ -95,7 +95,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		}
 		int postion = getItemCount();
 		mItems.addAll(list);
-		notifyItemRangeInserted(postion, mItems.size());
+		notifyItemRangeInserted(postion, list.size());
 	}
 
 	public void delete(int position) {
@@ -112,7 +112,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		}
 		int position = getItemCount();
 		mItems.removeAll(list);
-		notifyItemRangeRemoved(position, mItems.size());
+		notifyItemRangeRemoved(position, list.size());
 	}
 
 	public void delete(int position, List list) {
@@ -120,7 +120,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 			return;
 		}
 		mItems.removeAll(list);
-		notifyItemRangeRemoved(position, mItems.size());
+		notifyItemRangeRemoved(position, list.size());
 	}
 
 	public void clear() {
@@ -150,7 +150,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	/**
 	 * 获取适配器
-	 * 
+	 *
 	 * @return 返回值
 	 */
 	protected SKYRVAdapter getAdapter() {
@@ -159,7 +159,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	/**
 	 * 获取fragment
-	 * 
+	 *
 	 * @param <T>
 	 *            参数
 	 * @param clazz
