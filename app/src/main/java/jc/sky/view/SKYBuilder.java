@@ -762,7 +762,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * @return
 	 */
 	View create() {
-		L.i("SKYBuilder.create()");
 		/** layout **/
 		createLayout();
 		/** listview **/
