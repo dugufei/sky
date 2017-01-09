@@ -12,7 +12,7 @@ import jc.sky.view.SKYBuilder;
  */
 public interface SKYActivityInterceptor {
 
-	void build(SKYBuilder initialSKYBuilder);
+	void build(SKYActivity SKYIView, SKYBuilder initialSKYBuilder);
 
 	void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState);
 
@@ -30,43 +30,43 @@ public interface SKYActivityInterceptor {
 
 	void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
-	SKYActivityInterceptor NONE	= new SKYActivityInterceptor() {
+	SKYActivityInterceptor NONE = new SKYActivityInterceptor() {
 
-										@Override public void build(SKYBuilder initialSKYBuilder) {
+		@Override public void build(SKYActivity SKYIView, SKYBuilder initialSKYBuilder) {
 
-										}
+		}
 
-										@Override public void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState) {
+		@Override public void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState) {
 
-										}
+		}
 
-										@Override public void onStart(SKYActivity SKYIView) {
+		@Override public void onStart(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onResume(SKYActivity SKYIView) {
+		@Override public void onResume(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onPause(SKYActivity SKYIView) {
+		@Override public void onPause(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onStop(SKYActivity SKYIView) {
+		@Override public void onStop(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onDestroy(SKYActivity SKYIView) {
+		@Override public void onDestroy(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onRestart(SKYActivity SKYIView) {
+		@Override public void onRestart(SKYActivity SKYIView) {
 
-										}
+		}
 
-										@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-										}
-									};
+		}
+	};
 
 }

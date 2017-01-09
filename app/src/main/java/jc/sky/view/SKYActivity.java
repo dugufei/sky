@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,6 +25,7 @@ import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
+import jc.sky.common.utils.SKYSwipeWindowHelper;
 import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
@@ -80,6 +82,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	private SystemBarTintManager	tintManager;
 
+	private SKYSwipeWindowHelper	mSwipeWindowHelper;
+
 	/**
 	 * 初始化
 	 *
@@ -99,7 +103,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		SKYBuilder = new SKYBuilder(this, inflater);
 		/** 拦截Builder **/
-		SKYHelper.methodsProxy().activityInterceptor().build(SKYBuilder);
+		SKYHelper.methodsProxy().activityInterceptor().build(this, SKYBuilder);
 		setContentView(build(SKYBuilder).create());
 		/** 状态栏高度 **/
 		if (SKYBuilder.isFitsSystem()) {
@@ -273,7 +277,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 *********************/
 
 	@Override public void showContent() {
-		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+		if (SKYHelper.methodsProxy().layoutInterceptor() != null) {
 			SKYHelper.methodsProxy().layoutInterceptor().showContent(this);
 		}
 		if (SKYBuilder != null) {
@@ -282,7 +286,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	@Override public void showLoading() {
-		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+		if (SKYHelper.methodsProxy().layoutInterceptor() != null) {
 			SKYHelper.methodsProxy().layoutInterceptor().showLoading(this);
 		}
 		if (SKYBuilder != null) {
@@ -291,7 +295,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	@Override public void showBizError() {
-		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+		if (SKYHelper.methodsProxy().layoutInterceptor() != null) {
 			SKYHelper.methodsProxy().layoutInterceptor().showBizError(this);
 		}
 		if (SKYBuilder != null) {
@@ -300,7 +304,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	@Override public void showEmpty() {
-		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+		if (SKYHelper.methodsProxy().layoutInterceptor() != null) {
 			SKYHelper.methodsProxy().layoutInterceptor().showEmpty(this);
 		}
 		if (SKYBuilder != null) {
@@ -309,7 +313,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	@Override public void showHttpError() {
-		if(SKYHelper.methodsProxy().layoutInterceptor() != null) {
+		if (SKYHelper.methodsProxy().layoutInterceptor() != null) {
 			SKYHelper.methodsProxy().layoutInterceptor().showHttpError(this);
 		}
 		if (SKYBuilder != null) {
@@ -420,5 +424,41 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	protected SystemBarTintManager tintManager() {
 		return tintManager;
+	}
+
+	/**
+	 * 滑动返回
+	 * 
+	 * @param ev
+	 *            事件
+	 * @return 结果
+	 */
+	@Override public boolean dispatchTouchEvent(MotionEvent ev) {
+		if (!supportSlideBack()) {
+			return super.dispatchTouchEvent(ev);
+		}
+
+		if (mSwipeWindowHelper == null) {
+			mSwipeWindowHelper = new SKYSwipeWindowHelper(getWindow());
+		}
+		return mSwipeWindowHelper.processTouchEvent(ev) || super.dispatchTouchEvent(ev);
+	}
+
+	/**
+	 * 是否支持滑动返回
+	 *
+	 * @return
+	 */
+	protected boolean supportSlideBack() {
+		return SKYBuilder.isOpenSwipBackLayout();
+	}
+
+	/**
+	 * 能否滑动返回至当前Activity
+	 * 
+	 * @return
+	 */
+	public boolean canBeSlideBack() {
+		return true;
 	}
 }

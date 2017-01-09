@@ -303,8 +303,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private boolean		isOpenSwipBackLayout;
 
-	private ImageView	ivShadow;
-
 	public void swipBackIsOpen(boolean isOpenSwipBackLayout) {
 		this.isOpenSwipBackLayout = isOpenSwipBackLayout;
 	}
@@ -886,7 +884,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		layoutEmpty = null;
 		vsLoading = null;
 		layoutLoading = null;
-		ivShadow = null;
 	}
 
 	/**

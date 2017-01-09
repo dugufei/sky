@@ -2,8 +2,10 @@ package jc.sky.modules.screen;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -28,6 +30,8 @@ public class SKYScreenManager {
 	 * 2.用法:在活动一开始setnextstep活动B调用方法和B而不是调用完成的方法，叫前进的方法
 	 */
 	private SKYActivityTransporter				nextStep;
+
+	private Activity							previousActivity;
 
 	public SKYScreenManager() {
 		activities = new ArrayList<>();
@@ -409,6 +413,15 @@ public class SKYScreenManager {
 		}
 	}
 
+	/**
+	 * 获取Activity
+	 * 
+	 * @param clazz
+	 *            class
+	 * @param <A>
+	 *            泛型
+	 * @return 结果
+	 */
 	public <A> A getActivityOf(Class<?> clazz) {
 		synchronized (activities) {
 			for (int i = activities.size() - 1; i >= 0; i--) {
@@ -418,5 +431,21 @@ public class SKYScreenManager {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 获取上一个Acitivyt
+	 * 
+	 * @param <A>
+	 *            泛型
+	 * @return 结果
+	 */
+	public <A> A getPreviousActivity() {
+		int count = activities.size();
+		if (count < 2) {
+			return null;
+		}
+
+		return (A) activities.get(count - 2).getActivity();
 	}
 }
