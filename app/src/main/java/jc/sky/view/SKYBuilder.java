@@ -121,8 +121,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private View		contentRootView;
 
-	private int			contentRootColor;
-
 	int getLayoutId() {
 		return layoutId;
 	}
@@ -133,10 +131,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	public void layoutStateId(@LayoutRes int layoutId) {
 		this.layoutStateId = layoutId;
-	}
-
-	public void layoutColor(@ColorRes int color) {
-		this.contentRootColor = color;
 	}
 
 	/**
@@ -150,6 +144,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	private int			layoutBizErrorId;
 
 	private int			layoutHttpErrorId;
+
+	private int			layoutBackground;
 
 	private View		layoutContent;
 
@@ -180,6 +176,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	public void layoutHttpErrorId(@LayoutRes int layoutHttpErrorId) {
 		this.layoutHttpErrorId = layoutHttpErrorId;
+	}
+
+	public void layoutBackground(@IdRes int color) {
+		this.layoutBackground = color;
 	}
 
 	// 功能
@@ -775,6 +775,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		createRecyclerView(contentRoot);
 		/** actoinbar **/
 		contentRootView = createActionbar(contentRoot);
+		/** background color **/
+		if (layoutBackground != 0) {
+			contentRootView.setBackgroundResource(layoutBackground);
+		}
 		return contentRootView;
 	}
 
@@ -804,9 +808,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private void createLayout() {
 		contentRoot = new FrameLayout(skyView.context());
-		if (contentRootColor > 0) {
-			contentRoot.setBackgroundColor(contentRootColor);
-		}
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 
 		// 内容
