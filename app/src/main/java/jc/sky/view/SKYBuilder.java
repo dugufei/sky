@@ -119,6 +119,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private FrameLayout	contentRoot;
 
+	private View		contentRootView;
+
 	private int			contentRootColor;
 
 	int getLayoutId() {
@@ -181,6 +183,11 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	// 功能
+
+	View getContentRootView() {
+		return contentRootView;
+	}
+
 	void layoutContent() {
 		if (layoutContent == null) {
 			return;
@@ -301,7 +308,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 * swipback
 	 */
 
-	private boolean		isOpenSwipBackLayout;
+	private boolean isOpenSwipBackLayout;
 
 	public void swipBackIsOpen(boolean isOpenSwipBackLayout) {
 		this.isOpenSwipBackLayout = isOpenSwipBackLayout;
@@ -767,8 +774,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		/** recyclerview **/
 		createRecyclerView(contentRoot);
 		/** actoinbar **/
-		View view = createActionbar(contentRoot);
-		return view;
+		contentRootView = createActionbar(contentRoot);
+		return contentRootView;
 	}
 
 	/**
@@ -824,7 +831,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 			if (layoutStateId > 0) {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
-				view.addView(vsLoading,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+				view.addView(vsLoading, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				contentRoot.addView(vsLoading, layoutParams);
 			}
@@ -838,7 +845,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 			if (layoutStateId > 0) {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
-				view.addView(layoutEmpty,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+				view.addView(layoutEmpty, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				contentRoot.addView(layoutEmpty, layoutParams);
 			}
@@ -852,7 +859,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			SKYCheckUtils.checkNotNull(layoutBizError, "无法根据布局文件ID,获取layoutBizError");
 			if (layoutStateId > 0) {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
-				view.addView(layoutBizError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+				view.addView(layoutBizError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				contentRoot.addView(layoutBizError, layoutParams);
 			}
@@ -867,7 +874,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 			SKYCheckUtils.checkNotNull(layoutHttpError, "无法根据布局文件ID,获取layoutHttpError");
 			if (layoutStateId > 0) {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
-				view.addView(layoutHttpError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+				view.addView(layoutHttpError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				contentRoot.addView(layoutHttpError, layoutParams);
 			}
@@ -876,6 +883,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	private void detachLayout() {
+		contentRootView = null;
 		contentRoot = null;
 		mInflater = null;
 		layoutContent = null;

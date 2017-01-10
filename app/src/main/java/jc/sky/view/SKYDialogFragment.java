@@ -670,4 +670,13 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			return false;
 		}
 	}
+
+	/**
+	 * 获取内容视图
+	 *
+	 * @return 视图
+	 */
+	protected View contentView() {
+		return SKYBuilder.getContentRootView();
+	}
 }

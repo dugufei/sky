@@ -461,4 +461,13 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	public boolean canBeSlideBack() {
 		return true;
 	}
+
+	/**
+	 * 获取内容视图
+	 * 
+	 * @return 视图
+	 */
+	protected View contentView() {
+		return SKYBuilder.getContentRootView();
+	}
 }

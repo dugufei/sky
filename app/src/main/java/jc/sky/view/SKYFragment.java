@@ -401,4 +401,13 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * 不可见
 	 */
 	public void onInvisible() {}
+
+	/**
+	 * 获取内容视图
+	 *
+	 * @return 视图
+	 */
+	protected View contentView() {
+		return SKYBuilder.getContentRootView();
+	}
 }
