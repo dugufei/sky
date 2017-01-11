@@ -201,10 +201,13 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		super.onDestroy();
 		detach();
 		/** 移除builder **/
-		SKYBuilder.detach();
-		SKYBuilder = null;
-
-		SKYHelper.structureHelper().detach(SKYStructureModel);
+		if(SKYBuilder != null){
+			SKYBuilder.detach();
+			SKYBuilder = null;
+		}
+		if(SKYStructureModel!= null){
+			SKYHelper.structureHelper().detach(SKYStructureModel);
+		}
 		/** 清空注解view **/
 		unbinder.unbind();
 		/** 关闭键盘 **/

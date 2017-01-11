@@ -166,6 +166,22 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		SKYHelper.methodsProxy().activityInterceptor().onPause(this);
 		// 恢复初始化
 		listRefreshing(false);
+
+		if(isFinishing()){
+			detach();
+			/** 移除builder **/
+			if(SKYBuilder != null){
+				SKYBuilder.detach();
+				SKYBuilder = null;
+			}
+			if(SKYStructureModel!= null){
+				SKYHelper.structureHelper().detach(SKYStructureModel);
+			}
+			SKYHelper.screenHelper().onDestroy(this);
+			SKYHelper.methodsProxy().activityInterceptor().onDestroy(this);
+			/** 关闭键盘 **/
+			SKYKeyboardUtils.hideSoftInput(this);
+		}
 	}
 
 	@Override protected void onRestart() {
@@ -176,19 +192,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	@Override protected void onStop() {
 		super.onStop();
 		SKYHelper.methodsProxy().activityInterceptor().onStop(this);
-	}
-
-	@Override protected void onDestroy() {
-		super.onDestroy();
-		detach();
-		/** 移除builder **/
-		SKYBuilder.detach();
-		SKYBuilder = null;
-		SKYHelper.structureHelper().detach(SKYStructureModel);
-		SKYHelper.screenHelper().onDestroy(this);
-		SKYHelper.methodsProxy().activityInterceptor().onDestroy(this);
-		/** 关闭键盘 **/
-		SKYKeyboardUtils.hideSoftInput(this);
 	}
 
 	/**
