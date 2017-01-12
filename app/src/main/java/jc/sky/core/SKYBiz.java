@@ -1,5 +1,7 @@
 package jc.sky.core;
 
+import android.os.Bundle;
+
 import java.util.Vector;
 
 import jc.sky.SKYHelper;
@@ -51,6 +53,16 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		} else {
 			return SKYHelper.biz(service);
 		}
+	}
+
+	/**
+	 * 初始化
+	 * 
+	 * @param bundle
+	 *            初始化
+	 */
+	protected void initBiz(Bundle bundle) {
+
 	}
 
 	/**
@@ -113,6 +125,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
 		u = (U) SKYHelper.structureHelper().createMainLooper(ui, SKYStructureModel.getView());
 		callVector = new Vector<>();
+		if (this.SKYStructureModel.getBundle() != null) {
+			initBiz(this.SKYStructureModel.getBundle());
+		}
 	}
 
 	@Override public void detach() {
@@ -120,6 +135,15 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		ui = null;
 		SKYStructureModel = null;
 		httpCancel();
+	}
+
+	/**
+	 * 获取数据
+	 * 
+	 * @return 数据
+	 */
+	protected Bundle bundle() {
+		return this.SKYStructureModel.getBundle();
 	}
 
 	/**
@@ -139,7 +163,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showEmpty() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if(skyiView == null){
+		if (skyiView == null) {
 			return;
 		}
 		// 如果是主线程 - 直接执行
@@ -150,7 +174,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				if(skyiView == null){
+				if (skyiView == null) {
 					return;
 				}
 				skyiView.showEmpty();
@@ -160,7 +184,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showContent() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if(skyiView == null){
+		if (skyiView == null) {
 			return;
 		}
 		// 如果是主线程 - 直接执行
@@ -171,7 +195,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				if(skyiView == null){
+				if (skyiView == null) {
 					return;
 				}
 				skyiView.showContent();
@@ -181,7 +205,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showHttpError() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if(skyiView == null){
+		if (skyiView == null) {
 			return;
 		}
 		// 如果是主线程 - 直接执行
@@ -192,7 +216,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				if(skyiView == null){
+				if (skyiView == null) {
 					return;
 				}
 				skyiView.showHttpError();
@@ -202,7 +226,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showLoading() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if(skyiView == null){
+		if (skyiView == null) {
 			return;
 		}
 		// 如果是主线程 - 直接执行
@@ -213,7 +237,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				if(skyiView == null){
+				if (skyiView == null) {
 					return;
 				}
 				skyiView.showLoading();
@@ -223,7 +247,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	@Override public void showBizError() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if(skyiView == null){
+		if (skyiView == null) {
 			return;
 		}
 		// 如果是主线程 - 直接执行
@@ -234,7 +258,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		SKYHelper.mainLooper().execute(new Runnable() {
 
 			@Override public void run() {
-				if(skyiView == null){
+				if (skyiView == null) {
 					return;
 				}
 				skyiView.showBizError();

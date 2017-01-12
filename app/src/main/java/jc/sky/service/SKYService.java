@@ -45,10 +45,12 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 	 *            参数
 	 */
 	protected abstract void running(Intent intent, int flags, int startId);
+	
 
 	@Override public void onCreate() {
 		super.onCreate();
-		SKYStructureModel = new SKYStructureModel(this);
+		SKYStructureModel = new SKYStructureModel(this, null);
+
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化 **/
 		initData();

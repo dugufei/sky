@@ -30,7 +30,7 @@ public class SKYEmbedActivity<T extends SKYIBiz> extends AppCompatActivity {
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this);
+		SKYStructureModel = new SKYStructureModel(this,getIntent() == null ? null : getIntent().getExtras());
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化堆栈 **/
 		SKYHelper.screenHelper().onCreate(this);

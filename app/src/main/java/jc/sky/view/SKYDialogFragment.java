@@ -155,7 +155,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this);
+		SKYStructureModel = new SKYStructureModel(this,getArguments());
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);

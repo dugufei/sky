@@ -1,5 +1,7 @@
 package jc.sky.modules.structure;
 
+import android.os.Bundle;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
@@ -25,15 +27,19 @@ public class SKYStructureModel {
 
 	private Object			view;
 
+	private Bundle			bundle;
+
 	private Class			service;
 
 	private Stack<Class>	supper;
 
-	public SKYStructureModel(Object view) {
+	public SKYStructureModel(Object view, Bundle bundle) {
 		// 唯一标记
 		key = view.hashCode();
 		// 视图
 		this.view = view;
+		// 数据
+		this.bundle = bundle;
 		// 业务初始化
 		service = SKYAppUtil.getClassGenricType(view.getClass(), 0);
 		SKYCheckUtils.checkNotNull(service, "获取不到泛型");
@@ -62,6 +68,7 @@ public class SKYStructureModel {
 	 * 清空
 	 */
 	public void clearAll() {
+		this.bundle = null;
 		this.view = null;
 		service = null;
 		SKYProxy.clearProxy();
@@ -125,6 +132,10 @@ public class SKYStructureModel {
 
 	public int getKey() {
 		return key;
+	}
+
+	public Bundle getBundle() {
+		return bundle;
 	}
 
 	public Object getView() {
