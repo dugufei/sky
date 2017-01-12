@@ -60,7 +60,10 @@ public class SKYStructureModel {
 				tempClass = tempClass.getSuperclass();
 			}
 		}
-
+		// 如果是业务类
+		if (impl instanceof SKYBiz) {
+			((SKYBiz) impl).initUI(this);
+		}
 		SKYProxy = SKYHelper.methodsProxy().create(service, impl);
 	}
 
@@ -96,12 +99,7 @@ public class SKYStructureModel {
 			c.setAccessible(true);
 			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
 			/** 创建类 **/
-			Object o = c.newInstance();
-			// 如果是业务类
-			if (o instanceof SKYBiz) {
-				((SKYBiz) o).initUI(this);
-			}
-			return o;
+			return c.newInstance();
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
 		} catch (InstantiationException e) {
