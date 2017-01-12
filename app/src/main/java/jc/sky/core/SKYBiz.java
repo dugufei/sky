@@ -125,9 +125,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
 		u = (U) SKYHelper.structureHelper().createMainLooper(ui, SKYStructureModel.getView());
 		callVector = new Vector<>();
-		if (this.SKYStructureModel.getBundle() != null) {
-			initBiz(this.SKYStructureModel.getBundle());
-		}
+		initBiz(this.SKYStructureModel.getBundle());
 	}
 
 	@Override public void detach() {
