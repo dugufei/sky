@@ -84,6 +84,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	private SKYSwipeWindowHelper	mSwipeWindowHelper;
 
+	private boolean					isFinish;
+
 	/**
 	 * 初始化
 	 *
@@ -93,7 +95,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this,getIntent() == null ? null : getIntent().getExtras());
+		SKYStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化堆栈 **/
 		SKYHelper.screenHelper().onCreate(this);
@@ -167,14 +169,36 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		// 恢复初始化
 		listRefreshing(false);
 
-		if(isFinishing()){
+		if (isFinishing()) {
+
+			isFinish = true;
+
 			detach();
 			/** 移除builder **/
-			if(SKYBuilder != null){
+			if (SKYBuilder != null) {
 				SKYBuilder.detach();
 				SKYBuilder = null;
 			}
-			if(SKYStructureModel!= null){
+			if (SKYStructureModel != null) {
+				SKYHelper.structureHelper().detach(SKYStructureModel);
+			}
+			SKYHelper.screenHelper().onDestroy(this);
+			SKYHelper.methodsProxy().activityInterceptor().onDestroy(this);
+			/** 关闭键盘 **/
+			SKYKeyboardUtils.hideSoftInput(this);
+		}
+	}
+
+	@Override protected void onDestroy() {
+		super.onDestroy();
+		if (!isFinish) {
+			detach();
+			/** 移除builder **/
+			if (SKYBuilder != null) {
+				SKYBuilder.detach();
+				SKYBuilder = null;
+			}
+			if (SKYStructureModel != null) {
 				SKYHelper.structureHelper().detach(SKYStructureModel);
 			}
 			SKYHelper.screenHelper().onDestroy(this);

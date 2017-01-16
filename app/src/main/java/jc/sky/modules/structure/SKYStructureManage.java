@@ -37,29 +37,46 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 	}
 
-	@Override public synchronized void attach(SKYStructureModel view) {
+	@Override public void attach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 			if (stack == null) {
 				stack = new SimpleArrayMap();
 			}
 			stack.put(view.key, view);
+
 			statckRepeatBiz.put(view.getService(), stack);
+
+			if (SKYHelper.isLogOpen()) {
+				L.tag("SKYStructureManage");
+				L.i(view.getView() + " stack:put(" + view.key + ") size:" + statckRepeatBiz.size());
+			}
 		}
 	}
 
 	@Override public void detach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
+
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
-			if (stack != null) {
-				SKYStructureModel SKYStructureModel = stack.get(view.key);
-				if (SKYStructureModel == null) {
-					return;
-				}
-				stack.remove(SKYStructureModel.key);
-				if (stack.size() < 1) {
-					statckRepeatBiz.remove(view.getService());
-				}
+
+			if (stack == null) {
+				return;
+			}
+
+			SKYStructureModel SKYStructureModel = stack.get(view.key);
+
+			stack.remove(view.key);
+
+			if (stack.size() < 1) {
+				statckRepeatBiz.remove(view.getService());
+			}
+
+			if (SKYHelper.isLogOpen()) {
+				L.tag("SKYStructureManage");
+				L.i(view.getView() + "stack:remove(" + view.key + ") size:" + statckRepeatBiz.size());
+			}
+
+			if (SKYStructureModel != null) {
 				SKYStructureModel.clearAll();
 			}
 		}
