@@ -5,10 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.KeyEvent;
 
+import com.google.common.base.Strings;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +52,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYStructureManage");
-				L.i(view.getView() + " stack:put(" + view.key + ") size:" + statckRepeatBiz.size());
+				L.i(view.getView().getClass().getSimpleName() + " -- stack:put(" + view.key + ")");
 			}
 		}
 	}
@@ -73,7 +76,20 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYStructureManage");
-				L.i(view.getView() + "stack:remove(" + view.key + ") size:" + statckRepeatBiz.size());
+				L.i(view.getView().getClass().getSimpleName() + " -- stack:remove(" + view.key + ")");
+
+				L.tag("SKYStructureManage");
+				StringBuilder builder = new StringBuilder("\u21E0 ");
+				builder.append("SKYStructureManage.statckRepeatBiz").append('(');
+				if (statckRepeatBiz != null && statckRepeatBiz.size() > 0) {
+					for(Class clazz : statckRepeatBiz.keySet()){
+						builder.append(clazz.getSimpleName());
+						builder.append(", ");
+					}
+					builder.deleteCharAt(builder.length() - 1);
+				}
+
+				builder.append(')');
 			}
 
 			if (SKYStructureModel != null) {
