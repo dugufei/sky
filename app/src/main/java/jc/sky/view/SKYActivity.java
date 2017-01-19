@@ -477,6 +477,9 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 * @return
 	 */
 	protected boolean supportSlideBack() {
+		if(SKYBuilder == null){
+			return false;
+		}
 		return SKYBuilder.isOpenSwipBackLayout();
 	}
 
