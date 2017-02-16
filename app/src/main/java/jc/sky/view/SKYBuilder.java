@@ -1141,31 +1141,31 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 				if (getRecyclerviewSwipRefreshId() != 0) {
 					recyclerviewSwipeContainer = ButterKnife.findById(view, getRecyclerviewSwipRefreshId());
 					SKYCheckUtils.checkNotNull(recyclerviewSwipeContainer, "无法根据布局文件ID,获取recyclerview的SwipRefresh下载刷新布局");
-					SKYCheckUtils.checkNotNull(recyclerviewSKYRefreshListener, " recyclerview的SwipRefresh 下拉刷新和上拉加载事件没有设置");
-					recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-						@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-							super.onScrollStateChanged(recyclerView, newState);
-							if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-								if (recyclerviewSKYRefreshListener.onScrolledToBottom()) {
-									mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
-									mLoadMoreIsAtBottom = false;
-								}
-							}
-						}
-
-						@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-							super.onScrolled(recyclerView, dx, dy);
-							if (layoutManager instanceof LinearLayoutManager) {
-								int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-								mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
-							}
-						}
-					});// 加载更多
 
 					if(onRefreshListener != null){
 						recyclerviewSwipeContainer.setOnRefreshListener(onRefreshListener);
 					}else if(recyclerviewSKYRefreshListener != null){
+						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+							@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+								super.onScrollStateChanged(recyclerView, newState);
+								if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
+									if (recyclerviewSKYRefreshListener.onScrolledToBottom()) {
+										mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
+										mLoadMoreIsAtBottom = false;
+									}
+								}
+							}
+
+							@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+								super.onScrolled(recyclerView, dx, dy);
+								if (layoutManager instanceof LinearLayoutManager) {
+									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
+									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
+								}
+							}
+						});// 加载更多
 						recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewSKYRefreshListener);// 下载刷新
 					}
 				} else {
