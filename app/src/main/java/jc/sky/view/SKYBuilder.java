@@ -619,9 +619,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		if (swipe_container != null) {
 			swipe_container.setRefreshing(bool);
 		}
-		if (recyclerviewSwipeContainer != null) {
-			recyclerviewSwipeContainer.setRefreshing(bool);
-		}
 	}
 
 	void loadMoreOpen() {
@@ -655,6 +652,8 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private SKYRefreshListener											recyclerviewSKYRefreshListener;
 
+	private SwipeRefreshLayout.OnRefreshListener						onRefreshListener;
+
 	private StickyRecyclerHeadersTouchListener.OnHeaderClickListener	onHeaderClickListener;
 
 	private boolean														isHeaderFooter;
@@ -683,6 +682,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	@Nullable RecyclerView.ItemDecoration getItemDecoration() {
 		return itemDecoration;
+	}
+
+	@Nullable SwipeRefreshLayout getSwipeContainer() {
+		return recyclerviewSwipeContainer;
 	}
 
 	int[] getRecyclerviewColorResIds() {
@@ -759,6 +762,17 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	public void recyclerviewSwipRefreshId(@IdRes int recyclerviewSwipRefreshId, @NonNull SKYRefreshListener recyclerviewSKYRefreshListener) {
 		this.recyclerviewSwipRefreshId = recyclerviewSwipRefreshId;
 		this.recyclerviewSKYRefreshListener = recyclerviewSKYRefreshListener;
+	}
+
+	public void recyclerviewSwipRefreshId(@IdRes int recyclerviewSwipRefreshId, @NonNull SwipeRefreshLayout.OnRefreshListener onRefreshListener) {
+		this.recyclerviewSwipRefreshId = recyclerviewSwipRefreshId;
+		this.onRefreshListener = onRefreshListener;
+	}
+
+	public void recyclerRefreshing(boolean bool) {
+		if(recyclerviewSwipeContainer != null){
+			recyclerviewSwipeContainer.setRefreshing(bool);
+		}
 	}
 
 	/**
@@ -1148,7 +1162,12 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 							}
 						}
 					});// 加载更多
-					recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewSKYRefreshListener);// 下载刷新
+
+					if(onRefreshListener != null){
+						recyclerviewSwipeContainer.setOnRefreshListener(onRefreshListener);
+					}else if(recyclerviewSKYRefreshListener != null){
+						recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewSKYRefreshListener);// 下载刷新
+					}
 				} else {
 					if (SKYFooterListener != null) {
 						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -1214,5 +1233,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	@Override public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		mLoadMoreIsAtBottom = totalItemCount > mLoadMoreRequestedItemCount && firstVisibleItem + visibleItemCount == totalItemCount;
 	}
+
 
 }

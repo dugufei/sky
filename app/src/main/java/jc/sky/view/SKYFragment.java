@@ -3,6 +3,7 @@ package jc.sky.view;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -125,6 +126,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentPause(this);
 		// 恢复初始化
 		listRefreshing(false);
+		recyclerRefreshing(false);
 	}
 
 	@Override public void onStop() {
@@ -316,6 +318,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			listRefreshing(false);
+			recyclerRefreshing(false);
 		}
 	}
 
@@ -378,6 +381,19 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		if (SKYBuilder != null) {
 			SKYBuilder.listRefreshing(bool);
 		}
+	}
+
+	protected void recyclerRefreshing(boolean bool) {
+		if (SKYBuilder != null) {
+			SKYBuilder.recyclerRefreshing(bool);
+		}
+	}
+
+	protected SwipeRefreshLayout swipRefesh() {
+		if (SKYBuilder == null) {
+			return null;
+		}
+		return SKYBuilder.getSwipeContainer();
 	}
 
 	protected void listLoadMoreOpen() {

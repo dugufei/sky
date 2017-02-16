@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +59,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	/**
 	 * 数据
-	 * 
+	 *
 	 * @param savedInstanceState
 	 *            参数
 	 */
@@ -168,6 +170,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		SKYHelper.methodsProxy().activityInterceptor().onPause(this);
 		// 恢复初始化
 		listRefreshing(false);
+		recyclerRefreshing(false);
 
 		if (isFinishing()) {
 
@@ -346,12 +349,13 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			listRefreshing(false);
+			recyclerRefreshing(false);
 		}
 	}
 
 	/**********************
-	 * Actionbar业务代码
-	 ********************
+	 * Actionbar业务代码 *******************
+	 *
 	 * @return 参数
 	 */
 	public Toolbar toolbar() {
@@ -359,8 +363,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	/**********************
-	 * RecyclerView业务代码
-	 ********************
+	 * RecyclerView业务代码 *******************
+	 *
 	 * @return 参数
 	 */
 
@@ -417,6 +421,19 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 	}
 
+	protected void recyclerRefreshing(boolean bool) {
+		if (SKYBuilder != null) {
+			SKYBuilder.recyclerRefreshing(bool);
+		}
+	}
+
+    protected SwipeRefreshLayout swipRefesh() {
+		if (SKYBuilder == null) {
+			return null;
+		}
+		return SKYBuilder.getSwipeContainer();
+	}
+
 	protected void listLoadMoreOpen() {
 		if (SKYBuilder != null) {
 			SKYBuilder.loadMoreOpen();
@@ -455,7 +472,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	/**
 	 * 滑动返回
-	 * 
+	 *
 	 * @param ev
 	 *            事件
 	 * @return 结果
@@ -477,7 +494,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 * @return
 	 */
 	protected boolean supportSlideBack() {
-		if(SKYBuilder == null){
+		if (SKYBuilder == null) {
 			return false;
 		}
 		return SKYBuilder.isOpenSwipBackLayout();
@@ -485,7 +502,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	/**
 	 * 能否滑动返回至当前Activity
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean canBeSlideBack() {
@@ -494,7 +511,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 	/**
 	 * 获取内容视图
-	 * 
+	 *
 	 * @return 视图
 	 */
 	protected View contentView() {

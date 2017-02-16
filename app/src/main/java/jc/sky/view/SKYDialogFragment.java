@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -190,6 +191,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		super.onPause();
 		// 恢复初始化
 		listRefreshing(false);
+		recyclerRefreshing(false);
 	}
 
 	@Override public void onDestroyView() {
@@ -319,6 +321,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			listRefreshing(false);
+			recyclerRefreshing(false);
 		}
 	}
 
@@ -380,6 +383,19 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		if (SKYBuilder != null) {
 			SKYBuilder.listRefreshing(bool);
 		}
+	}
+
+	protected void recyclerRefreshing(boolean bool) {
+		if (SKYBuilder != null) {
+			SKYBuilder.recyclerRefreshing(bool);
+		}
+	}
+
+	protected SwipeRefreshLayout swipRefesh() {
+		if (SKYBuilder == null) {
+			return null;
+		}
+		return SKYBuilder.getSwipeContainer();
 	}
 
 	protected void listLoadMoreOpen() {
