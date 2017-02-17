@@ -275,25 +275,27 @@ public final class SKYMethod {
 			throwable.printStackTrace();
 		}
 
-		SKYIIntercept skyiIntercept = (SKYIIntercept) impl;
+		if(impl instanceof SKYIIntercept){
+			SKYIIntercept skyiIntercept = (SKYIIntercept) impl;
 
-		if (throwable.getCause() instanceof SKYHttpException) {
-			if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
-				// 网络错误拦截器
-				for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
-					item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+			if (throwable.getCause() instanceof SKYHttpException) {
+				if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
+					// 网络错误拦截器
+					for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
+						item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+					}
 				}
-			}
-		} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
-			// 忽略
-			if (!skyiIntercept.interceptUIError((SKYNotUIPointerException) throwable.getCause())) {
-			}
-			return;
-		} else {
-			if (!skyiIntercept.interceptBizError(throwable.getCause())) {
-				// 业务错误拦截器
-				for (SKYErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
-					item.interceptorError(implName, service, method, interceptor, throwable);
+			} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
+				// 忽略
+				if (!skyiIntercept.interceptUIError((SKYNotUIPointerException) throwable.getCause())) {
+				}
+				return;
+			} else {
+				if (!skyiIntercept.interceptBizError(throwable.getCause())) {
+					// 业务错误拦截器
+					for (SKYErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
+						item.interceptorError(implName, service, method, interceptor, throwable);
+					}
 				}
 			}
 		}
