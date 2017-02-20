@@ -491,7 +491,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * 是否支持滑动返回
 	 *
-	 * @return
+	 * @return true 支持 false  不支持
 	 */
 	protected boolean supportSlideBack() {
 		if (SKYBuilder == null) {
@@ -503,7 +503,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * 能否滑动返回至当前Activity
 	 *
-	 * @return
+	 * @return true 支持 false  不支持
 	 */
 	public boolean canBeSlideBack() {
 		return true;
