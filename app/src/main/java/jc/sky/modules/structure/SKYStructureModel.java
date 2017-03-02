@@ -149,6 +149,9 @@ public class SKYStructureModel {
 	}
 
 	public boolean isSupterClass(Class clazz) {
+		if(supper == null || clazz == null){
+			return false;
+		}
 		return supper.search(clazz) != -1;
 	}
 }
