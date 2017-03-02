@@ -19,7 +19,15 @@ import jc.sky.view.SKYView;
  */
 public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.Adapter<V> {
 
+	private static final int	VIEW_ITEM	= 0;
+
+	private static final int	VIEW_PROG	= 99;
+
 	public abstract V newViewHolder(ViewGroup viewGroup, int type);
+
+	public V newLoadMoreHolder(ViewGroup viewGroup, int type) {
+		return null;
+	}
 
 	private SKYRVAdapter() {}
 
@@ -45,8 +53,28 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		this.SKYView = SKYDialogFragment.SKYView();
 	}
 
+	@Override public int getItemViewType(int position) {
+		return mItems.get(position) != null ? getCustomViewType(position) : VIEW_PROG;
+	}
+
+	/**
+	 * 自定义类型
+	 * 
+	 * @param position
+	 *            下标
+	 * @return 类型
+	 */
+	public int getCustomViewType(int position) {
+		return VIEW_ITEM;
+	}
+
 	@Override public V onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-		V holder = newViewHolder(viewGroup, viewType);
+		V holder;
+		if (viewType == VIEW_PROG) {
+			holder = newLoadMoreHolder(viewGroup, viewType);
+		} else {
+			holder = newViewHolder(viewGroup, viewType);
+		}
 		return holder;
 	}
 
@@ -203,6 +231,5 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		return false;
 	}
 
-	public void clearCache() {
-	}
+	public void clearCache() {}
 }
