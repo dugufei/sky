@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentManager;
 import java.util.List;
 
 import jc.sky.core.SKYIBiz;
-import jc.sky.core.SKYICommonBiz;
-import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 
 /**

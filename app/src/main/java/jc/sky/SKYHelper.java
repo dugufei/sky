@@ -1,5 +1,6 @@
 package jc.sky;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.Looper;
 
@@ -33,6 +34,7 @@ import retrofit2.Retrofit;
  */
 public class SKYHelper {
 
+	@SuppressLint("StaticFieldLeak")
 	private static SKYModulesManage mSKYModulesManage = null;
 
 	/**
@@ -127,7 +129,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <B extends SKYIBiz> B biz(Class<B> service) {
+	public static <B extends SKYIBiz> B biz(Class<B> service) {
 		return structureHelper().biz(service);
 	}
 
@@ -142,7 +144,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <B extends SKYIBiz> B biz(Class<B> service, int position) {
+	public static <B extends SKYIBiz> B biz(Class<B> service, int position) {
 		return structureHelper().biz(service, position);
 	}
 
@@ -155,7 +157,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return true 存在 false 不存在
 	 */
-	public static final <B extends SKYIBiz> boolean isExist(Class<B> service) {
+	public static <B extends SKYIBiz> boolean isExist(Class<B> service) {
 		return structureHelper().isExist(service);
 	}
 
@@ -170,7 +172,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return true 存在 false 不存在
 	 */
-	public static final <B extends SKYIBiz> boolean isExist(Class<B> service, int position) {
+	public static <B extends SKYIBiz> boolean isExist(Class<B> service, int position) {
 		return structureHelper().isExist(service, position);
 	}
 
@@ -183,7 +185,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <B extends SKYIBiz> List<B> bizList(Class<B> service) {
+	public static <B extends SKYIBiz> List<B> bizList(Class<B> service) {
 		return structureHelper().bizList(service);
 	}
 
@@ -196,7 +198,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <B extends SKYICommonBiz> B common(Class<B> service) {
+	public static <B extends SKYICommonBiz> B common(Class<B> service) {
 		return mSKYModulesManage.getCacheManager().common(service);
 	}
 
@@ -209,7 +211,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <H> H http(Class<H> httpClazz) {
+	public static <H> H http(Class<H> httpClazz) {
 		return mSKYModulesManage.getCacheManager().http(httpClazz);
 
 	}
@@ -223,7 +225,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <I> I interfaces(Class<I> implClazz) {
+	public static <I> I interfaces(Class<I> implClazz) {
 		return mSKYModulesManage.getCacheManager().interfaces(implClazz);
 	}
 
@@ -232,7 +234,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SKYMethods methodsProxy() {
+	public static SKYMethods methodsProxy() {
 		return mSKYModulesManage.getSKYMethods();
 	}
 
@@ -250,7 +252,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final Retrofit httpAdapter() {
+	public static Retrofit httpAdapter() {
 		return mSKYModulesManage.getSKYRestAdapter();
 	}
 
@@ -263,7 +265,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static final <D> D httpBody(Call<D> call) {
+	public static <D> D httpBody(Call<D> call) {
 		if (call == null) {
 			throw new SKYHttpException("Call 不能为空～");
 		}
@@ -301,7 +303,7 @@ public class SKYHelper {
 	 * @param call
 	 *            参数
 	 */
-	public static final void httpCancel(Call call) {
+	public static void httpCancel(Call call) {
 		if (call == null) {
 			return;
 		}
@@ -316,7 +318,7 @@ public class SKYHelper {
 	 *
 	 * @return 管理器
 	 */
-	public static final SKYStructureIManage structureHelper() {
+	public static SKYStructureIManage structureHelper() {
 		return mSKYModulesManage.getSKYStructureManage();
 	}
 
@@ -325,7 +327,7 @@ public class SKYHelper {
 	 *
 	 * @return 管理器
 	 */
-	public static final SKYScreenManager screenHelper() {
+	public static SKYScreenManager screenHelper() {
 		return mSKYModulesManage.getSKYScreenManager();
 	}
 
@@ -334,7 +336,7 @@ public class SKYHelper {
 	 * 
 	 * @return 返回值
 	 */
-	public static final SKYThreadPoolManager threadPoolHelper() {
+	public static SKYThreadPoolManager threadPoolHelper() {
 		return mSKYModulesManage.getSKYThreadPoolManager();
 	}
 
@@ -343,7 +345,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SynchronousExecutor mainLooper() {
+	public static SynchronousExecutor mainLooper() {
 		return mSKYModulesManage.getSynchronousExecutor();
 	}
 
@@ -352,7 +354,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SKYDownloadManager downloader() {
+	public static SKYDownloadManager downloader() {
 		return mSKYModulesManage.getSKYDownloadManager();
 	}
 
@@ -361,7 +363,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SKYToast toast() {
+	public static SKYToast toast() {
 		return mSKYModulesManage.getSKYToast();
 	}
 
@@ -370,7 +372,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SKYIContact contact() {
+	public static SKYIContact contact() {
 		return mSKYModulesManage.getContactManage();
 	}
 
@@ -379,7 +381,7 @@ public class SKYHelper {
 	 *
 	 * @return true 子线程 false 主线程
 	 */
-	public static final boolean isMainLooperThread() {
+	public static boolean isMainLooperThread() {
 		return Looper.getMainLooper().getThread() != Thread.currentThread();
 	}
 
@@ -388,7 +390,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static final SKYFileCacheManage fileCacheManage() {
+	public static SKYFileCacheManage fileCacheManage() {
 		return mSKYModulesManage.getSKYFileCacheManage();
 	}
 

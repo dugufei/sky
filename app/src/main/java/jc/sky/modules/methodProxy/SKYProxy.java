@@ -2,8 +2,6 @@ package jc.sky.modules.methodProxy;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import jc.sky.core.SKYIBiz;
-
 /**
  * @author sky
  * @version 版本
