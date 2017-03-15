@@ -286,13 +286,10 @@ public class SKYDisplay implements SKYIDisplay {
 	}
 
 	@Override public void onKeyHome() {
-		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// 注意
-		intent.addCategory(Intent.CATEGORY_HOME);
 		if (activity() == null) {
 			return;
 		}
-		context().startActivity(intent);
+		activity().moveTaskToBack(true);
 	}
 
 	@Override public void popBackStack() {
