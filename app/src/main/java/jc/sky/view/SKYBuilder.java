@@ -129,7 +129,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.layoutId = layoutId;
 	}
 
-	public void layoutStateId(@LayoutRes int layoutId) {
+	public void layoutStateId(@IdRes int layoutId) {
 		this.layoutStateId = layoutId;
 	}
 
