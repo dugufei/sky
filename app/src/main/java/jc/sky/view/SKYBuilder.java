@@ -2,6 +2,7 @@ package jc.sky.view;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -27,7 +28,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -37,7 +37,6 @@ import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.modules.log.L;
 import jc.sky.view.adapter.SKYAdapterItem;
 import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.SKYListViewMultiLayout;
@@ -178,7 +177,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		this.layoutHttpErrorId = layoutHttpErrorId;
 	}
 
-	public void layoutBackground(@IdRes int color) {
+	public void layoutBackground(@ColorInt int color) {
 		this.layoutBackground = color;
 	}
 
