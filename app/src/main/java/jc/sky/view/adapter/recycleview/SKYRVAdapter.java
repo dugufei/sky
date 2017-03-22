@@ -21,11 +21,17 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	private static final int	VIEW_ITEM	= 0;
 
-	private static final int	VIEW_PROG	= 99;
+	private static final int	VIEW_PROG	= 9999;
+
+	private static final int	VIEW_TOP	= 10000;
 
 	public abstract V newViewHolder(ViewGroup viewGroup, int type);
 
 	public V newLoadMoreHolder(ViewGroup viewGroup, int type) {
+		return null;
+	}
+
+	public V newTopHolder(ViewGroup viewGroup, int type) {
 		return null;
 	}
 
@@ -54,7 +60,11 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	}
 
 	@Override public int getItemViewType(int position) {
-		return mItems.get(position) != null ? getCustomViewType(position) : VIEW_PROG;
+		if (position == 0) {
+			return mItems.get(position) != null ? getCustomViewType(position) : VIEW_TOP;
+		} else {
+			return mItems.get(position) != null ? getCustomViewType(position) : VIEW_PROG;
+		}
 	}
 
 	/**
@@ -72,6 +82,8 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		V holder;
 		if (viewType == VIEW_PROG) {
 			holder = newLoadMoreHolder(viewGroup, viewType);
+		} else if (viewType == VIEW_TOP) {
+			holder = newTopHolder(viewGroup, viewType);
 		} else {
 			holder = newViewHolder(viewGroup, viewType);
 		}

@@ -23,7 +23,6 @@ import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
@@ -113,7 +112,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		super.onResume();
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentResume(this);
 		SKYHelper.structureHelper().printBackStackEntry(getFragmentManager());
-		listLoadMoreOpen();
 	}
 
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -125,7 +123,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		super.onPause();
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentPause(this);
 		// 恢复初始化
-		listRefreshing(false);
 		recyclerRefreshing(false);
 	}
 
@@ -317,7 +314,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
-			listRefreshing(false);
 			recyclerRefreshing(false);
 		}
 	}
@@ -339,7 +335,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 *********************/
 
 	protected SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();
+		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	protected RecyclerView.LayoutManager recyclerLayoutManager() {
@@ -350,38 +346,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	/********************** ListView业务代码 *********************/
-
-	protected void addListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListHeader();
-		}
-	}
-
-	protected void addListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListFooter();
-		}
-	}
-
-	protected void removeListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListHeader();
-		}
-	}
-
-	protected void removeListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListFooter();
-		}
-
-	}
-
-	protected void listRefreshing(boolean bool) {
-		if (SKYBuilder != null) {
-			SKYBuilder.listRefreshing(bool);
-		}
-	}
 
 	protected void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
@@ -394,20 +358,6 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 			return null;
 		}
 		return SKYBuilder.getSwipeContainer();
-	}
-
-	protected void listLoadMoreOpen() {
-		if (SKYBuilder != null) {
-			SKYBuilder.loadMoreOpen();
-		}
-	}
-
-	protected SKYListAdapter adapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getAdapter();
-	}
-
-	protected ListView listView() {
-		return SKYBuilder == null ? null : SKYBuilder.getListView();
 	}
 
 	/********************** ViewPager业务代码 *********************/

@@ -1,7 +1,6 @@
 package jc.sky.display;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.view.View;
 import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.view.SKYActivity;
 
 /**
  * @author sky

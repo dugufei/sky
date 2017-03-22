@@ -25,11 +25,8 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import butterknife.ButterKnife;
@@ -37,9 +34,6 @@ import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.view.adapter.SKYAdapterItem;
-import jc.sky.view.adapter.SKYListAdapter;
-import jc.sky.view.adapter.SKYListViewMultiLayout;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 import jc.sky.view.adapter.recycleview.stickyheader.SKYStickyHeaders;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersDecoration;
@@ -51,7 +45,7 @@ import jc.sky.view.common.SKYRefreshListener;
  * @author sky
  * @version 版本
  */
-public class SKYBuilder implements AbsListView.OnScrollListener {
+public class SKYBuilder{
 
 	/**
 	 * UI
@@ -466,166 +460,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	/**
-	 * ListView
-	 */
-	private SKYListAdapter				SKYListAdapter;
-
-	private ListView					listView;
-
-	private View						header;
-
-	private View						footer;
-
-	private SwipeRefreshLayout			swipe_container;
-
-	private SKYRefreshListener			SKYRefreshListener;
-
-	private boolean						mLoadMoreIsAtBottom;			// 加载更多
-
-	// 开关
-
-	private int							mLoadMoreRequestedItemCount;	// 加载更多
-
-	// 数量
-
-	private int							colorResIds[];
-
-	private int							swipRefreshId;
-
-	private int							listId;
-
-	private int							listHeaderLayoutId;
-
-	private int							listFooterLayoutId;
-
-	SKYAdapterItem						SKYAdapterItem;
-
-	SKYListViewMultiLayout				SKYListViewMultiLayout;
-
-	AdapterView.OnItemClickListener		itemListener;
-
-	AdapterView.OnItemLongClickListener	itemLongListener;
-
-	// 获取
-	int getListId() {
-		return listId;
-	}
-
-	@Nullable SKYAdapterItem getSKYAdapterItem() {
-		return SKYAdapterItem;
-	}
-
-	@Nullable SKYListViewMultiLayout getSKYListViewMultiLayout() {
-		return SKYListViewMultiLayout;
-	}
-
-	@Nullable AdapterView.OnItemClickListener getItemListener() {
-		return itemListener;
-	}
-
-	@Nullable AdapterView.OnItemLongClickListener getItemLongListener() {
-		return itemLongListener;
-	}
-
-	int getListHeaderLayoutId() {
-		return listHeaderLayoutId;
-	}
-
-	int getListFooterLayoutId() {
-		return listFooterLayoutId;
-	}
-
-	@Nullable SKYListAdapter getAdapter() {
-		SKYCheckUtils.checkNotNull(SKYListAdapter, "适配器没有初始化");
-		return SKYListAdapter;
-	}
-
-	@Nullable ListView getListView() {
-		SKYCheckUtils.checkNotNull(listView, "没有设置布局文件ID,无法获取ListView");
-		return listView;
-	}
-
-	int getSwipRefreshId() {
-		return swipRefreshId;
-	}
-
-	int[] getSwipeColorResIds() {
-		return colorResIds;
-	}
-
-	// 设置
-	public void listHeaderLayoutId(@LayoutRes int listHeaderLayoutId) {
-		this.listHeaderLayoutId = listHeaderLayoutId;
-	}
-
-	public void listFooterLayoutId(@LayoutRes int listFooterLayoutId) {
-		this.listFooterLayoutId = listFooterLayoutId;
-	}
-
-	public void listViewOnItemClick(@NonNull AdapterView.OnItemClickListener itemListener) {
-		this.itemListener = itemListener;
-	}
-
-	public void listViewOnItemLongClick(@NonNull AdapterView.OnItemLongClickListener itemLongListener) {
-		this.itemLongListener = itemLongListener;
-	}
-
-	public void listViewId(@IdRes int listId, @NonNull SKYAdapterItem SKYAdapterItem) {
-		this.listId = listId;
-		this.SKYAdapterItem = SKYAdapterItem;
-	}
-
-	public void listViewId(@IdRes int listId, @NonNull SKYListViewMultiLayout SKYListViewMultiLayout) {
-		this.listId = listId;
-		this.SKYListViewMultiLayout = SKYListViewMultiLayout;
-	}
-
-	public void listSwipRefreshId(@IdRes int swipRefreshId, @NonNull SKYRefreshListener SKYRefreshListener) {
-		this.swipRefreshId = swipRefreshId;
-		this.SKYRefreshListener = SKYRefreshListener;
-	}
-
-	public void listSwipeColorResIds(int... colorResIds) {
-		this.colorResIds = colorResIds;
-	}
-
-	// 功能
-	void addListHeader() {
-		if (listView != null && header != null) {
-			listView.addHeaderView(header);
-		}
-	}
-
-	void addListFooter() {
-		if (listView != null && footer != null) {
-			listView.addFooterView(footer);
-		}
-	}
-
-	void removeListHeader() {
-		if (listView != null && header != null) {
-			listView.removeHeaderView(header);
-		}
-	}
-
-	void removeListFooter() {
-		if (listView != null && footer != null) {
-			listView.removeFooterView(footer);
-		}
-	}
-
-	void listRefreshing(boolean bool) {
-		if (swipe_container != null) {
-			swipe_container.setRefreshing(bool);
-		}
-	}
-
-	void loadMoreOpen() {
-		mLoadMoreIsAtBottom = true;
-		mLoadMoreRequestedItemCount = 0;
-	}
-
-	/**
 	 * RecyclerView 替代ListView GradView 可以实现瀑布流
 	 */
 
@@ -657,7 +491,10 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 
 	private boolean														isHeaderFooter;
 
-	// 获取
+	private boolean														mLoadMoreIsAtBottom;
+
+	private int															mLoadMoreRequestedItemCount;
+
 	int getRecyclerviewId() {
 		return recyclerviewId;
 	}
@@ -667,7 +504,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		return recyclerView;
 	}
 
-	@Nullable SKYRVAdapter getSKYRVAdapterItem2() {
+	@Nullable SKYRVAdapter getSKYRVAdapterItem() {
 		return SKYRVAdapter;
 	}
 
@@ -769,7 +606,7 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	}
 
 	public void recyclerRefreshing(boolean bool) {
-		if(recyclerviewSwipeContainer != null){
+		if (recyclerviewSwipeContainer != null) {
 			recyclerviewSwipeContainer.setRefreshing(bool);
 		}
 	}
@@ -782,8 +619,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	View create() {
 		/** layout **/
 		createLayout();
-		/** listview **/
-		createListView(contentRoot);
 		/** recyclerview **/
 		createRecyclerView(contentRoot);
 		/** actoinbar **/
@@ -808,8 +643,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		detachLayout();
 		// actionbar清除
 		detachActionbar();
-		// listview清除
-		detachListView();
 		// recyclerview清楚
 		detachRecyclerView();
 	}
@@ -1025,72 +858,6 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 	 *
 	 * @param view
 	 */
-	private void createListView(View view) {
-		if (getListId() > 0) {
-			listView = ButterKnife.findById(view, getListId());
-			SKYCheckUtils.checkNotNull(listView, "无法根据布局文件ID,获取ListView");
-			// 添加头布局
-			if (getListHeaderLayoutId() != 0) {
-				header = mInflater.inflate(getListHeaderLayoutId(), null, false);
-				SKYCheckUtils.checkNotNull(header, "无法根据布局文件ID,获取ListView 头布局");
-				addListHeader();
-			}
-			// 添加尾布局
-			if (getListFooterLayoutId() != 0) {
-				footer = mInflater.inflate(getListFooterLayoutId(), null, false);
-				SKYCheckUtils.checkNotNull(footer, "无法根据布局文件ID,获取ListView 尾布局");
-				addListFooter();
-			}
-			// 设置上拉和下拉事件
-			if (getSwipRefreshId() != 0) {
-				swipe_container = ButterKnife.findById(view, getSwipRefreshId());
-				SKYCheckUtils.checkNotNull(swipe_container, "无法根据布局文件ID,获取ListView的SwipRefresh下载刷新布局");
-				SKYCheckUtils.checkNotNull(SKYRefreshListener, " ListView的SwipRefresh 下拉刷新和上拉加载事件没有设置");
-				swipe_container.setOnRefreshListener(SKYRefreshListener);// 下载刷新
-				listView.setOnScrollListener(this);// 加载更多
-			}
-			// 设置进度颜色
-			if (getSwipeColorResIds() != null) {
-				SKYCheckUtils.checkNotNull(swipe_container, "无法根据布局文件ID,获取ListView的SwipRefresh下载刷新布局");
-				swipe_container.setColorSchemeResources(getSwipeColorResIds());
-			}
-			// 添加点击事件
-			if (getItemListener() != null) {
-				listView.setOnItemClickListener(getItemListener());
-			}
-			if (getItemLongListener() != null) {
-				listView.setOnItemLongClickListener(getItemLongListener());
-			}
-			// 创建适配器
-			SKYListAdapter = SKYListViewMultiLayout == null ? new SKYListAdapter(skyView, getSKYAdapterItem()) : new SKYListAdapter(skyView, SKYListViewMultiLayout);
-			SKYCheckUtils.checkNotNull(SKYListAdapter, "适配器创建失败");
-			// 设置适配器
-			listView.setAdapter(SKYListAdapter);
-		}
-	}
-
-	private void detachListView() {
-		if (SKYListAdapter != null) {
-			SKYListAdapter.detach();
-			SKYListAdapter = null;
-		}
-		listView = null;
-		header = null;
-		footer = null;
-		SKYAdapterItem = null;
-		SKYListViewMultiLayout = null;
-		itemListener = null;
-		itemLongListener = null;
-		swipe_container = null;
-		colorResIds = null;
-		SKYRefreshListener = null;
-	}
-
-	/**
-	 * 列表
-	 *
-	 * @param view
-	 */
 	private void createRecyclerView(View view) {
 		if (getRecyclerviewId() > 0) {
 			recyclerView = ButterKnife.findById(view, getRecyclerviewId());
@@ -1141,10 +908,9 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 					recyclerviewSwipeContainer = ButterKnife.findById(view, getRecyclerviewSwipRefreshId());
 					SKYCheckUtils.checkNotNull(recyclerviewSwipeContainer, "无法根据布局文件ID,获取recyclerview的SwipRefresh下载刷新布局");
 
-
-					if(onRefreshListener != null){
+					if (onRefreshListener != null) {
 						recyclerviewSwipeContainer.setOnRefreshListener(onRefreshListener);
-					}else if(recyclerviewSKYRefreshListener != null){
+					} else if (recyclerviewSKYRefreshListener != null) {
 						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 							@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -1216,22 +982,5 @@ public class SKYBuilder implements AbsListView.OnScrollListener {
 		recyclerviewSwipeContainer = null;
 		recyclerviewSKYRefreshListener = null;
 	}
-
-	/**
-	 * 自动加载更多
-	 **/
-	@Override public void onScrollStateChanged(AbsListView view, int scrollState) {
-		if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-			if (SKYRefreshListener.onScrolledToBottom()) {
-				mLoadMoreRequestedItemCount = view.getCount();
-				mLoadMoreIsAtBottom = false;
-			}
-		}
-	}
-
-	@Override public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		mLoadMoreIsAtBottom = totalItemCount > mLoadMoreRequestedItemCount && firstVisibleItem + visibleItemCount == totalItemCount;
-	}
-
 
 }

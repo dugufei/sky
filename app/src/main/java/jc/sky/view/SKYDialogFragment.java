@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +37,6 @@ import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
@@ -190,7 +188,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public void onPause() {
 		super.onPause();
 		// 恢复初始化
-		listRefreshing(false);
 		recyclerRefreshing(false);
 	}
 
@@ -320,7 +317,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public void showHttpError() {
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
-			listRefreshing(false);
 			recyclerRefreshing(false);
 		}
 	}
@@ -341,7 +337,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 *********************/
 
 	protected SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();
+		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	protected RecyclerView.LayoutManager recyclerLayoutManager() {
@@ -350,39 +346,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	protected RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
-	}
-
-	/********************** ListView业务代码 *********************/
-
-	protected void addListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListHeader();
-		}
-	}
-
-	protected void addListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListFooter();
-		}
-	}
-
-	protected void removeListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListHeader();
-		}
-	}
-
-	protected void removeListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListFooter();
-		}
-
-	}
-
-	protected void listRefreshing(boolean bool) {
-		if (SKYBuilder != null) {
-			SKYBuilder.listRefreshing(bool);
-		}
 	}
 
 	protected void recyclerRefreshing(boolean bool) {
@@ -396,20 +359,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			return null;
 		}
 		return SKYBuilder.getSwipeContainer();
-	}
-
-	protected void listLoadMoreOpen() {
-		if (SKYBuilder != null) {
-			SKYBuilder.loadMoreOpen();
-		}
-	}
-
-	protected SKYListAdapter adapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getAdapter();
-	}
-
-	protected ListView listView() {
-		return SKYBuilder == null ? null : SKYBuilder.getListView();
 	}
 
 	/**********************

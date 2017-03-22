@@ -12,6 +12,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+
 /**
  * @author sky
  * @version 版本
@@ -447,5 +449,21 @@ public class SKYScreenManager {
 		}
 
 		return (A) activities.get(count - 2).getActivity();
+	}
+
+	/**
+	 * 适配器
+	 *
+	 * @param clazz
+	 *            Activity
+	 * @param adapter
+	 *            适配器
+	 * @param <A>
+	 *            返回值
+	 * @return
+	 */
+	public <A extends SKYRVAdapter> A adapter(Class<?> clazz,, Class<A> adapter) {
+
+		return null;
 	}
 }

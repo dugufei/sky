@@ -62,6 +62,6 @@ dependencies {
     compile "com.google.guava:guava:$guava"
 }
 
-apply from: 'maven-github-aar.gradle'//Github打包
-//apply from: 'maven-center-aar.gradle'//中央库打包
+//apply from: 'maven-github-aar.gradle'//Github打包
+apply from: 'maven-center-aar.gradle'//中央库打包
 

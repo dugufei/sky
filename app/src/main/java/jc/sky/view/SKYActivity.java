@@ -32,7 +32,6 @@ import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.SKYListAdapter;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
@@ -146,7 +145,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		super.onResume();
 		SKYHelper.screenHelper().onResume(this);
 		SKYHelper.methodsProxy().activityInterceptor().onResume(this);
-		listLoadMoreOpen();
 	}
 
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -169,7 +167,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		SKYHelper.screenHelper().onPause(this);
 		SKYHelper.methodsProxy().activityInterceptor().onPause(this);
 		// 恢复初始化
-		listRefreshing(false);
 		recyclerRefreshing(false);
 
 		if (isFinishing()) {
@@ -348,7 +345,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
-			listRefreshing(false);
 			recyclerRefreshing(false);
 		}
 	}
@@ -369,7 +365,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 */
 
 	protected SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem2();
+		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	/**
@@ -386,41 +382,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	/**********************
-	 * ListView业务代码
-	 *********************/
-
-	protected void addListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListHeader();
-		}
-	}
-
-	protected void addListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.addListFooter();
-		}
-	}
-
-	protected void removeListHeader() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListHeader();
-		}
-	}
-
-	protected void removeListFooter() {
-		if (SKYBuilder != null) {
-			SKYBuilder.removeListFooter();
-		}
-
-	}
-
-	protected void listRefreshing(boolean bool) {
-		if (SKYBuilder != null) {
-			SKYBuilder.listRefreshing(bool);
-		}
-	}
-
 	protected void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
@@ -432,20 +393,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 			return null;
 		}
 		return SKYBuilder.getSwipeContainer();
-	}
-
-	protected void listLoadMoreOpen() {
-		if (SKYBuilder != null) {
-			SKYBuilder.loadMoreOpen();
-		}
-	}
-
-	protected SKYListAdapter adapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getAdapter();
-	}
-
-	protected ListView listView() {
-		return SKYBuilder == null ? null : SKYBuilder.getListView();
 	}
 
 	public boolean onKeyBack() {
