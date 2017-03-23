@@ -321,6 +321,12 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		}
 	}
 
+	@Override public <T> void notifyReyclerAdapter(T t) {
+		if (recyclerAdapter() != null) {
+			recyclerAdapter().notify(t);
+		}
+	}
+
 	/**********************
 	 * Actionbar业务代码
 	 * 

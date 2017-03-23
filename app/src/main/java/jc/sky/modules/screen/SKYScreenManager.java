@@ -450,20 +450,4 @@ public class SKYScreenManager {
 
 		return (A) activities.get(count - 2).getActivity();
 	}
-
-	/**
-	 * 适配器
-	 *
-	 * @param clazz
-	 *            Activity
-	 * @param adapter
-	 *            适配器
-	 * @param <A>
-	 *            返回值
-	 * @return
-	 */
-	public <A extends SKYRVAdapter> A adapter(Class<?> clazz,, Class<A> adapter) {
-
-		return null;
-	}
 }

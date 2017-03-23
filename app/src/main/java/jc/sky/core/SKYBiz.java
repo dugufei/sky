@@ -65,6 +65,28 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	}
 
+	@Override public <T> void notifyRecyclerAdatper(final T t) {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
+		if (skyiView == null) {
+			return;
+		}
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			skyiView.notifyReyclerAdapter(t);
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				if (skyiView == null) {
+					return;
+				}
+				skyiView.notifyReyclerAdapter(t);
+			}
+		});
+
+	}
+
 	/**
 	 * View层 回调引用
 	 *

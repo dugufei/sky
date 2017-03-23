@@ -16,4 +16,6 @@ public interface SKYIView {
 	void showLoading();
 
 	void showHttpError();
+
+	<T> void notifyReyclerAdapter(T t);
 }

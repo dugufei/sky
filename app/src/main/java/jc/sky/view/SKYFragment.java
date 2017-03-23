@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -315,6 +314,12 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		if (SKYBuilder != null) {
 			SKYBuilder.layoutHttpError();
 			recyclerRefreshing(false);
+		}
+	}
+
+	@Override public <T> void notifyReyclerAdapter(T t) {
+		if (recyclerAdapter() != null) {
+			recyclerAdapter().notify(t);
 		}
 	}
 

@@ -14,4 +14,14 @@ public interface SKYIBiz {
 	 * 清空
 	 */
 	void detach();
+
+	/**
+	 * 刷新适配器
+	 * 
+	 * @param t
+	 *            类型
+	 * @param <T>
+	 *            类型
+	 */
+	<T> void notifyRecyclerAdatper(T t);
 }

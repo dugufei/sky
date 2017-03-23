@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ListView;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -349,6 +347,12 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 	}
 
+	@Override public <T> void notifyReyclerAdapter(T t) {
+		if (recyclerAdapter() != null) {
+			recyclerAdapter().notify(t);
+		}
+	}
+
 	/**********************
 	 * Actionbar业务代码 *******************
 	 *
@@ -388,7 +392,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 	}
 
-    protected SwipeRefreshLayout swipRefesh() {
+	protected SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}
@@ -438,7 +442,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * 是否支持滑动返回
 	 *
-	 * @return true 支持 false  不支持
+	 * @return true 支持 false 不支持
 	 */
 	protected boolean supportSlideBack() {
 		if (SKYBuilder == null) {
@@ -450,7 +454,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * 能否滑动返回至当前Activity
 	 *
-	 * @return true 支持 false  不支持
+	 * @return true 支持 false 不支持
 	 */
 	public boolean canBeSlideBack() {
 		return true;
