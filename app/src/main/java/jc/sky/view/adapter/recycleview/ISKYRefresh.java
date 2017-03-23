@@ -10,8 +10,7 @@ public interface ISKYRefresh {
 	/**
 	 * 刷新
 	 *
-	 * @param object
-	 *            实体
+	 * @param object   参数
 	 */
 	void notify(Object object);
 }

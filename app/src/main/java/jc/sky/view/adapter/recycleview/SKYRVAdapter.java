@@ -245,6 +245,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	public void clearCache() {}
 
-	public void notify(Object object){
+	@Override public void notify(Object object) {
+
 	}
 }
