@@ -17,7 +17,7 @@ import jc.sky.view.SKYView;
  * @author sky 15/7/17 上午10:51
  * @version 版本 RecyclerView 适配器
  */
-public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.Adapter<V> {
+public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.Adapter<V> implements ISKYRefresh {
 
 	private static final int	VIEW_ITEM	= 0;
 
@@ -245,6 +245,6 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	public void clearCache() {}
 
-	public <T> void notify(T t){
+	public void notify(Object object){
 	}
 }

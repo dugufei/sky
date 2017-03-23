@@ -9,8 +9,11 @@ import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.display.SKYIDisplay;
+import jc.sky.modules.log.L;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.SKYActivity;
+import jc.sky.view.adapter.recycleview.ISKYRefresh;
+import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 import retrofit2.Call;
 
 /**
@@ -62,28 +65,6 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 	 *            初始化
 	 */
 	protected void initBiz(Bundle bundle) {
-
-	}
-
-	@Override public <T> void notifyRecyclerAdatper(final T t) {
-		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
-		if (skyiView == null) {
-			return;
-		}
-		// 如果是主线程 - 直接执行
-		if (!SKYHelper.isMainLooperThread()) { // 主线程
-			skyiView.notifyReyclerAdapter(t);
-			return;
-		}
-		SKYHelper.mainLooper().execute(new Runnable() {
-
-			@Override public void run() {
-				if (skyiView == null) {
-					return;
-				}
-				skyiView.notifyReyclerAdapter(t);
-			}
-		});
 
 	}
 
@@ -284,6 +265,48 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 				skyiView.showBizError();
 			}
 		});
+	}
+
+	@Override public <T extends SKYRVAdapter> T getAdapter() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
+		if (skyiView == null) {
+			return null;
+		}
+		return skyiView.getAdapter();
+	}
+
+	@Override public <O> void refreshAdapter(final O t) {
+		SKYRVAdapter skyrvAdapter = getAdapter();
+		if (skyrvAdapter == null) {
+			if (SKYHelper.isLogOpen()) {
+				L.i("适配器不存在~~~");
+			}
+			return;
+		}
+
+		final ISKYRefresh iskyRefresh = skyrvAdapter;
+
+		if (iskyRefresh == null) {
+			if (SKYHelper.isLogOpen()) {
+				L.i("适配器没有实现 ISKYRefresh 接口~~~");
+			}
+			return;
+		}
+		// 如果是主线程 - 直接执行
+		if (!SKYHelper.isMainLooperThread()) { // 主线程
+			iskyRefresh.notify(t);
+			return;
+		}
+		SKYHelper.mainLooper().execute(new Runnable() {
+
+			@Override public void run() {
+				if (iskyRefresh == null) {
+					return;
+				}
+				iskyRefresh.notify(t);
+			}
+		});
+
 	}
 
 	@Override public boolean interceptBizError(Throwable throwable) {

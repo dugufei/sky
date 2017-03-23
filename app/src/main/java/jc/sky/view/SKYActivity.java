@@ -347,10 +347,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 	}
 
-	@Override public <T> void notifyReyclerAdapter(T t) {
-		if (recyclerAdapter() != null) {
-			recyclerAdapter().notify(t);
-		}
+	@Override public <O extends SKYRVAdapter> O getAdapter() {
+		return (O) recyclerAdapter();
 	}
 
 	/**********************

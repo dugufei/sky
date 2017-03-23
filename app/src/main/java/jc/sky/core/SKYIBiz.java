@@ -17,11 +17,9 @@ public interface SKYIBiz {
 
 	/**
 	 * 刷新适配器
-	 * 
-	 * @param t
-	 *            类型
-	 * @param <T>
-	 *            类型
+	 *
+	 * @param o
+	 *            哦
 	 */
-	<T> void notifyRecyclerAdatper(T t);
+	<O> void refreshAdapter(O o);
 }

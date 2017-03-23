@@ -317,10 +317,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		}
 	}
 
-	@Override public <T> void notifyReyclerAdapter(T t) {
-		if (recyclerAdapter() != null) {
-			recyclerAdapter().notify(t);
-		}
+	@Override public <O extends SKYRVAdapter> O getAdapter() {
+		return (O) recyclerAdapter();
 	}
 
 	/**********************

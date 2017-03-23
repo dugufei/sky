@@ -321,10 +321,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		}
 	}
 
-	@Override public <T> void notifyReyclerAdapter(T t) {
-		if (recyclerAdapter() != null) {
-			recyclerAdapter().notify(t);
-		}
+	@Override public <O extends SKYRVAdapter> O getAdapter() {
+		return (O) recyclerAdapter();
 	}
 
 	/**********************

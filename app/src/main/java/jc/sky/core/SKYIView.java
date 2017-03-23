@@ -1,5 +1,7 @@
 package jc.sky.core;
 
+import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+
 /**
  * @author sky
  * @version 1.0 on 2016-11-30 下午3:11
@@ -17,5 +19,5 @@ public interface SKYIView {
 
 	void showHttpError();
 
-	<T> void notifyReyclerAdapter(T t);
+    <T extends SKYRVAdapter> T getAdapter();
 }
