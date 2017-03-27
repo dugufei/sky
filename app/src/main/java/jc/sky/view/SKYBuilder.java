@@ -2,7 +2,6 @@ package jc.sky.view;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -171,7 +170,7 @@ public class SKYBuilder{
 		this.layoutHttpErrorId = layoutHttpErrorId;
 	}
 
-	public void layoutBackground(@ColorInt int color) {
+	public void layoutBackground(@IdRes int color) {
 		this.layoutBackground = color;
 	}
 

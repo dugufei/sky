@@ -51,7 +51,6 @@ dependencies {
     compile "com.readystatesoftware.systembartint:systembartint:$systembartint"
     compile "org.apache.commons:commons-lang3:$commons_lang"
     compile "com.google.code.gson:gson:$gson"
-    compile "org.apache.commons:commons-io:$commons_io"
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.github.bumptech.glide:okhttp3-integration:$glide_okhttp3"
     compile "com.squareup.okhttp3:okhttp:$okhttp3"
@@ -60,6 +59,7 @@ dependencies {
     compile "com.google.dagger:dagger:$DAGGER"
     apt "com.google.dagger:dagger-compiler:$DAGGER"
     compile "com.google.guava:guava:$guava"
+    compile group: 'commons-io', name: 'commons-io', version: "$commons_io"
 }
 
 apply from: 'maven-github-aar.gradle'//Github打包
