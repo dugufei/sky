@@ -44,7 +44,7 @@ import jc.sky.view.common.SKYRefreshListener;
  * @author sky
  * @version 版本
  */
-public class SKYBuilder{
+public class SKYBuilder {
 
 	/**
 	 * UI
@@ -924,10 +924,10 @@ public class SKYBuilder{
 
 							@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 								super.onScrolled(recyclerView, dx, dy);
-								if (layoutManager instanceof LinearLayoutManager) {
-									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
-								}else{
+								if (recyclerView == null) {
+									return;
+								}
+								if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
 									mLoadMoreIsAtBottom = true;
 								}
 							}
@@ -950,13 +950,12 @@ public class SKYBuilder{
 
 							@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 								super.onScrolled(recyclerView, dx, dy);
-								if (layoutManager instanceof LinearLayoutManager) {
-									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
-									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
-								}else{
+								if (recyclerView == null) {
+									return;
+								}
+								if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
 									mLoadMoreIsAtBottom = true;
 								}
-
 							}
 						});
 					}
