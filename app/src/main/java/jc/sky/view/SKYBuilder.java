@@ -927,6 +927,8 @@ public class SKYBuilder{
 								if (layoutManager instanceof LinearLayoutManager) {
 									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
 									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
+								}else{
+									mLoadMoreIsAtBottom = true;
 								}
 							}
 						});// 加载更多
@@ -951,7 +953,10 @@ public class SKYBuilder{
 								if (layoutManager instanceof LinearLayoutManager) {
 									int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
 									mLoadMoreIsAtBottom = SKYRVAdapter.getItemCount() > mLoadMoreRequestedItemCount && lastVisibleItem + 1 == SKYRVAdapter.getItemCount();
+								}else{
+									mLoadMoreIsAtBottom = true;
 								}
+
 							}
 						});
 					}
