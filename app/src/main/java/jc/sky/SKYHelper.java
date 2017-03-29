@@ -34,8 +34,7 @@ import retrofit2.Retrofit;
  */
 public class SKYHelper {
 
-	@SuppressLint("StaticFieldLeak")
-	private static SKYModulesManage mSKYModulesManage = null;
+	@SuppressLint("StaticFieldLeak") private static SKYModulesManage mSKYModulesManage = null;
 
 	/**
 	 * @return 返回值
@@ -347,6 +346,13 @@ public class SKYHelper {
 	 */
 	public static SynchronousExecutor mainLooper() {
 		return mSKYModulesManage.getSynchronousExecutor();
+	}
+
+	/**
+	 * 打印cache状态
+	 */
+	public static void printState() {
+		mSKYModulesManage.getCacheManager().printState();
 	}
 
 	/**

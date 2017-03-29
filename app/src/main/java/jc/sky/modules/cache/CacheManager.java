@@ -42,14 +42,10 @@ public final class CacheManager implements ICacheManager {
 		cache = CacheBuilder.newBuilder()
 				// 设置并发级别为10，并发级别是指可以同时写缓存的线程数
 				.concurrencyLevel(10)
-				// 设置写缓存后60秒钟过期
-				.expireAfterAccess(60, TimeUnit.SECONDS)
+				// 设置写缓存后1分钟过期
+				.expireAfterAccess(30, TimeUnit.SECONDS)
 				// 设置缓存容器的初始容量为10
 				.initialCapacity(10)
-				// 弱引用
-				.weakKeys()
-				// 弱引用
-				.weakValues()
 				// 设置缓存最大容量为100，超过100之后就会按照LRU最近虽少使用算法来移除缓存项
 				.maximumSize(100)
 				// 设置要统计缓存的命中率
