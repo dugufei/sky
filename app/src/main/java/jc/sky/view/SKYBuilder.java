@@ -172,7 +172,7 @@ public class SKYBuilder {
 		this.layoutHttpErrorId = layoutHttpErrorId;
 	}
 
-	public void layoutBackground(@IdRes int color) {
+	public void layoutBackground(@ColorRes int color) {
 		this.layoutBackground = color;
 	}
 
