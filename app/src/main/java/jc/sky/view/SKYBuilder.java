@@ -33,6 +33,8 @@ import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
+import jc.sky.view.adapter.recycleview.SKYFooterOnScrollListener;
+import jc.sky.view.adapter.recycleview.SKYOnScrollListener;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 import jc.sky.view.adapter.recycleview.stickyheader.SKYStickyHeaders;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersDecoration;
@@ -490,9 +492,7 @@ public class SKYBuilder {
 
 	private boolean														isHeaderFooter;
 
-	private boolean														mLoadMoreIsAtBottom;
 
-	private int															mLoadMoreRequestedItemCount;
 
 	int getRecyclerviewId() {
 		return recyclerviewId;
@@ -910,54 +910,13 @@ public class SKYBuilder {
 					if (onRefreshListener != null) {
 						recyclerviewSwipeContainer.setOnRefreshListener(onRefreshListener);
 					} else if (recyclerviewSKYRefreshListener != null) {
-						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-							@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-								super.onScrollStateChanged(recyclerView, newState);
-								if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-									if (recyclerviewSKYRefreshListener.onScrolledToBottom()) {
-										mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
-										mLoadMoreIsAtBottom = false;
-									}
-								}
-							}
-
-							@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-								super.onScrolled(recyclerView, dx, dy);
-								if (recyclerView == null) {
-									return;
-								}
-								if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
-									mLoadMoreIsAtBottom = true;
-								}
-							}
-						});// 加载更多
+						recyclerView.addOnScrollListener(new SKYOnScrollListener(recyclerviewSKYRefreshListener));// 加载更多
 						recyclerviewSwipeContainer.setOnRefreshListener(recyclerviewSKYRefreshListener);// 下载刷新
 					}
 				} else {
 					if (SKYFooterListener != null) {
-						recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+						recyclerView.addOnScrollListener(new SKYFooterOnScrollListener(SKYFooterListener));// 加载更多
 
-							@Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-								super.onScrollStateChanged(recyclerView, newState);
-								if (newState == RecyclerView.SCROLL_STATE_IDLE && mLoadMoreIsAtBottom) {
-									if (SKYFooterListener.onScrolledToBottom()) {
-										mLoadMoreRequestedItemCount = SKYRVAdapter.getItemCount();
-										mLoadMoreIsAtBottom = false;
-									}
-								}
-							}
-
-							@Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-								super.onScrolled(recyclerView, dx, dy);
-								if (recyclerView == null) {
-									return;
-								}
-								if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset() >= recyclerView.computeVerticalScrollRange()) {
-									mLoadMoreIsAtBottom = true;
-								}
-							}
-						});
 					}
 				}
 			} else {
