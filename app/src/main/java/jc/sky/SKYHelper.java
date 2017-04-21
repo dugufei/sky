@@ -18,6 +18,7 @@ import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
+import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureIManage;
@@ -292,6 +293,10 @@ public class SKYHelper {
 
 			return response.body();
 		} catch (IOException e) {
+			if(SKYHelper.isLogOpen() && e != null){
+				e.printStackTrace();
+				L.i(e.getMessage());
+			}
 			throw new SKYHttpException("网络异常", e.getCause());
 		}
 	}
