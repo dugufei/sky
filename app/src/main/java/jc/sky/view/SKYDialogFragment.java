@@ -118,6 +118,14 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		return false;
 	}
 
+	protected boolean isFullWidth(){
+		return false;
+	}
+
+	protected boolean isFullheight(){
+		return false;
+	}
+
 	/**
 	 * 是否设置目标活动
 	 *
@@ -173,7 +181,17 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			Window window = getDialog().getWindow();
 			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		}else if (isFullWidth()){
+			Window window = getDialog().getWindow();
+			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		}else if(isFullheight()){
+			Window window = getDialog().getWindow();
+			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+			window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		}
+
+
 		/** 初始化dagger **/
 		initDagger();
 		createData(savedInstanceState);
