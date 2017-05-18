@@ -33,6 +33,7 @@ import jc.sky.R;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
+import jc.sky.core.SKYIView;
 import jc.sky.view.adapter.recycleview.SKYFooterOnScrollListener;
 import jc.sky.view.adapter.recycleview.SKYOnScrollListener;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
@@ -131,6 +132,8 @@ public class SKYBuilder {
 	 * 显示状态切换
 	 */
 
+	int showState;
+
 	private int			layoutLoadingId;
 
 	private int			layoutEmptyId;
@@ -196,6 +199,7 @@ public class SKYBuilder {
 		} else {
 			changeShowAnimation(layoutContent, true);
 		}
+		showState = SKYIView.STATE_CONTENT;
 	}
 
 	void layoutLoading() {
@@ -215,6 +219,7 @@ public class SKYBuilder {
 			SKYCheckUtils.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
 		}
 		changeShowAnimation(layoutLoading, true);
+		showState = SKYIView.STATE_LOADING;
 	}
 
 	void layoutEmpty() {
@@ -230,6 +235,7 @@ public class SKYBuilder {
 		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutEmpty, true);
+		showState = SKYIView.STATE_EMPTY;
 	}
 
 	void layoutBizError() {
@@ -245,6 +251,7 @@ public class SKYBuilder {
 		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutBizError, true);
+		showState = SKYIView.STATE_BIZ_ERROR;
 	}
 
 	void layoutHttpError() {
@@ -260,6 +267,11 @@ public class SKYBuilder {
 		}
 		changeShowAnimation(layoutLoading, false);
 		changeShowAnimation(layoutHttpError, true);
+		showState = SKYIView.STATE_HTTP_ERROR;
+	}
+
+	int getLayoutState(){
+		return showState;
 	}
 
 	void changeShowAnimation(@NonNull View view, boolean visible) {

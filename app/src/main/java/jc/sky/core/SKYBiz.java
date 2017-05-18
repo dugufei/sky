@@ -225,6 +225,14 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		});
 	}
 
+	@Override public int showState() {
+		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
+		if (skyiView == null) {
+			return SKYIView.STATE_CONTENT;
+		}
+		return skyiView.showState();
+	}
+
 	@Override public void showLoading() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 		if (skyiView == null) {

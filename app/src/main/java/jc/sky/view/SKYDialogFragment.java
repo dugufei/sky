@@ -339,6 +339,16 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		}
 	}
 
+	@Override public int showState() {
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutHttpError();
+			return SKYBuilder.getLayoutState();
+		} else {
+			return SKYIView.STATE_CONTENT;
+		}
+	}
+
+
 	@Override public <O extends SKYRVAdapter> O getAdapter() {
 		return (O) recyclerAdapter();
 	}

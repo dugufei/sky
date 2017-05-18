@@ -317,6 +317,16 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		}
 	}
 
+	@Override public int showState() {
+		if (SKYBuilder != null) {
+			SKYBuilder.layoutHttpError();
+			return SKYBuilder.getLayoutState();
+		} else {
+			return SKYIView.STATE_CONTENT;
+		}
+	}
+
+
 	@Override public <O extends SKYRVAdapter> O getAdapter() {
 		return (O) recyclerAdapter();
 	}

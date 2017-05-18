@@ -9,6 +9,16 @@ import jc.sky.view.adapter.recycleview.SKYRVAdapter;
  */
 public interface SKYIView {
 
+	int	STATE_CONTENT		= 1;
+
+	int	STATE_LOADING		= 2;
+
+	int	STATE_EMPTY			= 3;
+
+	int	STATE_BIZ_ERROR		= 4;
+
+	int	STATE_HTTP_ERROR	= 5;
+
 	void showContent();
 
 	void showEmpty();
@@ -19,5 +29,7 @@ public interface SKYIView {
 
 	void showHttpError();
 
-    <T extends SKYRVAdapter> T getAdapter();
+	int showState();
+
+	<T extends SKYRVAdapter> T getAdapter();
 }
