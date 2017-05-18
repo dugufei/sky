@@ -44,6 +44,16 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 
 	private SKYView	SKYView;
 
+	private int state;
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
 	public SKYRVAdapter(SKYActivity SKYActivity) {
 		SKYCheckUtils.checkNotNull(SKYActivity, "View层不存在");
 		this.SKYView = SKYActivity.SKYView();
