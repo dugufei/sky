@@ -74,6 +74,28 @@ public abstract class SKYCusomToast extends SKYToast{
 	}
 
 	/**
+	 * 简单Toast 消息弹出
+	 *
+	 * @param msg
+	 *            参数
+	 */
+	public void show(final int msg) {
+		// 判断是否在主线程
+		boolean isMainLooper = Looper.getMainLooper().getThread() != Thread.currentThread();
+
+		if (isMainLooper) {
+			SKYHelper.mainLooper().execute(new Runnable() {
+
+				@Override public void run() {
+					cusomShow(SKYHelper.getInstance().getString(msg), Toast.LENGTH_SHORT);
+				}
+			});
+		} else {
+			cusomShow(SKYHelper.getInstance().getString(msg), Toast.LENGTH_SHORT);
+		}
+	}
+
+	/**
 	 * 显示
 	 * 
 	 * @param msg
@@ -94,6 +116,30 @@ public abstract class SKYCusomToast extends SKYToast{
 			});
 		} else {
 			cusomShow(msg, duration);
+		}
+	}
+
+	/**
+	 * 简单Toast 消息弹出
+	 *
+	 * @param msg
+	 *            参数
+	 * @param duration
+	 *            参数
+	 */
+	public void show(final int msg, final int duration) {
+		// 判断是否在主线程
+		boolean isMainLooper = Looper.getMainLooper().getThread() != Thread.currentThread();
+
+		if (isMainLooper) {
+			SKYHelper.mainLooper().execute(new Runnable() {
+
+				@Override public void run() {
+					cusomShow(SKYHelper.getInstance().getString(msg), duration);
+				}
+			});
+		} else {
+			cusomShow(SKYHelper.getInstance().getString(msg), duration);
 		}
 	}
 
