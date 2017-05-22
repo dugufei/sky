@@ -11,7 +11,7 @@ import jc.sky.SKYHelper;
  */
 public class SKYToast {
 
-	private Toast mToast = null;
+	protected Toast mToast = null;
 
 	/**
 	 * 简单Toast 消息弹出

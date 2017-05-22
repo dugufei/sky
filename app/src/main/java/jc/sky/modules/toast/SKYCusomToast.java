@@ -13,11 +13,9 @@ import jc.sky.SKYHelper;
  * @author sky
  * @version 版本
  */
-public abstract class SKYCusomToast {
+public abstract class SKYCusomToast extends SKYToast{
 
 	private View	v;
-
-	protected Toast	mToast	= null;
 
 	/**
 	 * 布局ID
