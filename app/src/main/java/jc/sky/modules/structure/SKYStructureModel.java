@@ -33,6 +33,8 @@ public class SKYStructureModel {
 
 	private Stack<Class>	supper;
 
+	private Object			impl;
+
 	public SKYStructureModel(Object view, Bundle bundle) {
 		// 唯一标记
 		key = view.hashCode();
@@ -45,7 +47,7 @@ public class SKYStructureModel {
 		SKYCheckUtils.checkNotNull(service, "获取不到泛型");
 		SKYCheckUtils.validateServiceInterface(service);
 
-		Object impl = getImplClass(service);
+		impl = getImplClass(service);
 		// 找到父类
 		supper = new Stack<>();
 		Class tempClass = impl.getClass().getSuperclass();
@@ -67,6 +69,12 @@ public class SKYStructureModel {
 		SKYProxy = SKYHelper.methodsProxy().create(service, impl);
 	}
 
+	public void initBizBundle() {
+		if (impl instanceof SKYBiz) {
+			((SKYBiz) impl).initBundle();
+		}
+	}
+
 	/**
 	 * 清空
 	 */
@@ -74,6 +82,7 @@ public class SKYStructureModel {
 		this.bundle = null;
 		this.view = null;
 		service = null;
+		this.impl = null;
 		SKYProxy.clearProxy();
 		SKYProxy = null;
 		supper.clear();
@@ -149,7 +158,7 @@ public class SKYStructureModel {
 	}
 
 	public boolean isSupterClass(Class clazz) {
-		if(supper == null || clazz == null){
+		if (supper == null || clazz == null) {
 			return false;
 		}
 		return supper.search(clazz) != -1;

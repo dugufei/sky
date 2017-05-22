@@ -126,12 +126,15 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
+		/** 初始化业务数据 **/
+		SKYStructureModel.initBizBundle();
 		/** 初始化dagger **/
 		initDagger();
 		/** 初始化数据 **/
 		createData(savedInstanceState);
 		/** 初始化数据 **/
 		initData(getIntent().getExtras());
+
 	}
 
 	@Override protected void onStart() {

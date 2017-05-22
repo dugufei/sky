@@ -10,6 +10,7 @@ public interface SKYIBiz {
 
 	void initUI(SKYStructureModel SKYView);
 
+	void initBundle();
 	/**
 	 * 清空
 	 */

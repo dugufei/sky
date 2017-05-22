@@ -96,6 +96,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentCreated(this, getArguments(), savedInstanceState);
+		/** 初始化业务数据 **/
+		SKYStructureModel.initBizBundle();
 		/** 初始化dagger **/
 		initDagger();
 		createData(savedInstanceState);

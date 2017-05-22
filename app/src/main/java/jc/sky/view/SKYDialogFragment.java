@@ -118,11 +118,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		return false;
 	}
 
-	protected boolean isFullWidth(){
+	protected boolean isFullWidth() {
 		return false;
 	}
 
-	protected boolean isFullheight(){
+	protected boolean isFullheight() {
 		return false;
 	}
 
@@ -162,7 +162,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this,getArguments());
+		SKYStructureModel = new SKYStructureModel(this, getArguments());
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
@@ -181,16 +181,17 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			Window window = getDialog().getWindow();
 			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		}else if (isFullWidth()){
+		} else if (isFullWidth()) {
 			Window window = getDialog().getWindow();
 			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		}else if(isFullheight()){
+		} else if (isFullheight()) {
 			Window window = getDialog().getWindow();
 			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 			window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		}
-
+		/** 初始化业务数据 **/
+		SKYStructureModel.initBizBundle();
 
 		/** 初始化dagger **/
 		initDagger();
@@ -218,11 +219,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		super.onDestroy();
 		detach();
 		/** 移除builder **/
-		if(SKYBuilder != null){
+		if (SKYBuilder != null) {
 			SKYBuilder.detach();
 			SKYBuilder = null;
 		}
-		if(SKYStructureModel!= null){
+		if (SKYStructureModel != null) {
 			SKYHelper.structureHelper().detach(SKYStructureModel);
 		}
 		/** 清空注解view **/
@@ -346,7 +347,6 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			return SKYIView.STATE_CONTENT;
 		}
 	}
-
 
 	@Override public <O extends SKYRVAdapter> O getAdapter() {
 		return (O) recyclerAdapter();
