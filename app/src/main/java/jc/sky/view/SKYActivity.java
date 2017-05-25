@@ -151,6 +151,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		SKYHelper.screenHelper().onActivityResult(this);
+		SKYHelper.methodsProxy().activityInterceptor().onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**

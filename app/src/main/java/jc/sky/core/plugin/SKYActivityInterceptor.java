@@ -1,5 +1,6 @@
 package jc.sky.core.plugin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -27,6 +28,8 @@ public interface SKYActivityInterceptor {
 	void onDestroy(SKYActivity SKYIView);
 
 	void onRestart(SKYActivity SKYIView);
+
+	void onActivityResult(int requestCode, int resultCode, Intent data);
 
 	void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
@@ -61,6 +64,10 @@ public interface SKYActivityInterceptor {
 		}
 
 		@Override public void onRestart(SKYActivity SKYIView) {
+
+		}
+
+		@Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		}
 
