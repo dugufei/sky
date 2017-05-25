@@ -35,13 +35,13 @@ public class SKYFileCacheManage {
 	private final String	TAG			= "CACHE_UTILS";
 
 	/**
-	 * @param context
-	 *            参数
+	 * @param file
+	 *            文件
 	 */
-	public void configureCustomerCache(Context context) {
-		BASE_CACHE_PATH = context.getApplicationInfo().dataDir + File.separator + "files" + File.separator + "CacheUtils";
+	public void configureCustomerCache(File file) {
+		BASE_CACHE_PATH = file.getAbsolutePath();
 
-		if (new File(BASE_CACHE_PATH).mkdirs()) {
+		if (file.mkdirs()) {
 			if (SKYHelper.isLogOpen()) {
 				Log.d(TAG, BASE_CACHE_PATH + " created.");
 			}
