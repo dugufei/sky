@@ -92,8 +92,10 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		V holder;
 		if (viewType == VIEW_PROG) {
 			holder = newLoadMoreHolder(viewGroup, viewType);
+			holder.setAdapter(this);
 		} else if (viewType == VIEW_TOP) {
 			holder = newTopHolder(viewGroup, viewType);
+			holder.setAdapter(this);
 		} else {
 			holder = newViewHolder(viewGroup, viewType);
 		}
