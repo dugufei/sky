@@ -43,6 +43,7 @@ public class SKYApplication extends Application implements ISKYBind, SKYIViewCom
 	}
 
 	@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {
+		builder.baseUrl("http://www.jincanshen.com");
 		return builder.build();
 	}
 

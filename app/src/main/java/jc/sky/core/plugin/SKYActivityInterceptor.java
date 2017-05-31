@@ -17,9 +17,13 @@ public interface SKYActivityInterceptor {
 
 	void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState);
 
+	void onPostCreate(SKYActivity SKYIView, Bundle savedInstanceState);
+
 	void onStart(SKYActivity SKYIView);
 
 	void onResume(SKYActivity SKYIView);
+
+	void onPostResume(SKYActivity SKYIView);
 
 	void onPause(SKYActivity SKYIView);
 
@@ -43,11 +47,19 @@ public interface SKYActivityInterceptor {
 
 		}
 
+		@Override public void onPostCreate(SKYActivity SKYIView, Bundle savedInstanceState) {
+
+		}
+
 		@Override public void onStart(SKYActivity SKYIView) {
 
 		}
 
 		@Override public void onResume(SKYActivity SKYIView) {
+
+		}
+
+		@Override public void onPostResume(SKYActivity SKYIView) {
 
 		}
 
