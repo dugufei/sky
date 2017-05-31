@@ -227,7 +227,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * @return 返回值
 	 */
 	public boolean onKeyBack() {
-		getActivity().onBackPressed();
+		getFragmentManager().popBackStack();
 		return true;
 	}
 

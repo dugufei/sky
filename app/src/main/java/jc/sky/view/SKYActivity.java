@@ -422,7 +422,11 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	}
 
 	public boolean onKeyBack() {
-		onBackPressed();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			finishAfterTransition();
+		}else{
+			finish();
+		}
 		return true;
 	}
 

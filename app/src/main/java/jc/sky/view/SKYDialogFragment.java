@@ -418,7 +418,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 */
 	public boolean onKeyBack() {
-		getActivity().onBackPressed();
+		dismissAllowingStateLoss();
 		return true;
 	}
 
