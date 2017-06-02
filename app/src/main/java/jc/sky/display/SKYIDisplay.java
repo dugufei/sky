@@ -2,6 +2,7 @@ package jc.sky.display;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
@@ -342,4 +343,89 @@ public interface SKYIDisplay {
 	 *            参数
 	 */
 	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle, int requestCode);
+
+	/**
+	 * 自定义动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param in
+	 *            参数
+	 * @param out
+	 *            参数
+	 */
+	void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out);
+
+	/**
+	 * 动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param view
+	 *            参数
+	 * @param startX
+	 *            参数
+	 * @param startY
+	 *            参数
+	 * @param startWidth
+	 *            参数
+	 * @param startHeight
+	 *            参数
+	 */
+	void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight);
+
+	/**
+	 * 动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param skyDisplayModel
+	 *            参数
+	 */
+	void intentSceneTransitionAnimation(@NotNull Class clazz, SKYDisplayModel... skyDisplayModel);
+
+	/**
+	 * 动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param first
+	 *            参数
+	 * @param second
+	 *            参数
+	 */
+	void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second);
+
+	/**
+	 * 动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param view
+	 *            参数
+	 * @param startX
+	 *            参数
+	 * @param startY
+	 *            参数
+	 * @param width
+	 *            参数
+	 * @param height
+	 *            参数
+	 */
+	void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height);
+
+	/**
+	 * 动画
+	 * 
+	 * @param clazz
+	 *            参数
+	 * @param thumbnail
+	 *            参数
+	 * @param startX
+	 *            参数
+	 * @param startY
+	 *            参数
+	 */
+	void intentThumbnailScaleUpAnimation(@NotNull Class clazz,@NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY);
+
 }

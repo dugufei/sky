@@ -3,15 +3,20 @@ package jc.sky.display;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.AnimRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.view.View;
+
+import org.jetbrains.annotations.NotNull;
 
 import jc.sky.R;
 import jc.sky.SKYHelper;
@@ -272,6 +277,63 @@ public class SKYDisplay implements SKYIDisplay {
 		activity().overridePendingTransition(in, out);
 	}
 
+	@Override public void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out) {
+		if (activity() == null) {
+			return;
+		}
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(activity(), in, out);
+		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+
+	}
+
+	@Override public void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight) {
+		if (activity() == null) {
+			return;
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, startX, startY, startWidth, startHeight);
+		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+
+	}
+
+	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, SKYDisplayModel... skyDisplayModel) {
+		if (activity() == null || skyDisplayModel == null) {
+			return;
+		}
+		Pair<View, String>[] pairs = new Pair[skyDisplayModel.length];
+		for (int i = 0; i < skyDisplayModel.length; i++) {
+			pairs[i] = new Pair<>(skyDisplayModel[i].first, skyDisplayModel[i].second);
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity(), pairs);
+		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+
+	}
+
+	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second) {
+		if (activity() == null) {
+			return;
+		}
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity(), first, second);
+		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+
+	}
+
+	@Override public void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height) {
+		if (activity() == null) {
+			return;
+		}
+	}
+
+	@Override public void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY) {
+		if (activity() == null) {
+			return;
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(view, thumbnail, startX, startY);
+		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+	}
+
 	@Override @TargetApi(Build.VERSION_CODES.JELLY_BEAN) public void intentForResult(Intent intent, Bundle options, int requestCode) {
 		SKYCheckUtils.checkNotNull(intent, "intent不能为空～");
 		if (options != null) {
@@ -317,4 +379,5 @@ public class SKYDisplay implements SKYIDisplay {
 		}
 		activity().getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 	}
+
 }

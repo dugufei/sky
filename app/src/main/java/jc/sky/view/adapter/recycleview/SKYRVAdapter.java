@@ -3,6 +3,8 @@ package jc.sky.view.adapter.recycleview;
 import java.util.List;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import jc.sky.common.utils.SKYCheckUtils;
@@ -75,6 +77,10 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		} else {
 			return mItems.get(position) != null ? getCustomViewType(position) : VIEW_PROG;
 		}
+	}
+
+	protected View inflate(ViewGroup viewGroup,int layout){
+		return LayoutInflater.from(viewGroup.getContext()).inflate(layout, viewGroup, false);
 	}
 
 	/**
