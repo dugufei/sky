@@ -90,8 +90,16 @@ public class SKYSwipeWindowHelper extends Handler {
 		mCurrentContentView = getContentView(mCurrentWindow);
 		mViewManager = new ViewManager();
 
+		mEdgeSize = getEdgeDefalutSize();
+	}
+
+	public void setEdgeSize(int edgeSize){
+		this.mEdgeSize = edgeSize;
+	}
+
+	public int getEdgeDefalutSize(){
 		final float density = mCurrentWindow.getContext().getResources().getDisplayMetrics().density;
-		mEdgeSize = (int) (EDGE_SIZE * density + 0.5f); // 滑动拦截事件的区域
+		return (int) (EDGE_SIZE * density + 0.5f); // 滑动拦截事件的区域
 	}
 
 	public boolean processTouchEvent(MotionEvent ev) {

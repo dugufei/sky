@@ -390,8 +390,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 * @return 参数
 	 */
 
-	protected SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
+	protected <S extends SKYRVAdapter> S recyclerAdapter() {
+		return SKYBuilder == null ? null : (S) SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	/**
@@ -404,8 +404,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * @return 返回值
 	 */
-	protected RecyclerView recyclerView() {
-		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
+	protected <R extends RecyclerView> R recyclerView() {
+		return SKYBuilder == null ? null : (R) SKYBuilder.getRecyclerView();
 	}
 
 	protected void recyclerRefreshing(boolean bool) {
@@ -424,7 +424,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	public boolean onKeyBack() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			finishAfterTransition();
-		}else{
+		} else {
 			finish();
 		}
 		return true;
@@ -463,6 +463,20 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 			mSwipeWindowHelper = new SKYSwipeWindowHelper(getWindow());
 		}
 		return mSwipeWindowHelper.processTouchEvent(ev) || super.dispatchTouchEvent(ev);
+	}
+
+	protected void swipeWindowEdge(int edge) {
+		if (mSwipeWindowHelper == null) {
+			return;
+		}
+		mSwipeWindowHelper.setEdgeSize(edge);
+	}
+
+	protected int swipeEdgeDefaultSize() {
+		if (mSwipeWindowHelper == null) {
+			return 0;
+		}
+		return mSwipeWindowHelper.getEdgeDefalutSize();
 	}
 
 	/**

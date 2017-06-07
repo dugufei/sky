@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -294,7 +293,7 @@ public interface SKYIDisplay {
 	 * @param bundle
 	 *            参数
 	 */
-	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle);
+	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle bundle);
 
 	/**
 	 * @param clazz
@@ -342,7 +341,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle, int requestCode);
+	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle bundle, int requestCode);
 
 	/**
 	 * 自定义动画
@@ -355,6 +354,8 @@ public interface SKYIDisplay {
 	 *            参数
 	 */
 	void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out);
+
+	void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle options);
 
 	/**
 	 * 动画
@@ -374,6 +375,8 @@ public interface SKYIDisplay {
 	 */
 	void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight);
 
+	void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight, @NotNull Bundle options);
+
 	/**
 	 * 动画
 	 * 
@@ -383,6 +386,8 @@ public interface SKYIDisplay {
 	 *            参数
 	 */
 	void intentSceneTransitionAnimation(@NotNull Class clazz, SKYDisplayModel... skyDisplayModel);
+
+	void intentSceneTransitionAnimation(@NotNull Class clazz, @NotNull Bundle options, SKYDisplayModel... skyDisplayModel);
 
 	/**
 	 * 动画
@@ -395,6 +400,8 @@ public interface SKYIDisplay {
 	 *            参数
 	 */
 	void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second);
+
+	void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second, @NotNull Bundle options);
 
 	/**
 	 * 动画
@@ -414,6 +421,8 @@ public interface SKYIDisplay {
 	 */
 	void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height);
 
+	void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height, @NotNull Bundle options);
+
 	/**
 	 * 动画
 	 * 
@@ -426,6 +435,8 @@ public interface SKYIDisplay {
 	 * @param startY
 	 *            参数
 	 */
-	void intentThumbnailScaleUpAnimation(@NotNull Class clazz,@NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY);
+	void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY);
+
+	void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY, @NotNull Bundle options);
 
 }

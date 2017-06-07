@@ -286,6 +286,19 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
+	@Override public void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle options) {
+		if (activity() == null) {
+			return;
+		}
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(activity(), in, out);
+
+		Intent intent = new Intent(activity(), clazz);
+		if (options != null) {
+			intent.putExtras(options);
+		}
+		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
+	}
+
 	@Override public void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight) {
 		if (activity() == null) {
 			return;
@@ -293,6 +306,21 @@ public class SKYDisplay implements SKYIDisplay {
 
 		ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, startX, startY, startWidth, startHeight);
 		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+
+	}
+
+	@Override public void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight, @NotNull Bundle options) {
+		if (activity() == null) {
+			return;
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, startX, startY, startWidth, startHeight);
+
+		Intent intent = new Intent(activity(), clazz);
+		if (options != null) {
+			intent.putExtras(options);
+		}
+		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
 
 	}
 
@@ -310,6 +338,23 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
+	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, @NotNull Bundle options, SKYDisplayModel... skyDisplayModel) {
+		if (activity() == null || skyDisplayModel == null) {
+			return;
+		}
+		Pair<View, String>[] pairs = new Pair[skyDisplayModel.length];
+		for (int i = 0; i < skyDisplayModel.length; i++) {
+			pairs[i] = new Pair<>(skyDisplayModel[i].first, skyDisplayModel[i].second);
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity(), pairs);
+		Intent intent = new Intent(activity(), clazz);
+		if (options != null) {
+			intent.putExtras(options);
+		}
+		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
+	}
+
 	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second) {
 		if (activity() == null) {
 			return;
@@ -319,10 +364,26 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
+	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second, @NotNull Bundle options) {
+		if (activity() == null) {
+			return;
+		}
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity(), first, second);
+		Intent intent = new Intent(activity(), clazz);
+		if (options != null) {
+			intent.putExtras(options);
+		}
+		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
+	}
+
 	@Override public void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height) {
 		if (activity() == null) {
 			return;
 		}
+	}
+
+	@Override public void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height, @NotNull Bundle options) {
+
 	}
 
 	@Override public void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY) {
@@ -332,6 +393,19 @@ public class SKYDisplay implements SKYIDisplay {
 
 		ActivityOptionsCompat compat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(view, thumbnail, startX, startY);
 		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
+	}
+
+	@Override public void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY, @NotNull Bundle options) {
+		if (activity() == null) {
+			return;
+		}
+
+		ActivityOptionsCompat compat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(view, thumbnail, startX, startY);
+		Intent intent = new Intent(activity(), clazz);
+		if (options != null) {
+			intent.putExtras(options);
+		}
+		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
 	}
 
 	@Override @TargetApi(Build.VERSION_CODES.JELLY_BEAN) public void intentForResult(Intent intent, Bundle options, int requestCode) {
