@@ -70,6 +70,13 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
+	 * 编译
+	 *
+	 * @param view
+	 */
+	protected void buildAfter(View view) {}
+
+	/**
 	 * 初始化dagger
 	 */
 	protected void initDagger() {
@@ -172,6 +179,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		// 获取参数-设置是否可取消
 		setDialogCancel(isCancel());
 		getDialog().setOnKeyListener(this);
+		/** build 之后 **/
+		buildAfter(view);
 		return view;
 	}
 

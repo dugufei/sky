@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,13 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 **/
 	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
 
+	/**
+	 * 编译
+	 *
+	 * @param bundle
+	 */
+	protected void buildBefore(Bundle bundle) {
+	}
 	/**
 	 * 初始化dagger
 	 */
@@ -94,6 +102,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 *            参数
 	 */
 	@Override protected void onCreate(Bundle savedInstanceState) {
+		buildBefore(savedInstanceState);
 		super.onCreate(savedInstanceState);
 		/** 初始化结构 **/
 		SKYStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
