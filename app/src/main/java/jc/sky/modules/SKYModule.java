@@ -11,6 +11,7 @@ import jc.sky.modules.cache.CacheManager;
 import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
+import jc.sky.modules.job.SKYJobService;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureManage;
@@ -138,6 +139,15 @@ public class SKYModule {
 	 */
 	@Provides @Singleton public SKYFileCacheManage provideSKYFileCacheManage() {
 		return new SKYFileCacheManage();
+	}
+
+	/**
+	 * 文件缓存管理器
+	 * 
+	 * @return 返回值
+	 */
+	@Provides @Singleton public SKYJobService provideSKYJobServiceManage() {
+		return new SKYJobService();
 	}
 
 }

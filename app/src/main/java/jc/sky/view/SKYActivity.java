@@ -54,9 +54,10 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 * 编译
 	 *
 	 * @param bundle
+	 *            参数
 	 */
-	protected void buildBefore(Bundle bundle) {
-	}
+	protected void buildBefore(Bundle bundle) {}
+
 	/**
 	 * 初始化dagger
 	 */

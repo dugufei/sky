@@ -18,6 +18,7 @@ import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
+import jc.sky.modules.job.SKYIJobService;
 import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
@@ -293,7 +294,7 @@ public class SKYHelper {
 
 			return response.body();
 		} catch (IOException e) {
-			if(SKYHelper.isLogOpen() && e != null){
+			if (SKYHelper.isLogOpen() && e != null) {
 				e.printStackTrace();
 				L.i(e.getMessage());
 			}
@@ -342,6 +343,15 @@ public class SKYHelper {
 	 */
 	public static SKYThreadPoolManager threadPoolHelper() {
 		return mSKYModulesManage.getSKYThreadPoolManager();
+	}
+
+	/**
+	 * 任务管理器
+	 *
+	 * @return 返回值
+	 */
+	public static SKYIJobService jobServiceHelper() {
+		return mSKYModulesManage.getSkyJobService();
 	}
 
 	/**
@@ -422,4 +432,5 @@ public class SKYHelper {
 	public static SKYIViewCommon getComnonView() {
 		return mSKYModulesManage.getSkyiViewCommon();
 	}
+
 }

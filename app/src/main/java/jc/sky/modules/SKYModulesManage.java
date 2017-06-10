@@ -11,6 +11,7 @@ import jc.sky.modules.cache.ICacheManager;
 import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
+import jc.sky.modules.job.SKYJobService;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureManage;
@@ -45,13 +46,15 @@ public class SKYModulesManage {
 
 	@Inject public SKYMethods.Builder	skyMethodsBuilder;		// 方法代理编辑器
 
-	public SKYMethods					SKYMethods;				// 方法代理
+	@Inject public SKYJobService		skyJobService;			// 任务管理器
 
 	@Inject public Retrofit.Builder		retrofitBuilder;		// 网络编辑器
 
+	@Inject public SKYDownloadManager	SKYDownloadManager;		// 下载和上传管理
+
 	public Retrofit						mSKYRestAdapter;		// 网络适配器
 
-	@Inject public SKYDownloadManager			SKYDownloadManager;		// 下载和上传管理
+	public SKYMethods					SKYMethods;				// 方法代理
 
 	public boolean						isLog;
 
@@ -122,5 +125,9 @@ public class SKYModulesManage {
 
 	public SKYFileCacheManage getSKYFileCacheManage() {
 		return SKYFileCacheManage;
+	}
+
+	public SKYJobService getSkyJobService() {
+		return skyJobService;
 	}
 }

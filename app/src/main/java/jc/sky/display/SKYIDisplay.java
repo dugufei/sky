@@ -428,6 +428,8 @@ public interface SKYIDisplay {
 	 * 
 	 * @param clazz
 	 *            参数
+	 * @param view
+	 *            参数
 	 * @param thumbnail
 	 *            参数
 	 * @param startX

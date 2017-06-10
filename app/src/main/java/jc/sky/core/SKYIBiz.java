@@ -11,6 +11,7 @@ public interface SKYIBiz {
 	void initUI(SKYStructureModel SKYView);
 
 	void initBundle();
+
 	/**
 	 * 清空
 	 */
@@ -20,7 +21,8 @@ public interface SKYIBiz {
 	 * 刷新适配器
 	 *
 	 * @param o
-	 *            哦
+	 *            参数
+	 * 
 	 */
 	<O> void refreshAdapter(O o);
 }
