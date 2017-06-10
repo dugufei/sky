@@ -53,7 +53,7 @@ public class SKYJobService implements SKYIJobService {
 		jobScheduler.cancelAll();
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public JobInfo.Builder jobService(int id, Class clazz) {
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public JobInfo.Builder builder(int id, Class clazz) {
 		JobInfo.Builder builder = new JobInfo.Builder(id, new ComponentName(SKYHelper.getInstance().getPackageName(), clazz.getName()));
 		return builder;
 	}

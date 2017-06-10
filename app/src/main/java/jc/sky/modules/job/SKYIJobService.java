@@ -40,5 +40,5 @@ public interface SKYIJobService {
 	 *            类文件
 	 * @return 返回值
 	 */
-	JobInfo.Builder jobService(int id, Class clazz);
+	JobInfo.Builder builder(int id, Class clazz);
 }
