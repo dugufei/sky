@@ -17,7 +17,7 @@ import jc.sky.modules.log.L;
  */
 public class SKYJobService implements SKYIJobService {
 
-	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void schedule(JobInfo jobInfo) {
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void schedule(JobInfo.Builder builder) {
 		JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		if (jobScheduler == null) {
 			if (SKYHelper.isLogOpen()) {
@@ -26,7 +26,7 @@ public class SKYJobService implements SKYIJobService {
 			}
 			return;
 		}
-		jobScheduler.schedule(jobInfo);
+		jobScheduler.schedule(builder.build());
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void cancel(int id) {

@@ -12,11 +12,11 @@ public interface SKYIJobService {
 	/**
 	 * 开始调度
 	 * 
-	 * @param jobInfo
+	 * @param builder
 	 *            参数 setPersisted(true) 时 manifest注册
 	 *            android.permission.RECEIVE_BOOT_COMPLETED
 	 */
-	void schedule(JobInfo jobInfo);
+	void schedule(JobInfo.Builder builder);
 
 	/**
 	 * 取消指定任务
