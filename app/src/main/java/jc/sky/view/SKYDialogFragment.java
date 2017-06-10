@@ -72,7 +72,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	/**
 	 * 编译
 	 *
-	 * @param view
+	 * @param view 参数
 	 */
 	protected void buildAfter(View view) {}
 

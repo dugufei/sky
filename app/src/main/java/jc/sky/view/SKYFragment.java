@@ -48,7 +48,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	/**
 	 * 编译
 	 * 
-	 * @param view
+	 * @param view 参数
 	 */
 	protected void buildAfter(View view) {}
 
