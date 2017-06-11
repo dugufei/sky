@@ -16,7 +16,7 @@ import jc.sky.modules.structure.SKYStructureModel;
  */
 public abstract class SKYService<B extends SKYIBiz> extends Service {
 
-	SKYStructureModel SKYStructureModel;
+	private SKYStructureModel SKYStructureModel;
 
 	/**
 	 * @param intent
@@ -45,7 +45,6 @@ public abstract class SKYService<B extends SKYIBiz> extends Service {
 	 *            参数
 	 */
 	protected abstract void running(Intent intent, int flags, int startId);
-	
 
 	@Override public void onCreate() {
 		super.onCreate();

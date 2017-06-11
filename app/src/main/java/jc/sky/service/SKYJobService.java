@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import jc.sky.SKYHelper;
 import jc.sky.core.SKYIBiz;
 import jc.sky.display.SKYIDisplay;
+import jc.sky.modules.structure.SKYStructureModel;
 
 /**
  * @author sky
@@ -17,20 +18,26 @@ import jc.sky.display.SKYIDisplay;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public abstract class SKYJobService<B extends SKYIBiz> extends JobService {
 
+	private SKYStructureModel SKYStructureModel;
+
 	/**
 	 * 达到条件执行
 	 * 
-	 * @param params
-	 *            参数
-	 * @return true 完成任务 不会执行过长的任务 false 需要自行处理，处理后 调用jobFinished 完成
+	 *  true 完成任务 不会执行过长的任务 false 需要自行处理，处理后 调用jobFinished 完成
 	 */
-//	@Override public boolean onStartJob(JobParameters params) {
-//		return false;
-//	}
+	// @Override public boolean onStartJob(JobParameters params) {
+	// return false;
+	// }
 
-//	@Override public boolean onStopJob(JobParameters params) {
-//		return false;
-//	}
+	// @Override public boolean onStopJob(JobParameters params) {
+	// return false;
+	// }
+
+	@Override public void onCreate() {
+		super.onCreate();
+		SKYStructureModel = new SKYStructureModel(this, null);
+		SKYHelper.structureHelper().attach(SKYStructureModel);
+	}
 
 	/**
 	 * @param eClass
@@ -44,6 +51,13 @@ public abstract class SKYJobService<B extends SKYIBiz> extends JobService {
 	}
 
 	/**
+	 * @return 返回值
+	 */
+	public B biz() {
+		return (B) SKYStructureModel.getSKYProxy().proxy;
+	}
+
+	/**
 	 * @param service
 	 *            参数
 	 * @param <C>
@@ -51,6 +65,15 @@ public abstract class SKYJobService<B extends SKYIBiz> extends JobService {
 	 * @return 返回值
 	 */
 	public <C extends SKYIBiz> C biz(Class<C> service) {
+		if (SKYStructureModel.getService().equals(service)) {
+			return (C) SKYStructureModel.getSKYProxy().proxy;
+		}
 		return SKYHelper.structureHelper().biz(service);
 	}
+
+	@Override public void onDestroy() {
+		super.onDestroy();
+		SKYHelper.structureHelper().detach(SKYStructureModel);
+	}
+
 }
