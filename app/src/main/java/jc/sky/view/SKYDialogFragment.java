@@ -376,25 +376,25 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 *********************/
 
-	protected SKYRVAdapter recyclerAdapter() {
+	public SKYRVAdapter recyclerAdapter() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
 	}
 
-	protected RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager recyclerLayoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
-	protected RecyclerView recyclerView() {
+	public RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	protected void recyclerRefreshing(boolean bool) {
+	public void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	protected SwipeRefreshLayout swipRefesh() {
+	public SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}
@@ -479,7 +479,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 */
 	@Override public DialogFragment show(FragmentManager fragmentManager) {
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 
@@ -492,7 +492,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public DialogFragment show(FragmentManager fragmentManager, int mRequestCode) {
 		this.mRequestCode = mRequestCode;
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 
@@ -505,7 +505,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public DialogFragment show(FragmentManager fragmentManager, Fragment mTargetFragment) {
 		this.setTargetFragment(mTargetFragment, mRequestCode);
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 
@@ -520,7 +520,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public DialogFragment show(FragmentManager fragmentManager, Fragment mTargetFragment, int mRequestCode) {
 		this.setTargetFragment(mTargetFragment, mRequestCode);
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 
@@ -533,7 +533,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 */
 	@Override public DialogFragment show(FragmentManager fragmentManager, Activity activity) {
 		this.targetActivity = true;
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 
@@ -549,7 +549,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public DialogFragment show(FragmentManager fragmentManager, Activity activity, int mRequestCode) {
 		this.targetActivity = true;
 		this.mRequestCode = mRequestCode;
-		show(fragmentManager, this.getClass().getSimpleName());
+		show(fragmentManager, this.getClass().getName());
 		return this;
 	}
 

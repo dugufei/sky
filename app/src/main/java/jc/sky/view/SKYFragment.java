@@ -98,6 +98,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		/** 初始化点击事件 **/
 		view.setOnTouchListener(this);// 设置点击事件
 		/** build 之后**/
+		SKYHelper.methodsProxy().fragmentInterceptor().buildAfter(this);
 		buildAfter(view);
 		return view;
 	}
@@ -356,11 +357,11 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * @return 返回值
 	 *********************/
 
-	protected SKYRVAdapter recyclerAdapter() {
+	public SKYRVAdapter recyclerAdapter() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
 	}
 
-	protected RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager recyclerLayoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
@@ -368,13 +369,13 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	protected void recyclerRefreshing(boolean bool) {
+	public void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	protected SwipeRefreshLayout swipRefesh() {
+	public SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}

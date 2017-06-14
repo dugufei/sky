@@ -511,7 +511,6 @@ public class SKYBuilder {
 	}
 
 	RecyclerView getRecyclerView() {
-		SKYCheckUtils.checkNotNull(recyclerView, "RecyclerView没有找到，查看布局里是否存在~");
 		return recyclerView;
 	}
 

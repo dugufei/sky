@@ -407,24 +407,24 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * @return 返回值
 	 */
-	protected RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager recyclerLayoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
 	/**
 	 * @return 返回值
 	 */
-	protected <R extends RecyclerView> R recyclerView() {
+	public <R extends RecyclerView> R recyclerView() {
 		return SKYBuilder == null ? null : (R) SKYBuilder.getRecyclerView();
 	}
 
-	protected void recyclerRefreshing(boolean bool) {
+	public void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	protected SwipeRefreshLayout swipRefesh() {
+	public SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}
