@@ -3,15 +3,12 @@ package jc.sky.view;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -390,13 +387,11 @@ public class SKYBuilder {
 
 	private Toolbar.OnMenuItemClickListener	menuListener;
 
-	private int								toolbarLayoutId	= R.layout.sky_include_toolbar;
+	private int								toolbarLayoutId;
 
-	private int								toolbarId		= R.id.toolbar;
+	private int								toolbarId;
 
 	private int								toolbarMenuId;
-
-	private int								toolbarDrawerId;
 
 	private boolean							isOpenToolbar;
 
@@ -429,10 +424,6 @@ public class SKYBuilder {
 		return toolbarMenuId;
 	}
 
-	int getToolbarDrawerId() {
-		return toolbarDrawerId;
-	}
-
 	@Nullable Toolbar getToolbar() {
 		return toolbar;
 	}
@@ -450,10 +441,6 @@ public class SKYBuilder {
 
 	public void toolbarLayoutId(@LayoutRes int toolbarLayoutId) {
 		this.toolbarLayoutId = toolbarLayoutId;
-	}
-
-	public void toolbarDrawerId(@DrawableRes int toolbarDrawerId) {
-		this.toolbarDrawerId = toolbarDrawerId;
 	}
 
 	public void toolbarMenuListener(@NonNull Toolbar.OnMenuItemClickListener menuListener) {
@@ -765,19 +752,11 @@ public class SKYBuilder {
 			mInflater.inflate(getToolbarLayoutId(), toolbarRoot, true);
 			// 添加内容布局
 			RelativeLayout.LayoutParams contentLayoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-			contentLayoutParams.addRule(RelativeLayout.BELOW, R.id.toolbar);
 			toolbarRoot.addView(view, contentLayoutParams);
 			toolbar = ButterKnife.findById(toolbarRoot, getToolbarId());
 
 			SKYCheckUtils.checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
 
-			if (getToolbarDrawerId() > 0) {
-				DrawerLayout drawerLayout = ButterKnife.findById(view, getToolbarDrawerId());
-				SKYCheckUtils.checkNotNull(drawerLayout, "无法根据布局文件ID,获取DrawerLayout");
-				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(skyView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-				mDrawerToggle.syncState();
-				drawerLayout.setDrawerListener(mDrawerToggle);
-			}
 			// 添加点击事件
 			if (getMenuListener() != null) {
 				toolbar.setOnMenuItemClickListener(getMenuListener());
@@ -815,13 +794,7 @@ public class SKYBuilder {
 			toolbar = ButterKnife.findById(view, getToolbarId());
 
 			SKYCheckUtils.checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
-			if (getToolbarDrawerId() > 0) {
-				DrawerLayout drawerLayout = ButterKnife.findById(view, getToolbarDrawerId());
-				SKYCheckUtils.checkNotNull(drawerLayout, "无法根据布局文件ID,获取DrawerLayout");
-				ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(skyView.activity(), drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-				mDrawerToggle.syncState();
-				drawerLayout.setDrawerListener(mDrawerToggle);
-			}
+
 			if (isOpenToolbarBack()) {
 				toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 

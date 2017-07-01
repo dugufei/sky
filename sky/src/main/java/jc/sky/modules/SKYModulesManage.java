@@ -8,7 +8,6 @@ import jc.sky.ISKYBind;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.modules.cache.CacheManager;
 import jc.sky.modules.cache.ICacheManager;
-import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.job.SKYJobService;
@@ -39,8 +38,6 @@ public class SKYModulesManage {
 	@Inject public SynchronousExecutor	synchronousExecutor;	// 主线程
 
 	@Inject public SKYToast				SKYToast;				// 提示信息
-
-	@Inject public ContactManage		contactManage;			// 通讯录
 
 	@Inject public SKYFileCacheManage	SKYFileCacheManage;		// 文件缓存管理器
 
@@ -117,10 +114,6 @@ public class SKYModulesManage {
 
 	public SKYToast getSKYToast() {
 		return SKYToast;
-	}
-
-	public ContactManage getContactManage() {
-		return contactManage;
 	}
 
 	public SKYFileCacheManage getSKYFileCacheManage() {

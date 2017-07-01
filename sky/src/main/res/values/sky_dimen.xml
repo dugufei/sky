@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="sky_actoinbar_dimen_default">10dp</dimen>
-    <dimen name="sky_actoinbar_dimen_hight">2dp</dimen>
-    <dimen name="sky_fragment_default_txt_size">11sp</dimen>
-    <dimen name="sky_icon_indicator_img">10dp</dimen>
-</resources>

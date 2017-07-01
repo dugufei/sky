@@ -1,5 +1,6 @@
 package jc.sky.modules.structure;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.SimpleArrayMap;
@@ -82,7 +83,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 				StringBuilder builder = new StringBuilder("\u21E0 ");
 				builder.append("SKYStructureManage.statckRepeatBiz").append('(');
 				if (statckRepeatBiz != null && statckRepeatBiz.size() > 0) {
-					for(Class clazz : statckRepeatBiz.keySet()){
+					for (Class clazz : statckRepeatBiz.keySet()) {
 						builder.append(clazz.getSimpleName());
 						builder.append(", ");
 					}
@@ -274,12 +275,13 @@ public class SKYStructureManage implements SKYStructureIManage {
 		if (SKYHelper.isLogOpen()) {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("[");
-			for (Fragment fragment : fragmentManager.getFragments()) {
-				if (fragment != null) {
-					stringBuilder.append(",");
-					stringBuilder.append(fragment.getClass().getSimpleName());
-				}
-			}
+
+            int count = fragmentManager.getBackStackEntryCount();
+
+            for (int i = 0; i < count; i++) {
+                stringBuilder.append(",");
+                stringBuilder.append(fragmentManager.getBackStackEntryAt(i).getName());
+            }
 			stringBuilder.append("]");
 			stringBuilder.deleteCharAt(1);
 			L.tag("Activity FragmentManager:");

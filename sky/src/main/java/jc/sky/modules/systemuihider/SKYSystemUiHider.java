@@ -29,7 +29,7 @@ public abstract class SKYSystemUiHider {
 
     public static SKYSystemUiHider getInstance(AppCompatActivity activity, View anchorView,
                                                int flags) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             return new SKYSystemUiHiderHoneycomb(activity, anchorView, flags);
         } else {
             return new SKYSystemUiHiderBase(activity, anchorView, flags);

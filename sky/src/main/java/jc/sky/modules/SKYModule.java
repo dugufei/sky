@@ -8,7 +8,6 @@ import dagger.Module;
 import dagger.Provides;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.modules.cache.CacheManager;
-import jc.sky.modules.contact.ContactManage;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.job.SKYJobService;
@@ -112,16 +111,6 @@ public class SKYModule {
 		return new SKYToast();
 	}
 
-	/**
-	 * 通讯录管理器
-	 * 
-	 * @param application
-	 *            参数
-	 * @return 返回值
-	 */
-	@Provides @Singleton public ContactManage provideContactManage(Application application) {
-		return new ContactManage(application);
-	}
 
 	/**
 	 * 下载管理

@@ -20,8 +20,6 @@ import jc.sky.view.adapter.recycleview.SKYRVAdapter;
  */
 public class SKYScreenManager {
 
-	private final int							HONEYCOMB	= 11;
-
 	/**
 	 * 该数组保存活动及其运行状态
 	 */
@@ -183,16 +181,11 @@ public class SKYScreenManager {
 
 	/**
 	 * 开始一系列新的活动
-	 * 
+	 *
 	 * @param array
 	 *            参数
 	 */
-	@SuppressLint("NewApi") public void startWithNewArray(Intent[] array) {
-		if (Build.VERSION.SDK_INT < HONEYCOMB) {
-			Log.e("TheActivityManager", "This method is not supported before Honeycomb (Api Level 11)");
-			return;
-		}
-
+	public void startWithNewArray(Intent[] array) {
 		toLanding();
 		getCurrentActivity().startActivities(array);
 

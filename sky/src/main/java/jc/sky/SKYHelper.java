@@ -15,7 +15,6 @@ import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.DaggerSKYIComponent;
 import jc.sky.modules.SKYModule;
 import jc.sky.modules.SKYModulesManage;
-import jc.sky.modules.contact.SKYIContact;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.job.SKYIJobService;
@@ -388,14 +387,6 @@ public class SKYHelper {
 		return mSKYModulesManage.getSKYToast();
 	}
 
-	/**
-	 * 通讯录管理器
-	 *
-	 * @return 返回值
-	 */
-	public static SKYIContact contact() {
-		return mSKYModulesManage.getContactManage();
-	}
 
 	/**
 	 * 判断是否是主线程

@@ -1,6 +1,0 @@
-<resources>
-    <color name="sky_click_pressed">#7555B0</color>
-    <color name="sky_click_longpressed">#6545a0</color>
-    <color name="sky_click_focused">#6545a0</color>
-    <color name="sky_black_p50">#000000</color>
-</resources>
