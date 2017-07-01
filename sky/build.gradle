@@ -62,6 +62,6 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: "$commons_io"
 }
 
-//apply from: 'maven-github-aar.gradle'//Github打包
-apply from: 'maven-center-aar.gradle'//中央库打包
+apply from: 'maven-github-aar.gradle'//Github打包
+//apply from: 'maven-center-aar.gradle'//中央库打包
 
