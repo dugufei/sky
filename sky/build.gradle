@@ -60,5 +60,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
-apply from: 'maven-github-aar.gradle'//Github打包
+apply from: rootProject.file('gradle/maven-github-aar.gradle')//Github打包
 //apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包
