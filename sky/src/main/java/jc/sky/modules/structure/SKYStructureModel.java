@@ -44,10 +44,12 @@ public class SKYStructureModel {
 		this.bundle = bundle;
 		// 业务初始化
 		service = SKYAppUtil.getClassGenricType(view.getClass(), 0);
-		SKYCheckUtils.checkNotNull(service, "获取不到泛型");
+		if (service == null) {
+			return;
+		}
 		SKYCheckUtils.validateServiceInterface(service);
-
 		impl = SKYAppUtil.getImplClass(service);
+
 		// 找到父类
 		supper = new Stack<>();
 		Class tempClass = impl.getClass().getSuperclass();
@@ -83,10 +85,14 @@ public class SKYStructureModel {
 		this.view = null;
 		service = null;
 		this.impl = null;
-		SKYProxy.clearProxy();
-		SKYProxy = null;
-		supper.clear();
-		supper = null;
+		if (SKYProxy != null) {
+			SKYProxy.clearProxy();
+			SKYProxy = null;
+		}
+		if (supper != null) {
+			supper.clear();
+			supper = null;
+		}
 	}
 
 	public int getKey() {

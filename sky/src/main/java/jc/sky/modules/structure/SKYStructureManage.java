@@ -43,6 +43,9 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 	@Override public void attach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
+			if(view.getService() == null){
+				return;
+			}
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 			if (stack == null) {
 				stack = new SimpleArrayMap();
@@ -60,7 +63,9 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 	@Override public void detach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
-
+			if(view.getService() == null){
+				return;
+			}
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 
 			if (stack == null) {
