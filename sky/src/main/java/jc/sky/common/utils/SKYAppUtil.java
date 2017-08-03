@@ -17,11 +17,16 @@ import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import jc.sky.SKYHelper;
+import jc.sky.core.Impl;
 import jc.sky.modules.log.L;
 
 /**
@@ -29,7 +34,6 @@ import jc.sky.modules.log.L;
  * @version 版本
  */
 public final class SKYAppUtil {
-
 
 	/**
 	 * 获取泛型类型
@@ -111,7 +115,6 @@ public final class SKYAppUtil {
 		return (Class<Object>) params[index];
 	}
 
-
 	/**
 	 * 获取手机屏幕宽高
 	 * 
@@ -183,7 +186,6 @@ public final class SKYAppUtil {
 		}
 		return result;
 	}
-
 
 	/**
 	 * 判断是否运行
@@ -258,5 +260,64 @@ public final class SKYAppUtil {
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		float dp = px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
 		return dp;
+	}
+
+	/**
+	 * 获取实现类
+	 *
+	 * @param service
+	 * @param <D>
+	 * @return
+	 */
+	public static <D> Object getImplClass(@NotNull Class<D> service) {
+		SKYCheckUtils.validateServiceInterface(service);
+		try {
+			// 获取注解
+			Impl impl = service.getAnnotation(Impl.class);
+			SKYCheckUtils.checkNotNull(impl, "该接口没有指定实现类～");
+			/** 加载类 **/
+			Class clazz = Class.forName(impl.value().getName());
+			Constructor c = clazz.getDeclaredConstructor();
+			c.setAccessible(true);
+			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
+			/** 创建类 **/
+			return c.newInstance();
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
+		} catch (InstantiationException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+		}
+	}
+
+	public static <D> Object getImplClass(@NotNull Class<D> service, Class argsClass, Object argsParam) {
+		SKYCheckUtils.validateServiceInterface(service);
+		try {
+			// 获取注解
+			Impl impl = service.getAnnotation(Impl.class);
+			SKYCheckUtils.checkNotNull(impl, "该接口没有指定实现类～");
+			/** 加载类 **/
+			Class clazz = Class.forName(impl.value().getName());
+			Constructor c = clazz.getConstructor(argsClass);
+			c.setAccessible(true);
+			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
+			/** 创建类 **/
+			return c.newInstance(argsParam);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
+		} catch (InstantiationException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+		}
 	}
 }

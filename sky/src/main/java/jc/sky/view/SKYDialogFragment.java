@@ -72,7 +72,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	/**
 	 * 编译
 	 *
-	 * @param view 参数
+	 * @param view
+	 *            参数
 	 */
 	protected void buildAfter(View view) {}
 
@@ -169,7 +170,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this, getArguments());
+		initCore();
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
@@ -182,6 +183,13 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		/** build 之后 **/
 		buildAfter(view);
 		return view;
+	}
+
+	/**
+	 * 核心
+	 */
+	protected void initCore() {
+		SKYStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -357,8 +365,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		}
 	}
 
-	@Override public <O extends SKYRVAdapter> O getAdapter() {
-		return (O) recyclerAdapter();
+	@Override public <O extends SKYRVAdapter> O adapter() {
+		return SKYBuilder == null ? null : (O) SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	/**********************
@@ -376,11 +384,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 *********************/
 
-	public SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
-	}
-
-	public RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 

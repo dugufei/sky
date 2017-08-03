@@ -47,7 +47,7 @@ public class SKYStructureModel {
 		SKYCheckUtils.checkNotNull(service, "获取不到泛型");
 		SKYCheckUtils.validateServiceInterface(service);
 
-		impl = getImplClass(service);
+		impl = SKYAppUtil.getImplClass(service);
 		// 找到父类
 		supper = new Stack<>();
 		Class tempClass = impl.getClass().getSuperclass();
@@ -87,54 +87,6 @@ public class SKYStructureModel {
 		SKYProxy = null;
 		supper.clear();
 		supper = null;
-	}
-
-	/**
-	 * 获取实现类
-	 *
-	 * @param service
-	 * @param <D>
-	 * @return
-	 */
-	private <D> Object getImplClass(@NotNull Class<D> service) {
-		validateServiceClass(service);
-		try {
-			// 获取注解
-			Impl impl = service.getAnnotation(Impl.class);
-			SKYCheckUtils.checkNotNull(impl, "该接口没有指定实现类～");
-			/** 加载类 **/
-			Class clazz = Class.forName(impl.value().getName());
-			Constructor c = clazz.getDeclaredConstructor();
-			c.setAccessible(true);
-			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
-			/** 创建类 **/
-			return c.newInstance();
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！" + e.getMessage());
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
-		}
-	}
-
-	/**
-	 * 验证类 - 判断是否是一个接口
-	 *
-	 * @param service
-	 * @param <T>
-	 */
-	private <T> void validateServiceClass(Class<T> service) {
-		if (service == null || !service.isInterface()) {
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.append(service);
-			stringBuilder.append("，该类不是接口！");
-			throw new IllegalArgumentException(stringBuilder.toString());
-		}
 	}
 
 	public int getKey() {

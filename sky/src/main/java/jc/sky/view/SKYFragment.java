@@ -48,7 +48,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	/**
 	 * 编译
 	 * 
-	 * @param view 参数
+	 * @param view
+	 *            参数
 	 */
 	protected void buildAfter(View view) {}
 
@@ -88,7 +89,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this, getArguments());
+		initCore();
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
@@ -97,10 +98,14 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		unbinder = ButterKnife.bind(this, view);
 		/** 初始化点击事件 **/
 		view.setOnTouchListener(this);// 设置点击事件
-		/** build 之后**/
+		/** build 之后 **/
 		SKYHelper.methodsProxy().fragmentInterceptor().buildAfter(this);
 		buildAfter(view);
 		return view;
+	}
+
+	protected void initCore() {
+		SKYStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -337,8 +342,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		}
 	}
 
-	@Override public <O extends SKYRVAdapter> O getAdapter() {
-		return (O) recyclerAdapter();
+	@Override public <O extends SKYRVAdapter> O adapter() {
+		return SKYBuilder == null ? null : (O) SKYBuilder.getSKYRVAdapterItem();
 	}
 
 	/**********************
@@ -357,11 +362,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 * @return 返回值
 	 *********************/
 
-	public SKYRVAdapter recyclerAdapter() {
-		return SKYBuilder == null ? null : SKYBuilder.getSKYRVAdapterItem();
-	}
-
-	public RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 

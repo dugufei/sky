@@ -1,12 +1,44 @@
 package com.example.sky;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.OnClick;
+import jc.sky.SKYHelper;
+import jc.sky.view.SKYActivity;
+import jc.sky.view.SKYBuilder;
+import sky.IUI;
+import sky.IType;
 
-	@Override protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+public class MainActivity extends SKYActivity<IMainBiz> implements IMainActivity {
+
+	@BindView(R.id.tv_text) TextView tvText;
+
+	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+		initialSKYBuilder.layoutId(R.layout.activity_main);
+		return initialSKYBuilder;
+	}
+
+	@Override protected void initData(Bundle savedInstanceState) {
+
+	}
+
+	@OnClick(R.id.tv_text) public void login(View view) {
+		biz().login(view.getContext());
+	}
+
+	@IUI(IType.HTTP) public void aaa(int i, Object a) {}
+
+	@IUI(IType.WORK) public void bbb(int i, float a) {}
+
+	@IUI public void ccc(int i, Object a) {}
+
+	@IUI public void ddd(int i, Object a) {}
+
+	@IUI public void fff(int i, Object a) {
+		SKYHelper.toast().show(a.toString());
 	}
 }

@@ -744,7 +744,7 @@ public class SKYBuilder {
 	 * @param view
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private View createActionbar(View view) {
-		if (isOpenToolbar()) {
+		if (isOpenToolbar() && getToolbarLayoutId() != 0) {
 			final RelativeLayout toolbarRoot = new RelativeLayout(skyView.context());
 			toolbarRoot.setId(R.id.sky_home);
 			toolbarRoot.setFitsSystemWindows(fitsSystem);

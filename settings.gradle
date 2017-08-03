@@ -1,1 +1,7 @@
-include ':sky',':sample'
+include ':sky', ':sky-annotations'
+include ':sky-compiler'
+include ':sky-gradle-plugin'
+
+include ':sample'
+
+rootProject.name = 'sky-parent'

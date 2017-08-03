@@ -1,4 +1,4 @@
-package jc.sky.modules.methodProxy;
+package sky;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Interceptor {
+public @interface Repeat {
 
-	int value() default 0;
+	boolean value() default false;
 }

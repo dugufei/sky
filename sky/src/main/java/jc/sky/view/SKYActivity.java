@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +32,6 @@ import jc.sky.core.SKYIView;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.structure.SKYStructureModel;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
-
 /**
  * @author sky
  * @version 版本
@@ -105,9 +102,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		buildBefore(savedInstanceState);
 		super.onCreate(savedInstanceState);
-		/** 初始化结构 **/
-		SKYStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
-		SKYHelper.structureHelper().attach(SKYStructureModel);
+		/** 初始化核心 **/
+		initCore();
 		/** 初始化堆栈 **/
 		SKYHelper.screenHelper().onCreate(this);
 		/** 活动拦截器 **/
@@ -139,7 +135,9 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
 		/** 初始化业务数据 **/
-		SKYStructureModel.initBizBundle();
+		if (SKYStructureModel != null) {
+			SKYStructureModel.initBizBundle();
+		}
 		/** 初始化dagger **/
 		initDagger();
 		/** 初始化数据 **/
@@ -147,6 +145,46 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		/** 初始化数据 **/
 		initData(getIntent().getExtras());
 
+	}
+
+	/**
+	 * 核心
+	 */
+	protected void initCore() {
+		SKYStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
+		SKYHelper.structureHelper().attach(SKYStructureModel);
+	}
+
+	public B biz() {
+		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
+			return (B) SKYHelper.structureHelper().createNullService(service);
+		}
+		return (B) SKYStructureModel.getSKYProxy().proxy;
+	}
+
+	public <C extends SKYIBiz> C biz(Class<C> service) {
+		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
+			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+				return SKYHelper.structureHelper().createNullService(service);
+			}
+			return (C) SKYStructureModel.getSKYProxy().proxy;
+		}
+		return SKYHelper.biz(service);
+	}
+
+	public <D extends SKYIDisplay> D display(Class<D> eClass) {
+		return SKYHelper.display(eClass);
+	}
+
+	/**
+	 * 设置输入法
+	 *
+	 * @param mode
+	 *            参数
+	 */
+	public void setSoftInputMode(int mode) {
+		getWindow().setSoftInputMode(mode);
 	}
 
 	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -174,16 +212,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		super.onActivityResult(requestCode, resultCode, data);
 		SKYHelper.screenHelper().onActivityResult(this);
 		SKYHelper.methodsProxy().activityInterceptor().onActivityResult(requestCode, resultCode, data);
-	}
-
-	/**
-	 * 设置输入法
-	 *
-	 * @param mode
-	 *            参数
-	 */
-	public void setSoftInputMode(int mode) {
-		getWindow().setSoftInputMode(mode);
 	}
 
 	@Override protected void onPause() {
@@ -273,28 +301,6 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-		return SKYHelper.display(eClass);
-	}
-
-	public B biz() {
-		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
-			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
-			return (B) SKYHelper.structureHelper().createNullService(service);
-		}
-		return (B) SKYStructureModel.getSKYProxy().proxy;
-	}
-
-	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
-			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
-				return SKYHelper.structureHelper().createNullService(service);
-			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
-		}
-		return SKYHelper.biz(service);
-	}
-
 	@Override public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (SKYHelper.structureHelper().onKeyBack(keyCode, getSupportFragmentManager(), this)) {
 			return true;
@@ -381,33 +387,21 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		}
 	}
 
-	@Override public <O extends SKYRVAdapter> O getAdapter() {
-		return (O) recyclerAdapter();
+	@Override public <O extends SKYRVAdapter> O adapter() {
+		return SKYBuilder == null ? null : (O) SKYBuilder.getSKYRVAdapterItem();
 	}
 
-	/**********************
-	 * Actionbar业务代码 *******************
-	 *
+	/**
 	 * @return 参数
 	 */
 	public Toolbar toolbar() {
 		return SKYBuilder == null ? null : SKYBuilder.getToolbar();
 	}
 
-	/**********************
-	 * RecyclerView业务代码 *******************
-	 *
-	 * @return 参数
-	 */
-
-	protected <S extends SKYRVAdapter> S recyclerAdapter() {
-		return SKYBuilder == null ? null : (S) SKYBuilder.getSKYRVAdapterItem();
-	}
-
 	/**
 	 * @return 返回值
 	 */
-	public RecyclerView.LayoutManager recyclerLayoutManager() {
+	public RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 

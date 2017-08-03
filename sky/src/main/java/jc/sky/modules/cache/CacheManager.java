@@ -3,17 +3,14 @@ package jc.sky.modules.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import jc.sky.SKYHelper;
+import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.Impl;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
@@ -70,7 +67,7 @@ public final class CacheManager implements ICacheManager {
 								}
 								return http;
 							case TYPE_IMPL:
-								Object skyImpl = SKYHelper.methodsProxy().createImpl(key, getImplClass(key));
+								Object skyImpl = SKYHelper.methodsProxy().createImpl(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
 									StringBuilder stringBuilder = new StringBuilder();
@@ -80,7 +77,7 @@ public final class CacheManager implements ICacheManager {
 								}
 								return skyImpl;
 							case TYPE_COMMON:
-								SKYProxy skyCommon = SKYHelper.methodsProxy().create(key, getImplClass(key));
+								SKYProxy skyCommon = SKYHelper.methodsProxy().create(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
 									StringBuilder stringBuilder = new StringBuilder();
@@ -90,7 +87,7 @@ public final class CacheManager implements ICacheManager {
 								}
 								return skyCommon;
 							case TYPE_DISPLAY:
-								SKYProxy skyDisplay = SKYHelper.methodsProxy().createDisplay(key, getImplClass(key));
+								SKYProxy skyDisplay = SKYHelper.methodsProxy().createDisplay(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
 									StringBuilder stringBuilder = new StringBuilder();
@@ -166,39 +163,4 @@ public final class CacheManager implements ICacheManager {
 		stringBuilder.append(cache.stats().toString());
 		L.i(stringBuilder.toString());
 	}
-
-	/**
-	 * 获取实现类
-	 *
-	 * @param service
-	 * @param <D>
-	 * @return
-	 */
-	private <D> Object getImplClass(@NotNull Class<D> service) {
-		SKYCheckUtils.validateServiceInterface(service);
-		try {
-			// 获取注解
-			Impl impl = service.getAnnotation(Impl.class);
-			SKYCheckUtils.checkNotNull(impl, "该接口没有指定实现类～");
-			/** 加载类 **/
-			Class clazz = Class.forName(impl.value().getName());
-			Constructor c = clazz.getDeclaredConstructor();
-			c.setAccessible(true);
-			SKYCheckUtils.checkNotNull(clazz, "业务类为空～");
-			/** 创建类 **/
-			Object o = c.newInstance();
-			return o;
-		} catch (ClassNotFoundException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到业务类！");
-		} catch (InstantiationException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！");
-		} catch (IllegalAccessException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！");
-		} catch (NoSuchMethodException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！");
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！");
-		}
-	}
-
 }

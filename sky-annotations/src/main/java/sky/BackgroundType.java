@@ -1,4 +1,4 @@
-package jc.sky.modules.threadpool;
+package sky;
 
 /**
  * @author sky

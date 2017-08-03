@@ -278,16 +278,16 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		});
 	}
 
-	@Override public <T extends SKYRVAdapter> T getAdapter() {
+	@Override public <T extends SKYRVAdapter> T adapter() {
 		final SKYIView skyiView = (SKYIView) this.SKYStructureModel.getView();
 		if (skyiView == null) {
 			return null;
 		}
-		return skyiView.getAdapter();
+		return skyiView.adapter();
 	}
 
 	@Override public <O> void refreshAdapter(final O t) {
-		SKYRVAdapter skyrvAdapter = getAdapter();
+		SKYRVAdapter skyrvAdapter = adapter();
 		if (skyrvAdapter == null) {
 			if (SKYHelper.isLogOpen()) {
 				L.i("适配器不存在~~~");

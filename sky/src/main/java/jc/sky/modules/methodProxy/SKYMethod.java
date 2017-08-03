@@ -17,7 +17,10 @@ import jc.sky.core.plugin.SKYErrorInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.log.L;
-import jc.sky.modules.threadpool.BackgroundType;
+import sky.Background;
+import sky.BackgroundType;
+import sky.Interceptor;
+import sky.Repeat;
 
 /**
  * @author sky

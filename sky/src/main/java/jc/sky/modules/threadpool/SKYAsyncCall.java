@@ -3,7 +3,7 @@ package jc.sky.modules.threadpool;
 import java.lang.reflect.Method;
 
 import jc.sky.core.SKYRunnable;
-import jc.sky.modules.methodProxy.Repeat;
+import sky.Repeat;
 
 /**
  * @author sky
