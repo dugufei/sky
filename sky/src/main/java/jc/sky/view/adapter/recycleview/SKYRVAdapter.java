@@ -110,7 +110,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	}
 
 	@Override public void onBindViewHolder(V v, int position) {
-		v.bindData(getItem(position), getItemCount());
+		v.bindData(getItem(position), position);
 	}
 
 	public List<T> getItems() {

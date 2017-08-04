@@ -18,7 +18,7 @@ public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 		ButterKnife.bind(this, itemView);
 	}
 
-	public abstract void bindData(T t, int count);
+	public abstract void bindData(T t, int position);
 
 	public void setAdapter(SKYRVAdapter adapter) {
 		this.adapter = adapter;
@@ -27,4 +27,6 @@ public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 	public <T extends SKYRVAdapter> T getAdapter() {
 		return (T) adapter;
 	}
+
+
 }
