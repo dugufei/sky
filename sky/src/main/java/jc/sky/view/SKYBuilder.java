@@ -129,7 +129,7 @@ public class SKYBuilder {
 	 * 显示状态切换
 	 */
 
-	int showState;
+	int					showState;
 
 	private int			layoutLoadingId;
 
@@ -267,7 +267,7 @@ public class SKYBuilder {
 		showState = SKYIView.STATE_HTTP_ERROR;
 	}
 
-	int getLayoutState(){
+	int getLayoutState() {
 		return showState;
 	}
 
@@ -389,7 +389,7 @@ public class SKYBuilder {
 
 	private int								toolbarLayoutId;
 
-	private int								toolbarId;
+	private int								toolbarId	= R.id.toolbar;
 
 	private int								toolbarMenuId;
 
@@ -490,8 +490,6 @@ public class SKYBuilder {
 	private StickyRecyclerHeadersTouchListener.OnHeaderClickListener	onHeaderClickListener;
 
 	private boolean														isHeaderFooter;
-
-
 
 	int getRecyclerviewId() {
 		return recyclerviewId;

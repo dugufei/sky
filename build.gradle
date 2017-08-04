@@ -13,7 +13,7 @@ buildscript {
             'androidPlugin'    : '2.3.3',
             'kotlin'           : '1.1.2-4',
 
-            'butterknife'      : '8.5.1',
+            'butterknife'      : '8.7.0',
             'nineoldandroids'  : '2.4.0',
             'systembartint'    : '1.0.4',
             'commons_lang'     : '3.5',
