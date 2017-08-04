@@ -387,9 +387,9 @@ public class SKYBuilder {
 
 	private Toolbar.OnMenuItemClickListener	menuListener;
 
-	private int								toolbarLayoutId;
+	private int								toolbarLayoutId	= R.layout.sky_include_toolbar;
 
-	private int								toolbarId	= R.id.toolbar;
+	private int								toolbarId		= R.id.toolbar;
 
 	private int								toolbarMenuId;
 
@@ -742,7 +742,7 @@ public class SKYBuilder {
 	 * @param view
 	 */
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) private View createActionbar(View view) {
-		if (isOpenToolbar() && getToolbarLayoutId() != 0) {
+		if (isOpenToolbar()) {
 			final RelativeLayout toolbarRoot = new RelativeLayout(skyView.context());
 			toolbarRoot.setId(R.id.sky_home);
 			toolbarRoot.setFitsSystemWindows(fitsSystem);
@@ -750,6 +750,7 @@ public class SKYBuilder {
 			mInflater.inflate(getToolbarLayoutId(), toolbarRoot, true);
 			// 添加内容布局
 			RelativeLayout.LayoutParams contentLayoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+			contentLayoutParams.addRule(RelativeLayout.BELOW, R.id.toolbar);
 			toolbarRoot.addView(view, contentLayoutParams);
 			toolbar = ButterKnife.findById(toolbarRoot, getToolbarId());
 
