@@ -73,7 +73,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 	 *
 	 * @return 返回值
 	 */
-	protected U ui() {
+	public U ui() {
 		if (u == null) {
 			Class ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
 			return (U) SKYHelper.structureHelper().createNullService(ui);
@@ -83,14 +83,14 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	/**
 	 * View层 回调
-	 * 
+	 *
 	 * @param clazz
 	 *            参数
 	 * @param <V>
 	 *            参数
 	 * @return 返回值
 	 */
-	protected <V> V ui(Class<V> clazz) {
+	public <V> V ui(Class<V> clazz) {
 		if (clazz.equals(ui)) {
 			return (V) ui();
 		} else {
@@ -112,7 +112,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	/**
 	 * View层 是否存在
-	 * 
+	 *
 	 * @return 返回值
 	 */
 	public boolean isUI() {

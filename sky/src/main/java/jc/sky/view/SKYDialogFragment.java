@@ -192,6 +192,10 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 		SKYStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
+	public Object model() {
+		return SKYStructureModel.getSKYProxy().impl;
+	}
+
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		if (isFull()) {

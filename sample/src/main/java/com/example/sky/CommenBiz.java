@@ -1,5 +1,6 @@
 package com.example.sky;
 
+import jc.sky.SKYHelper;
 import jc.sky.core.SKYBiz;
 
 /**
@@ -7,5 +8,9 @@ import jc.sky.core.SKYBiz;
  * @version 1.0 on 2017-08-02 下午4:22
  * @see CommenBiz
  */
-public class CommenBiz<U> extends SKYBiz<U> implements ICommenBiz {
+public class CommenBiz<U> extends SKYBiz<U> {
+
+    public void aaaaa(){
+        SKYHelper.toast().show("hahhahahahah");
+    }
 }

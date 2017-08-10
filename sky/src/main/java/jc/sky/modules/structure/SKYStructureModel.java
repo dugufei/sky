@@ -55,8 +55,8 @@ public class SKYStructureModel {
 			if (tempClass != null) {
 				while (!tempClass.equals(SKYBiz.class)) {
 
-					if (tempClass.getInterfaces() != null) {
-						Class clazz = tempClass.getInterfaces()[0];
+					if (tempClass.getSuperclass() != null) {
+						Class clazz = tempClass.getSuperclass();
 						supper.add(clazz);
 					}
 					tempClass = tempClass.getSuperclass();

@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jc.sky.SKYHelper;
-import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYIIntercept;
 import jc.sky.core.SKYRunnable;
 import jc.sky.core.exception.SKYHttpException;
@@ -17,7 +16,6 @@ import jc.sky.core.plugin.SKYErrorInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.log.L;
-import sky.cglib.proxy.MethodProxy;
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;

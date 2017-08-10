@@ -34,6 +34,7 @@ public interface SKYStructureIManage {
 	 */
 	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
+
 	/**
 	 * 业务
 	 * 

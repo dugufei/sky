@@ -22,7 +22,6 @@ import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
 import sky.cglib.proxy.Enhancer;
 import sky.cglib.proxy.MethodInterceptor;
-import sky.cglib.proxy.MethodProxy;
 
 /**
  * @author sky
@@ -215,13 +214,14 @@ public class SKYStructureManage implements SKYStructureIManage {
 		});
 	}
 
-	@Override public <T> T createMainLooperNotIntf(Class<T> service, final Object ui) {
+	@Override public <T> T createMainLooperNotIntf(final Class<T> service, final Object ui) {
 		Enhancer e = new Enhancer(SKYHelper.getInstance());
 		e.setSuperclass(service);
 		e.setInterceptor(new MethodInterceptor() {
 
-			@Override public Object intercept(Object o, final Object[] args, MethodProxy methodProxy) throws Exception {
-				final Method method = methodProxy.getOriginalMethod();
+			@Override public Object intercept(String name, Class[] argsType, final Object[] args) throws Exception {
+				final Method method = service.getMethod(name, argsType);
+
 				// 如果有返回值 - 直接执行
 				if (!method.getReturnType().equals(void.class)) {
 					if (ui == null) {

@@ -39,7 +39,7 @@ public class SKYApplication extends Application implements ISKYBind, SKYIViewCom
 	}
 
 	@Override public boolean isLogOpen() {
-		return false;
+		return true;
 	}
 
 	@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {

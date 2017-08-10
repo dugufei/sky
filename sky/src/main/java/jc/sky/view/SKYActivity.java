@@ -155,6 +155,10 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		SKYHelper.structureHelper().attach(SKYStructureModel);
 	}
 
+	public Object model() {
+		return SKYStructureModel.getSKYProxy().impl;
+	}
+
 	public B biz() {
 		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);

@@ -8,7 +8,6 @@ import android.util.Log;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import jc.sky.SKYHelper;
@@ -26,7 +25,6 @@ import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import sky.cglib.proxy.Enhancer;
 import sky.cglib.proxy.MethodInterceptor;
-import sky.cglib.proxy.MethodProxy;
 
 /**
  * @author sky
@@ -89,32 +87,29 @@ public final class SKYMethods {
 		e.setSuperclass(superClazz);
 		e.setInterceptor(new MethodInterceptor() {
 
-			@Override public Object intercept(Object o, Object[] args, MethodProxy methodProxy) throws Exception {
-				// 如果有返回值 - 直接执行
-				Method method = methodProxy.getOriginalMethod();
+			@Override public Object intercept(String name, Class[] argsType, Object[] args) throws Exception {
+				Method method = superClazz.getMethod(name, argsType);
 
+				// 如果有返回值 - 直接执行
 				if (!method.getReturnType().equals(void.class)) {
-					return methodProxy.invokeSuper(SKYProxy.impl, args);
+					return method.invoke(SKYProxy.impl, args);
 				}
 
-				Object result = method.invoke(SKYProxy.impl,args);
-				return result;
+				SKYMethod SKYMethod = loadSKYMethod(SKYProxy, method, superClazz);
+				// 开始
+				if (!SKYHelper.isLogOpen()) {
+					return SKYMethod.invoke(SKYProxy.impl, args);
+				}
+				enterMethod(method, args);
+				long startNanos = System.nanoTime();
 
-//				SKYMethod SKYMethod = loadSKYMethod(SKYProxy, method, superClazz);
-//				// 开始
-//				if (!SKYHelper.isLogOpen()) {
-//					return SKYMethod.invoke(SKYProxy.impl, args);
-//				}
-//				enterMethod(method, args);
-//				long startNanos = System.nanoTime();
-//
-//				Object result = SKYMethod.invoke(SKYProxy.impl, args);
-//
-//				long stopNanos = System.nanoTime();
-//				long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
-//				exitMethod(method, result, lengthMillis);
-//
-//				return result;
+				Object result = SKYMethod.invoke(SKYProxy.impl, args);
+
+				long stopNanos = System.nanoTime();
+				long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
+				exitMethod(method, result, lengthMillis);
+
+				return result;
 			}
 		});
 		SKYProxy.proxy = e.create();

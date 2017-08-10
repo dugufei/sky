@@ -429,6 +429,15 @@ public class SKYScreenManager {
 	}
 
 	/**
+	 * 获取集合
+	 * 
+	 * @return 集合
+	 */
+	public ArrayList<SKYScreenHolder> getActivities() {
+		return activities;
+	}
+
+	/**
 	 * 获取上一个Acitivyt
 	 * 
 	 * @param <A>

@@ -1,25 +1,21 @@
 package com.example.sky;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import jc.sky.SKYHelper;
-import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
-import sky.IUI;
-import sky.IType;
 
-public class MainActivity extends SKYActivity<MainBiz> {
+public class AActivity extends SKYActivity<ABiz> {
 
 	@BindView(R.id.tv_text) TextView tvText;
 
 	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
-		initialSKYBuilder.layoutId(R.layout.activity_main);
+		initialSKYBuilder.layoutId(R.layout.activity_a);
 		return initialSKYBuilder;
 	}
 
@@ -28,7 +24,7 @@ public class MainActivity extends SKYActivity<MainBiz> {
 	}
 
 	@OnClick(R.id.tv_text) public void login(View view) {
-		display(SKYIDisplay.class).intent(AActivity.class);
+		biz().login(view.getContext());
 	}
 
 	@OnClick(R.id.button) public void btn(View view) {

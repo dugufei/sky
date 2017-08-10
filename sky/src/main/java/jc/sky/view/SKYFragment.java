@@ -108,6 +108,10 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		SKYStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
+	public Object model() {
+		return SKYStructureModel.getSKYProxy().impl;
+	}
+
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentCreated(this, getArguments(), savedInstanceState);
