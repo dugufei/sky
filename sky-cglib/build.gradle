@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

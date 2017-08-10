@@ -17,6 +17,7 @@ import jc.sky.core.plugin.SKYErrorInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.log.L;
+import sky.cglib.proxy.MethodProxy;
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;

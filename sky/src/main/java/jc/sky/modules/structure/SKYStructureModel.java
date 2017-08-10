@@ -2,16 +2,10 @@ package jc.sky.modules.structure;
 
 import android.os.Bundle;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
 
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.Impl;
 import jc.sky.core.SKYBiz;
 import jc.sky.modules.methodProxy.SKYProxy;
 
@@ -35,6 +29,8 @@ public class SKYStructureModel {
 
 	private Object			impl;
 
+	private Object			biz;
+
 	public SKYStructureModel(Object view, Bundle bundle) {
 		// 唯一标记
 		key = view.hashCode();
@@ -47,28 +43,55 @@ public class SKYStructureModel {
 		if (service == null) {
 			return;
 		}
-		SKYCheckUtils.validateServiceInterface(service);
-		impl = SKYAppUtil.getImplClass(service);
+		if (!service.isInterface()) {
 
-		// 找到父类
-		supper = new Stack<>();
-		Class tempClass = impl.getClass().getSuperclass();
+			impl = SKYAppUtil.getImplClassNotInf(service);
 
-		if (tempClass != null) {
-			while (!tempClass.equals(SKYBiz.class)) {
 
-				if (tempClass.getInterfaces() != null) {
-					Class clazz = tempClass.getInterfaces()[0];
-					supper.add(clazz);
+			// 找到父类
+			supper = new Stack<>();
+			Class tempClass = impl.getClass().getSuperclass();
+
+			if (tempClass != null) {
+				while (!tempClass.equals(SKYBiz.class)) {
+
+					if (tempClass.getInterfaces() != null) {
+						Class clazz = tempClass.getInterfaces()[0];
+						supper.add(clazz);
+					}
+					tempClass = tempClass.getSuperclass();
 				}
-				tempClass = tempClass.getSuperclass();
 			}
+
+			// 如果是业务类
+			if (impl instanceof SKYBiz) {
+				((SKYBiz) impl).initUI(this);
+			}
+			SKYProxy = SKYHelper.methodsProxy().createNotInf(service,impl);
+
+		} else {
+			impl = SKYAppUtil.getImplClass(service);
+
+			// 找到父类
+			supper = new Stack<>();
+			Class tempClass = impl.getClass().getSuperclass();
+
+			if (tempClass != null) {
+				while (!tempClass.equals(SKYBiz.class)) {
+
+					if (tempClass.getInterfaces() != null) {
+						Class clazz = tempClass.getInterfaces()[0];
+						supper.add(clazz);
+					}
+					tempClass = tempClass.getSuperclass();
+				}
+			}
+			// 如果是业务类
+			if (impl instanceof SKYBiz) {
+				((SKYBiz) impl).initUI(this);
+			}
+			SKYProxy = SKYHelper.methodsProxy().create(service, impl);
 		}
-		// 如果是业务类
-		if (impl instanceof SKYBiz) {
-			((SKYBiz) impl).initUI(this);
-		}
-		SKYProxy = SKYHelper.methodsProxy().create(service, impl);
 	}
 
 	public void initBizBundle() {
@@ -84,7 +107,14 @@ public class SKYStructureModel {
 		this.bundle = null;
 		this.view = null;
 		service = null;
-		this.impl = null;
+		if (this.impl != null) {
+			((SKYBiz) impl).detach();
+			impl = null;
+		}
+		if (this.biz != null) {
+			((SKYBiz) biz).detach();
+			biz = null;
+		}
 		if (SKYProxy != null) {
 			SKYProxy.clearProxy();
 			SKYProxy = null;

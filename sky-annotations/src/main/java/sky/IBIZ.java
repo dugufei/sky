@@ -16,6 +16,6 @@ import java.lang.annotation.Target;
 @Retention(CLASS)
 public @interface IBIZ {
 
-	IType value() default IType.HTTP;
+	IType value() default IType.UI;
 
 }

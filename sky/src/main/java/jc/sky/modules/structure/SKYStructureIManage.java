@@ -87,6 +87,9 @@ public interface SKYStructureIManage {
 	 */
 	<T> T createMainLooper(final Class<T> service, Object ui);
 
+	<T> T createMainLooperNotIntf(final Class<T> service, Object ui);
+
+
 	/**
 	 * @param service
 	 *            参数

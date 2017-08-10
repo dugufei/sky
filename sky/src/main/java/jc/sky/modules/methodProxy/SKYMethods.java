@@ -8,6 +8,7 @@ import android.util.Log;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import jc.sky.SKYHelper;
@@ -23,6 +24,9 @@ import jc.sky.core.plugin.SKYFragmentInterceptor;
 import jc.sky.core.plugin.ImplStartInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
+import sky.cglib.proxy.Enhancer;
+import sky.cglib.proxy.MethodInterceptor;
+import sky.cglib.proxy.MethodProxy;
 
 /**
  * @author sky
@@ -70,7 +74,55 @@ public final class SKYMethods {
 	}
 
 	/**
-	 * 创建 BIZ
+	 * 创建 IBIZ
+	 *
+	 * @param impl
+	 *            参数
+	 * @param <T>
+	 *            参数
+	 * @return 返回值
+	 */
+	public <T> SKYProxy createNotInf(final Class superClazz, Object impl) {
+		final SKYProxy SKYProxy = new SKYProxy();
+		SKYProxy.impl = impl;
+		Enhancer e = new Enhancer(SKYHelper.getInstance());
+		e.setSuperclass(superClazz);
+		e.setInterceptor(new MethodInterceptor() {
+
+			@Override public Object intercept(Object o, Object[] args, MethodProxy methodProxy) throws Exception {
+				// 如果有返回值 - 直接执行
+				Method method = methodProxy.getOriginalMethod();
+
+				if (!method.getReturnType().equals(void.class)) {
+					return methodProxy.invokeSuper(SKYProxy.impl, args);
+				}
+
+				Object result = method.invoke(SKYProxy.impl,args);
+				return result;
+
+//				SKYMethod SKYMethod = loadSKYMethod(SKYProxy, method, superClazz);
+//				// 开始
+//				if (!SKYHelper.isLogOpen()) {
+//					return SKYMethod.invoke(SKYProxy.impl, args);
+//				}
+//				enterMethod(method, args);
+//				long startNanos = System.nanoTime();
+//
+//				Object result = SKYMethod.invoke(SKYProxy.impl, args);
+//
+//				long stopNanos = System.nanoTime();
+//				long lengthMillis = TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
+//				exitMethod(method, result, lengthMillis);
+//
+//				return result;
+			}
+		});
+		SKYProxy.proxy = e.create();
+		return SKYProxy;
+	}
+
+	/**
+	 * 创建 IBIZ
 	 *
 	 * @param service
 	 *            参数
@@ -473,7 +525,7 @@ public final class SKYMethods {
 			if (skyActivityInterceptor == null) {
 				skyActivityInterceptor = SKYActivityInterceptor.NONE;
 			}
-			if(skyLayoutInterceptor == null){
+			if (skyLayoutInterceptor == null) {
 				skyLayoutInterceptor = SKYLayoutInterceptor.NONE;
 			}
 			if (implStartInterceptors == null) {

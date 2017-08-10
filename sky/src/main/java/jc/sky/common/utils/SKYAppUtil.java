@@ -295,6 +295,25 @@ public final class SKYAppUtil {
 		}
 	}
 
+	public static <D> Object getImplClassNotInf(@NotNull Class<D> service) {
+		try {
+			/** 加载类 **/
+			Constructor c = service.getDeclaredConstructor();
+			c.setAccessible(true);
+			SKYCheckUtils.checkNotNull(service, "业务类为空～");
+			/** 创建类 **/
+			return c.newInstance();
+		}  catch (InstantiationException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，没有找到构造方法！" + e.getMessage());
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
+		}
+	}
+
 	public static <D> Object getImplClass(@NotNull Class<D> service, Class argsClass, Object argsParam) {
 		SKYCheckUtils.validateServiceInterface(service);
 		try {

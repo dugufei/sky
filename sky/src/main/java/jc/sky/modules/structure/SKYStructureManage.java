@@ -20,6 +20,9 @@ import jc.sky.core.SKYIBiz;
 import jc.sky.modules.log.L;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
+import sky.cglib.proxy.Enhancer;
+import sky.cglib.proxy.MethodInterceptor;
+import sky.cglib.proxy.MethodProxy;
 
 /**
  * @author sky
@@ -38,7 +41,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 	@Override public void attach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
-			if(view.getService() == null){
+			if (view.getService() == null) {
 				return;
 			}
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
@@ -58,7 +61,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 
 	@Override public void detach(SKYStructureModel view) {
 		synchronized (statckRepeatBiz) {
-			if(view.getService() == null){
+			if (view.getService() == null) {
 				return;
 			}
 			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
@@ -212,6 +215,51 @@ public class SKYStructureManage implements SKYStructureIManage {
 		});
 	}
 
+	@Override public <T> T createMainLooperNotIntf(Class<T> service, final Object ui) {
+		Enhancer e = new Enhancer(SKYHelper.getInstance());
+		e.setSuperclass(service);
+		e.setInterceptor(new MethodInterceptor() {
+
+			@Override public Object intercept(Object o, final Object[] args, MethodProxy methodProxy) throws Exception {
+				final Method method = methodProxy.getOriginalMethod();
+				// 如果有返回值 - 直接执行
+				if (!method.getReturnType().equals(void.class)) {
+					if (ui == null) {
+						return null;
+					}
+					return method.invoke(ui, args);
+				}
+
+				// 如果是主线程 - 直接执行
+				if (!SKYHelper.isMainLooperThread()) {// 子线程
+					if (ui == null) {
+						return null;
+					}
+					return method.invoke(ui, args);
+				}
+				Runnable runnable = new Runnable() {
+
+					@Override public void run() {
+						try {
+							if (ui == null) {
+								return;
+							}
+							method.invoke(ui, args);
+						} catch (Exception throwable) {
+							if (SKYHelper.isLogOpen()) {
+								throwable.printStackTrace();
+							}
+							return;
+						}
+					}
+				};
+				SKYHelper.mainLooper().execute(runnable);
+				return null;
+			}
+		});
+		return (T) e.create();
+	}
+
 	public <U> U createNullService(final Class<U> service) {
 		SKYCheckUtils.validateServiceInterface(service);
 		return (U) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new InvocationHandler() {
@@ -276,12 +324,12 @@ public class SKYStructureManage implements SKYStructureIManage {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("[");
 
-            int count = fragmentManager.getBackStackEntryCount();
+			int count = fragmentManager.getBackStackEntryCount();
 
-            for (int i = 0; i < count; i++) {
-                stringBuilder.append(",");
-                stringBuilder.append(fragmentManager.getBackStackEntryAt(i).getName());
-            }
+			for (int i = 0; i < count; i++) {
+				stringBuilder.append(",");
+				stringBuilder.append(fragmentManager.getBackStackEntryAt(i).getName());
+			}
 			stringBuilder.append("]");
 			stringBuilder.deleteCharAt(1);
 			L.tag("Activity FragmentManager:");

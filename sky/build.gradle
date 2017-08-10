@@ -35,6 +35,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':sky-annotations')
+    compile project(':sky-cglib')
     compile deps.support.compat_v7
     compile deps.support.cardview_v7
     compile deps.support.recyclerview_v7

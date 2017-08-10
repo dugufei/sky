@@ -5,6 +5,8 @@
 -keepclasseswithmembers class * {
     <init> ();
 }
+-keep class  sky.** { *; }
+-dontwarn sky.**
 
 -dontnote android.net.http.*
 -dontnote org.apache.http.**
