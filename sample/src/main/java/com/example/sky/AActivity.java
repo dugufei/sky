@@ -32,7 +32,7 @@ public class AActivity extends SKYActivity<ABiz> {
 	}
 
 	public void fff(int i, Object a) {
-		tvText.setText("a.toString()");
+		tvText.setText("我是aaaaaaaaaaa ");
 		SKYHelper.toast().show(a.toString());
 	}
 }

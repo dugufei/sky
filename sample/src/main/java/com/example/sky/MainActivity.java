@@ -36,7 +36,7 @@ public class MainActivity extends SKYActivity<MainBiz> {
 	}
 
 	public void fff(int i, Object a) {
-		tvText.setText("a.toString()");
+		tvText.setText("a.toStringe()");
 		SKYHelper.toast().show(a.toString());
 	}
 }

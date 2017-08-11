@@ -26,6 +26,10 @@ public class ABiz extends CommenBiz<AActivity> {
 
 		SKYHelper.ui(MainActivity.class).fff(1,000);
 
+
+
+		ui().fff(1,000);
+
 //		ui().fff(1, 000);
 
 	}

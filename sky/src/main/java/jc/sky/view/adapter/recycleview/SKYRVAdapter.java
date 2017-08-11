@@ -72,6 +72,9 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	}
 
 	@Override public int getItemViewType(int position) {
+		if(mItems == null || mItems.size() < 1){
+			return getCustomViewType(position);
+		}
 		if (position == 0) {
 			return mItems.get(position) != null ? getCustomViewType(position) : VIEW_TOP;
 		} else {
