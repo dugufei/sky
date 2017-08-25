@@ -6,10 +6,10 @@ buildscript {
             'release'          : '3.0.0-SNAPSHOT',
 
             'minSdk'           : 14,
-            'compileSdk'       : 25,
-            'buildTools'       : '26.0.0',
+            'compileSdk'       : 26,
+            'buildTools'       : '26.0.1',
 
-            'supportLibrary'   : '25.3.1',
+            'supportLibrary'   : '26.+',
             'androidPlugin'    : '2.3.3',
             'kotlin'           : '1.1.2-4',
 

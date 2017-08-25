@@ -57,25 +57,8 @@ dependencies {
 
     apt deps.apt.dagger_compiler
 
-    testCompile files(getRuntimeJar())
-
     compile group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
-
-def getRuntimeJar() {
-    try {
-        final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
-        File runtimeJar = new File(javaBase, "lib/rt.jar");
-        if (runtimeJar.exists()) {
-            return runtimeJar;
-        }
-        runtimeJar = new File(javaBase, "jre/lib/rt.jar");
-        return runtimeJar.exists() ? runtimeJar : null;
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-}
-
 //apply from: rootProject.file('gradle/maven-github-aar.gradle')//Github打包
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包
