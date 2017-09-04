@@ -11,7 +11,6 @@ import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
 import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.SKYActivity;
 import jc.sky.view.adapter.recycleview.ISKYRefresh;
 import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 import retrofit2.Call;
