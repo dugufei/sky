@@ -1,6 +1,9 @@
 package com.example.sky;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,10 +28,18 @@ public class AActivity extends SKYActivity<ABiz> {
 
 	@OnClick(R.id.tv_text) public void login(View view) {
 		biz().login(view.getContext());
+
+
 	}
 
 	@OnClick(R.id.button) public void btn(View view) {
+
+
+
 		biz().aaaaa();
+
+
+
 	}
 
 	public void fff(int i, Object a) {

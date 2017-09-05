@@ -17,20 +17,28 @@ public class ABiz extends CommenBiz<AActivity> {
 	/**
 	 * 登录
 	 */
-	@Repeat(true) @Background(BackgroundType.HTTP) public void login(Context context) {
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	@Background(BackgroundType.HTTP) public void login(Context context) {
 
-		SKYHelper.ui(MainActivity.class).fff(1,000);
+		// SKYHelper.biz(MainBiz.class).login();
+		//
+		//// SKYHelper.ui(MainActivity.class).fff(1,000);
+		//
+		//
+		//
+		// ui().fff(1,000);
+
+		Object object = null;
+
+		object.hashCode();
+
+	}
+
+	@Override public boolean interceptBizError(Throwable throwable) {
 
 
 
-		ui().fff(1,000);
 
-//		ui().fff(1, 000);
+		return false;
 
 	}
 }

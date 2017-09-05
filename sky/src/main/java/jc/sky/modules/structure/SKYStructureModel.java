@@ -47,7 +47,6 @@ public class SKYStructureModel {
 
 			impl = SKYAppUtil.getImplClassNotInf(service);
 
-
 			// 找到父类
 			supper = new Stack<>();
 			Class tempClass = impl.getClass().getSuperclass();

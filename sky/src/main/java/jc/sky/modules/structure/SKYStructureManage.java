@@ -260,8 +260,48 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return (T) e.create();
 	}
 
+	public <U> U createNullServiceNotInf(final Class<U> service) {
+		Enhancer e = new Enhancer(SKYHelper.getInstance());
+		e.setSuperclass(service);
+		e.setInterceptor(new MethodInterceptor() {
+
+			@Override public Object intercept(String name, Class[] argsType, final Object[] args) throws Exception {
+				final Method method = service.getMethod(name, argsType);
+				if (SKYHelper.isLogOpen()) {
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.append("UI被销毁,回调接口继续执行");
+					stringBuilder.append("方法[");
+					stringBuilder.append(method.getName());
+					stringBuilder.append("]");
+					L.tag(service.getSimpleName());
+					L.i(stringBuilder.toString());
+				}
+
+				if (method.getReturnType().equals(int.class) || method.getReturnType().equals(long.class) || method.getReturnType().equals(float.class) || method.getReturnType().equals(double.class)
+						|| method.getReturnType().equals(short.class)) {
+					return 0;
+				}
+
+				if (method.getReturnType().equals(boolean.class)) {
+					return false;
+				}
+				if (method.getReturnType().equals(byte.class)) {
+					return Byte.parseByte(null);
+				}
+				if (method.getReturnType().equals(char.class)) {
+					return ' ';
+				}
+				return null;
+			}
+		});
+		return (U) e.create();
+	}
+
 	public <U> U createNullService(final Class<U> service) {
-		SKYCheckUtils.validateServiceInterface(service);
+		if (!service.isInterface()) {
+			return createNullServiceNotInf(service);
+		}
+
 		return (U) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[] { service }, new InvocationHandler() {
 
 			@Override public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
