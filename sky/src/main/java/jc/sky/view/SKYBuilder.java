@@ -440,6 +440,7 @@ public class SKYBuilder {
 	}
 
 	public void toolbarLayoutId(@LayoutRes int toolbarLayoutId) {
+		this.isOpenToolbar = true;
 		this.toolbarLayoutId = toolbarLayoutId;
 	}
 
