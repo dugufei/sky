@@ -44,7 +44,7 @@ import jc.sky.view.common.SKYRefreshListener;
  * @author sky
  * @version 版本
  */
-public class SKYBuilder {
+public final class SKYBuilder {
 
 	/**
 	 * UI
