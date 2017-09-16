@@ -8,8 +8,7 @@
 3.0.0-SNAPSHOT<br />
 1.新增helper.ui(class)  直接获取activity,fragment 来执行方法, 无需判定是否在子线程和是否为空<br />
 2.新增 cglib for android 动态代理，无需在声明接口，可直接使用，详情可看 [sample demo](https://github.com/skyJinc/sky/tree/master/sample/src/main/java/com/example/sky)<br />
-3.新建插件 快速生成 biz<br />
-4.如果习惯声明接口，3.0.0 新增 注解动态生成接口代码 @UI @BIZ 给方法注释，就可以生成接口~<br />
+3.新建插件 快速生成 <br />
 
 Gradle 版本
 -----------------------------------
@@ -41,21 +40,7 @@ App-build.gradle:
       dependencies {
          compile 'com.github.skyJinc:sky:2.4.0'
       }   	
-      
-proguard
 
-    proguardFile getDefaultProguardFile('proguard-android.txt')
-    proguardFile("proguard/proguard-default.pro")
-    proguardFile("proguard/proguard-sky.pro")
-    proguardFile("proguard/proguard-butterknife.pro")
-    proguardFile("proguard/proguard-glide.pro")
-    proguardFile("proguard/proguard-gson.pro")
-    proguardFile("proguard/proguard-guava.pro")
-    proguardFile("proguard/proguard-nineoldandroids.pro")
-    proguardFile("proguard/proguard-okhttp3.pro")
-    proguardFile("proguard/proguard-support-v7.pro")
-    proguardFile("proguard/proguard-okio.pro")
-    proguardFile("proguard/proguard-retrofit2.pro")
 
 Sky 插件 | 简述
 -------- | --------
