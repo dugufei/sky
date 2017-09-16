@@ -57,7 +57,12 @@ proguard
     proguardFile("proguard/proguard-okio.pro")
     proguardFile("proguard/proguard-retrofit2.pro")
 
-插件/工具 | 简述
+Sky 插件 | 简述
+-------- | --------
+[sky plugin](https://github.com/skyJinc/SkyPlugin) | 快速创建架构View和Biz，以及快速添加方法注解
+
+
+第三方 插件/工具 | 简述
 -------- | --------
 [jadx](https://github.com/skylot/jadx) | 一个 Android 反编译神器, 不同于常见的 [dex2jar](https://github.com/pxb1988/dex2jar), 这个反编译器生成代码的 try/catch 次数更少, View也不再是数字 id 了, 可读性更高
 [folding-plugin](https://github.com/dmytrodanylyk/folding-plugin) | layout 文件夹里的布局文件一般很长很长没有目录, 这个插件就可以把 layout 分好层级结构, 类似 src 下目录结构
