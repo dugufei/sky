@@ -18,7 +18,7 @@ import jc.sky.core.plugin.SKYLayoutInterceptor;
 import jc.sky.core.plugin.SKYActivityInterceptor;
 import jc.sky.core.plugin.ImplEndInterceptor;
 import jc.sky.core.plugin.BizEndInterceptor;
-import jc.sky.core.plugin.SKYErrorInterceptor;
+import jc.sky.core.plugin.SKYBizErrorInterceptor;
 import jc.sky.core.plugin.SKYFragmentInterceptor;
 import jc.sky.core.plugin.ImplStartInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
@@ -50,14 +50,14 @@ public final class SKYMethods {
 
 	private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-	final ArrayList<SKYErrorInterceptor>		skyErrorInterceptor;		// 方法错误拦截器
+	final ArrayList<SKYBizErrorInterceptor>		skyErrorInterceptor;		// 方法错误拦截器
 
 	final ArrayList<SKYHttpErrorInterceptor>	skyHttpErrorInterceptors;	// 网络错误拦截器
 
 	public SKYMethods(SKYLayoutInterceptor skyLayoutInterceptor, SKYActivityInterceptor SKYActivityInterceptor, SKYFragmentInterceptor SKYFragmentInterceptor,
-			ArrayList<BizStartInterceptor> bizStartInterceptor, DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor,
-			DisplayEndInterceptor displayEndInterceptor, ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors,
-			ArrayList<SKYErrorInterceptor> SKYErrorInterceptor, ArrayList<SKYHttpErrorInterceptor> skyHttpErrorInterceptors) {
+					  ArrayList<BizStartInterceptor> bizStartInterceptor, DisplayStartInterceptor displayStartInterceptor, ArrayList<BizEndInterceptor> bizEndInterceptor,
+					  DisplayEndInterceptor displayEndInterceptor, ArrayList<ImplStartInterceptor> implStartInterceptors, ArrayList<ImplEndInterceptor> implEndInterceptors,
+					  ArrayList<SKYBizErrorInterceptor> SKYErrorInterceptor, ArrayList<SKYHttpErrorInterceptor> skyHttpErrorInterceptors) {
 		this.skyLayoutInterceptor = skyLayoutInterceptor;
 		this.bizEndInterceptor = bizEndInterceptor;
 		this.displayEndInterceptor = displayEndInterceptor;
@@ -409,7 +409,7 @@ public final class SKYMethods {
 
 		private ArrayList<ImplEndInterceptor>		implEndInterceptors;		// 方法结束拦截器
 
-		private ArrayList<SKYErrorInterceptor>		skyErrorInterceptors;		// 方法错误拦截器
+		private ArrayList<SKYBizErrorInterceptor>		skyErrorInterceptors;		// 方法错误拦截器
 
 		private DisplayStartInterceptor				displayStartInterceptor;	// 方法开始拦截器
 
@@ -479,7 +479,7 @@ public final class SKYMethods {
 			return this;
 		}
 
-		public void addErrorInterceptor(SKYErrorInterceptor SKYErrorInterceptor) {
+		public void addBizErrorInterceptor(SKYBizErrorInterceptor SKYErrorInterceptor) {
 			if (skyErrorInterceptors == null) {
 				skyErrorInterceptors = new ArrayList<>();
 			}

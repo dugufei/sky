@@ -7,12 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import jc.sky.SKYHelper;
+import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIIntercept;
 import jc.sky.core.SKYRunnable;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.core.plugin.BizEndInterceptor;
-import jc.sky.core.plugin.SKYErrorInterceptor;
+import jc.sky.core.plugin.SKYBizErrorInterceptor;
 import jc.sky.core.plugin.BizStartInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.log.L;
@@ -176,7 +177,7 @@ public final class SKYMethod {
 		try {
 			exeDisplayMethod(method, impl, objects);
 		} catch (Throwable throwable) {
-			exeError(method, throwable);
+			exeError(throwable);
 		} finally {
 			isExe = false;
 		}
@@ -186,7 +187,7 @@ public final class SKYMethod {
 		try {
 			exeMethod(method, impl, objects);
 		} catch (Throwable throwable) {
-			exeError(method, throwable);
+			exeError(throwable);
 		} finally {
 			isExe = false;
 		}
@@ -272,7 +273,7 @@ public final class SKYMethod {
 		}
 	}
 
-	public void exeError(Method method, Throwable throwable) {
+	public void exeError(Throwable throwable) {
 		if (SKYHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
@@ -284,7 +285,7 @@ public final class SKYMethod {
 				if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
 					// 网络错误拦截器
 					for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
-						item.methodError(service, method, interceptor, (SKYHttpException) throwable.getCause());
+						item.methodError((SKYBiz) impl, (SKYHttpException) throwable.getCause());
 					}
 				}
 			} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
@@ -295,8 +296,8 @@ public final class SKYMethod {
 			} else {
 				if (!skyiIntercept.interceptBizError(throwable.getCause())) {
 					// 业务错误拦截器
-					for (SKYErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
-						item.interceptorError(implName, service, method, interceptor, throwable);
+					for (SKYBizErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
+						item.interceptorError((SKYBiz) impl, throwable);
 					}
 				}
 			}

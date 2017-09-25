@@ -16,47 +16,30 @@ public class MainActivity extends SKYActivity<MainBiz> {
 
 	@BindView(R.id.tv_text) TextView tvText;
 
-
 	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
 		initialSKYBuilder.layoutId(R.layout.activity_main);
+		initialSKYBuilder.layoutBizErrorId(R.layout.layout_biz_error);
+		initialSKYBuilder.layoutHttpErrorId(R.layout.layout_http_error);
 		return initialSKYBuilder;
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-
 	}
-
-
-	@OnClick(R.id.tv_text) public void login(View view) {
-		SKYHelper.toast().show("点我");
-
-		display(SKYIDisplay.class).intent(AActivity.class);
-	}
-
-
 
 	@OnClick(R.id.button) public void btn(View view) {
 		biz().login();
+	}
 
-		SKYHelper.biz(ABiz.class).login(view.getContext());
+	@OnClick(R.id.tv_error) public void error(View view) {
+		showContent();
+	}
+
+	@OnClick(R.id.tv_http_error) public void httpError(View view) {
+		showContent();
 	}
 
 	public void fff(int i, Object a) {
 		tvText.setText("a.toStringe()");
-		SKYHelper.toast().show(a.toString());
 	}
 
-
-	public void b(){
-		tvText.setText("我被调用了");
-
-		tvText.post(new Runnable() {
-			@Override
-			public void run() {
-
-			}
-		});
-
-
-	}
 }

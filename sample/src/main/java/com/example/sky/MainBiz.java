@@ -21,21 +21,18 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	/**
 	 * 登录
 	 */
-	 @Background(BackgroundType.WORK) public void login() {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-//		SKYHelper.ui(MainActivity.class).fff(1,000);
-
-
-		ui().b();
+	@Background(BackgroundType.WORK) public void login() {
+		Object o = null;
+		o.toString();
 
 	}
 
-	public void ab(String vavav){
+	@Override public boolean interceptBizError(Throwable throwable) {
+		SKYHelper.toast().show("这里处理了");
+		return false;
+	}
+
+	public void ab(String vavav) {
 
 	}
 }
