@@ -3,7 +3,7 @@
 buildscript {
 
     ext.versions = [
-            'release'          : '3.0.0-SNAPSHOT',
+            'release'          : '3.0.1-SNAPSHOT',
 
             'minSdk'           : 14,
             'compileSdk'       : 26,
