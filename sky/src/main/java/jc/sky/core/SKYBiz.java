@@ -25,7 +25,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	private Class				ui;
 
-	private SKYStructureModel	SKYStructureModel;
+	private static SKYStructureModel	SKYStructureModel;
 
 	private Vector<Call>		callVector;
 
@@ -41,17 +41,17 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		return SKYHelper.display(eClass);
 	}
 
-	public <C extends SKYIBiz> C biz(Class<C> service) {
+	public static  <B extends SKYIBiz> B biz(Class<B> service) {
 		if (SKYStructureModel != null && SKYStructureModel.isSupterClass(service)) {
 			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
+			return (B) SKYStructureModel.getSKYProxy().proxy;
 		} else if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
 			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
+			return (B) SKYStructureModel.getSKYProxy().proxy;
 		} else {
 			return SKYHelper.biz(service);
 		}
@@ -126,9 +126,9 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		this.SKYStructureModel = SKYStructureModel;
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
 		if (!ui.isInterface()) {
-			u = (U) SKYHelper.structureHelper().createMainLooperNotIntf(ui, SKYStructureModel.getView());
+			u = (U) SKYHelper.structureHelper().createMainLooperNotIntf(ui, this.SKYStructureModel.getView());
 		}else {
-			u = (U) SKYHelper.structureHelper().createMainLooper(ui, SKYStructureModel.getView());
+			u = (U) SKYHelper.structureHelper().createMainLooper(ui, this.SKYStructureModel.getView());
 		}
 		callVector = new Vector<>();
 	}

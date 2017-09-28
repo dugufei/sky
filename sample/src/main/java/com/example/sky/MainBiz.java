@@ -22,9 +22,10 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	 * 登录
 	 */
 	@Background(BackgroundType.WORK) public void login() {
-		Object o = null;
-		o.toString();
-
+		// Object o = null;
+		// o.toString();
+		SKYHelper.toast().show(a);
+		ui().showBizError();
 	}
 
 	@Override public boolean interceptBizError(Throwable throwable) {
@@ -33,6 +34,14 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	}
 
 	public void ab(String vavav) {
+	}
+
+	String a;
+
+	public void init(String asdfasdf) {
+		a = asdfasdf;
+
+		SKYHelper.toast().show(a);
 
 	}
 }

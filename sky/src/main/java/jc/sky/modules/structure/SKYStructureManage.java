@@ -15,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.R;
 import jc.sky.SKYHelper;
+import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.core.SKYIBiz;
 import jc.sky.modules.log.L;

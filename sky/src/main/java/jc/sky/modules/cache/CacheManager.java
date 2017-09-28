@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import jc.sky.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
@@ -30,6 +31,8 @@ public final class CacheManager implements ICacheManager {
 
 	private final static int							TYPE_DISPLAY	= 4;						// 跳转调度
 
+	private final static int							TYPE_BIZ		= 5;						// 业务
+
 	private final LoadingCache<Class<?>, Object>		cache;
 
 	private final ConcurrentHashMap<Class<?>, Integer>	keyType			= new ConcurrentHashMap();
@@ -39,7 +42,7 @@ public final class CacheManager implements ICacheManager {
 		cache = CacheBuilder.newBuilder()
 				// 设置并发级别为10，并发级别是指可以同时写缓存的线程数
 				.concurrencyLevel(10)
-				// 设置写缓存后1分钟过期
+				// 设置写缓存后30秒过期
 				.expireAfterAccess(30, TimeUnit.SECONDS)
 				// 设置缓存容器的初始容量为10
 				.initialCapacity(10)
@@ -51,12 +54,13 @@ public final class CacheManager implements ICacheManager {
 				.build(new CacheLoader<Class<?>, Object>() {
 
 					@Override public Object load(Class<?> key) throws Exception {
-						SKYCheckUtils.validateServiceInterface(key);
 
 						int type = keyType.get(key);
 
 						switch (type) {
 							case TYPE_HTTP:
+								SKYCheckUtils.validateServiceInterface(key);
+
 								Object http = SKYHelper.httpAdapter().create(key);
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
@@ -67,6 +71,8 @@ public final class CacheManager implements ICacheManager {
 								}
 								return http;
 							case TYPE_IMPL:
+								SKYCheckUtils.validateServiceInterface(key);
+
 								Object skyImpl = SKYHelper.methodsProxy().createImpl(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
@@ -77,6 +83,8 @@ public final class CacheManager implements ICacheManager {
 								}
 								return skyImpl;
 							case TYPE_COMMON:
+								SKYCheckUtils.validateServiceInterface(key);
+
 								SKYProxy skyCommon = SKYHelper.methodsProxy().create(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
@@ -87,6 +95,8 @@ public final class CacheManager implements ICacheManager {
 								}
 								return skyCommon;
 							case TYPE_DISPLAY:
+								SKYCheckUtils.validateServiceInterface(key);
+
 								SKYProxy skyDisplay = SKYHelper.methodsProxy().createDisplay(key, SKYAppUtil.getImplClass(key));
 								if (SKYHelper.isLogOpen()) {
 									L.tag("SkyCacheManager");
@@ -96,6 +106,21 @@ public final class CacheManager implements ICacheManager {
 									L.i(stringBuilder.toString());
 								}
 								return skyDisplay;
+							case TYPE_BIZ:
+								SKYProxy skyProxy;
+								if (key.isInterface()) {
+									skyProxy = SKYHelper.methodsProxy().create(key, SKYAppUtil.getImplClass(key));
+								} else {
+									skyProxy = SKYHelper.methodsProxy().createNotInf(key, SKYAppUtil.getImplClassNotInf(key));
+								}
+								if (SKYHelper.isLogOpen()) {
+									L.tag("SkyCacheManager");
+									StringBuilder stringBuilder = new StringBuilder();
+									stringBuilder.append("Biz加载成功:");
+									stringBuilder.append(key.getName());
+									L.i(stringBuilder.toString());
+								}
+								return skyProxy;
 						}
 						return null;
 					}
@@ -119,6 +144,20 @@ public final class CacheManager implements ICacheManager {
 	@Override public <B extends SKYICommonBiz> B common(Class<B> service) {
 		try {
 			keyType.put(service, TYPE_COMMON);
+			SKYProxy skyProxy = (SKYProxy) cache.get(service);
+			return (B) skyProxy.proxy;
+		} catch (ExecutionException e) {
+			keyType.remove(service);
+			if (SKYHelper.isLogOpen()) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override public <B extends SKYIBiz> B biz(Class<B> service) {
+		try {
+			keyType.put(service, TYPE_BIZ);
 			SKYProxy skyProxy = (SKYProxy) cache.get(service);
 			return (B) skyProxy.proxy;
 		} catch (ExecutionException e) {

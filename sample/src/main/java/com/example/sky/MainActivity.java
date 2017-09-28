@@ -24,10 +24,12 @@ public class MainActivity extends SKYActivity<MainBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
+		biz().init("我被点了啊啊啊");
 	}
 
 	@OnClick(R.id.button) public void btn(View view) {
-		biz().login();
+//		biz().login();
+		biz(NotifyBiz.class).updateData();
 	}
 
 	@OnClick(R.id.tv_error) public void error(View view) {

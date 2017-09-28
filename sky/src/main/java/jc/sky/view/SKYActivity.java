@@ -83,7 +83,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * View层编辑器
 	 **/
-	private SKYBuilder				SKYBuilder;
+	public SKYBuilder				SKYBuilder;
 
 	SKYStructureModel				SKYStructureModel;
 

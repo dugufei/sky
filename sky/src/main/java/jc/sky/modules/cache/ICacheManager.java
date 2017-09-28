@@ -1,5 +1,7 @@
 package jc.sky.modules.cache;
 
+import jc.sky.core.SKYBiz;
+import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.display.SKYIDisplay;
 
@@ -30,6 +32,15 @@ public interface ICacheManager {
 	 * @return 返回值
 	 */
 	<B extends SKYICommonBiz> B common(Class<B> service);
+
+	/**
+	 * 业务方法
+	 * 
+	 * @param service 参数
+	 * @param <B> 参数
+	 * @return 返回值
+	 */
+	<B extends SKYIBiz> B biz(Class<B> service);
 
 	/**
 	 * 接口注解@Impl
