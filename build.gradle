@@ -7,9 +7,9 @@ buildscript {
 
             'minSdk'           : 14,
             'compileSdk'       : 26,
-            'buildTools'       : '26.0.1',
+            'buildTools'       : '26.0.2',
 
-            'supportLibrary'   : '26.+',
+            'supportLibrary'   : '26.0.0-alpha1',
             'androidPlugin'    : '2.3.3',
             'kotlin'           : '1.1.2-4',
 
