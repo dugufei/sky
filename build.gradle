@@ -65,8 +65,6 @@ buildscript {
                     'service': 'com.google.auto.service:auto-service:1.0-rc3',
                     'common' : 'com.google.auto:auto-common:0.8',
             ],
-            javapoet  : 'com.squareup:javapoet:1.9.0',
-
             //插件
             'kotlin'  : [
                     'stdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
