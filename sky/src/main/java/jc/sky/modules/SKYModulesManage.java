@@ -1,16 +1,32 @@
 package jc.sky.modules;
 
 import android.app.Application;
+import android.content.Context;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.inject.Inject;
 
 import jc.sky.ISKYBind;
+import jc.sky.SKYHelper;
+import jc.sky.SKYWareHouseManage;
+import jc.sky.common.SKYPackUtils;
+import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.core.SKYIModule;
 import jc.sky.core.SynchronousExecutor;
+import jc.sky.core.exception.SKYNullPointerException;
 import jc.sky.modules.cache.CacheManager;
 import jc.sky.modules.cache.ICacheManager;
 import jc.sky.modules.download.SKYDownloadManager;
 import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.job.SKYJobService;
+import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
 import jc.sky.modules.structure.SKYStructureManage;
@@ -68,6 +84,37 @@ public class SKYModulesManage {
 		this.SKYMethods = iskyBind.getMethodInterceptor(skyMethodsBuilder);
 	}
 
+	public synchronized void initModule(Context context) {
+		try {
+			long e = System.currentTimeMillis();
+			Object skyMap;
+			if (!SKYHelper.isLogOpen() && !SKYAppUtil.isNewVersion(context)) {
+				L.i("Sky::", "加载缓存.");
+				skyMap = new HashSet(context.getSharedPreferences("SP_SKY_CACHE", 0).getStringSet("SKY_MAP", new HashSet()));
+			} else {
+				L.i("Sky::", "获取运行时，指定包目录下的所有信息并缓存到skyMap");
+				skyMap = SKYPackUtils.getFileNameByPackageName(context, "com.sky.android.module.biz");
+				if (!((Set) skyMap).isEmpty()) {
+					context.getSharedPreferences("SP_SKY_CACHE", 0).edit().putStringSet("SKY_MAP", (Set) skyMap).apply();
+				}
+			}
+
+			L.i("Sky::", "Find router map finished, map size = " + ((Set) skyMap).size() + ", cost " + (System.currentTimeMillis() - e) + " ms.");
+			e = System.currentTimeMillis();
+			Iterator var5 = ((Set) skyMap).iterator();
+
+			while (var5.hasNext()) {
+				String className = (String) var5.next();
+				String bizName = StringUtils.removeStart(className,"com.sky.android.module.biz.Sky$$Biz$$");
+				SKYWareHouseManage.modules.put(bizName, (Class<? extends SKYIModule>) Class.forName(className));
+			}
+
+			L.i("Sky::", "加载完毕, cost " + (System.currentTimeMillis() - e) + " ms.");
+		} catch (Exception var7) {
+			throw new SKYNullPointerException("Sky::Sky init logistics center exception! [" + var7.getMessage() + "]");
+		}
+	}
+
 	public ICacheManager getCacheManager() {
 		return this.cacheManager;
 	}
@@ -123,4 +170,5 @@ public class SKYModulesManage {
 	public SKYJobService getSkyJobService() {
 		return skyJobService;
 	}
+
 }

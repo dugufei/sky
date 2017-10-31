@@ -537,6 +537,22 @@ public final class SKYBuilder {
 		this.recyclerviewId = recyclerviewId;
 	}
 
+	public void recyclerviewIdLinear(@IdRes int recyclerviewId, @NonNull SKYRVAdapter SKYRVAdapter) {
+		this.recyclerviewId = recyclerviewId;
+		this.SKYRVAdapter = SKYRVAdapter;
+		this.layoutManager = new LinearLayoutManager(skyView.activity(), LinearLayoutManager.VERTICAL, false);
+		this.itemDecoration = null;
+		this.itemAnimator = new DefaultItemAnimator();
+	}
+
+	public void recyclerviewIdGrid(@IdRes int recyclerviewId, int spanCount, @NonNull SKYRVAdapter SKYRVAdapter) {
+		this.recyclerviewId = recyclerviewId;
+		this.SKYRVAdapter = SKYRVAdapter;
+		this.layoutManager = new GridLayoutManager(skyView.activity(), spanCount, GridLayoutManager.VERTICAL, false);
+		this.itemDecoration = null;
+		this.itemAnimator = new DefaultItemAnimator();
+	}
+
 	public void recyclerviewLoadingMore(@NonNull SKYFooterListener SKYFooterListener) {
 		this.SKYFooterListener = SKYFooterListener;
 	}

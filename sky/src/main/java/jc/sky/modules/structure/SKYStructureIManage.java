@@ -34,7 +34,6 @@ public interface SKYStructureIManage {
 	 */
 	<B extends SKYIBiz> B biz(Class<B> bizClazz);
 
-
 	/**
 	 * 业务
 	 * 
@@ -89,7 +88,6 @@ public interface SKYStructureIManage {
 	<T> T createMainLooper(final Class<T> service, Object ui);
 
 	<T> T createMainLooperNotIntf(final Class<T> service, Object ui);
-
 
 	/**
 	 * @param service

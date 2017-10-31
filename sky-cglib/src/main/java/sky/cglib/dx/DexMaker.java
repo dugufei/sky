@@ -259,8 +259,13 @@ public final class DexMaker {
         int supportedFlags = Modifier.PUBLIC | Modifier.PRIVATE | Modifier.PROTECTED
                 | Modifier.STATIC | Modifier.FINAL | Modifier.SYNCHRONIZED;
         if ((flags & ~supportedFlags) != 0) {
-            throw new IllegalArgumentException("Unexpected flag: "
-                    + Integer.toHexString(flags));
+            if(flags == 102){
+                throw new IllegalArgumentException("Unexpected flag: "
+                        + Integer.toHexString(flags)+" method access type not public");
+            }else {
+                throw new IllegalArgumentException("Unexpected flag: "
+                        + Integer.toHexString(flags));
+            }
         }
 
         // replace the SYNCHRONIZED flag with the DECLARED_SYNCHRONIZED flag

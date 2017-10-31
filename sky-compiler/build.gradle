@@ -15,12 +15,15 @@ for (File file : sdkHandler.sdkLoader.repositories) {
 
 dependencies {
     compile project(':sky-annotations')
-
     compile deps.auto.common
     compile deps.javapoet
+    compile deps.library.commons_lang3
+    compile deps.library.collections4
     compileOnly deps.auto.service
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
+    testImplementation deps.junit
+    testImplementation deps.truth
 }
 
 checkstyle {

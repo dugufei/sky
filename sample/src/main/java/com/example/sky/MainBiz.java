@@ -1,41 +1,45 @@
 package com.example.sky;
 
-import android.content.Context;
-
 import jc.sky.SKYHelper;
 import jc.sky.core.SKYBiz;
 import sky.Background;
 import sky.BackgroundType;
-import sky.IBIZ;
-import sky.IParent;
-import sky.IType;
-import sky.Repeat;
+import sky.OpenBiz;
 
 /**
  * @author sky
  * @version 1.0 on 2017-07-27 上午9:36
  * @see MainBiz
  */
+@OpenBiz
 public class MainBiz extends SKYBiz<MainActivity> {
 
 	/**
 	 * 登录
 	 */
-	 @Background(BackgroundType.WORK) public void login() {
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-//		SKYHelper.ui(MainActivity.class).fff(1,000);
-
-
-		ui().b();
-
+	@Background(BackgroundType.WORK) public void login(int a, String b) {
+		// Object o = null;
+		// o.toString();
+		SKYHelper.toast().show(a + ":b");
+		// ui().showBizError();
 	}
 
-	public void ab(String vavav){
+	@Override public boolean interceptBizError(String method, Throwable throwable) {
+		SKYHelper.toast().show("这里处理了");
+
+		return true;
+	}
+
+	public void ab(String vavav) {
+		SKYHelper.toast().show(vavav);
+	}
+
+	String a = "aaa";
+
+	public void init(String asdfasdf) {
+		a = asdfasdf;
+
+		SKYHelper.toast().show(a);
 
 	}
 }
