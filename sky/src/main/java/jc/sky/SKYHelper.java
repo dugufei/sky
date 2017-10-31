@@ -6,16 +6,22 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.core.SKYIMethodRun;
+import jc.sky.core.SKYIModule;
+import jc.sky.core.SKYIModuleBiz;
 import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIBiz;
 import jc.sky.core.SKYICommonBiz;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.core.exception.SKYHttpException;
+import jc.sky.core.exception.SKYNullPointerException;
 import jc.sky.core.exception.SKYUINullPointerException;
+import jc.sky.core.model.SkyBizModel;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.DaggerSKYIComponent;
 import jc.sky.modules.SKYModule;
@@ -101,6 +107,7 @@ public class SKYHelper {
 			}
 			DaggerSKYIComponent.builder().sKYModule(new SKYModule(application)).build().inject(mSKYModulesManage);
 			mSKYModulesManage.init(iskyBind, skyiViewCommon);
+			mSKYModulesManage.initModule(application);
 		}
 
 	}
@@ -130,6 +137,32 @@ public class SKYHelper {
 	}
 
 	/**
+	 * 执行业务代码
+	 * 
+	 * @param clazzName
+	 *            类名
+	 */
+	public static synchronized SKYIModuleBiz moduleBiz(String clazzName) {
+		SkyBizModel skyBizModel = SKYWareHouseManage.moduleBiz.get(clazzName);
+		if (skyBizModel == null) {
+			Class clazz = SKYWareHouseManage.modules.get(clazzName);
+			if (null == clazz) {
+				throw new SKYNullPointerException("Sky::没有匹配到Biz [" + clazzName + "]");
+			}
+			SKYIModule skyiModule;
+			try {
+				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
+			} catch (Exception var8) {
+				throw new SKYNullPointerException("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+			}
+			skyiModule.loadInto(SKYWareHouseManage.moduleBiz);
+			SKYWareHouseManage.modules.remove(clazzName);
+			return moduleBiz(clazzName);
+		}
+		return skyBizModel;
+	}
+
+	/**
 	 * 获取业务
 	 *
 	 * @param service
@@ -140,7 +173,6 @@ public class SKYHelper {
 	 */
 	public static <B extends SKYIBiz> B biz(Class<B> service) {
 		return biz(service, 0);
-
 	}
 
 	/**

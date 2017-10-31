@@ -4,10 +4,15 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
@@ -16,14 +21,28 @@ import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
+import dalvik.system.DexFile;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jc.sky.SKYHelper;
 import jc.sky.core.Impl;
@@ -303,7 +322,7 @@ public final class SKYAppUtil {
 			SKYCheckUtils.checkNotNull(service, "业务类为空～");
 			/** 创建类 **/
 			return c.newInstance();
-		}  catch (InstantiationException e) {
+		} catch (InstantiationException e) {
 			throw new IllegalArgumentException(String.valueOf(service) + "，实例化异常！" + e.getMessage());
 		} catch (IllegalAccessException e) {
 			throw new IllegalArgumentException(String.valueOf(service) + "，访问权限异常！" + e.getMessage());
@@ -339,4 +358,45 @@ public final class SKYAppUtil {
 			throw new IllegalArgumentException(String.valueOf(service) + "，反射异常！" + e.getMessage());
 		}
 	}
+
+	/**
+	 * 判断是否是新版本
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static boolean isNewVersion(Context context) {
+		PackageInfo packageInfo = getPackageInfo(context);
+		if (null != packageInfo) {
+			String versionName = packageInfo.versionName;
+			int versionCode = packageInfo.versionCode;
+			SharedPreferences sp = context.getSharedPreferences("SP_SKY_CACHE", 0);
+			if (versionName.equals(sp.getString("LAST_VERSION_NAME", null)) && versionCode == sp.getInt("LAST_VERSION_CODE", -1)) {
+				return false;
+			} else {
+				sp.edit().putString("LAST_VERSION_NAME", versionName).putInt("LAST_VERSION_CODE", versionCode).apply();
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * 获取包信息
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static PackageInfo getPackageInfo(Context context) {
+		PackageInfo packageInfo = null;
+		try {
+			packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+		} catch (Exception ex) {
+			L.e("Get package info error.");
+		}
+
+		return packageInfo;
+	}
+
 }

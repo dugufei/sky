@@ -5,12 +5,17 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationTargetException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import jc.sky.SKYHelper;
+import jc.sky.SKYWareHouseManage;
+import jc.sky.core.SKYIModule;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
+import sky.OpenBiz;
 
 public class MainActivity extends SKYActivity<MainBiz> {
 
@@ -24,12 +29,15 @@ public class MainActivity extends SKYActivity<MainBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
+//		SKYWareHouseManage.modules.put("MainBiz",Sky$$Biz$$MainBiz.class);
 		biz().init("我被点了啊啊啊");
 	}
 
 	@OnClick(R.id.button) public void btn(View view) {
-//		biz().login();
-		biz(NotifyBiz.class).updateData();
+		// biz().login();
+
+		SKYHelper.moduleBiz("MainBiz").method("login").run(1, "哈哈哈");
+		// biz(NotifyBiz.class).updateData();
 	}
 
 	@OnClick(R.id.tv_error) public void error(View view) {

@@ -31,12 +31,11 @@ import sky.cglib.proxy.MethodInterceptor;
 
 public class SKYStructureManage implements SKYStructureIManage {
 
-	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> statckRepeatBiz;
+	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>	statckRepeatBiz;
 
 	public SKYStructureManage() {
 		/** 初始化集合 **/
 		statckRepeatBiz = new ConcurrentHashMap<>();
-
 	}
 
 	@Override public void attach(SKYStructureModel view) {
@@ -51,7 +50,6 @@ public class SKYStructureManage implements SKYStructureIManage {
 			stack.put(view.key, view);
 
 			statckRepeatBiz.put(view.getService(), stack);
-
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYStructureManage");
 				L.i(view.getView().getClass().getSimpleName() + " -- stack:put(" + view.key + ")");
