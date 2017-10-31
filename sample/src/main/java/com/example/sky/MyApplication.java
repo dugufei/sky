@@ -17,14 +17,15 @@ public class MyApplication extends SKYApplication {
 	@Override public SKYMethods getMethodInterceptor(SKYMethods.Builder builder) {
 		builder.addHttpErrorInterceptor(new SKYHttpErrorInterceptor() {
 
-			@Override public void methodError(SKYBiz skyBiz, SKYHttpException skyHttpException) {
+			@Override public void methodError(SKYBiz skyBiz, String method, SKYHttpException skyHttpException) {
 				skyBiz.showHttpError();
 			}
+
 		});
 
 		builder.addBizErrorInterceptor(new SKYBizErrorInterceptor() {
 
-			@Override public void interceptorError(SKYBiz skyBiz, Throwable throwable) {
+			@Override public void interceptorError(SKYBiz skyBiz, String method, Throwable throwable) {
 				skyBiz.showBizError();
 			}
 		});

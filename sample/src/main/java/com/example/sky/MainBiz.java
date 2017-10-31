@@ -17,22 +17,24 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	/**
 	 * 登录
 	 */
-	@Background(BackgroundType.WORK) public void login(int a,String b) {
+	@Background(BackgroundType.WORK) public void login(int a, String b) {
 		// Object o = null;
 		// o.toString();
-		SKYHelper.toast().show(a+":b");
-//		ui().showBizError();
+		SKYHelper.toast().show(a + ":b");
+		// ui().showBizError();
 	}
 
-	@Override public boolean interceptBizError(Throwable throwable) {
+	@Override public boolean interceptBizError(String method, Throwable throwable) {
 		SKYHelper.toast().show("这里处理了");
-		return false;
+
+		return true;
 	}
+
 	public void ab(String vavav) {
 		SKYHelper.toast().show(vavav);
 	}
 
-	String a="aaa";
+	String a = "aaa";
 
 	public void init(String asdfasdf) {
 		a = asdfasdf;

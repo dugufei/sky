@@ -8,5 +8,5 @@ import jc.sky.core.SKYBiz;
  */
 public interface SKYBizErrorInterceptor {
 
-    void interceptorError(SKYBiz skyBiz, Throwable throwable);
+	void interceptorError(SKYBiz skyBiz, String method, Throwable throwable);
 }

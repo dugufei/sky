@@ -177,7 +177,7 @@ public final class SKYMethod {
 		try {
 			exeDisplayMethod(method, impl, objects);
 		} catch (Throwable throwable) {
-			exeError(throwable);
+			exeError(throwable, method.getName());
 		} finally {
 			isExe = false;
 		}
@@ -187,7 +187,7 @@ public final class SKYMethod {
 		try {
 			exeMethod(method, impl, objects);
 		} catch (Throwable throwable) {
-			exeError(throwable);
+			exeError(throwable, method.getName());
 		} finally {
 			isExe = false;
 		}
@@ -273,31 +273,31 @@ public final class SKYMethod {
 		}
 	}
 
-	public void exeError(Throwable throwable) {
+	public void exeError(Throwable throwable, String method) {
 		if (SKYHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
 
-		if(impl instanceof SKYIIntercept){
+		if (impl instanceof SKYIIntercept) {
 			SKYIIntercept skyiIntercept = (SKYIIntercept) impl;
 
 			if (throwable.getCause() instanceof SKYHttpException) {
-				if (!skyiIntercept.interceptHttpError((SKYHttpException) throwable.getCause())) {
+				if (!skyiIntercept.interceptHttpError(method, (SKYHttpException) throwable.getCause())) {
 					// 网络错误拦截器
 					for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
-						item.methodError((SKYBiz) impl, (SKYHttpException) throwable.getCause());
+						item.methodError((SKYBiz) impl, method, (SKYHttpException) throwable.getCause());
 					}
 				}
 			} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
 				// 忽略
-				if (!skyiIntercept.interceptUIError((SKYNotUIPointerException) throwable.getCause())) {
+				if (!skyiIntercept.interceptUIError(method, (SKYNotUIPointerException) throwable.getCause())) {
 				}
 				return;
 			} else {
-				if (!skyiIntercept.interceptBizError(throwable.getCause())) {
+				if (!skyiIntercept.interceptBizError(method, throwable.getCause())) {
 					// 业务错误拦截器
 					for (SKYBizErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
-						item.interceptorError((SKYBiz) impl, throwable);
+						item.interceptorError((SKYBiz) impl, method, throwable);
 					}
 				}
 			}

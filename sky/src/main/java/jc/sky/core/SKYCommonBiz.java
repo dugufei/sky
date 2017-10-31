@@ -32,15 +32,15 @@ public class SKYCommonBiz implements SKYICommonBiz {
 		return SKYHelper.biz(service);
 	}
 
-	@Override public boolean interceptBizError(Throwable throwable) {
+	@Override public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
 		return false;
 	}
 
-	@Override public boolean interceptHttpError(SKYHttpException sKYHttpException) {
+	@Override public boolean interceptUIError(String method, SKYNotUIPointerException sKYNotUIPointerException) {
 		return false;
 	}
 
-	@Override public boolean interceptUIError(SKYNotUIPointerException sKYNotUIPointerException) {
+	@Override public boolean interceptBizError(String method, Throwable throwable) {
 		return false;
 	}
 }

@@ -21,13 +21,13 @@ import retrofit2.Call;
  */
 public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
-	private U					u;
+	private U							u;
 
-	private Class				ui;
+	private Class						ui;
 
 	private static SKYStructureModel	SKYStructureModel;
 
-	private Vector<Call>		callVector;
+	private Vector<Call>				callVector;
 
 	protected <H> H http(Class<H> hClass) {
 		return SKYHelper.http(hClass);
@@ -41,7 +41,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		return SKYHelper.display(eClass);
 	}
 
-	public static  <B extends SKYIBiz> B biz(Class<B> service) {
+	public static <B extends SKYIBiz> B biz(Class<B> service) {
 		if (SKYStructureModel != null && SKYStructureModel.isSupterClass(service)) {
 			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
@@ -127,7 +127,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
 		if (!ui.isInterface()) {
 			u = (U) SKYHelper.structureHelper().createMainLooperNotIntf(ui, this.SKYStructureModel.getView());
-		}else {
+		} else {
 			u = (U) SKYHelper.structureHelper().createMainLooper(ui, this.SKYStructureModel.getView());
 		}
 		callVector = new Vector<>();
@@ -323,15 +323,15 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 
 	}
 
-	@Override public boolean interceptBizError(Throwable throwable) {
+	@Override public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
 		return false;
 	}
 
-	@Override public boolean interceptHttpError(SKYHttpException sKYHttpException) {
+	@Override public boolean interceptUIError(String method, SKYNotUIPointerException sKYNotUIPointerException) {
 		return false;
 	}
 
-	@Override public boolean interceptUIError(SKYNotUIPointerException sKYNotUIPointerException) {
+	@Override public boolean interceptBizError(String method, Throwable throwable) {
 		return false;
 	}
 }
