@@ -147,13 +147,16 @@ public class SKYHelper {
 		if (skyBizModel == null) {
 			Class clazz = SKYWareHouseManage.modules.get(clazzName);
 			if (null == clazz) {
-				throw new SKYNullPointerException("Sky::没有匹配到Biz [" + clazzName + "]");
+				L.i("Sky::没有匹配到Biz [" + clazzName + "]");
+				return SKYIModuleBiz.NONE;
+
 			}
 			SKYIModule skyiModule;
 			try {
 				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
 			} catch (Exception var8) {
-				throw new SKYNullPointerException("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+				L.i("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+				return SKYIModuleBiz.NONE;
 			}
 			skyiModule.loadInto(SKYWareHouseManage.moduleBiz);
 			SKYWareHouseManage.modules.remove(clazzName);
