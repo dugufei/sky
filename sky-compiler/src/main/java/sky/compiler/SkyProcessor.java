@@ -1,5 +1,6 @@
 package sky.compiler;
 
+import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.sun.source.util.Trees;
@@ -31,8 +32,14 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
+import javax.lang.model.element.Modifier;
 
 import sky.OpenBiz;
+import static javax.lang.model.element.ElementKind.CLASS;
+import static javax.lang.model.element.ElementKind.METHOD;
+import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.STATIC;
+
 
 @AutoService(Processor.class)
 public final class SkyProcessor extends AbstractProcessor {
@@ -94,6 +101,11 @@ public final class SkyProcessor extends AbstractProcessor {
 		logger.info(">>> Found sky, 开始... <<<");
 		Map<TypeElement, SkyBind> bindingMap = parseOpenBiz(routeElements);
 
+		int count = bindingMap.entrySet().size();
+		if (count < 1) { // 表示没有给类进行注解
+			bindingMap = findMethods(env, OpenBiz.class);
+		}
+
 		for (Map.Entry<TypeElement, SkyBind> entry : bindingMap.entrySet()) {
 			SkyBind binding = entry.getValue();
 
@@ -143,6 +155,56 @@ public final class SkyProcessor extends AbstractProcessor {
 		return bindingMap;
 	}
 
+	private Map<TypeElement, SkyBind> findMethods(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
+
+		Map<TypeElement, SkyBind.Builder> builderMap = new LinkedHashMap<>();
+		Map<TypeElement, SkyBind> bindingMap = new LinkedHashMap<>();
+
+		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
+			if (!SuperficialValidation.validateElement(element)) continue;
+			try {
+				parseListenerAnnotation(annotationClass, element, builderMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.info("Unable to generate view binder for @%s.\n\n%s");
+			}
+		}
+
+		Deque<Map.Entry<TypeElement, SkyBind.Builder>> entries = new ArrayDeque<>(builderMap.entrySet());
+		while (!entries.isEmpty()) {
+			Map.Entry<TypeElement, SkyBind.Builder> entry = entries.removeFirst();
+			TypeElement type = entry.getKey();
+			SkyBind.Builder builder = entry.getValue();
+			bindingMap.put(type, builder.build());
+		}
+
+		return bindingMap;
+	}
+
+	private void parseListenerAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<TypeElement, SkyBind.Builder> builderMap)
+			throws Exception {
+		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
+			throw new IllegalStateException(String.format("@%s annotation must be on a method.", annotationClass.getSimpleName()));
+		}
+		boolean hasError = isInaccessibleViaGeneratedCode(annotationClass, "methods", element);
+
+		if (hasError) {
+			return;
+		}
+
+		ExecutableElement executableElement = (ExecutableElement) element;
+		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+		String name = executableElement.getSimpleName().toString();
+
+		List<? extends VariableElement> methodParameters = executableElement.getParameters();
+
+		SkyMethod binding = new SkyMethod(name, methodParameters, executableElement.getReturnType());
+
+		SkyBind.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+		builder.setMethodViewBinding(binding);
+
+	}
 
 	@Override public Set<String> getSupportedOptions() {
 		return Collections.singleton(OPTION_SDK_INT);
@@ -173,5 +235,28 @@ public final class SkyProcessor extends AbstractProcessor {
 			builderMap.put(enclosingElement, builder);
 		}
 		return builder;
+	}
+
+	private boolean isInaccessibleViaGeneratedCode(Class<? extends Annotation> annotationClass, String targetThing, Element element) {
+		boolean hasError = false;
+		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+		// Verify method modifiers.
+		Set<Modifier> modifiers = element.getModifiers();
+		if (modifiers.contains(PRIVATE) || modifiers.contains(STATIC)) {
+			hasError = true;
+		}
+
+		// Verify containing type.
+		if (enclosingElement.getKind() != CLASS) {
+			hasError = true;
+		}
+
+		// Verify containing class visibility is not private.
+		if (enclosingElement.getModifiers().contains(PRIVATE)) {
+			hasError = true;
+		}
+
+		return hasError;
 	}
 }

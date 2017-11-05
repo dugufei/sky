@@ -15,6 +15,14 @@
 -dontnote retrofit2.**
 -dontnote butterknife.**
 -dontnote org.apache.commons.io.**
+# keep sky annotated by NotProguard
+-keep @sky.OpenBiz class * {*;}
+-keep class * {
+    @sky.OpenBiz <fields>;
+}
+-keepclassmembers class * {
+    @sky.OpenBiz <methods>;
+}
 
 # 不通知
 -dontnote android.**

@@ -30,13 +30,13 @@ public class MainBiz extends SKYBiz<MainActivity> {
 		return true;
 	}
 
-	public void ab(String vavav) {
+	@OpenBiz public void ab(String vavav) {
 		SKYHelper.toast().show(vavav);
 	}
 
 	String a = "aaa";
 
-	public void init(String asdfasdf) {
+	@OpenBiz public void init(String asdfasdf) {
 		a = asdfasdf;
 
 		SKYHelper.toast().show(a);

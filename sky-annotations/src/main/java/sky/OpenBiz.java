@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @see OpenBiz 方法定义
  */
 
-@Target({ ElementType.TYPE })
+@Target({ ElementType.TYPE,ElementType.METHOD })
 @Retention(RetentionPolicy.CLASS)
 public @interface OpenBiz {
 
