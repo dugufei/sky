@@ -93,7 +93,7 @@ public abstract class SKYBiz<U> implements SKYIBiz, SKYIIntercept, SKYIView {
 		if (clazz.equals(ui)) {
 			return (V) ui();
 		} else {
-			return SKYHelper.structureHelper().createNullService(clazz);
+			return SKYHelper.ui(clazz);
 		}
 	}
 
