@@ -331,7 +331,7 @@ public final class SKYBuilder {
 
 	private boolean	navigationBarTintEnabled	= true;
 
-	private boolean	fitsSystem					= false;
+	private boolean	fitsSystem					= true;
 
 	private boolean	tint;
 
@@ -705,7 +705,7 @@ public final class SKYBuilder {
 			SKYCheckUtils.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutEmpty");
 
 			if (layoutStateId > 0) {
-				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				ViewGroup view =  layoutContent.findViewById(layoutStateId);
 				view.addView(layoutEmpty, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				layoutEmpty.setFitsSystemWindows(isFitsSystem());
@@ -720,7 +720,7 @@ public final class SKYBuilder {
 			layoutBizError = mInflater.inflate(layoutBizErrorId, null, false);
 			SKYCheckUtils.checkNotNull(layoutBizError, "无法根据布局文件ID,获取layoutBizError");
 			if (layoutStateId > 0) {
-				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				ViewGroup view =  layoutContent.findViewById(layoutStateId);
 				view.addView(layoutBizError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				layoutBizError.setFitsSystemWindows(isFitsSystem());
@@ -736,7 +736,7 @@ public final class SKYBuilder {
 			layoutHttpError = mInflater.inflate(layoutHttpErrorId, null, false);
 			SKYCheckUtils.checkNotNull(layoutHttpError, "无法根据布局文件ID,获取layoutHttpError");
 			if (layoutStateId > 0) {
-				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				ViewGroup view =  layoutContent.findViewById(layoutStateId);
 				view.addView(layoutHttpError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
 				layoutHttpError.setFitsSystemWindows(isFitsSystem());

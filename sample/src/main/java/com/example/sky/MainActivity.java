@@ -8,7 +8,7 @@ import jc.sky.view.SKYBuilder;
 
 /**
  * @author sky
- * @date Created on 2017-11-19 下午5:53
+ * @date Created on 2017-11-19 下午5:58
  * @version 1.0
  * @Description MainActivity - 描述
  */
@@ -23,7 +23,6 @@ public class MainActivity extends SKYActivity<MainBiz> {
         return initialSKYBuilder;
     }
     @Override protected void initData(Bundle savedInstanceState) {
-
     }
     
 }

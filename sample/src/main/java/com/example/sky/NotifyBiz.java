@@ -22,6 +22,5 @@ public class NotifyBiz extends SKYBiz {
             e.printStackTrace();
         }
 
-        biz(MainBiz.class).init("jahahah");
     }
 }
