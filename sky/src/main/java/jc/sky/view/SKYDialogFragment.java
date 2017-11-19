@@ -193,7 +193,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
-	Object model() {
+	public Object model() {
 		return skyStructureModel.getSKYProxy().impl;
 	}
 
