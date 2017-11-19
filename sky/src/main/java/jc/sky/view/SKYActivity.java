@@ -29,7 +29,6 @@ import jc.sky.core.SKYIView;
 import jc.sky.core.SKYStructureModel;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.view.helper.SKYSwipeWindowHelper;
-import retrofit2.http.DELETE;
 
 /**
  * @author sky
@@ -372,6 +371,10 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 			SKYBuilder.layoutHttpError();
 			recyclerRefreshing(false);
 		}
+	}
+
+	@Override public void close() {
+		onKeyBack();
 	}
 
 	@Override public int showState() {

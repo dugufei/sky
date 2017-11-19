@@ -347,6 +347,10 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 		}
 	}
 
+	@Override public void close() {
+		onKeyBack();
+	}
+
 	@Override public <O extends SKYRVAdapter> O adapter() {
 		return SKYBuilder == null ? null : (O) SKYBuilder.getSKYRVAdapterItem();
 	}
@@ -407,4 +411,5 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 	protected View contentView() {
 		return SKYBuilder.getContentRootView();
 	}
+
 }

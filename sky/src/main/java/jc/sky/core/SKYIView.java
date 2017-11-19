@@ -31,5 +31,8 @@ public interface SKYIView {
 
 	int showState();
 
+
+	void close();
+
 	<T extends SKYRVAdapter> T adapter();
 }

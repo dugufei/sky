@@ -7,7 +7,8 @@
 
 
 
-    <ProgressBar
+    <TextView
+        android:text="业务错误"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

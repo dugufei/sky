@@ -1,8 +1,14 @@
 package com.example.sky;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jc.sky.core.SKYHelper;
 import jc.sky.display.SKYIDisplay;
-import android.os.Bundle;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
 
@@ -12,7 +18,9 @@ import jc.sky.view.SKYBuilder;
  * @version 1.0
  * @Description MainActivity - 描述
  */
-public class MainActivity extends SKYActivity<MainBiz> {
+public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragment.ITipDialog {
+
+	@BindView(R.id.textView2) TextView textView2;
 
 	public static final void intent() {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
@@ -28,7 +36,25 @@ public class MainActivity extends SKYActivity<MainBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		biz().load();
+//		biz().load();
 	}
 
+	@OnClick({ R.id.button2, R.id.button3 }) public void onViewClicked(View view) {
+		switch (view.getId()) {
+			case R.id.button2:// 登录
+				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout,LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
+				break;
+			case R.id.button3:
+				TipDialogFragment.getInstance().show(getSupportFragmentManager(),this, 100);
+				break;
+		}
+	}
+
+	@Override public void onCancelled(int requestCode) {
+		textView2.setText("弹框回来:"+requestCode);
+	}
+
+	@Override public void ok() {
+		textView2.setText("弹框回来: 成功啦");
+	}
 }

@@ -1,6 +1,9 @@
 package com.example.sky;
 
 import jc.sky.core.SKYBiz;
+import sky.Background;
+import sky.BackgroundType;
+
 import android.os.Bundle;
 
 /**
@@ -11,8 +14,21 @@ import android.os.Bundle;
  */
 public class LoginBiz extends SKYBiz<LoginFragment> {
 
-    @Override protected void initBiz(Bundle bundle) {
-        super.initBiz(bundle);
-    }
+	@Override protected void initBiz(Bundle bundle) {
+		super.initBiz(bundle);
+	}
 
+	public void tip() {}
+
+	@Background(BackgroundType.HTTP) public void login(String s, String s1) {
+
+		// 模拟网络请求
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		ui().setText(s + ":" + s1);
+	}
 }

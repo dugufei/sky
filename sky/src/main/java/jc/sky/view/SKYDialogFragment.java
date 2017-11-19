@@ -49,7 +49,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 	private boolean					targetActivity;
 
 	/** 请求编码 **/
-	protected int					mRequestCode		= 2013 << 5;
+	protected int					mRequestCode		= 0;
 
 	/** 请求默认值 **/
 	public final static String		ARG_REQUEST_CODE	= "SKY_request_code";
@@ -164,7 +164,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		// 获取指定碎片
 		final Fragment targetFragment = getTargetFragment();
 		// 如果有指定碎片 从指定碎片里获取请求码，反之既然
-		if (targetFragment != null) {
+		if (targetFragment != null && mRequestCode == 0) {
 			mRequestCode = getTargetRequestCode();
 		}
 	}
@@ -361,6 +361,10 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		}
 	}
 
+	@Override public void close() {
+		onKeyBack();
+	}
+
 	@Override public int showState() {
 		if (SKYBuilder != null) {
 			return SKYBuilder.getLayoutState();
@@ -459,6 +463,22 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		return Collections.unmodifiableList(listeners);
 	}
 
+	protected <T> T listenersFragment(Class<T> listenerInterface) {
+		final Fragment targetFragment = getTargetFragment();
+		if (targetFragment != null && listenerInterface.isAssignableFrom(targetFragment.getClass())) {
+			return (T) targetFragment;
+		}
+		return null;
+	}
+
+	protected <T> T listenersActivity(Class<T> listenerInterface) {
+		final Fragment targetFragment = getTargetFragment();
+		if (getActivity() != null && listenerInterface.isAssignableFrom(getActivity().getClass())) {
+			return (T) getActivity();
+		}
+		return null;
+	}
+
 	/**
 	 * 取消
 	 *
@@ -470,6 +490,10 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		for (IDialogCancelListener listener : getCancelListeners()) {
 			listener.onCancelled(mRequestCode);
 		}
+	}
+
+	public int requestCode() {
+		return mRequestCode;
 	}
 
 	/**
