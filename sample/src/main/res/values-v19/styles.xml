@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app theme 白色主题-->
+    <style name="AppTheme" parent="@style/SkyTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+</resources>

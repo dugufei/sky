@@ -1,11 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- base -->
+    <style name="SkyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#FAFAFA</item>
+        <item name="colorAccent">#0011ff</item>
+
+    </style>
+    <!-- app theme 白色主题-->
+    <style name="AppTheme" parent="@style/SkyTheme">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

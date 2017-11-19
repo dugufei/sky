@@ -116,11 +116,11 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		setContentView(build(SKYBuilder).create());
 		/** 状态栏高度 **/
 		if (SKYBuilder.isFitsSystem()) {
-			ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-			View parentView = contentFrameLayout.getChildAt(0);
-			if (parentView != null && Build.VERSION.SDK_INT >= 14) {
-				parentView.setFitsSystemWindows(true);
-			}
+//			ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+//			View parentView = contentFrameLayout.getChildAt(0);
+//			if (parentView != null && Build.VERSION.SDK_INT >= 14) {
+//				parentView.setFitsSystemWindows(true);
+//			}
 		}
 		/** 状态栏颜色 **/
 		if (SKYBuilder.isTint()) {

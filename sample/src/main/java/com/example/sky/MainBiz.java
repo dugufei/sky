@@ -1,45 +1,18 @@
 package com.example.sky;
 
-import jc.sky.SKYHelper;
 import jc.sky.core.SKYBiz;
-import sky.Background;
-import sky.BackgroundType;
-import sky.OpenBiz;
+import android.os.Bundle;
 
 /**
  * @author sky
- * @version 1.0 on 2017-07-27 上午9:36
- * @see MainBiz
+ * @date Created on 2017-11-19 下午5:53
+ * @version 1.0
+ * @Description MainBiz - 描述
  */
-@OpenBiz
 public class MainBiz extends SKYBiz<MainActivity> {
 
-	/**
-	 * 登录
-	 */
-	@Background(BackgroundType.WORK) public void login(int a, String b) {
-		// Object o = null;
-		// o.toString();
-		SKYHelper.toast().show(a + ":b");
-		// ui().showBizError();
-	}
+    @Override protected void initBiz(Bundle bundle) {
+        super.initBiz(bundle);
+    }
 
-	@Override public boolean interceptBizError(String method, Throwable throwable) {
-		SKYHelper.toast().show("这里处理了");
-
-		return true;
-	}
-
-	@OpenBiz public void ab(String vavav) {
-		SKYHelper.toast().show(vavav);
-	}
-
-	String a = "aaa";
-
-	@OpenBiz public void init(String asdfasdf) {
-		a = asdfasdf;
-
-		SKYHelper.toast().show(a);
-
-	}
 }

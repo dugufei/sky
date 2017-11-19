@@ -1,6 +1,5 @@
 //框架开发模式-需要测试
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -8,21 +7,6 @@ android {
 
     defaultConfig {
         minSdkVersion versions.minSdk
-
-        consumerProguardFiles getDefaultProguardFile('proguard-android.txt'),
-                'proguard/proguard-default.pro',
-                'proguard/proguard-sky.pro',
-                'proguard/proguard-butterknife.pro',
-                'proguard/proguard-commons-io.pro',
-                'proguard/proguard-glide.pro',
-                'proguard/proguard-gson.pro',
-                'proguard/proguard-guava.pro',
-                'proguard/proguard-nineoldandroids.pro',
-                'proguard/proguard-okhttp3.pro',
-                'proguard/proguard-support-v7.pro',
-                'proguard/proguard-okio.pro',
-                'proguard/proguard-retrofit2.pro'
-
     }
     lintOptions {
         textReport true
@@ -55,7 +39,7 @@ dependencies {
     compile deps.library.dagger
     compile deps.library.guava
 
-    apt deps.apt.dagger_compiler
+    annotationProcessor deps.annotation.dagger_compiler
 
     compile group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

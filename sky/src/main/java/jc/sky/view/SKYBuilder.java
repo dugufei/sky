@@ -331,7 +331,7 @@ public final class SKYBuilder {
 
 	private boolean	navigationBarTintEnabled	= true;
 
-	private boolean	fitsSystem					= true;
+	private boolean	fitsSystem					= false;
 
 	private boolean	tint;
 
@@ -672,13 +672,14 @@ public final class SKYBuilder {
 		if (getLayoutId() > 0) {
 			layoutContent = mInflater.inflate(getLayoutId(), null, false);
 			if (layoutStateId > 0) {
-				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				ViewGroup view = layoutContent.findViewById(layoutStateId);
 				layoutStateContent = view.getChildAt(0);
 				if (layoutStateContent == null) {
 					SKYCheckUtils.checkNotNull(layoutContent, "指定切换状态布局后,内容不能为空");
 				}
 			}
 			SKYCheckUtils.checkNotNull(layoutContent, "无法根据布局文件ID,获取layoutContent");
+			layoutContent.setFitsSystemWindows(isFitsSystem());
 			contentRoot.addView(layoutContent, layoutParams);
 		}
 
@@ -689,9 +690,10 @@ public final class SKYBuilder {
 			vsLoading.setLayoutResource(layoutLoadingId);
 
 			if (layoutStateId > 0) {
-				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
+				ViewGroup view =  layoutContent.findViewById(layoutStateId);
 				view.addView(vsLoading, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
+				vsLoading.setFitsSystemWindows(isFitsSystem());
 				contentRoot.addView(vsLoading, layoutParams);
 			}
 		}
@@ -706,6 +708,7 @@ public final class SKYBuilder {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
 				view.addView(layoutEmpty, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
+				layoutEmpty.setFitsSystemWindows(isFitsSystem());
 				contentRoot.addView(layoutEmpty, layoutParams);
 			}
 			layoutEmpty.setVisibility(View.GONE);
@@ -720,6 +723,7 @@ public final class SKYBuilder {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
 				view.addView(layoutBizError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
+				layoutBizError.setFitsSystemWindows(isFitsSystem());
 				contentRoot.addView(layoutBizError, layoutParams);
 			}
 			layoutBizError.setVisibility(View.GONE);
@@ -735,6 +739,7 @@ public final class SKYBuilder {
 				ViewGroup view = (ViewGroup) layoutContent.findViewById(layoutStateId);
 				view.addView(layoutHttpError, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			} else {
+				layoutHttpError.setFitsSystemWindows(isFitsSystem());
 				contentRoot.addView(layoutHttpError, layoutParams);
 			}
 			layoutHttpError.setVisibility(View.GONE);
@@ -762,7 +767,6 @@ public final class SKYBuilder {
 		if (isOpenToolbar()) {
 			final RelativeLayout toolbarRoot = new RelativeLayout(skyView.context());
 			toolbarRoot.setId(R.id.sky_home);
-			toolbarRoot.setFitsSystemWindows(fitsSystem);
 			// 添加toolbar布局
 			mInflater.inflate(getToolbarLayoutId(), toolbarRoot, true);
 			// 添加内容布局
@@ -806,7 +810,6 @@ public final class SKYBuilder {
 			return toolbarRoot;
 		} else if (isOpenCustomToolbar()) {
 			view.setId(R.id.sky_home);
-			view.setFitsSystemWindows(fitsSystem);
 			toolbar = ButterKnife.findById(view, getToolbarId());
 
 			SKYCheckUtils.checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
@@ -841,7 +844,6 @@ public final class SKYBuilder {
 			return view;
 		} else {
 			view.setId(R.id.sky_home);
-			view.setFitsSystemWindows(fitsSystem);
 			return view;
 		}
 	}

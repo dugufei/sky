@@ -1,55 +1,29 @@
 package com.example.sky;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.TextView;
-
-import java.lang.reflect.InvocationTargetException;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import jc.sky.SKYHelper;
-import jc.sky.SKYWareHouseManage;
-import jc.sky.core.SKYIModule;
 import jc.sky.display.SKYIDisplay;
+import android.os.Bundle;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
-import sky.OpenBiz;
 
+/**
+ * @author sky
+ * @date Created on 2017-11-19 下午5:53
+ * @version 1.0
+ * @Description MainActivity - 描述
+ */
 public class MainActivity extends SKYActivity<MainBiz> {
 
-	@BindView(R.id.tv_text) TextView tvText;
-
-	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
-		initialSKYBuilder.layoutId(R.layout.activity_main);
-		initialSKYBuilder.layoutBizErrorId(R.layout.layout_biz_error);
-		initialSKYBuilder.layoutHttpErrorId(R.layout.layout_http_error);
-		return initialSKYBuilder;
+    public static final void intent() {
+		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
-	@Override protected void initData(Bundle savedInstanceState) {
-//		SKYWareHouseManage.modules.put("MainBiz",Sky$$Biz$$MainBiz.class);
-		biz().init("我被点了啊啊啊");
-	}
+    @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+        initialSKYBuilder.layoutId(R.layout.activity_main);
+        return initialSKYBuilder;
+    }
+    @Override protected void initData(Bundle savedInstanceState) {
 
-	@OnClick(R.id.button) public void btn(View view) {
-		// biz().login();
-
-		SKYHelper.moduleBiz("MainBiz").method("login").run(1, "哈哈哈");
-		// biz(NotifyBiz.class).updateData();
-	}
-
-	@OnClick(R.id.tv_error) public void error(View view) {
-		showContent();
-	}
-
-	@OnClick(R.id.tv_http_error) public void httpError(View view) {
-		showContent();
-	}
-
-	public void fff(int i, Object a) {
-		tvText.setText("a.toStringe()");
-	}
-
+    }
+    
 }
