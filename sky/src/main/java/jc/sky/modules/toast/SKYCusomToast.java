@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 
 /**
  * @author sky

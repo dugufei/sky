@@ -2,7 +2,7 @@ package jc.sky.core.plugin;
 
 import android.os.Bundle;
 
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.view.SKYFragment;
 
 /**

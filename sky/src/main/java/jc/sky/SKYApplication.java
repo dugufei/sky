@@ -2,9 +2,11 @@ package jc.sky;
 
 import android.app.Application;
 
+import jc.sky.core.ISKYBind;
+import jc.sky.core.SKYHelper;
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.methodProxy.SKYMethods;
-import jc.sky.view.common.SKYIViewCommon;
+import jc.sky.core.SKYIViewCommon;
 import retrofit2.Retrofit;
 
 /**

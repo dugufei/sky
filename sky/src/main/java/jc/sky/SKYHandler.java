@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import jc.sky.common.model.SKYExceptionData;
+import jc.sky.core.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**

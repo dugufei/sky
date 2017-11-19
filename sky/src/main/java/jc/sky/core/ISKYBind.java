@@ -1,4 +1,4 @@
-package jc.sky;
+package jc.sky.core;
 
 import jc.sky.modules.SKYModulesManage;
 import jc.sky.modules.methodProxy.SKYMethods;

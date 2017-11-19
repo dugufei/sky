@@ -1,6 +1,6 @@
 package jc.sky.core;
 
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+import jc.sky.view.SKYRVAdapter;
 
 /**
  * @author sky

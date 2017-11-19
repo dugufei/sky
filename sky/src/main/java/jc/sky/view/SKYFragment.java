@@ -14,25 +14,24 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIView;
+import jc.sky.core.SKYStructureModel;
 import jc.sky.display.SKYIDisplay;
-import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
  * @author sky
  * @version 版本
  */
-public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements View.OnTouchListener, SKYIView {
+public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements View.OnTouchListener, SKYIView {
 
 	private boolean		targetActivity;
 
-	SKYStructureModel	SKYStructureModel;
+	SKYStructureModel	skyStructureModel;
 
 	private Unbinder	unbinder;
 
@@ -43,11 +42,11 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 *            参数
 	 * @return 返回值
 	 **/
-	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
+	protected abstract jc.sky.view.SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
 	 * 编译
-	 * 
+	 *
 	 * @param view
 	 *            参数
 	 */
@@ -78,7 +77,9 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	 */
 	protected abstract void initData(Bundle savedInstanceState);
 
-	/** View层编辑器 **/
+	/**
+	 * View层编辑器
+	 **/
 	private SKYBuilder SKYBuilder;
 
 	@Override public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
 		initCore();
-		SKYHelper.structureHelper().attach(SKYStructureModel);
+		SKYHelper.structureHelper().attach(skyStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
 		View view = build(SKYBuilder).create();
@@ -105,18 +106,18 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	}
 
 	protected void initCore() {
-		SKYStructureModel = new SKYStructureModel(this, getArguments());
+		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
 	public Object model() {
-		return SKYStructureModel.getSKYProxy().impl;
+		return skyStructureModel.getSKYProxy().impl;
 	}
 
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		SKYHelper.methodsProxy().fragmentInterceptor().onFragmentCreated(this, getArguments(), savedInstanceState);
 		/** 初始化业务数据 **/
-		SKYStructureModel.initBizBundle();
+		skyStructureModel.initBizBundle();
 		/** 初始化dagger **/
 		initDagger();
 		createData(savedInstanceState);
@@ -167,8 +168,8 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 			SKYBuilder.detach();
 			SKYBuilder = null;
 		}
-		if (SKYStructureModel != null) {
-			SKYHelper.structureHelper().detach(SKYStructureModel);
+		if (skyStructureModel != null) {
+			SKYHelper.structureHelper().detach(skyStructureModel);
 		}
 		/** 清空注解view **/
 		unbinder.unbind();
@@ -191,19 +192,19 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 	}
 
 	public B biz() {
-		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+		if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
 			return (B) SKYHelper.structureHelper().createNullService(service);
 		}
-		return (B) SKYStructureModel.getSKYProxy().proxy;
+		return (B) skyStructureModel.getSKYProxy().proxy;
 	}
 
-	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
-			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+	public <C extends SKYBiz> C biz(Class<C> service) {
+		if (skyStructureModel != null && service.equals(skyStructureModel.getService())) {
+			if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
+			return (C) skyStructureModel.getSKYProxy().proxy;
 		}
 		return SKYHelper.biz(service);
 	}
@@ -219,7 +220,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	/**
 	 * 设置目标活动
-	 * 
+	 *
 	 * @param targetActivity
 	 *            参数
 	 */
@@ -242,7 +243,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	/**
 	 * 返回键
-	 * 
+	 *
 	 * @return 返回值
 	 */
 	public boolean onKeyBack() {
@@ -252,25 +253,25 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	/**
 	 * 设置输入法
-	 * 
+	 *
 	 * @param mode
 	 *            参数
 	 */
-	public void setSoftInputMode(int mode) {
+	protected void setSoftInputMode(int mode) {
 		getActivity().getWindow().setSoftInputMode(mode);
 	}
 
 	/********************** View业务代码 *********************/
 	/**
 	 * 获取fragment
-	 * 
+	 *
 	 * @param <T>
 	 *            参数
 	 * @param clazz
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T> T findFragment(Class<T> clazz) {
+    protected <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
 		return (T) getFragmentManager().findFragmentByTag(clazz.getName());
 	}
@@ -286,7 +287,7 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 		return (A) getActivity();
 	}
 
-	public SKYView SKYView() {
+    SKYView SKYView() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 
@@ -352,35 +353,34 @@ public abstract class SKYFragment<B extends SKYIBiz> extends Fragment implements
 
 	/**********************
 	 * Actionbar业务代码
-	 * 
+	 *
 	 * @return 返回值
 	 *********************/
-	public Toolbar toolbar() {
+    protected Toolbar toolbar() {
 		return SKYBuilder.getToolbar();
-
 	}
 
 	/**********************
 	 * RecyclerView业务代码
-	 * 
+	 *
 	 * @return 返回值
 	 *********************/
 
-	public RecyclerView.LayoutManager layoutManager() {
+    protected RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
-	public RecyclerView recyclerView() {
+    protected RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	public void recyclerRefreshing(boolean bool) {
+    protected void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	public SwipeRefreshLayout swipRefesh() {
+    protected SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}

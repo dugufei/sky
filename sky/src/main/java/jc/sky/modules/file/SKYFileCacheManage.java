@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**

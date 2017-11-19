@@ -1,6 +1,5 @@
 package jc.sky.core.plugin;
 
-import jc.sky.core.SKYBiz;
 import jc.sky.core.exception.SKYHttpException;
 
 /**
@@ -9,5 +8,5 @@ import jc.sky.core.exception.SKYHttpException;
  */
 public interface SKYHttpErrorInterceptor {
 
-	void methodError(SKYBiz skyBiz, String method, SKYHttpException skyHttpException);
+	void methodError(Class view, String method, SKYHttpException skyHttpException);
 }

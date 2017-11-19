@@ -1,6 +1,5 @@
 package jc.sky.core;
 
-import jc.sky.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**

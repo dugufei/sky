@@ -1,4 +1,4 @@
-package jc.sky.common.utils;
+package jc.sky.view.helper;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -25,7 +25,7 @@ import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.view.SKYActivity;
 
 /**

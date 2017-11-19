@@ -16,27 +16,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.common.utils.SKYSwipeWindowHelper;
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIView;
+import jc.sky.core.SKYStructureModel;
 import jc.sky.display.SKYIDisplay;
-import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+import jc.sky.view.helper.SKYSwipeWindowHelper;
+
 /**
  * @author sky
  * @version 版本
  */
-public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity implements SKYIView {
+public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity implements SKYIView {
 
 	/**
 	 * 定制
@@ -45,7 +43,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 *            参数
 	 * @return 返回值
 	 **/
-	protected abstract SKYBuilder build(SKYBuilder initialSKYBuilder);
+	protected abstract jc.sky.view.SKYBuilder build(SKYBuilder initialSKYBuilder);
 
 	/**
 	 * 编译
@@ -83,13 +81,13 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * View层编辑器
 	 **/
-	public SKYBuilder				SKYBuilder;
+	private SKYBuilder				SKYBuilder;
 
-	SKYStructureModel				SKYStructureModel;
+	private SKYStructureModel skyStructureModel;
 
 	private SystemBarTintManager	tintManager;
 
-	private SKYSwipeWindowHelper	mSwipeWindowHelper;
+	private SKYSwipeWindowHelper mSwipeWindowHelper;
 
 	private boolean					isFinish;
 
@@ -127,8 +125,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		/** 初始化所有组建 **/
 		ButterKnife.bind(this);
 		/** 初始化业务数据 **/
-		if (SKYStructureModel != null) {
-			SKYStructureModel.initBizBundle();
+		if (skyStructureModel != null) {
+			skyStructureModel.initBizBundle();
 		}
 		/** 初始化dagger **/
 		initDagger();
@@ -143,33 +141,33 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	 * 核心
 	 */
 	protected void initCore() {
-		SKYStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
-		SKYHelper.structureHelper().attach(SKYStructureModel);
+		skyStructureModel = new SKYStructureModel(this, getIntent() == null ? null : getIntent().getExtras());
+		SKYHelper.structureHelper().attach(skyStructureModel);
 	}
 
 	public Object model() {
-		return SKYStructureModel.getSKYProxy().impl;
+		return skyStructureModel.getSKYProxy().impl;
 	}
 
-	public B biz() {
-		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+	protected final B biz() {
+		if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
 			return (B) SKYHelper.structureHelper().createNullService(service);
 		}
-		return (B) SKYStructureModel.getSKYProxy().proxy;
+		return (B) skyStructureModel.getSKYProxy().proxy;
 	}
 
-	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
-			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+	protected final <C extends SKYBiz> C biz(Class<C> service) {
+		if (skyStructureModel != null && service.equals(skyStructureModel.getService())) {
+			if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
+			return (C) skyStructureModel.getSKYProxy().proxy;
 		}
 		return SKYHelper.biz(service);
 	}
 
-	public <D extends SKYIDisplay> D display(Class<D> eClass) {
+	protected final <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return SKYHelper.display(eClass);
 	}
 
@@ -227,8 +225,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 				SKYBuilder.detach();
 				SKYBuilder = null;
 			}
-			if (SKYStructureModel != null) {
-				SKYHelper.structureHelper().detach(SKYStructureModel);
+			if (skyStructureModel != null) {
+				SKYHelper.structureHelper().detach(skyStructureModel);
 			}
 			SKYHelper.screenHelper().onDestroy(this);
 			SKYHelper.methodsProxy().activityInterceptor().onDestroy(this);
@@ -246,8 +244,8 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 				SKYBuilder.detach();
 				SKYBuilder = null;
 			}
-			if (SKYStructureModel != null) {
-				SKYHelper.structureHelper().detach(SKYStructureModel);
+			if (skyStructureModel != null) {
+				SKYHelper.structureHelper().detach(skyStructureModel);
 			}
 			SKYHelper.screenHelper().onDestroy(this);
 			SKYHelper.methodsProxy().activityInterceptor().onDestroy(this);
@@ -321,7 +319,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		return (T) getSupportFragmentManager().findFragmentByTag(clazz.getName());
 	}
 
-	public SKYView SKYView() {
+	SKYView SKYView() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 
@@ -390,31 +388,31 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 	/**
 	 * @return 参数
 	 */
-	public Toolbar toolbar() {
+	protected final Toolbar toolbar() {
 		return SKYBuilder == null ? null : SKYBuilder.getToolbar();
 	}
 
 	/**
 	 * @return 返回值
 	 */
-	public RecyclerView.LayoutManager layoutManager() {
+	protected final RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
 	/**
 	 * @return 返回值
 	 */
-	public <R extends RecyclerView> R recyclerView() {
+	protected final <R extends RecyclerView> R recyclerView() {
 		return SKYBuilder == null ? null : (R) SKYBuilder.getRecyclerView();
 	}
 
-	public void recyclerRefreshing(boolean bool) {
+	protected final void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	public SwipeRefreshLayout swipRefesh() {
+	protected final SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}
@@ -443,7 +441,7 @@ public abstract class SKYActivity<B extends SKYIBiz> extends AppCompatActivity i
 		SKYHelper.methodsProxy().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
-	protected SystemBarTintManager tintManager() {
+	protected final SystemBarTintManager tintManager() {
 		return tintManager;
 	}
 

@@ -1,4 +1,4 @@
-package jc.sky;
+package jc.sky.core;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -6,20 +6,11 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.core.SKYIMethodRun;
-import jc.sky.core.SKYIModule;
-import jc.sky.core.SKYIModuleBiz;
-import jc.sky.core.SKYBiz;
-import jc.sky.core.SKYIBiz;
-import jc.sky.core.SKYICommonBiz;
-import jc.sky.core.SynchronousExecutor;
 import jc.sky.core.exception.SKYHttpException;
-import jc.sky.core.exception.SKYNullPointerException;
 import jc.sky.core.exception.SKYUINullPointerException;
 import jc.sky.core.model.SkyBizModel;
 import jc.sky.display.SKYIDisplay;
@@ -33,13 +24,11 @@ import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenHolder;
 import jc.sky.modules.screen.SKYScreenManager;
-import jc.sky.modules.structure.SKYStructureIManage;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYDialogFragment;
 import jc.sky.view.SKYFragment;
-import jc.sky.view.common.SKYIViewCommon;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -174,7 +163,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <B extends SKYIBiz> B biz(Class<B> service) {
+	public static <B extends SKYBiz> B biz(Class<B> service) {
 		return biz(service, 0);
 	}
 
@@ -190,7 +179,7 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 
-	public static <B extends SKYIBiz> B biz(Class<B> service, int position) {
+	public static <B extends SKYBiz> B biz(Class<B> service, int position) {
 		Class genricType = SKYAppUtil.getClassGenricType(service, 0);
 		if (genricType == null && !service.isInterface()) { // 表示公共biz
 			return mSKYModulesManage.getCacheManager().biz(service);
@@ -261,7 +250,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return true 存在 false 不存在
 	 */
-	public static <B extends SKYIBiz> boolean isExist(Class<B> service) {
+	public static <B extends SKYBiz> boolean isExist(Class<B> service) {
 		return structureHelper().isExist(service);
 	}
 
@@ -276,7 +265,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return true 存在 false 不存在
 	 */
-	public static <B extends SKYIBiz> boolean isExist(Class<B> service, int position) {
+	public static <B extends SKYBiz> boolean isExist(Class<B> service, int position) {
 		return structureHelper().isExist(service, position);
 	}
 
@@ -289,21 +278,8 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <B extends SKYIBiz> List<B> bizList(Class<B> service) {
+	public static <B extends SKYBiz> List<B> bizList(Class<B> service) {
 		return structureHelper().bizList(service);
-	}
-
-	/**
-	 * 公用
-	 *
-	 * @param service
-	 *            参数
-	 * @param <B>
-	 *            参数
-	 * @return 返回值
-	 */
-	public static <B extends SKYICommonBiz> B common(Class<B> service) {
-		return mSKYModulesManage.getCacheManager().common(service);
 	}
 
 	/**
@@ -318,19 +294,6 @@ public class SKYHelper {
 	public static <H> H http(Class<H> httpClazz) {
 		return mSKYModulesManage.getCacheManager().http(httpClazz);
 
-	}
-
-	/**
-	 * 获取实现类
-	 *
-	 * @param implClazz
-	 *            参数
-	 * @param <I>
-	 *            参数
-	 * @return 返回值
-	 */
-	public static <I> I interfaces(Class<I> implClazz) {
-		return mSKYModulesManage.getCacheManager().interfaces(implClazz);
 	}
 
 	/**

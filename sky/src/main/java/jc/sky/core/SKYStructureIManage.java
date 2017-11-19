@@ -1,10 +1,9 @@
-package jc.sky.modules.structure;
+package jc.sky.core;
 
 import android.support.v4.app.FragmentManager;
 
 import java.util.List;
 
-import jc.sky.core.SKYIBiz;
 import jc.sky.view.SKYActivity;
 
 /**
@@ -32,7 +31,7 @@ public interface SKYStructureIManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends SKYIBiz> B biz(Class<B> bizClazz);
+	<B extends SKYBiz> B biz(Class<B> bizClazz);
 
 	/**
 	 * 业务
@@ -45,7 +44,7 @@ public interface SKYStructureIManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends SKYIBiz> B biz(Class<B> bizClazz, int position);
+	<B extends SKYBiz> B biz(Class<B> bizClazz, int position);
 
 	/**
 	 * @param bizClazz
@@ -54,7 +53,7 @@ public interface SKYStructureIManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends SKYIBiz> boolean isExist(Class<B> bizClazz);
+	<B extends SKYBiz> boolean isExist(Class<B> bizClazz);
 
 	/**
 	 * @param biz
@@ -65,7 +64,7 @@ public interface SKYStructureIManage {
 	 *            返回值
 	 * @return 返回值
 	 */
-	<B extends SKYIBiz> boolean isExist(Class<B> biz, int position);
+	<B extends SKYBiz> boolean isExist(Class<B> biz, int position);
 
 	/**
 	 * @param service
@@ -74,7 +73,7 @@ public interface SKYStructureIManage {
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends SKYIBiz> List<B> bizList(Class<B> service);
+	<B extends SKYBiz> List<B> bizList(Class<B> service);
 
 	/**
 	 * @param service

@@ -3,7 +3,7 @@ package jc.sky.core.model;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.core.SKYIMethodRun;
 import jc.sky.modules.log.L;
 

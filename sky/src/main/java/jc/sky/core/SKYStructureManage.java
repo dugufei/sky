@@ -1,4 +1,4 @@
-package jc.sky.modules.structure;
+package jc.sky.core;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.SimpleArrayMap;
@@ -14,10 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.R;
-import jc.sky.SKYHelper;
-import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.SKYIBiz;
 import jc.sky.modules.log.L;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
@@ -100,11 +97,11 @@ public class SKYStructureManage implements SKYStructureIManage {
 		}
 	}
 
-	@Override public <B extends SKYIBiz> B biz(Class<B> biz) {
+	@Override public <B extends SKYBiz> B biz(Class<B> biz) {
 		return biz(biz, 0);
 	}
 
-	@Override public <B extends SKYIBiz> B biz(Class<B> biz, int position) {
+	@Override public <B extends SKYBiz> B biz(Class<B> biz, int position) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
 			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
@@ -127,11 +124,11 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return (B) SKYStructureModel.getSKYProxy().proxy;
 	}
 
-	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz) {
+	@Override public <B extends SKYBiz> boolean isExist(Class<B> biz) {
 		return isExist(biz, 0);
 	}
 
-	@Override public <B extends SKYIBiz> boolean isExist(Class<B> biz, int position) {
+	@Override public <B extends SKYBiz> boolean isExist(Class<B> biz, int position) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
 			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
@@ -153,7 +150,7 @@ public class SKYStructureManage implements SKYStructureIManage {
 		return true;
 	}
 
-	@Override public <B extends SKYIBiz> List<B> bizList(Class<B> service) {
+	@Override public <B extends SKYBiz> List<B> bizList(Class<B> service) {
 		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(service);
 		List list = new ArrayList();
 		if (stack == null) {

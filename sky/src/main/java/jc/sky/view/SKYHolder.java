@@ -1,9 +1,10 @@
-package jc.sky.view.adapter.recycleview;
+package jc.sky.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import butterknife.ButterKnife;
+import jc.sky.view.SKYRVAdapter;
 
 /**
  * @author sky 15/7/17 上午10:58

@@ -3,7 +3,7 @@ package jc.sky.modules.toast;
 import android.os.Looper;
 import android.widget.Toast;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 
 /**
  * @author sky

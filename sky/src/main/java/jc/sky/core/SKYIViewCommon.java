@@ -1,4 +1,4 @@
-package jc.sky.view.common;
+package jc.sky.core;
 
 /**
  * @author sky

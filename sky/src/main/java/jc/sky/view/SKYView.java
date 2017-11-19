@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 
-import jc.sky.SKYHelper;
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYHelper;
+import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.view.SKYActivity;
+import jc.sky.view.SKYDialogFragment;
+import jc.sky.view.SKYFragment;
 
 /**
  * @author sky
@@ -29,13 +32,13 @@ public class SKYView {
 	/** 类型 **/
 	private int					state;
 
-	private SKYActivity			mSKYActivity;
+	private SKYActivity mSKYActivity;
 
 	private Context				context;
 
-	private SKYFragment			mSKYFragment;
+	private SKYFragment mSKYFragment;
 
-	private SKYDialogFragment	mSKYDialogFragment;
+	private SKYDialogFragment mSKYDialogFragment;
 
 	private FragmentManager		fragmentManager;
 
@@ -108,7 +111,7 @@ public class SKYView {
 		return (D) mSKYDialogFragment;
 	}
 
-	public <B extends SKYIBiz> B biz() {
+	public <B extends SKYBiz> B biz() {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:
@@ -124,7 +127,7 @@ public class SKYView {
 		return b;
 	}
 
-	public <B extends SKYIBiz> B biz(Class<B> service) {
+	public <B extends SKYBiz> B biz(Class<B> service) {
 		B b = null;
 		switch (state) {
 			case STATE_ACTIVITY:

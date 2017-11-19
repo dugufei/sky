@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
-import jc.sky.view.common.SKYRefreshListener;
+import jc.sky.view.helper.SKYRefreshListener;
 
 /**
  * @author sky

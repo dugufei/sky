@@ -27,18 +27,17 @@ import android.widget.RelativeLayout;
 
 import butterknife.ButterKnife;
 import jc.sky.R;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
 import jc.sky.core.SKYIView;
 import jc.sky.view.adapter.recycleview.SKYFooterOnScrollListener;
 import jc.sky.view.adapter.recycleview.SKYOnScrollListener;
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 import jc.sky.view.adapter.recycleview.stickyheader.SKYStickyHeaders;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersDecoration;
 import jc.sky.view.adapter.recycleview.stickyheader.StickyRecyclerHeadersTouchListener;
-import jc.sky.view.common.SKYFooterListener;
-import jc.sky.view.common.SKYRefreshListener;
+import jc.sky.view.helper.SKYFooterListener;
+import jc.sky.view.helper.SKYRefreshListener;
 
 /**
  * @author sky
@@ -49,7 +48,7 @@ public final class SKYBuilder {
 	/**
 	 * UI
 	 **/
-	private SKYView			skyView;
+	private SKYView skyView;
 
 	/**
 	 * 布局加载器
@@ -470,7 +469,7 @@ public final class SKYBuilder {
 
 	private int															recyclerviewSwipRefreshId;
 
-	private SKYFooterListener											SKYFooterListener;
+	private jc.sky.view.helper.SKYFooterListener SKYFooterListener;
 
 	private RecyclerView												recyclerView;
 
@@ -484,7 +483,7 @@ public final class SKYBuilder {
 
 	private SwipeRefreshLayout											recyclerviewSwipeContainer;
 
-	private SKYRefreshListener											recyclerviewSKYRefreshListener;
+	private SKYRefreshListener recyclerviewSKYRefreshListener;
 
 	private SwipeRefreshLayout.OnRefreshListener						onRefreshListener;
 

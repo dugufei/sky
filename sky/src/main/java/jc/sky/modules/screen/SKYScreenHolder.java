@@ -3,7 +3,7 @@ package jc.sky.modules.screen;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 
 /**
  * @author sky

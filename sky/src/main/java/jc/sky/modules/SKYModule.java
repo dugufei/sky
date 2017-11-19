@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import jc.sky.core.SKYStructureManage;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.modules.cache.CacheManager;
 import jc.sky.modules.download.SKYDownloadManager;
@@ -13,7 +14,6 @@ import jc.sky.modules.file.SKYFileCacheManage;
 import jc.sky.modules.job.SKYJobService;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
-import jc.sky.modules.structure.SKYStructureManage;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
 import retrofit2.Retrofit;
@@ -110,7 +110,6 @@ public class SKYModule {
 	@Provides @Singleton public SKYToast provideSKYToast() {
 		return new SKYToast();
 	}
-
 
 	/**
 	 * 下载管理

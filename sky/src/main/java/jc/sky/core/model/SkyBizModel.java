@@ -2,7 +2,7 @@ package jc.sky.core.model;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.core.SKYIMethodRun;
 import jc.sky.core.SKYIModuleBiz;
 import jc.sky.modules.log.L;

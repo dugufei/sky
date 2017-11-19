@@ -6,7 +6,7 @@ import android.os.Bundle;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIIntercept;
 import jc.sky.core.SKYRunnable;
@@ -285,7 +285,7 @@ public final class SKYMethod {
 				if (!skyiIntercept.interceptHttpError(method, (SKYHttpException) throwable.getCause())) {
 					// 网络错误拦截器
 					for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
-						item.methodError((SKYBiz) impl, method, (SKYHttpException) throwable.getCause());
+						item.methodError(service, method, (SKYHttpException) throwable.getCause());
 					}
 				}
 			} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
@@ -297,7 +297,7 @@ public final class SKYMethod {
 				if (!skyiIntercept.interceptBizError(method, throwable.getCause())) {
 					// 业务错误拦截器
 					for (SKYBizErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
-						item.interceptorError((SKYBiz) impl, method, throwable);
+						item.interceptorError(service, method, throwable);
 					}
 				}
 			}

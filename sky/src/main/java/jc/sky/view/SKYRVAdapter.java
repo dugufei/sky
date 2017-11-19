@@ -1,4 +1,4 @@
-package jc.sky.view.adapter.recycleview;
+package jc.sky.view;
 
 import java.util.List;
 
@@ -8,12 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYDialogFragment;
-import jc.sky.view.SKYFragment;
-import jc.sky.view.SKYView;
+import jc.sky.view.adapter.recycleview.ISKYRefresh;
 
 /**
  * @author sky 15/7/17 上午10:51
@@ -237,7 +234,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		return SKYView;
 	}
 
-	public <B extends SKYIBiz> B biz(Class<B> service) {
+	public <B extends SKYBiz> B biz(Class<B> service) {
 		return SKYView.biz(service);
 	}
 

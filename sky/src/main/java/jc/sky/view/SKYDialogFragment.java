@@ -29,21 +29,22 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
 import jc.sky.common.utils.SKYKeyboardUtils;
-import jc.sky.core.SKYIBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIView;
+import jc.sky.core.SKYStructureModel;
 import jc.sky.display.SKYIDisplay;
-import jc.sky.modules.structure.SKYStructureModel;
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
+import jc.sky.view.helper.IDialogCancelListener;
+import jc.sky.view.helper.SKYIDialogFragment;
 
 /**
  * @author sky
  * @version 版本
  */
-public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener, SKYIView {
+public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener, SKYIView {
 
 	private boolean				targetActivity;
 
@@ -54,9 +55,9 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	public final static String	ARG_REQUEST_CODE	= "SKY_request_code";
 
 	/** View层编辑器 **/
-	private SKYBuilder			SKYBuilder;
+	private jc.sky.view.SKYBuilder SKYBuilder;
 
-	SKYStructureModel			SKYStructureModel;
+	SKYStructureModel skyStructureModel;
 
 	private Unbinder			unbinder;
 
@@ -171,7 +172,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		/** 初始化结构 **/
 		initCore();
-		SKYHelper.structureHelper().attach(SKYStructureModel);
+		SKYHelper.structureHelper().attach(skyStructureModel);
 		/** 初始化视图 **/
 		SKYBuilder = new SKYBuilder(this, inflater);
 		View view = build(SKYBuilder).create();
@@ -189,11 +190,11 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * 核心
 	 */
 	protected void initCore() {
-		SKYStructureModel = new SKYStructureModel(this, getArguments());
+		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
 	public Object model() {
-		return SKYStructureModel.getSKYProxy().impl;
+		return skyStructureModel.getSKYProxy().impl;
 	}
 
 	@Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -212,7 +213,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		}
 		/** 初始化业务数据 **/
-		SKYStructureModel.initBizBundle();
+		skyStructureModel.initBizBundle();
 
 		/** 初始化dagger **/
 		initDagger();
@@ -244,8 +245,8 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 			SKYBuilder.detach();
 			SKYBuilder = null;
 		}
-		if (SKYStructureModel != null) {
-			SKYHelper.structureHelper().detach(SKYStructureModel);
+		if (skyStructureModel != null) {
+			SKYHelper.structureHelper().detach(skyStructureModel);
 		}
 		/** 清空注解view **/
 		unbinder.unbind();
@@ -268,29 +269,28 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @param mode
 	 *            参数
 	 */
-	public void setSoftInputMode(int mode) {
+	protected void setSoftInputMode(int mode) {
 		getActivity().getWindow().setSoftInputMode(mode);
 	}
 
 	public <D extends SKYIDisplay> D display(Class<D> eClass) {
-
 		return SKYHelper.display(eClass);
 	}
 
-	public B biz() {
-		if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+	protected B biz() {
+		if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 			Class service = SKYAppUtil.getSuperClassGenricType(getClass(), 0);
 			return (B) SKYHelper.structureHelper().createNullService(service);
 		}
-		return (B) SKYStructureModel.getSKYProxy().proxy;
+		return (B) skyStructureModel.getSKYProxy().proxy;
 	}
 
-	public <C extends SKYIBiz> C biz(Class<C> service) {
-		if (SKYStructureModel != null && service.equals(SKYStructureModel.getService())) {
-			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+	protected <C extends SKYBiz> C biz(Class<C> service) {
+		if (skyStructureModel != null && service.equals(skyStructureModel.getService())) {
+			if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);
 			}
-			return (C) SKYStructureModel.getSKYProxy().proxy;
+			return (C) skyStructureModel.getSKYProxy().proxy;
 		}
 		return SKYHelper.biz(service);
 	}
@@ -323,7 +323,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 *            参数
 	 * @return 返回值
 	 */
-	public <T> T findFragment(Class<T> clazz) {
+	protected <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
 		return (T) getFragmentManager().findFragmentByTag(clazz.getName());
 	}
@@ -378,7 +378,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * 
 	 * @return 返回值
 	 *********************/
-	public Toolbar toolbar() {
+	protected Toolbar toolbar() {
 		return SKYBuilder == null ? null : SKYBuilder.getToolbar();
 	}
 
@@ -388,21 +388,21 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 *********************/
 
-	public RecyclerView.LayoutManager layoutManager() {
+	protected RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
-	public RecyclerView recyclerView() {
+	protected RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-	public void recyclerRefreshing(boolean bool) {
+	protected void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-	public SwipeRefreshLayout swipRefesh() {
+	protected SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}
@@ -415,7 +415,7 @@ public abstract class SKYDialogFragment<B extends SKYIBiz> extends DialogFragmen
 	 * @return 返回值
 	 *********************/
 
-	public SKYView SKYView() {
+	SKYView SKYView() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 

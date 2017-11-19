@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jc.sky.view;
+package jc.sky.view.helper;
 
 /**
  * @author sky

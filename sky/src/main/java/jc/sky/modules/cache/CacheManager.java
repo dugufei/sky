@@ -8,11 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.core.SKYIBiz;
-import jc.sky.core.SKYICommonBiz;
+import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYProxy;
@@ -25,13 +24,9 @@ public final class CacheManager implements ICacheManager {
 
 	private final static int							TYPE_HTTP		= 1;						// 网络
 
-	private final static int							TYPE_COMMON		= 2;						// 公共
+	private final static int							TYPE_DISPLAY	= 2;						// 跳转调度
 
-	private final static int							TYPE_IMPL		= 3;						// 实现
-
-	private final static int							TYPE_DISPLAY	= 4;						// 跳转调度
-
-	private final static int							TYPE_BIZ		= 5;						// 业务
+	private final static int							TYPE_BIZ		= 3;						// 业务
 
 	private final LoadingCache<Class<?>, Object>		cache;
 
@@ -70,30 +65,6 @@ public final class CacheManager implements ICacheManager {
 									L.i(stringBuilder.toString());
 								}
 								return http;
-							case TYPE_IMPL:
-								SKYCheckUtils.validateServiceInterface(key);
-
-								Object skyImpl = SKYHelper.methodsProxy().createImpl(key, SKYAppUtil.getImplClass(key));
-								if (SKYHelper.isLogOpen()) {
-									L.tag("SkyCacheManager");
-									StringBuilder stringBuilder = new StringBuilder();
-									stringBuilder.append("Interface加载成功:");
-									stringBuilder.append(key.getName());
-									L.i(stringBuilder.toString());
-								}
-								return skyImpl;
-							case TYPE_COMMON:
-								SKYCheckUtils.validateServiceInterface(key);
-
-								SKYProxy skyCommon = SKYHelper.methodsProxy().create(key, SKYAppUtil.getImplClass(key));
-								if (SKYHelper.isLogOpen()) {
-									L.tag("SkyCacheManager");
-									StringBuilder stringBuilder = new StringBuilder();
-									stringBuilder.append("Common加载成功:");
-									stringBuilder.append(key.getName());
-									L.i(stringBuilder.toString());
-								}
-								return skyCommon;
 							case TYPE_DISPLAY:
 								SKYCheckUtils.validateServiceInterface(key);
 
@@ -141,40 +112,13 @@ public final class CacheManager implements ICacheManager {
 		return null;
 	}
 
-	@Override public <B extends SKYICommonBiz> B common(Class<B> service) {
-		try {
-			keyType.put(service, TYPE_COMMON);
-			SKYProxy skyProxy = (SKYProxy) cache.get(service);
-			return (B) skyProxy.proxy;
-		} catch (ExecutionException e) {
-			keyType.remove(service);
-			if (SKYHelper.isLogOpen()) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	@Override public <B extends SKYIBiz> B biz(Class<B> service) {
+	@Override public <B extends SKYBiz> B biz(Class<B> service) {
 		try {
 			keyType.put(service, TYPE_BIZ);
 			SKYProxy skyProxy = (SKYProxy) cache.get(service);
 			return (B) skyProxy.proxy;
 		} catch (ExecutionException e) {
 			keyType.remove(service);
-			if (SKYHelper.isLogOpen()) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	@Override public <I> I interfaces(Class<I> implClazz) {
-		try {
-			keyType.put(implClazz, TYPE_IMPL);
-			return (I) cache.get(implClazz);
-		} catch (ExecutionException e) {
-			keyType.remove(implClazz);
 			if (SKYHelper.isLogOpen()) {
 				e.printStackTrace();
 			}

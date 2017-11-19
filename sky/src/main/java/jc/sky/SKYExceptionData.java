@@ -1,4 +1,4 @@
-package jc.sky.common.model;
+package jc.sky;
 
 import android.os.Parcel;
 import android.os.Parcelable;

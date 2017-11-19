@@ -17,7 +17,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.concurrent.BlockingQueue;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYGsonUtils;
 import jc.sky.modules.log.L;
 import jc.sky.common.utils.SKYAppUtil;

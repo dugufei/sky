@@ -1,4 +1,4 @@
-package jc.sky.view;
+package jc.sky.view.helper;
 
 import android.app.Activity;
 import android.support.v4.app.DialogFragment;

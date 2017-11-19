@@ -1,6 +1,6 @@
 package com.example.sky;
 
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.display.SKYIDisplay;
 import android.os.Bundle;
 import jc.sky.view.SKYActivity;
@@ -20,9 +20,11 @@ public class MainActivity extends SKYActivity<MainBiz> {
 
     @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
         initialSKYBuilder.layoutId(R.layout.activity_main);
+        initialSKYBuilder.layoutLoadingId(R.layout.layout_loading);
         return initialSKYBuilder;
     }
     @Override protected void initData(Bundle savedInstanceState) {
+        biz().load();
     }
     
 }

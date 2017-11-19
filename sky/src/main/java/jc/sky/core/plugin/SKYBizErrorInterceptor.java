@@ -1,6 +1,5 @@
 package jc.sky.core.plugin;
 
-import jc.sky.core.SKYBiz;
 
 /**
  * @author sky
@@ -8,5 +7,5 @@ import jc.sky.core.SKYBiz;
  */
 public interface SKYBizErrorInterceptor {
 
-	void interceptorError(SKYBiz skyBiz, String method, Throwable throwable);
+	void interceptorError(Class view, String method, Throwable throwable);
 }

@@ -7,15 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.inject.Inject;
 
-import jc.sky.ISKYBind;
-import jc.sky.SKYHelper;
-import jc.sky.SKYWareHouseManage;
+import jc.sky.core.ISKYBind;
+import jc.sky.core.SKYHelper;
+import jc.sky.core.SKYStructureManage;
+import jc.sky.core.SKYWareHouseManage;
 import jc.sky.common.SKYPackUtils;
 import jc.sky.common.utils.SKYAppUtil;
 import jc.sky.core.SKYIModule;
@@ -29,10 +28,9 @@ import jc.sky.modules.job.SKYJobService;
 import jc.sky.modules.log.L;
 import jc.sky.modules.methodProxy.SKYMethods;
 import jc.sky.modules.screen.SKYScreenManager;
-import jc.sky.modules.structure.SKYStructureManage;
 import jc.sky.modules.threadpool.SKYThreadPoolManager;
 import jc.sky.modules.toast.SKYToast;
-import jc.sky.view.common.SKYIViewCommon;
+import jc.sky.core.SKYIViewCommon;
 import retrofit2.Retrofit;
 
 /**
@@ -49,7 +47,7 @@ public class SKYModulesManage {
 
 	@Inject public SKYThreadPoolManager	SKYThreadPoolManager;	// 线程池管理
 
-	@Inject public SKYStructureManage	SKYStructureManage;		// 结构管理器
+	@Inject public SKYStructureManage skyStructureManage;		// 结构管理器
 
 	@Inject public SynchronousExecutor	synchronousExecutor;	// 主线程
 
@@ -156,7 +154,7 @@ public class SKYModulesManage {
 	}
 
 	public SKYStructureManage getSKYStructureManage() {
-		return SKYStructureManage;
+		return skyStructureManage;
 	}
 
 	public SKYToast getSKYToast() {

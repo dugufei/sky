@@ -1,8 +1,7 @@
-package jc.sky;
+package jc.sky.core;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import jc.sky.core.SKYIModule;
 import jc.sky.core.model.SkyBizModel;
 
 /**

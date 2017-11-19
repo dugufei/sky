@@ -5,17 +5,14 @@ import android.os.Bundle;
 
 /**
  * @author sky
- * @date Created on 2017-11-19 下午5:58
+ * @date Created on 2017-11-19 下午10:43
  * @version 1.0
- * @Description MainBiz - 描述
+ * @Description LoginBiz - 描述
  */
-public class MainBiz extends SKYBiz<MainActivity> {
+public class LoginBiz extends SKYBiz<LoginFragment> {
 
     @Override protected void initBiz(Bundle bundle) {
         super.initBiz(bundle);
     }
 
-    public void load() {
-        ui().showLoading();
-    }
 }

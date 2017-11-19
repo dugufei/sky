@@ -19,7 +19,7 @@ import android.view.View;
 import org.jetbrains.annotations.NotNull;
 
 import jc.sky.R;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.common.utils.SKYCheckUtils;
 
 /**

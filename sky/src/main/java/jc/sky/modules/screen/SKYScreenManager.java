@@ -1,18 +1,11 @@
 package jc.sky.modules.screen;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import jc.sky.view.adapter.recycleview.SKYRVAdapter;
 
 /**
  * @author sky

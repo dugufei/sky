@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dalvik.system.DexFile;
-import jc.sky.SKYHelper;
+import jc.sky.core.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**
