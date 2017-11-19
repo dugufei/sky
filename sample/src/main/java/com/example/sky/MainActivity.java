@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.sky.oder.OderActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,22 +38,25 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-//		biz().load();
+		// biz().load();
 	}
 
-	@OnClick({ R.id.button2, R.id.button3 }) public void onViewClicked(View view) {
+	@OnClick({ R.id.button2, R.id.button3, R.id.button6 }) public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.button2:// 登录
-				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout,LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
+				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
 				break;
 			case R.id.button3:
-				TipDialogFragment.getInstance().show(getSupportFragmentManager(),this, 100);
+				TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
+				break;
+			case R.id.button6:
+				display(SKYIDisplay.class).intent(OderActivity.class);
 				break;
 		}
 	}
 
 	@Override public void onCancelled(int requestCode) {
-		textView2.setText("弹框回来:"+requestCode);
+		textView2.setText("弹框回来:" + requestCode);
 	}
 
 	@Override public void ok() {

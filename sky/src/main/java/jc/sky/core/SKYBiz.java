@@ -24,7 +24,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 
 	private Vector<Call>				callVector;
 
-	protected static <H> H http(Class<H> hClass) {
+	protected <H> H http(Class<H> hClass) {
 		return SKYHelper.http(hClass);
 	}
 

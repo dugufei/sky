@@ -29,11 +29,4 @@ public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 	public <T extends SKYRVAdapter> T getAdapter() {
 		return (T) adapter;
 	}
-
-	public static SKYHolder NONE = new SKYHolder(null) {
-
-		@Override public void bindData(Object o, int position) {
-
-		}
-	};
 }

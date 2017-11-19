@@ -1,11 +1,17 @@
 package com.example.sky;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import jc.sky.SKYApplication;
 import jc.sky.core.SKYBiz;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.plugin.SKYBizErrorInterceptor;
 import jc.sky.core.plugin.SKYHttpErrorInterceptor;
 import jc.sky.modules.methodProxy.SKYMethods;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author sky
@@ -30,6 +36,14 @@ public class MyApplication extends SKYApplication {
 
 		});
 
+		return builder.build();
+	}
+
+	@Override public Retrofit getRestAdapter(Retrofit.Builder builder) {
+		builder.baseUrl("https://api.github.com");
+
+		Gson gson = new GsonBuilder().setLenient().create();
+		builder.addConverterFactory(GsonConverterFactory.create(gson));
 		return builder.build();
 	}
 }
