@@ -1,7 +1,6 @@
 include ':sky'
 include ':sky-annotations'
 include ':sky-compiler'
-include ':sky-gradle-plugin'
 include ':sky-cglib'
 
 include ':sample'
