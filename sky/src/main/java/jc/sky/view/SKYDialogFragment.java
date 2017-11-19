@@ -30,9 +30,9 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.common.utils.SKYKeyboardUtils;
+import jc.sky.common.SKYAppUtil;
+import jc.sky.common.SKYCheckUtils;
+import jc.sky.common.SKYKeyboardUtils;
 import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.core.SKYStructureModel;
@@ -193,7 +193,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
-	public Object model() {
+	Object model() {
 		return skyStructureModel.getSKYProxy().impl;
 	}
 
@@ -415,7 +415,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 	 * @return 返回值
 	 *********************/
 
-	SKYView SKYView() {
+	protected SKYView SKYView() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 

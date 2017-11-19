@@ -17,7 +17,8 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import jc.sky.modules.log.L;
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
+import sky.Property;
 
 /**
  * @author sky

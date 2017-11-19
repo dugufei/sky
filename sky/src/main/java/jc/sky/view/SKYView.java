@@ -7,10 +7,7 @@ import android.support.v7.widget.Toolbar;
 import jc.sky.core.SKYHelper;
 import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
-import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYDialogFragment;
-import jc.sky.view.SKYFragment;
+import jc.sky.common.SKYCheckUtils;
 
 /**
  * @author sky

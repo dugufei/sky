@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.R;
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
 import jc.sky.modules.log.L;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;

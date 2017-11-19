@@ -1,4 +1,4 @@
-package jc.sky.common.utils;
+package jc.sky.common;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

@@ -16,7 +16,7 @@ import jc.sky.core.SKYHelper;
 import jc.sky.core.SKYStructureManage;
 import jc.sky.core.SKYWareHouseManage;
 import jc.sky.common.SKYPackUtils;
-import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.common.SKYAppUtil;
 import jc.sky.core.SKYIModule;
 import jc.sky.core.SynchronousExecutor;
 import jc.sky.core.exception.SKYNullPointerException;

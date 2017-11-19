@@ -3,7 +3,7 @@ package jc.sky.modules.download;
 import java.io.File;
 import java.util.List;
 
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
 import okhttp3.Headers;
 
 /**

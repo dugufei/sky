@@ -1,4 +1,4 @@
-package jc.sky.common.utils;
+package jc.sky.common;
 
 import android.app.ActivityManager;
 import android.app.Service;

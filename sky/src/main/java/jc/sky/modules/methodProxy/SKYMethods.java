@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
 import jc.sky.core.plugin.DisplayEndInterceptor;
 import jc.sky.core.plugin.DisplayStartInterceptor;
 import jc.sky.core.plugin.SKYLayoutInterceptor;

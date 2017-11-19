@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.common.SKYAppUtil;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYUINullPointerException;
 import jc.sky.core.model.SkyBizModel;

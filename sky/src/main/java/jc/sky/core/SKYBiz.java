@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import java.util.Vector;
 
-import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.common.SKYAppUtil;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYNotUIPointerException;
 import jc.sky.display.SKYIDisplay;
@@ -65,7 +65,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 */
 	protected U ui() {
 		if (u == null) {
-			Class ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
+			Class ui = SKYAppUtil.getClassGenricType(this.getClass(), 0);
 			return (U) SKYHelper.structureHelper().createNullService(ui);
 		}
 		return u;
@@ -115,7 +115,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 */
 	void initUI(SKYStructureModel SKYStructureModel) {
 		this.SKYStructureModel = SKYStructureModel;
-		ui = SKYAppUtil.getSuperClassGenricType(this.getClass(), 0);
+		ui = SKYAppUtil.getClassGenricType(this.getClass(), 0);
 		if (!ui.isInterface()) {
 			u = (U) SKYHelper.structureHelper().createMainLooperNotIntf(ui, this.SKYStructureModel.getView());
 		} else {

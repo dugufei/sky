@@ -21,9 +21,9 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.common.utils.SKYCheckUtils;
-import jc.sky.common.utils.SKYKeyboardUtils;
+import jc.sky.common.SKYAppUtil;
+import jc.sky.common.SKYCheckUtils;
+import jc.sky.common.SKYKeyboardUtils;
 import jc.sky.core.SKYBiz;
 import jc.sky.core.SKYIView;
 import jc.sky.core.SKYStructureModel;

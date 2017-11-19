@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import java.util.Stack;
 
-import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.common.SKYAppUtil;
 import jc.sky.modules.methodProxy.SKYProxy;
 
 /**

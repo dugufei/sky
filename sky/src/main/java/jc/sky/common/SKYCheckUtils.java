@@ -1,4 +1,4 @@
-package jc.sky.common.utils;
+package jc.sky.common;
 
 import jc.sky.core.exception.SKYArgumentException;
 import jc.sky.core.exception.SKYIndexOutOfException;

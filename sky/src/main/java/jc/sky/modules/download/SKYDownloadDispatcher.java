@@ -18,9 +18,9 @@ import java.nio.charset.Charset;
 import java.util.concurrent.BlockingQueue;
 
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYGsonUtils;
+import jc.sky.common.SKYGsonUtils;
 import jc.sky.modules.log.L;
-import jc.sky.common.utils.SKYAppUtil;
+import jc.sky.common.SKYAppUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -278,7 +278,7 @@ public class SKYDownloadDispatcher extends Thread {
 	public void postUploadComplete(final SKYUploadRequest request, final Response response) {
 		try {
 
-			final Class clazz = SKYAppUtil.getSuperClassGenricType(request.getSKYUploadListener().getClass(), 0);
+			final Class clazz = SKYAppUtil.getClassGenricType(request.getSKYUploadListener().getClass(), 0);
 
 			final Object value = SKYGsonUtils.readBody(gson, Charset.forName("UTF-8"), response.body(), clazz);
 			SKYHelper.mainLooper().execute(new Runnable() {

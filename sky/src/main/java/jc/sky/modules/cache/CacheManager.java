@@ -9,8 +9,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYAppUtil;
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYAppUtil;
+import jc.sky.common.SKYCheckUtils;
 import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.modules.log.L;

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
 import jc.sky.core.SKYBiz;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.view.adapter.recycleview.ISKYRefresh;

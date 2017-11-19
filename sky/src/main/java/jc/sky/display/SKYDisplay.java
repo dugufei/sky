@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import jc.sky.R;
 import jc.sky.core.SKYHelper;
-import jc.sky.common.utils.SKYCheckUtils;
+import jc.sky.common.SKYCheckUtils;
 
 /**
  * @author sky
