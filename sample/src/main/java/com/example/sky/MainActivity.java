@@ -13,6 +13,7 @@ import jc.sky.core.SKYHelper;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
+import jc.sky.view.SKYHolder;
 
 /**
  * @author sky
@@ -50,7 +51,8 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
 				break;
 			case R.id.button6:
-				display(SKYIDisplay.class).intent(OderActivity.class);
+				SKYHelper.moduleBiz("NotifyBiz").method("intentOder").run();
+//				display(SKYIDisplay.class).intent(OderActivity.class);
 				break;
 		}
 	}
