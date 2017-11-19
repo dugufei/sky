@@ -124,7 +124,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 		callVector = new Vector<>();
 	}
 
-	public void initBundle() {
+	void initBundle() {
 		initBiz(this.SKYStructureModel.getBundle());
 	}
 

@@ -46,20 +46,20 @@ import jc.sky.view.helper.SKYIDialogFragment;
  */
 public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener, SKYIView {
 
-	private boolean				targetActivity;
+	private boolean					targetActivity;
 
 	/** 请求编码 **/
-	protected int				mRequestCode		= 2013 << 5;
+	protected int					mRequestCode		= 2013 << 5;
 
 	/** 请求默认值 **/
-	public final static String	ARG_REQUEST_CODE	= "SKY_request_code";
+	public final static String		ARG_REQUEST_CODE	= "SKY_request_code";
 
 	/** View层编辑器 **/
-	private jc.sky.view.SKYBuilder SKYBuilder;
+	private jc.sky.view.SKYBuilder	SKYBuilder;
 
-	SKYStructureModel skyStructureModel;
+	SKYStructureModel				skyStructureModel;
 
-	private Unbinder			unbinder;
+	private Unbinder				unbinder;
 
 	/**
 	 * 定制
@@ -193,7 +193,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
-	public Object model() {
+	@Deprecated public Object model() {
 		return skyStructureModel.getSKYProxy().impl;
 	}
 

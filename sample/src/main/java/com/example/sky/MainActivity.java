@@ -14,17 +14,21 @@ import jc.sky.view.SKYBuilder;
  */
 public class MainActivity extends SKYActivity<MainBiz> {
 
-    public static final void intent() {
+	public static final void intent() {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
-    @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
-        initialSKYBuilder.layoutId(R.layout.activity_main);
-        initialSKYBuilder.layoutLoadingId(R.layout.layout_loading);
-        return initialSKYBuilder;
-    }
-    @Override protected void initData(Bundle savedInstanceState) {
-        biz().load();
-    }
-    
+	@Deprecated @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+		initialSKYBuilder.layoutId(R.layout.activity_main);
+		initialSKYBuilder.layoutLoadingId(R.layout.layout_loading);
+		initialSKYBuilder.layoutEmptyId(R.layout.layout_empty);
+		initialSKYBuilder.layoutHttpErrorId(R.layout.layout_http);
+		initialSKYBuilder.layoutBizErrorId(R.layout.layout_error);
+		return initialSKYBuilder;
+	}
+
+	@Override protected void initData(Bundle savedInstanceState) {
+		biz().load();
+	}
+
 }

@@ -109,7 +109,7 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 		skyStructureModel = new SKYStructureModel(this, getArguments());
 	}
 
-	public Object model() {
+	@Deprecated public Object model() {
 		return skyStructureModel.getSKYProxy().impl;
 	}
 
@@ -271,7 +271,7 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 	 *            参数
 	 * @return 返回值
 	 */
-    protected <T> T findFragment(Class<T> clazz) {
+	protected <T> T findFragment(Class<T> clazz) {
 		SKYCheckUtils.checkNotNull(clazz, "class不能为空");
 		return (T) getFragmentManager().findFragmentByTag(clazz.getName());
 	}
@@ -287,7 +287,7 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 		return (A) getActivity();
 	}
 
-    SKYView SKYView() {
+	SKYView SKYView() {
 		return SKYBuilder == null ? null : SKYBuilder.getSKYView();
 	}
 
@@ -356,7 +356,7 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 	 *
 	 * @return 返回值
 	 *********************/
-    protected Toolbar toolbar() {
+	protected Toolbar toolbar() {
 		return SKYBuilder.getToolbar();
 	}
 
@@ -366,21 +366,21 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 	 * @return 返回值
 	 *********************/
 
-    protected RecyclerView.LayoutManager layoutManager() {
+	protected RecyclerView.LayoutManager layoutManager() {
 		return SKYBuilder == null ? null : SKYBuilder.getLayoutManager();
 	}
 
-    protected RecyclerView recyclerView() {
+	protected RecyclerView recyclerView() {
 		return SKYBuilder == null ? null : SKYBuilder.getRecyclerView();
 	}
 
-    protected void recyclerRefreshing(boolean bool) {
+	protected void recyclerRefreshing(boolean bool) {
 		if (SKYBuilder != null) {
 			SKYBuilder.recyclerRefreshing(bool);
 		}
 	}
 
-    protected SwipeRefreshLayout swipRefesh() {
+	protected SwipeRefreshLayout swipRefesh() {
 		if (SKYBuilder == null) {
 			return null;
 		}

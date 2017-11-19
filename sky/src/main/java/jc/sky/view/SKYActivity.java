@@ -29,6 +29,7 @@ import jc.sky.core.SKYIView;
 import jc.sky.core.SKYStructureModel;
 import jc.sky.display.SKYIDisplay;
 import jc.sky.view.helper.SKYSwipeWindowHelper;
+import retrofit2.http.DELETE;
 
 /**
  * @author sky
@@ -83,11 +84,11 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 	 **/
 	private SKYBuilder				SKYBuilder;
 
-	private SKYStructureModel skyStructureModel;
+	private SKYStructureModel		skyStructureModel;
 
 	private SystemBarTintManager	tintManager;
 
-	private SKYSwipeWindowHelper mSwipeWindowHelper;
+	private SKYSwipeWindowHelper	mSwipeWindowHelper;
 
 	private boolean					isFinish;
 
@@ -145,7 +146,7 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 		SKYHelper.structureHelper().attach(skyStructureModel);
 	}
 
-	public Object model() {
+	@Deprecated public Object model() {
 		return skyStructureModel.getSKYProxy().impl;
 	}
 
@@ -494,7 +495,7 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 	 *
 	 * @return true 支持 false 不支持
 	 */
-	public boolean canBeSlideBack() {
+	@Deprecated public boolean canBeSlideBack() {
 		return true;
 	}
 
