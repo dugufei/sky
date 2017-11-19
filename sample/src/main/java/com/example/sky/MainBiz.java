@@ -1,6 +1,8 @@
 package com.example.sky;
 
 import jc.sky.core.SKYBiz;
+import sky.OpenBiz;
+
 import android.os.Bundle;
 
 /**
@@ -15,7 +17,7 @@ public class MainBiz extends SKYBiz<MainActivity> {
 		super.initBiz(bundle);
 	}
 
-	public void load() {
+	@OpenBiz public void load() {
 		ui().showLoading();
 	}
 

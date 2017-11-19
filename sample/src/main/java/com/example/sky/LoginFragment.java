@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import jc.sky.core.SKYHelper;
 import jc.sky.view.SKYBuilder;
 import jc.sky.view.SKYFragment;
 
@@ -47,6 +48,7 @@ public class LoginFragment extends SKYFragment<LoginBiz> {
 
 	@OnClick(R.id.button) public void onViewClicked() {
 		biz().login(editText.getText().toString(), editText2.getText().toString());
+//		SKYHelper.moduleBiz("MainBiz").method("load").run();
 	}
 
 	@OnClick(R.id.textView) public void onClose() {
