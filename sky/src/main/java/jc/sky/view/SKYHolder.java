@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import butterknife.ButterKnife;
+import butterknife.internal.ListenerClass;
 import jc.sky.view.SKYRVAdapter;
 
 /**
@@ -29,5 +30,10 @@ public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 		return (T) adapter;
 	}
 
+	public static SKYHolder NONE = new SKYHolder(null) {
 
+		@Override public void bindData(Object o, int position) {
+
+		}
+	};
 }
