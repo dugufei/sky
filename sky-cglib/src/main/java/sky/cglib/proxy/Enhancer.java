@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 import sky.cglib.dx.Code;
 import sky.cglib.dx.Comparison;
@@ -107,7 +109,34 @@ public class Enhancer {
 		code.returnValue(retObjLocal);
 
 		// override super's methods
-		Method[] methods = superclass.getDeclaredMethods();
+        List<Method> list = new ArrayList<>();
+
+        //父类方法
+        Method[] superMethos = superclass.getSuperclass().getDeclaredMethods();
+        for (Method method : superMethos) {
+            String methodName = method.getName();
+            if (methodName.contains("$")) { // Android studio will generate access$super method for every class
+                continue;
+            }
+            int modifiers = method.getModifiers();
+            if (Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+                continue;
+            }
+            list.add(method);
+        }
+        //当前类方法
+        Method[] methods = superclass.getDeclaredMethods();
+        for (Method method : methods) {
+            String methodName = method.getName();
+            if (methodName.contains("$")) { // Android studio will generate access$super method for every class
+                continue;
+            }
+            int modifiers = method.getModifiers();
+            if (Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+                continue;
+            }
+            list.add(method);
+        }
 		MethodId<?, ?> superMethodId = null;
 		MethodId<?, ?> subMethodId = null;
 		TypeId<?>[] argsTypeId = null;
@@ -116,7 +145,7 @@ public class Enhancer {
 		boolean isVoid = false;
 		boolean hasParams = false;
 		Class retClass = null;
-		for (Method method : methods) {
+		for (Method method : list) {
 			methodName = method.getName();
 			if (methodName.contains("$")) { // Android studio will generate access$super method for every class
 				continue;
