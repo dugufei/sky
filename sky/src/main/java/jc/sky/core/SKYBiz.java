@@ -24,15 +24,15 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 
 	private Vector<Call>				callVector;
 
-	protected <H> H http(Class<H> hClass) {
+	protected static <H> H http(Class<H> hClass) {
 		return SKYHelper.http(hClass);
 	}
 
-	protected <D extends SKYIDisplay> D display(Class<D> eClass) {
+	protected static <D extends SKYIDisplay> D display(Class<D> eClass) {
 		return SKYHelper.display(eClass);
 	}
 
-	protected <B extends SKYBiz> B biz(Class<B> service) {
+	protected static <B extends SKYBiz> B biz(Class<B> service) {
 		if (SKYStructureModel != null && SKYStructureModel.isSupterClass(service)) {
 			if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
 				return SKYHelper.structureHelper().createNullService(service);

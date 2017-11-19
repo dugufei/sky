@@ -11,11 +11,14 @@ import android.os.Bundle;
  */
 public class MainBiz extends SKYBiz<MainActivity> {
 
-    @Override protected void initBiz(Bundle bundle) {
-        super.initBiz(bundle);
-    }
+	@Override protected void initBiz(Bundle bundle) {
+		super.initBiz(bundle);
+	}
 
-    public void load() {
-        ui().showLoading();
-    }
+	public void load() {
+		ui().showLoading();
+	}
+
+	public void tip() {}
+
 }

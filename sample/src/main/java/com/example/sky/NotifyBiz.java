@@ -14,13 +14,16 @@ public class NotifyBiz extends SKYBiz {
 	/**
 	 * 修改
 	 */
-	@Background(BackgroundType.WORK) public void updateData() {
+	@Background(BackgroundType.WORK) public void notifyTip() {
 
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-    }
+		biz(LoginBiz.class).tip();
+		biz(TipBiz.class).tip();
+		biz(MainBiz.class).tip();
+	}
 }

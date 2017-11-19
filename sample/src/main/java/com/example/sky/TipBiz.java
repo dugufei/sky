@@ -11,8 +11,10 @@ import android.os.Bundle;
  */
 public class TipBiz extends SKYBiz<TipDialogFragment> {
 
-    @Override protected void initBiz(Bundle bundle) {
-        super.initBiz(bundle);
-    }
+	@Override protected void initBiz(Bundle bundle) {
+		super.initBiz(bundle);
+	}
+
+	public void tip() {}
 
 }
