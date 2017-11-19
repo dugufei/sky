@@ -16,7 +16,7 @@ import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYHolder;
 import jc.sky.view.SKYRVAdapter;
 
-public class OderAdapter extends SKYRVAdapter<OderAdapter.Model, OderAdapter.ItemHolder> {
+public class OderAdapter extends SKYRVAdapter<Model, OderAdapter.ItemHolder> {
 
 	public OderAdapter(SKYActivity SKYActivity) {
 		super(SKYActivity);
@@ -41,19 +41,13 @@ public class OderAdapter extends SKYRVAdapter<OderAdapter.Model, OderAdapter.Ite
 		}
 
 		@Override public void bindData(Model model, int position) {
-			tvTxt.setText(String.valueOf(model.limitModel.resources.core.reset));
-			Glide.with(ivItem.getContext()).load(getItem(position).img).into(ivItem);
+			tvTxt.setText(String.valueOf(model.id));
+			Glide.with(ivItem.getContext()).load(model.img).into(ivItem);
 		}
 
 		@OnClick(R.id.iv_item) public void onViewClicked() {}
 
 	}
 
-	public static class Model {
 
-		public String							img;
-
-		public com.example.sky.http.model.Model	limitModel;
-
-	}
 }

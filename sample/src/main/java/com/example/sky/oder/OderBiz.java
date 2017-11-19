@@ -7,6 +7,7 @@ import com.example.sky.http.model.Model;
 import com.example.sky.oder.adapter.OderAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jc.sky.core.SKYBiz;
 import retrofit2.Call;
@@ -21,17 +22,12 @@ public class OderBiz extends SKYBiz<OderActivity> {
 
 	@Background(BackgroundType.SINGLEWORK) public void load() {
 
-		Call<Model> limitModelCall = http(GithubHttp.class).rateLimit();
-		Model limitModel = httpBody(limitModelCall);
-
-		ArrayList<OderAdapter.Model> arrayList = new ArrayList<>();
-		for (int i = 0; i < 100; i++) {
-			OderAdapter.Model model = new OderAdapter.Model();
-			model.limitModel = limitModel;
-			model.img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
-			arrayList.add(model);
+		Call<List<Model>> limitModelCall = http(GithubHttp.class).rateLimit();
+		List<Model> limitModel = httpBody(limitModelCall);
+		for (int i = 0; i < limitModel.size(); i++) {
+			limitModel.get(i).img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
 		}
 
-		ui().setData(arrayList);
+		ui().setData(limitModel);
 	}
 }

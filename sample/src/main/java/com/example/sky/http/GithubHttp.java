@@ -2,6 +2,8 @@ package com.example.sky.http;
 
 import com.example.sky.http.model.Model;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -12,6 +14,6 @@ import retrofit2.http.GET;
  */
 public interface GithubHttp {
 
-	@GET("rate_limit") Call<Model> rateLimit();
+	@GET("events") Call<List<Model>> rateLimit();
 
 }

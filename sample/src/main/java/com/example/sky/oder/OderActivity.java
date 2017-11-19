@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.example.sky.R;
+import com.example.sky.http.model.Model;
 import com.example.sky.oder.adapter.OderAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYBuilder;
@@ -25,7 +27,7 @@ public class OderActivity extends SKYActivity<OderBiz> {
 		biz().load();
 	}
 
-	public void setData(ArrayList<OderAdapter.Model> data) {
+	public void setData(List<Model> data) {
 		adapter().setItems(data);
 	}
 }
