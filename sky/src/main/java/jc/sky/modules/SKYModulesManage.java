@@ -41,7 +41,7 @@ public class SKYModulesManage {
 
 	@Inject public Application			application;
 
-	@Inject public CacheManager			cacheManager;			// 缓存管理器
+	@Inject public CacheManager cacheManager;			// 缓存管理器
 
 	@Inject public SKYScreenManager		SKYScreenManager;		// Activity堆栈管理
 

@@ -19,8 +19,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".oder.OderActivity"
-            />
+        <activity android:name=".oder.OderActivity"/>
+        <activity android:name=".ShareActivity"/>
+
     </application>
 
 </manifest>

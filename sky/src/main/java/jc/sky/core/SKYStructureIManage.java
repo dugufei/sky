@@ -2,6 +2,7 @@ package jc.sky.core;
 
 import android.support.v4.app.FragmentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jc.sky.view.SKYActivity;
@@ -34,19 +35,6 @@ public interface SKYStructureIManage {
 	<B extends SKYBiz> B biz(Class<B> bizClazz);
 
 	/**
-	 * 业务
-	 * 
-	 * @param bizClazz
-	 *            参数
-	 * @param position
-	 *            参数
-	 * @param <B>
-	 *            参数
-	 * @return 返回值
-	 */
-	<B extends SKYBiz> B biz(Class<B> bizClazz, int position);
-
-	/**
 	 * @param bizClazz
 	 *            参数
 	 * @param <B>
@@ -56,24 +44,13 @@ public interface SKYStructureIManage {
 	<B extends SKYBiz> boolean isExist(Class<B> bizClazz);
 
 	/**
-	 * @param biz
-	 *            参数
-	 * @param position
-	 *            下标
-	 * @param <B>
-	 *            返回值
-	 * @return 返回值
-	 */
-	<B extends SKYBiz> boolean isExist(Class<B> biz, int position);
-
-	/**
 	 * @param service
 	 *            参数
 	 * @param <B>
 	 *            参数
 	 * @return 返回值
 	 */
-	<B extends SKYBiz> List<B> bizList(Class<B> service);
+	<B extends SKYBiz> ArrayList<B> bizList(Class<B> service);
 
 	/**
 	 * @param service

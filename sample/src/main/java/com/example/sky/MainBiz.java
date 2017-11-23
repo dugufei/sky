@@ -22,6 +22,10 @@ public class MainBiz extends SKYBiz<MainActivity> {
 		ui().showLoading();
 	}
 
-	public void tip() {}
+	public void tip() {
+	}
 
+	public void setShare(String value) {
+		ui().setTextView2(value);
+	}
 }

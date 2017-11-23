@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jc.sky.common.SKYAppUtil;
+import jc.sky.core.exception.SKYBizException;
 import jc.sky.core.exception.SKYHttpException;
 import jc.sky.core.exception.SKYUINullPointerException;
 import jc.sky.core.model.SkyBizModel;
@@ -164,27 +164,10 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 	public static <B extends SKYBiz> B biz(Class<B> service) {
-		return biz(service, 0);
-	}
-
-	/**
-	 * 获取业务
-	 *
-	 * @param service
-	 *            参数
-	 * @param position
-	 *            参数
-	 * @param <B>
-	 *            参数
-	 * @return 返回值
-	 */
-
-	public static <B extends SKYBiz> B biz(Class<B> service, int position) {
-		Class genricType = SKYAppUtil.getClassGenricType(service, 0);
-		if (genricType == null && !service.isInterface()) { // 表示公共biz
+		if(SKYWareHouseManage.checkBizIsPublic(service)){ //判定是否是公共方法
 			return mSKYModulesManage.getCacheManager().biz(service);
 		}
-		return structureHelper().biz(service, position);
+		return structureHelper().biz(service);
 	}
 
 	/**
@@ -255,21 +238,6 @@ public class SKYHelper {
 	}
 
 	/**
-	 * 业务是否存在
-	 *
-	 * @param service
-	 *            参数
-	 * @param position
-	 *            下标
-	 * @param <B>
-	 *            参数
-	 * @return true 存在 false 不存在
-	 */
-	public static <B extends SKYBiz> boolean isExist(Class<B> service, int position) {
-		return structureHelper().isExist(service, position);
-	}
-
-	/**
 	 * 获取业务
 	 *
 	 * @param service
@@ -279,6 +247,9 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 	public static <B extends SKYBiz> List<B> bizList(Class<B> service) {
+		if(SKYWareHouseManage.checkBizIsPublic(service)){ //判定是否是公共方法
+			throw new SKYBizException("Class 不能是公共业务类");
+		}
 		return structureHelper().bizList(service);
 	}
 

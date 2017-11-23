@@ -48,11 +48,12 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
 				break;
 			case R.id.button3:
-				TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
+				// TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
+				display(SKYIDisplay.class).intent(ShareActivity.class);
 				break;
 			case R.id.button6:
-				SKYHelper.moduleBiz("NotifyBiz").method("intentOder").run();
-//				display(SKYIDisplay.class).intent(OderActivity.class);
+				// SKYHelper.moduleBiz("NotifyBiz").method("intentOder").run();
+				display(SKYIDisplay.class).intent(MainActivity.class);
 				break;
 		}
 	}
@@ -63,5 +64,9 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 	@Override public void ok() {
 		textView2.setText("弹框回来: 成功啦");
+	}
+
+	public void setTextView2(String value) {
+		textView2.setText(value);
 	}
 }

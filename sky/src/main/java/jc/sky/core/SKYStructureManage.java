@@ -1,16 +1,13 @@
 package jc.sky.core;
 
 import android.support.v4.app.FragmentManager;
-import android.support.v4.util.SimpleArrayMap;
 import android.view.KeyEvent;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jc.sky.R;
@@ -28,7 +25,7 @@ import sky.cglib.proxy.MethodInterceptor;
 
 public class SKYStructureManage implements SKYStructureIManage {
 
-	private final ConcurrentHashMap<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>	statckRepeatBiz;
+	private final ConcurrentHashMap<Class<?>, Stack<SKYStructureModel>> statckRepeatBiz;
 
 	public SKYStructureManage() {
 		/** 初始化集合 **/
@@ -40,17 +37,14 @@ public class SKYStructureManage implements SKYStructureIManage {
 			if (view.getService() == null) {
 				return;
 			}
-			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
+
+			Stack<SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 			if (stack == null) {
-				stack = new SimpleArrayMap();
+				stack = new Stack<>();
 			}
-			stack.put(view.key, view);
+			stack.push(view);
 
 			statckRepeatBiz.put(view.getService(), stack);
-			if (SKYHelper.isLogOpen()) {
-				L.tag("SKYStructureManage");
-				L.i(view.getView().getClass().getSimpleName() + " -- stack:put(" + view.key + ")");
-			}
 		}
 	}
 
@@ -59,27 +53,28 @@ public class SKYStructureManage implements SKYStructureIManage {
 			if (view.getService() == null) {
 				return;
 			}
-			SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
+			Stack<SKYStructureModel> stack = statckRepeatBiz.get(view.getService());
 
 			if (stack == null) {
 				return;
 			}
 
-			SKYStructureModel SKYStructureModel = stack.get(view.key);
+			SKYStructureModel skyStructureModel = stack.pop();
 
-			stack.remove(view.key);
+			if (skyStructureModel == null) {
+				L.d("SKYStructureManage.detach not find model(" + view.key + ")");
+				return;
+			}
 
 			if (stack.size() < 1) {
 				statckRepeatBiz.remove(view.getService());
 			}
 
 			if (SKYHelper.isLogOpen()) {
-				L.tag("SKYStructureManage");
-				L.i(view.getView().getClass().getSimpleName() + " -- stack:remove(" + view.key + ")");
+				L.d(view.getView().getClass().getSimpleName() + " -- stack:remove(" + view.key + ")");
 
-				L.tag("SKYStructureManage");
 				StringBuilder builder = new StringBuilder("\u21E0 ");
-				builder.append("SKYStructureManage.statckRepeatBiz").append('(');
+				builder.append("SKYStructureManage.Biz").append('(');
 				if (statckRepeatBiz != null && statckRepeatBiz.size() > 0) {
 					for (Class clazz : statckRepeatBiz.keySet()) {
 						builder.append(clazz.getSimpleName());
@@ -89,80 +84,61 @@ public class SKYStructureManage implements SKYStructureIManage {
 				}
 
 				builder.append(')');
+				L.d(builder.toString());
 			}
-
-			if (SKYStructureModel != null) {
-				SKYStructureModel.clearAll();
+			if (skyStructureModel != null) {
+				skyStructureModel.clearAll();
 			}
 		}
 	}
 
 	@Override public <B extends SKYBiz> B biz(Class<B> biz) {
-		return biz(biz, 0);
-	}
-
-	@Override public <B extends SKYBiz> B biz(Class<B> biz, int position) {
-		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
+		Stack<SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
-			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
-			for (Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> entry : entrySet) {
-				SimpleArrayMap<Integer, SKYStructureModel> simpleArrayMap = entry.getValue();
-				if (simpleArrayMap.valueAt(position).isSupterClass(biz)) {
-					return (B) simpleArrayMap.valueAt(position).getSKYProxy().proxy;
-				}
-			}
+			return createNullService(biz);
+		}
+		SKYStructureModel skyStructureModel = stack.peek();
+		if (skyStructureModel == null) {
+			return createNullService(biz);
+		}
 
+		if (skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 			return createNullService(biz);
 		}
-		SKYStructureModel SKYStructureModel = stack.valueAt(position);
-		if (SKYStructureModel == null) {
-			return createNullService(biz);
-		}
-		if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
-			return createNullService(biz);
-		}
-		return (B) SKYStructureModel.getSKYProxy().proxy;
+		return (B) skyStructureModel.getSKYProxy().proxy;
 	}
 
 	@Override public <B extends SKYBiz> boolean isExist(Class<B> biz) {
-		return isExist(biz, 0);
-	}
-
-	@Override public <B extends SKYBiz> boolean isExist(Class<B> biz, int position) {
-		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(biz);
+		Stack<SKYStructureModel> stack = statckRepeatBiz.get(biz);
 		if (stack == null) {
-			Set<Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>>> entrySet = statckRepeatBiz.entrySet();
-			for (Map.Entry<Class<?>, SimpleArrayMap<Integer, SKYStructureModel>> entry : entrySet) {
-				SimpleArrayMap<Integer, SKYStructureModel> simpleArrayMap = entry.getValue();
-				if (simpleArrayMap.valueAt(position).isSupterClass(biz)) {
-					return true;
-				}
-			}
 			return false;
 		}
-		SKYStructureModel SKYStructureModel = stack.valueAt(0);
-		if (SKYStructureModel == null) {
+		SKYStructureModel skyStructureModel = stack.peek();
+		if (skyStructureModel == null) {
 			return false;
 		}
-		if (SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
+
+		if (skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
 			return false;
 		}
 		return true;
 	}
 
-	@Override public <B extends SKYBiz> List<B> bizList(Class<B> service) {
-		SimpleArrayMap<Integer, SKYStructureModel> stack = statckRepeatBiz.get(service);
-		List list = new ArrayList();
+	@Override public <B extends SKYBiz> ArrayList<B> bizList(Class<B> service) {
+		Stack<SKYStructureModel> stack = statckRepeatBiz.get(service);
+		ArrayList list = new ArrayList();
 		if (stack == null) {
 			return list;
 		}
+
 		int count = stack.size();
+
 		for (int i = 0; i < count; i++) {
-			SKYStructureModel SKYStructureModel = stack.valueAt(i);
-			if (SKYStructureModel == null || SKYStructureModel.getSKYProxy() == null || SKYStructureModel.getSKYProxy().proxy == null) {
-				list.add(createNullService(service));
+			SKYStructureModel skyStructureModel = stack.get(i);
+			if (skyStructureModel == null || skyStructureModel.getSKYProxy() == null || skyStructureModel.getSKYProxy().proxy == null) {
+				list.add(0,createNullService(service));
 			} else {
-				list.add(SKYStructureModel.getSKYProxy().proxy);
+				list.add(0,skyStructureModel.getSKYProxy().proxy);
 			}
 		}
 		return list;

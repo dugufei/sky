@@ -9,7 +9,7 @@ import android.os.Bundle;
  * @version 1.0
  * @Description TipBiz - 描述
  */
-public class TipBiz extends SKYBiz<TipDialogFragment> {
+public class TipBiz extends SKYBiz {
 
 	@Override protected void initBiz(Bundle bundle) {
 		super.initBiz(bundle);
