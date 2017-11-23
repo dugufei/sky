@@ -1,8 +1,10 @@
 package jc.sky.core.plugin;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 import jc.sky.core.SKYBiz;
+import jc.sky.view.SKYActivity;
 import jc.sky.view.SKYFragment;
 
 /**
@@ -11,47 +13,107 @@ import jc.sky.view.SKYFragment;
  */
 public interface SKYFragmentInterceptor {
 
-	void onFragmentCreated(SKYFragment SKYFragment, Bundle bundle, Bundle savedInstanceState);
+	void onFragmentCreated(SKYFragment skyFragment, Bundle bundle, Bundle savedInstanceState);
 
-	void buildAfter(SKYFragment SKYFragment);
+	void buildAfter(SKYFragment skyFragment);
 
-	void onFragmentStart(SKYFragment SKYFragment);
+	void onFragmentStart(SKYFragment skyFragment);
 
-	void onFragmentResume(SKYFragment SKYFragment);
+	void onFragmentResume(SKYFragment skyFragment);
 
-	void onFragmentPause(SKYFragment SKYFragment);
+	void onFragmentPause(SKYFragment skyFragment);
 
-	void onFragmentStop(SKYFragment SKYFragment);
+	void onFragmentStop(SKYFragment skyFragment);
 
-	void onFragmentDestroy(SKYFragment SKYFragment);
+	void onFragmentDestroy(SKYFragment skyFragment);
+
+	void onShowLoading(Fragment skyFragment);
+
+	void onCloseLoading(Fragment skyFragment);
+
+	class AdapterInterceptor implements SKYFragmentInterceptor{
+
+		@Override
+		public void onFragmentCreated(SKYFragment skyFragment, Bundle bundle, Bundle savedInstanceState) {
+
+		}
+
+		@Override
+		public void buildAfter(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onFragmentStart(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onFragmentResume(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onFragmentPause(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onFragmentStop(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onFragmentDestroy(SKYFragment skyFragment) {
+
+		}
+
+		@Override
+		public void onShowLoading(Fragment skyFragment) {
+
+		}
+
+		@Override
+		public void onCloseLoading(Fragment skyFragment) {
+
+		}
+	}
 
 	SKYFragmentInterceptor NONE = new SKYFragmentInterceptor() {
 
-		@Override public void onFragmentCreated(SKYFragment SKYFragment, Bundle bundle, Bundle savedInstanceState) {
+		@Override public void onFragmentCreated(SKYFragment skyFragment, Bundle bundle, Bundle savedInstanceState) {
 
 		}
 
-		@Override public void buildAfter(SKYFragment SKYFragment) {
+		@Override public void buildAfter(SKYFragment skyFragment) {
 
 		}
 
-		@Override public void onFragmentStart(SKYFragment SKYFragment) {
+		@Override public void onFragmentStart(SKYFragment skyFragment) {
 
 		}
 
-		@Override public void onFragmentResume(SKYFragment SKYFragment) {
+		@Override public void onFragmentResume(SKYFragment skyFragment) {
 
 		}
 
-		@Override public void onFragmentPause(SKYFragment SKYFragment) {
+		@Override public void onFragmentPause(SKYFragment skyFragment) {
 
 		}
 
-		@Override public void onFragmentStop(SKYFragment SKYFragment) {
+		@Override public void onFragmentStop(SKYFragment skyFragment) {
 
 		}
 
-		@Override public void onFragmentDestroy(SKYFragment SKYFragment) {
+		@Override public void onFragmentDestroy(SKYFragment skyFragment) {
+
+		}
+
+		@Override public void onShowLoading(Fragment skyFragment) {
+
+		}
+
+		@Override public void onCloseLoading(Fragment skyFragment) {
 
 		}
 	};

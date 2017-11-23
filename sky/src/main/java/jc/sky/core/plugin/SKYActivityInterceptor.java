@@ -13,69 +13,73 @@ import jc.sky.view.SKYBuilder;
  */
 public interface SKYActivityInterceptor {
 
-	void build(SKYActivity SKYIView, SKYBuilder initialSKYBuilder);
+	void build(SKYActivity skyActivity, SKYBuilder initialSKYBuilder);
 
-	void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState);
+	void onCreate(SKYActivity skyActivity, Bundle bundle, Bundle savedInstanceState);
 
-	void onPostCreate(SKYActivity SKYIView, Bundle savedInstanceState);
+	void onPostCreate(SKYActivity skyActivity, Bundle savedInstanceState);
 
-	void onStart(SKYActivity SKYIView);
+	void onStart(SKYActivity skyActivity);
 
-	void onResume(SKYActivity SKYIView);
+	void onResume(SKYActivity skyActivity);
 
-	void onPostResume(SKYActivity SKYIView);
+	void onPostResume(SKYActivity skyActivity);
 
-	void onPause(SKYActivity SKYIView);
+	void onPause(SKYActivity skyActivity);
 
-	void onStop(SKYActivity SKYIView);
+	void onStop(SKYActivity skyActivity);
 
-	void onDestroy(SKYActivity SKYIView);
+	void onDestroy(SKYActivity skyActivity);
 
-	void onRestart(SKYActivity SKYIView);
+	void onRestart(SKYActivity skyActivity);
 
 	void onActivityResult(int requestCode, int resultCode, Intent data);
 
 	void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
-	SKYActivityInterceptor NONE = new SKYActivityInterceptor() {
+	void onShowLoading(SKYActivity skyActivity);
 
-		@Override public void build(SKYActivity SKYIView, SKYBuilder initialSKYBuilder) {
+	void onCloseLoading(SKYActivity skyActivity);
 
-		}
+	class AdapterInterceptor implements SKYActivityInterceptor {
 
-		@Override public void onCreate(SKYActivity SKYIView, Bundle bundle, Bundle savedInstanceState) {
-
-		}
-
-		@Override public void onPostCreate(SKYActivity SKYIView, Bundle savedInstanceState) {
+		@Override public void build(SKYActivity skyActivity, SKYBuilder initialSKYBuilder) {
 
 		}
 
-		@Override public void onStart(SKYActivity SKYIView) {
+		@Override public void onCreate(SKYActivity skyActivity, Bundle bundle, Bundle savedInstanceState) {
 
 		}
 
-		@Override public void onResume(SKYActivity SKYIView) {
+		@Override public void onPostCreate(SKYActivity skyActivity, Bundle savedInstanceState) {
 
 		}
 
-		@Override public void onPostResume(SKYActivity SKYIView) {
+		@Override public void onStart(SKYActivity skyActivity) {
 
 		}
 
-		@Override public void onPause(SKYActivity SKYIView) {
+		@Override public void onResume(SKYActivity skyActivity) {
 
 		}
 
-		@Override public void onStop(SKYActivity SKYIView) {
+		@Override public void onPostResume(SKYActivity skyActivity) {
 
 		}
 
-		@Override public void onDestroy(SKYActivity SKYIView) {
+		@Override public void onPause(SKYActivity skyActivity) {
 
 		}
 
-		@Override public void onRestart(SKYActivity SKYIView) {
+		@Override public void onStop(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onDestroy(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onRestart(SKYActivity skyActivity) {
 
 		}
 
@@ -84,6 +88,73 @@ public interface SKYActivityInterceptor {
 		}
 
 		@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+		}
+
+		@Override public void onShowLoading(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onCloseLoading(SKYActivity skyActivity) {
+
+		}
+	}
+
+	SKYActivityInterceptor NONE = new SKYActivityInterceptor() {
+
+		@Override public void build(SKYActivity skyActivity, SKYBuilder initialSKYBuilder) {
+
+		}
+
+		@Override public void onCreate(SKYActivity skyActivity, Bundle bundle, Bundle savedInstanceState) {
+
+		}
+
+		@Override public void onPostCreate(SKYActivity skyActivity, Bundle savedInstanceState) {
+
+		}
+
+		@Override public void onStart(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onResume(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onPostResume(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onPause(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onStop(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onDestroy(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onRestart(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		}
+
+		@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+		}
+
+		@Override public void onShowLoading(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void onCloseLoading(SKYActivity skyActivity) {
 
 		}
 	};

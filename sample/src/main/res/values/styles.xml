@@ -12,4 +12,16 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <!-- 分享弹窗 样式 -->
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 背景动画-->
+        <item name="android:windowFrame">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 </resources>

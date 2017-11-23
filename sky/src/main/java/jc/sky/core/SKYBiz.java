@@ -159,6 +159,20 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 		callVector.removeAllElements();
 	}
 
+	/**
+	 * 进度条
+	 */
+	public void loading() {
+		((SKYIView) ui()).loading();
+	}
+
+	/**
+	 * 关闭进度条
+	 */
+	public void closeLoading() {
+		((SKYIView) ui()).closeLoading();
+	}
+
 	@Override public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
 		return false;
 	}

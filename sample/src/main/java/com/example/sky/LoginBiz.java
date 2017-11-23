@@ -32,4 +32,16 @@ public class LoginBiz extends SKYBiz<LoginFragment> {
 
 		ui().setText(s + ":" + s1);
 	}
+
+	@Background(BackgroundType.HTTP) public void load() {
+		loading();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		closeLoading();
+		ui().close();
+		biz(MainBiz.class).load();
+	}
 }

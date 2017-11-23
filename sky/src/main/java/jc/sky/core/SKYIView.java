@@ -29,8 +29,11 @@ public interface SKYIView {
 
 	void showHttpError();
 
-	int showState();
+	void loading();
 
+	void closeLoading();
+
+	int showState();
 
 	void close();
 

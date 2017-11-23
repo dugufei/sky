@@ -1,6 +1,7 @@
 package com.example.sky;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -19,7 +20,11 @@ import jc.sky.view.SKYBuilder;
  */
 public class ShareActivity extends SKYActivity<ShareBiz> {
 
-	@BindView(R.id.btn) Button btn;
+	@BindView(R.id.btn) Button			btn;
+
+	@BindView(R.id.btn_loading) Button	btnLoading;
+
+	@BindView(R.id.btn_close) Button	btnClose;
 
 	public static final void intent() {
 		SKYHelper.display(SKYIDisplay.class).intent(ShareActivity.class);
@@ -35,14 +40,29 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 	}
 
 	@OnClick(R.id.btn) public void onViewClicked() {
-//		 SKYHelper.bizList(MainBiz.class);
-//		 int i=0;
-//		for(MainBiz mainBiz : SKYHelper.bizList(MainBiz.class)){
-//			mainBiz.setShare("我被分享了" + i);
-//			i++;
-//		}
+		// SKYHelper.bizList(MainBiz.class);
+		// int i=0;
+		// for(MainBiz mainBiz : SKYHelper.bizList(MainBiz.class)){
+		// mainBiz.setShare("我被分享了" + i);
+		// i++;
+		// }
 
-	    biz(MainBiz.class).setShare("我被分享了");
-	    biz(TipBiz.class).tip();
-    }
+		biz(MainBiz.class).setShare("我被分享了");
+		biz(TipBiz.class).tip();
+	}
+
+
+	@OnClick({ R.id.btn_loading, R.id.btn_close }) public void onViewClicked(View view) {
+		switch (view.getId()) {
+			case R.id.btn_loading:
+				biz().load();
+//				close();
+//				biz(MainBiz.class).load();
+//				loading();
+				break;
+			case R.id.btn_close:
+				closeLoading();
+				break;
+		}
+	}
 }

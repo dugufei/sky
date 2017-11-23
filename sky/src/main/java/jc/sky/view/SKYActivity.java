@@ -510,4 +510,18 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 	protected View contentView() {
 		return SKYBuilder.getContentRootView();
 	}
+
+	/**
+	 * 进度条
+	 */
+	@Override public void loading() {
+		SKYHelper.methodsProxy().activityInterceptor().onShowLoading(this);
+	}
+
+	/**
+	 * 关闭进度条
+	 */
+	@Override public void closeLoading() {
+		SKYHelper.methodsProxy().activityInterceptor().onCloseLoading(this);
+	}
 }

@@ -365,6 +365,20 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 		onKeyBack();
 	}
 
+	/**
+	 * 进度条
+	 */
+	@Override public void loading() {
+		SKYHelper.methodsProxy().fragmentInterceptor().onShowLoading(this);
+	}
+
+	/**
+	 * 关闭进度条
+	 */
+	@Override public void closeLoading() {
+		SKYHelper.methodsProxy().fragmentInterceptor().onCloseLoading(this);
+	}
+
 	@Override public int showState() {
 		if (SKYBuilder != null) {
 			return SKYBuilder.getLayoutState();

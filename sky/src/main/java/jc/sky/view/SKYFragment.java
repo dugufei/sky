@@ -347,6 +347,20 @@ public abstract class SKYFragment<B extends SKYBiz> extends Fragment implements 
 		}
 	}
 
+	/**
+	 * 进度条
+	 */
+	@Override public void loading() {
+		SKYHelper.methodsProxy().fragmentInterceptor().onShowLoading(this);
+	}
+
+	/**
+	 * 关闭进度条
+	 */
+	@Override public void closeLoading() {
+		SKYHelper.methodsProxy().fragmentInterceptor().onCloseLoading(this);
+	}
+
 	@Override public void close() {
 		onKeyBack();
 	}

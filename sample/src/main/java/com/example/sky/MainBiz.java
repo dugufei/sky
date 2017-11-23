@@ -2,6 +2,8 @@ package com.example.sky;
 
 import jc.sky.core.SKYBiz;
 import retrofit2.Call;
+import sky.Background;
+import sky.BackgroundType;
 import sky.OpenBiz;
 
 import android.os.Bundle;
@@ -18,12 +20,17 @@ public class MainBiz extends SKYBiz<MainActivity> {
 		super.initBiz(bundle);
 	}
 
-	@OpenBiz public void load() {
-		ui().showLoading();
+	@Background(BackgroundType.HTTP) public void load() {
+		loading();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		closeLoading();
 	}
 
-	public void tip() {
-	}
+	public void tip() {}
 
 	public void setShare(String value) {
 		ui().setTextView2(value);

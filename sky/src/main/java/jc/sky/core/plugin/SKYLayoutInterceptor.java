@@ -10,6 +10,49 @@ import jc.sky.view.SKYFragment;
  */
 public interface SKYLayoutInterceptor {
 
+	class AdapterInterceptor implements SKYLayoutInterceptor {
+
+		@Override public void showContent(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void showEmpty(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void showBizError(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void showLoading(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void showHttpError(SKYActivity skyActivity) {
+
+		}
+
+		@Override public void showContent(SKYFragment skyFragment) {
+
+		}
+
+		@Override public void showEmpty(SKYFragment skyFragment) {
+
+		}
+
+		@Override public void showBizError(SKYFragment skyFragment) {
+
+		}
+
+		@Override public void showLoading(SKYFragment skyFragment) {
+
+		}
+
+		@Override public void showHttpError(SKYFragment skyFragment) {
+
+		}
+	}
+
 	SKYLayoutInterceptor NONE = new SKYLayoutInterceptor() {
 
 		@Override public void showContent(SKYActivity skyActivity) {

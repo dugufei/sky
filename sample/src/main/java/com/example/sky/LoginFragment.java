@@ -47,7 +47,10 @@ public class LoginFragment extends SKYFragment<LoginBiz> {
 	}
 
 	@OnClick(R.id.button) public void onViewClicked() {
-		biz().login(editText.getText().toString(), editText2.getText().toString());
+		loading();
+
+		biz().load();
+//		biz().login(editText.getText().toString(), editText2.getText().toString());
 //		SKYHelper.moduleBiz("MainBiz").method("load").run();
 	}
 
