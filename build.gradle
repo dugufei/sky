@@ -30,19 +30,17 @@ buildscript {
     ]
 
     ext.deps = [
-            android   : [
+            android     : [
                     'runtime'     : 'com.google.android:android:4.1.1.4',
                     'gradlePlugin': "com.android.tools.build:gradle:${versions.androidPlugin}",
             ],
-            'support' : [
-                    'compat_v7'      : "com.android.support:appcompat-v7:${versions.supportLibrary}",
-                    'cardview_v7'    : "com.android.support:cardview-v7:${versions.supportLibrary}",
-                    'recyclerview_v7': "com.android.support:recyclerview-v7:${versions.supportLibrary}",
-                    'annotations'    : "com.android.support:support-annotations:${versions.supportLibrary}",
-
+            'support'   : [
+                    'compat_v7'        : "com.android.support:appcompat-v7:${versions.supportLibrary}",
+                    'cardview_v7'      : "com.android.support:cardview-v7:${versions.supportLibrary}",
+                    'recyclerview_v7'  : "com.android.support:recyclerview-v7:${versions.supportLibrary}",
+                    'supportAnnotation': "com.android.support:support-annotations:${versions.supportLibrary}",
             ],
-            'library' : [
-                    'guava'               : "com.google.guava:guava:${versions.guava}",
+            'library'   : [
                     'butterknife'         : "com.jakewharton:butterknife:${versions.butterknife}",
                     'butterknife-compiler': "com.jakewharton:butterknife-compiler:${versions.butterknife}",
                     'nineoldandroids'     : "com.nineoldandroids:library:${versions.nineoldandroids}",
@@ -58,25 +56,25 @@ buildscript {
                     'dagger'              : "com.google.dagger:dagger:${versions.dagger}",
                     'guava'               : "com.google.guava:guava:${versions.guava}",
             ],
-            'annotation'     : [
+            'annotation': [
                     'dagger_compiler': "com.google.dagger:dagger-compiler:${versions.dagger}",
             ],
 
             // 代码生成
-            'auto'    : [
+            'auto'      : [
                     'service': 'com.google.auto.service:auto-service:1.0-rc3',
                     'common' : 'com.google.auto:auto-common:0.8',
             ],
             //插件
-            'kotlin'  : [
+            'kotlin'    : [
                     'stdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
             ],
-            javaparser: 'com.github.javaparser:javaparser-core:3.2.8',
-            javapoet  : 'com.squareup:javapoet:1.9.0',
-            junit: 'junit:junit:4.12',
-            truth: 'com.google.truth:truth:0.36',
+            javaparser  : 'com.github.javaparser:javaparser-core:3.2.8',
+            javapoet    : 'com.squareup:javapoet:1.9.0',
+            junit       : 'junit:junit:4.12',
+            truth       : 'com.google.truth:truth:0.36',
             //引用
-            'release' : [
+            'release'   : [
                     'runtime' : "com.jincanshen:sky:${versions.release}",
                     'compiler': "com.jincanshen:sky-compiler:${versions.release}"
             ],

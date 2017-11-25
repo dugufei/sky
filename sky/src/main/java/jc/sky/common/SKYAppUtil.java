@@ -10,11 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -22,8 +21,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import jc.sky.core.SKYHelper;
 import jc.sky.core.Impl;
+import jc.sky.core.SKYHelper;
 import jc.sky.modules.log.L;
 
 /**
@@ -266,7 +265,7 @@ public final class SKYAppUtil {
 	 * @param <D>
 	 * @return
 	 */
-	public static <D> Object getImplClass(@NotNull Class<D> service) {
+	public static <D> Object getImplClass(@NonNull Class<D> service) {
 		SKYCheckUtils.validateServiceInterface(service);
 		try {
 			// 获取注解
@@ -292,7 +291,7 @@ public final class SKYAppUtil {
 		}
 	}
 
-	public static <D> Object getImplClassNotInf(@NotNull Class<D> service) {
+	public static <D> Object getImplClassNotInf(@NonNull Class<D> service) {
 		try {
 			/** 加载类 **/
 			Constructor c = service.getDeclaredConstructor();
@@ -311,7 +310,7 @@ public final class SKYAppUtil {
 		}
 	}
 
-	public static <D> Object getImplClass(@NotNull Class<D> service, Class argsClass, Object argsParam) {
+	public static <D> Object getImplClass(@NonNull Class<D> service, Class argsClass, Object argsParam) {
 		SKYCheckUtils.validateServiceInterface(service);
 		try {
 			// 获取注解
@@ -337,9 +336,27 @@ public final class SKYAppUtil {
 		}
 	}
 
+
+	/**
+	 * 获取包信息
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static PackageInfo getPackageInfo(Context context) {
+		PackageInfo packageInfo = null;
+		try {
+			packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+		} catch (Exception ex) {
+			L.e("Get package info error.");
+		}
+
+		return packageInfo;
+	}
+
 	/**
 	 * 判断是否是新版本
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -359,22 +376,4 @@ public final class SKYAppUtil {
 			return true;
 		}
 	}
-
-	/**
-	 * 获取包信息
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static PackageInfo getPackageInfo(Context context) {
-		PackageInfo packageInfo = null;
-		try {
-			packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-		} catch (Exception ex) {
-			L.e("Get package info error.");
-		}
-
-		return packageInfo;
-	}
-
 }

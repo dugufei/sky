@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -16,11 +17,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-
 import jc.sky.R;
-import jc.sky.core.SKYHelper;
 import jc.sky.common.SKYCheckUtils;
+import jc.sky.core.SKYHelper;
 
 /**
  * @author sky
@@ -277,7 +276,7 @@ public class SKYDisplay implements SKYIDisplay {
 		activity().overridePendingTransition(in, out);
 	}
 
-	@Override public void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out) {
+	@Override public void intentCustomAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out) {
 		if (activity() == null) {
 			return;
 		}
@@ -286,7 +285,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle options) {
+	@Override public void intentCustomAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle options) {
 		if (activity() == null) {
 			return;
 		}
@@ -299,7 +298,7 @@ public class SKYDisplay implements SKYIDisplay {
 		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
 	}
 
-	@Override public void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight) {
+	@Override public void intentScaleUpAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int startWidth, int startHeight) {
 		if (activity() == null) {
 			return;
 		}
@@ -309,7 +308,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight, @NotNull Bundle options) {
+	@Override public void intentScaleUpAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int startWidth, int startHeight, @NonNull Bundle options) {
 		if (activity() == null) {
 			return;
 		}
@@ -324,7 +323,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, SKYDisplayModel... skyDisplayModel) {
+	@Override public void intentSceneTransitionAnimation(@NonNull Class clazz, SKYDisplayModel... skyDisplayModel) {
 		if (activity() == null || skyDisplayModel == null) {
 			return;
 		}
@@ -338,7 +337,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, @NotNull Bundle options, SKYDisplayModel... skyDisplayModel) {
+	@Override public void intentSceneTransitionAnimation(@NonNull Class clazz, @NonNull Bundle options, SKYDisplayModel... skyDisplayModel) {
 		if (activity() == null || skyDisplayModel == null) {
 			return;
 		}
@@ -355,7 +354,7 @@ public class SKYDisplay implements SKYIDisplay {
 		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
 	}
 
-	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second) {
+	@Override public void intentSceneTransitionAnimation(@NonNull Class clazz, View first, String second) {
 		if (activity() == null) {
 			return;
 		}
@@ -364,7 +363,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second, @NotNull Bundle options) {
+	@Override public void intentSceneTransitionAnimation(@NonNull Class clazz, View first, String second, @NonNull Bundle options) {
 		if (activity() == null) {
 			return;
 		}
@@ -376,17 +375,17 @@ public class SKYDisplay implements SKYIDisplay {
 		ActivityCompat.startActivity(activity(), intent, compat.toBundle());
 	}
 
-	@Override public void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height) {
+	@Override public void intentClipRevealAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int width, int height) {
 		if (activity() == null) {
 			return;
 		}
 	}
 
-	@Override public void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height, @NotNull Bundle options) {
+	@Override public void intentClipRevealAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int width, int height, @NonNull Bundle options) {
 
 	}
 
-	@Override public void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY) {
+	@Override public void intentThumbnailScaleUpAnimation(@NonNull Class clazz, @NonNull View view, @NonNull Bitmap thumbnail, int startX, int startY) {
 		if (activity() == null) {
 			return;
 		}
@@ -395,7 +394,7 @@ public class SKYDisplay implements SKYIDisplay {
 		ActivityCompat.startActivity(activity(), new Intent(activity(), clazz), compat.toBundle());
 	}
 
-	@Override public void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY, @NotNull Bundle options) {
+	@Override public void intentThumbnailScaleUpAnimation(@NonNull Class clazz, @NonNull View view, @NonNull Bitmap thumbnail, int startX, int startY, @NonNull Bundle options) {
 		if (activity() == null) {
 			return;
 		}

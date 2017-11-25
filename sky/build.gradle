@@ -1,4 +1,3 @@
-//框架开发模式-需要测试
 apply plugin: 'com.android.library'
 
 android {
@@ -13,8 +12,6 @@ android {
         textOutput 'stdout'
         abortOnError false
     }
-
-
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -26,16 +23,17 @@ dependencies {
 
 
     compile deps.library.guava
+    compile deps.library.retrofit
     compile deps.library.butterknife
     compile deps.library.nineoldandroids
     compile deps.library.systembartint
     compile deps.library.commons_lang3
     compile deps.library.gson
-    compile deps.library.retrofit
+
+    compile deps.library.glide
     compile deps.library.glide_okhttp3
     compile deps.library.okhttp3
     compile deps.library.java5
-    compile deps.library.glide
     compile deps.library.dagger
     compile deps.library.guava
 

@@ -4,16 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.sky.oder.OderActivity;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jc.sky.core.SKYHelper;
-import jc.sky.display.SKYIDisplay;
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYBuilder;
-import jc.sky.view.SKYHolder;
+import sky.core.SKYActivity;
+import sky.core.SKYBuilder;
+import sky.core.SKYHelper;
+import sky.core.SKYIDisplay;
 
 /**
  * @author sky
@@ -29,7 +25,7 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
-	@Deprecated @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+	@Deprecated @Override protected sky.core.SKYBuilder build(SKYBuilder initialSKYBuilder) {
 		initialSKYBuilder.layoutId(R.layout.activity_main);
 		initialSKYBuilder.layoutLoadingId(R.layout.layout_loading);
 		initialSKYBuilder.layoutEmptyId(R.layout.layout_empty);

@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+    }
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':sky-annotations')
+    compile project(':sky-cglib')
+
+    compile deps.support.recyclerview_v7
+    compile deps.support.compat_v7
+
+    compile deps.library.dagger
+    annotationProcessor deps.annotation.dagger_compiler
+
+    compile deps.library.retrofit
+    compile deps.library.butterknife
+    compile deps.library.commons_lang3
+    compile deps.library.guava
+    compile deps.library.systembartint
+
+}
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

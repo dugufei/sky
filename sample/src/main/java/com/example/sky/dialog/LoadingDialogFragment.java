@@ -1,11 +1,12 @@
 package com.example.sky.dialog;
 
-import android.os.Bundle;
-
 import com.example.sky.R;
 
-import jc.sky.view.SKYDialogFragment;
-import jc.sky.view.SKYBuilder;
+import android.os.Bundle;
+
+import sky.core.SKYBuilder;
+import sky.core.SKYDialogFragment;
+
 
 /**
  * @author sky

@@ -12,9 +12,9 @@ import com.example.sky.http.model.Model;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYHolder;
-import jc.sky.view.SKYRVAdapter;
+import sky.core.SKYActivity;
+import sky.core.SKYHolder;
+import sky.core.SKYRVAdapter;
 
 public class OderAdapter extends SKYRVAdapter<Model, OderAdapter.ItemHolder> {
 

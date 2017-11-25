@@ -5,12 +5,11 @@ import android.view.View;
 import android.widget.Button;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jc.sky.core.SKYHelper;
-import jc.sky.display.SKYIDisplay;
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYBuilder;
+import sky.core.SKYActivity;
+import sky.core.SKYBuilder;
+import sky.core.SKYHelper;
+import sky.core.SKYIDisplay;
 
 /**
  * @author sky
@@ -30,7 +29,7 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 		SKYHelper.display(SKYIDisplay.class).intent(ShareActivity.class);
 	}
 
-	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
+	@Override protected sky.core.SKYBuilder build(SKYBuilder initialSKYBuilder) {
 		initialSKYBuilder.layoutId(R.layout.activity_share);
 		return initialSKYBuilder;
 	}
@@ -47,8 +46,10 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 		// i++;
 		// }
 
-		biz(MainBiz.class).setShare("我被分享了");
-		biz(TipBiz.class).tip();
+//		biz(MainBiz.class).setShare("我被分享了");
+//		biz(TipBiz.class).tip();
+		String aaaa= SKYHelper.moduleBiz("NotifyBiz").method("aaa").run();
+		SKYHelper.toast().show(aaaa);
 	}
 
 

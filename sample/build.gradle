@@ -25,10 +25,13 @@ dependencies {
 
     compile deps.library.butterknife
     annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
-    compile project(':sky')
+    compile project(':sky-core')
     annotationProcessor project(':sky-compiler')
+    annotationProcessor deps.annotation.dagger_compiler
 
-    compile deps.support.compat_v7
+    compile deps.support.cardview_v7
+    compile deps.library.glide
+    compile deps.library.glide_okhttp3
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 

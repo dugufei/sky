@@ -4,15 +4,13 @@ import android.os.Bundle;
 
 import com.example.sky.http.GithubHttp;
 import com.example.sky.http.model.Model;
-import com.example.sky.oder.adapter.OderAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jc.sky.core.SKYBiz;
 import retrofit2.Call;
 import sky.Background;
 import sky.BackgroundType;
+import sky.core.SKYBiz;
 
 public class OderBiz extends SKYBiz<OderActivity> {
 

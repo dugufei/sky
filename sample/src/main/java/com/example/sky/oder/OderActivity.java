@@ -1,17 +1,17 @@
 package com.example.sky.oder;
 
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import java.util.List;
 
 import com.example.sky.R;
 import com.example.sky.http.model.Model;
 import com.example.sky.oder.adapter.OderAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 
-import jc.sky.view.SKYActivity;
-import jc.sky.view.SKYBuilder;
+import sky.core.SKYActivity;
+import sky.core.SKYBuilder;
+
 
 public class OderActivity extends SKYActivity<OderBiz> {
 

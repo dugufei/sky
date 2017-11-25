@@ -6,11 +6,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
-import org.jetbrains.annotations.NotNull;
 
 import jc.sky.core.Impl;
 
@@ -45,7 +44,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentFromFragment(@NotNull Class clazz, @NotNull Fragment fragment, int requestCode);
+	void intentFromFragment(@NonNull Class clazz, @NonNull Fragment fragment, int requestCode);
 
 	/**
 	 * 跳转
@@ -57,7 +56,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentFromFragment(@NotNull Intent intent, @NotNull Fragment fragment, int requestCode);
+	void intentFromFragment(@NonNull Intent intent, @NonNull Fragment fragment, int requestCode);
 
 	/**
 	 * home键
@@ -73,13 +72,13 @@ public interface SKYIDisplay {
 	 * @param clazz
 	 *            参数
 	 */
-	void popBackStack(@NotNull Class clazz);
+	void popBackStack(@NonNull Class clazz);
 
 	/**
 	 * @param clazzName
 	 *            参数
 	 */
-	void popBackStack(@NotNull String clazzName);
+	void popBackStack(@NonNull String clazzName);
 
 	/**
 	 * 
@@ -90,7 +89,7 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitAdd(@NotNull Fragment fragment);
+	void commitAdd(@NonNull Fragment fragment);
 
 	/**
 	 * @param layoutId
@@ -98,13 +97,13 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitAdd(@IdRes int layoutId, @NotNull Fragment fragment);
+	void commitAdd(@IdRes int layoutId, @NonNull Fragment fragment);
 
 	/**
 	 * @param fragment
 	 *            参数
 	 */
-	void commitReplace(@NotNull Fragment fragment);
+	void commitReplace(@NonNull Fragment fragment);
 
 	/**
 	 * @param srcFragment
@@ -114,7 +113,7 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitChildReplace(@NotNull Fragment srcFragment, @IdRes int layoutId, @NotNull Fragment fragment);
+	void commitChildReplace(@NonNull Fragment srcFragment, @IdRes int layoutId, @NonNull Fragment fragment);
 
 	/**
 	 * @param layoutId
@@ -122,21 +121,13 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitReplace(@IdRes int layoutId, @NotNull Fragment fragment);
+	void commitReplace(@IdRes int layoutId, @NonNull Fragment fragment);
 
 	/**
 	 * @param fragment
 	 *            参数
 	 */
-	void commitBackStack(@NotNull Fragment fragment);
-
-	/**
-	 * @param srcFragment
-	 *            参数
-	 * @param fragment
-	 *            参数
-	 */
-	void commitHideAndBackStack(@NotNull Fragment srcFragment, @NotNull Fragment fragment);
+	void commitBackStack(@NonNull Fragment fragment);
 
 	/**
 	 * @param srcFragment
@@ -144,7 +135,15 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitDetachAndBackStack(@NotNull Fragment srcFragment, @NotNull Fragment fragment);
+	void commitHideAndBackStack(@NonNull Fragment srcFragment, @NonNull Fragment fragment);
+
+	/**
+	 * @param srcFragment
+	 *            参数
+	 * @param fragment
+	 *            参数
+	 */
+	void commitDetachAndBackStack(@NonNull Fragment srcFragment, @NonNull Fragment fragment);
 
 	/**
 	 * @param layoutId
@@ -152,7 +151,7 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void commitBackStack(@IdRes int layoutId, @NotNull Fragment fragment);
+	void commitBackStack(@IdRes int layoutId, @NonNull Fragment fragment);
 
 	/**
 	 * @param layoutId
@@ -162,7 +161,7 @@ public interface SKYIDisplay {
 	 * @param animation
 	 *            参数
 	 */
-	void commitBackStack(@IdRes int layoutId, @NotNull Fragment fragment, int animation);
+	void commitBackStack(@IdRes int layoutId, @NonNull Fragment fragment, int animation);
 
 	/**
 	 * 跳转intent
@@ -171,27 +170,19 @@ public interface SKYIDisplay {
 	 *            参数
 	 **/
 
-	void intent(@NotNull Class clazz);
+	void intent(@NonNull Class clazz);
 
 	/**
 	 * @param clazzName
 	 *            参数
 	 */
-	void intent(@NotNull String clazzName);
+	void intent(@NonNull String clazzName);
 
 	/**
 	 * @param clazz
 	 *            参数
 	 */
-	void intentNotAnimation(@NotNull Class clazz);
-
-	/**
-	 * @param clazz
-	 *            参数
-	 * @param bundle
-	 *            参数
-	 */
-	void intent(@NotNull Class clazz, Bundle bundle);
+	void intentNotAnimation(@NonNull Class clazz);
 
 	/**
 	 * @param clazz
@@ -199,13 +190,21 @@ public interface SKYIDisplay {
 	 * @param bundle
 	 *            参数
 	 */
-	void intentNotAnimation(@NotNull Class clazz, @NotNull Bundle bundle);
+	void intent(@NonNull Class clazz, Bundle bundle);
+
+	/**
+	 * @param clazz
+	 *            参数
+	 * @param bundle
+	 *            参数
+	 */
+	void intentNotAnimation(@NonNull Class clazz, @NonNull Bundle bundle);
 
 	/**
 	 * @param intent
 	 *            参数
 	 */
-	void intent(@NotNull Intent intent);
+	void intent(@NonNull Intent intent);
 
 	/**
 	 * @param intent
@@ -213,7 +212,7 @@ public interface SKYIDisplay {
 	 * @param options
 	 *            参数
 	 */
-	void intent(@NotNull Intent intent, @NotNull Bundle options);
+	void intent(@NonNull Intent intent, @NonNull Bundle options);
 
 	/**
 	 * @param clazz
@@ -221,7 +220,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResult(@NotNull Class clazz, int requestCode);
+	void intentForResult(@NonNull Class clazz, int requestCode);
 
 	/**
 	 * @param clazz
@@ -233,7 +232,7 @@ public interface SKYIDisplay {
 	 * @param fragment
 	 *            参数
 	 */
-	void intentForResultFromFragment(@NotNull Class clazz, Bundle bundle, int requestCode, @NotNull Fragment fragment);
+	void intentForResultFromFragment(@NonNull Class clazz, Bundle bundle, int requestCode, @NonNull Fragment fragment);
 
 	/**
 	 * @param clazz
@@ -243,7 +242,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResult(@NotNull Class clazz, @NotNull Bundle bundle, int requestCode);
+	void intentForResult(@NonNull Class clazz, @NonNull Bundle bundle, int requestCode);
 
 	/**
 	 * @param intent
@@ -251,7 +250,7 @@ public interface SKYIDisplay {
 	 * @param requestCod
 	 *            参数
 	 */
-	void intentForResult(@NotNull Intent intent, int requestCod);
+	void intentForResult(@NonNull Intent intent, int requestCod);
 
 	/**
 	 * @param intent
@@ -261,7 +260,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResult(@NotNull Intent intent, @NotNull Bundle options, int requestCode);
+	void intentForResult(@NonNull Intent intent, @NonNull Bundle options, int requestCode);
 
 	/**
 	 * @param clazz
@@ -271,7 +270,7 @@ public interface SKYIDisplay {
 	 * @param bundle
 	 *            参数
 	 */
-	void intentAnimation(@NotNull Class clazz, @NotNull View view, Bundle bundle);
+	void intentAnimation(@NonNull Class clazz, @NonNull View view, Bundle bundle);
 
 	/**
 	 * @param clazz
@@ -281,7 +280,7 @@ public interface SKYIDisplay {
 	 * @param out
 	 *            参数
 	 */
-	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out);
+	void intentAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out);
 
 	/**
 	 * @param clazz
@@ -293,7 +292,7 @@ public interface SKYIDisplay {
 	 * @param bundle
 	 *            参数
 	 */
-	void intentAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle bundle);
+	void intentAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle);
 
 	/**
 	 * @param clazz
@@ -303,7 +302,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResultAnimation(@NotNull Class clazz, @NotNull View view, int requestCode);
+	void intentForResultAnimation(@NonNull Class clazz, @NonNull View view, int requestCode);
 
 	/**
 	 * @param clazz
@@ -315,7 +314,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResultAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bundle bundle, int requestCode);
+	void intentForResultAnimation(@NonNull Class clazz, @NonNull View view, @NonNull Bundle bundle, int requestCode);
 
 	/**
 	 * @param clazz
@@ -327,7 +326,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, int requestCode);
+	void intentForResultAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out, int requestCode);
 
 	/**
 	 * @param clazz
@@ -341,7 +340,7 @@ public interface SKYIDisplay {
 	 * @param requestCode
 	 *            参数
 	 */
-	void intentForResultAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle bundle, int requestCode);
+	void intentForResultAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle bundle, int requestCode);
 
 	/**
 	 * 自定义动画
@@ -353,9 +352,9 @@ public interface SKYIDisplay {
 	 * @param out
 	 *            参数
 	 */
-	void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out);
+	void intentCustomAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out);
 
-	void intentCustomAnimation(@NotNull Class clazz, @AnimRes int in, @AnimRes int out, @NotNull Bundle options);
+	void intentCustomAnimation(@NonNull Class clazz, @AnimRes int in, @AnimRes int out, @NonNull Bundle options);
 
 	/**
 	 * 动画
@@ -373,9 +372,9 @@ public interface SKYIDisplay {
 	 * @param startHeight
 	 *            参数
 	 */
-	void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight);
+	void intentScaleUpAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int startWidth, int startHeight);
 
-	void intentScaleUpAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int startWidth, int startHeight, @NotNull Bundle options);
+	void intentScaleUpAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int startWidth, int startHeight, @NonNull Bundle options);
 
 	/**
 	 * 动画
@@ -385,9 +384,9 @@ public interface SKYIDisplay {
 	 * @param skyDisplayModel
 	 *            参数
 	 */
-	void intentSceneTransitionAnimation(@NotNull Class clazz, SKYDisplayModel... skyDisplayModel);
+	void intentSceneTransitionAnimation(@NonNull Class clazz, SKYDisplayModel... skyDisplayModel);
 
-	void intentSceneTransitionAnimation(@NotNull Class clazz, @NotNull Bundle options, SKYDisplayModel... skyDisplayModel);
+	void intentSceneTransitionAnimation(@NonNull Class clazz, @NonNull Bundle options, SKYDisplayModel... skyDisplayModel);
 
 	/**
 	 * 动画
@@ -399,9 +398,9 @@ public interface SKYIDisplay {
 	 * @param second
 	 *            参数
 	 */
-	void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second);
+	void intentSceneTransitionAnimation(@NonNull Class clazz, View first, String second);
 
-	void intentSceneTransitionAnimation(@NotNull Class clazz, View first, String second, @NotNull Bundle options);
+	void intentSceneTransitionAnimation(@NonNull Class clazz, View first, String second, @NonNull Bundle options);
 
 	/**
 	 * 动画
@@ -419,9 +418,9 @@ public interface SKYIDisplay {
 	 * @param height
 	 *            参数
 	 */
-	void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height);
+	void intentClipRevealAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int width, int height);
 
-	void intentClipRevealAnimation(@NotNull Class clazz, @NotNull View view, int startX, int startY, int width, int height, @NotNull Bundle options);
+	void intentClipRevealAnimation(@NonNull Class clazz, @NonNull View view, int startX, int startY, int width, int height, @NonNull Bundle options);
 
 	/**
 	 * 动画
@@ -437,8 +436,8 @@ public interface SKYIDisplay {
 	 * @param startY
 	 *            参数
 	 */
-	void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY);
+	void intentThumbnailScaleUpAnimation(@NonNull Class clazz, @NonNull View view, @NonNull Bitmap thumbnail, int startX, int startY);
 
-	void intentThumbnailScaleUpAnimation(@NotNull Class clazz, @NotNull View view, @NotNull Bitmap thumbnail, int startX, int startY, @NotNull Bundle options);
+	void intentThumbnailScaleUpAnimation(@NonNull Class clazz, @NonNull View view, @NonNull Bitmap thumbnail, int startX, int startY, @NonNull Bundle options);
 
 }

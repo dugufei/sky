@@ -1,7 +1,8 @@
 package com.example.sky.dialog;
 
-import jc.sky.core.SKYBiz;
 import android.os.Bundle;
+
+import sky.core.SKYBiz;
 
 /**
  * @author sky

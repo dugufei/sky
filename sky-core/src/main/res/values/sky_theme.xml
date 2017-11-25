@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SKYToolbar"/>
+
+    <style name="SKYToolbar.Custom">
+        <!-- 设置该属性解决空白部分 默认 16dp-->
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:theme">@style/SKYToolbar.Theme</item>
+    </style>
+
+    <style name="SKYToolbar.Theme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+</resources>
