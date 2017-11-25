@@ -1,9 +1,6 @@
 package com.example.sky.helper;
 
-import javax.inject.Inject;
-
 import sky.core.SKYModulesManage;
-
 
 /**
  * @author sky
@@ -12,5 +9,16 @@ import sky.core.SKYModulesManage;
  */
 public class SampleManage extends SKYModulesManage {
 
-	@Inject public API api;
+	private API api;
+
+	public API api() {
+		if (api == null) {
+			synchronized (API.class) {
+				if (api == null) {
+					api = new API();
+				}
+			}
+		}
+		return api;
+	}
 }

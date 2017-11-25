@@ -11,6 +11,6 @@ public class SampleHelper extends SKYHelper {
 
 	public static API api() {
 		SampleManage sampleManage = getManage();
-		return sampleManage.api;
+		return sampleManage.api();
 	}
 }

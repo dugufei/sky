@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.sky.helper.SampleHelper;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import sky.core.SKYActivity;
@@ -48,8 +50,10 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 
 //		biz(MainBiz.class).setShare("我被分享了");
 //		biz(TipBiz.class).tip();
-		String aaaa= SKYHelper.moduleBiz("NotifyBiz").method("aaa").run();
-		SKYHelper.toast().show(aaaa);
+//		String aaaa= SKYHelper.moduleBiz("NotifyBiz").method("aaa").run();
+//		SKYHelper.toast().show(aaaa);
+
+		SampleHelper.api().show();
 	}
 
 

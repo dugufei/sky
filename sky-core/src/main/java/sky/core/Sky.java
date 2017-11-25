@@ -52,9 +52,8 @@ public class Sky {
 		SKYModule skyModule = new SKYModule(application);
 		skyModule.setSky(this.sky);
 		skyModule.setSkyiViewCommon(this.skyiViewCommon);
-		DaggerSKYIComponent.Builder builder = this.sky.module(DaggerSKYIComponent.builder());
 		SKYHelper.mSKYModulesManage = this.sky.modulesManage();
-		builder.sKYModule(skyModule).build().inject(SKYHelper.mSKYModulesManage);
+		DaggerSKYIComponent.builder().sKYModule(skyModule).build().inject(SKYHelper.mSKYModulesManage);
 		// 初始化组件化
 		SKYModuleUtils.initModule(application);
 	}

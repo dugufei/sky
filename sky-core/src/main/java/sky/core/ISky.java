@@ -34,14 +34,6 @@ public interface ISky {
 	SKYPlugins.Builder pluginInterceptor(SKYPlugins.Builder builder);
 
 	/**
-	 * 注入
-	 * 
-	 * @param builder
-	 * @return
-	 */
-	DaggerSKYIComponent.Builder module(DaggerSKYIComponent.Builder builder);
-
-	/**
 	 * 获取配置管理器
 	 *
 	 * @return 返回值
@@ -76,14 +68,6 @@ public interface ISky {
 		 * @return
 		 */
 		@Override public SKYPlugins.Builder pluginInterceptor(SKYPlugins.Builder builder) {
-			return builder;
-		}
-
-		/**
-		 * @param builder
-		 * @return
-		 */
-		@Override public DaggerSKYIComponent.Builder module(DaggerSKYIComponent.Builder builder) {
 			return builder;
 		}
 
