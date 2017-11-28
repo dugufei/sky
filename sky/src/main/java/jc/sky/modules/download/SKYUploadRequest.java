@@ -2,7 +2,8 @@ package jc.sky.modules.download;
 
 import android.net.Uri;
 
-import jc.sky.common.SKYCheckUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import okhttp3.Headers;
 
 /**
@@ -32,7 +33,7 @@ public class SKYUploadRequest extends SKYBaseRequest {
 	 *            类型
 	 */
 	public SKYUploadRequest(Uri uri, SKYUploadBody SKYUploadBody, SKYContentType SKYContentType) {
-		if (SKYCheckUtils.isEmpty(SKYUploadBody.headerName) || SKYCheckUtils.isEmpty(SKYUploadBody.headerValue)) {
+		if (StringUtils.isEmpty(SKYUploadBody.headerName) || StringUtils.isEmpty(SKYUploadBody.headerValue)) {
 			throw new IllegalArgumentException("文件体头信息不能为空！");
 		}
 

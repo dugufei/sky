@@ -1,4 +1,4 @@
-package com.example.sky.helper;
+package com.example.sky.helper.modules;
 
 import sky.core.SKYHelper;
 

@@ -1,4 +1,4 @@
-package jc.sky;
+package jc.sky.modules.error;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,13 +1,15 @@
 package com.example.sky.helper;
 
-import sky.core.SKYModulesManage;
+import com.example.sky.helper.modules.API;
+
+import jc.sky.modules.SKYExtraModulesManage;
 
 /**
  * @author sky
  * @version 1.0 on 2017-11-26 上午1:22
  * @see SampleManage
  */
-public class SampleManage extends SKYModulesManage {
+public class SampleManage extends SKYExtraModulesManage {
 
 	private API api;
 
@@ -21,4 +23,5 @@ public class SampleManage extends SKYModulesManage {
 		}
 		return api;
 	}
+
 }

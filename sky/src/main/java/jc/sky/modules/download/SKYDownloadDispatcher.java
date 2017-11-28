@@ -7,23 +7,26 @@ import com.google.gson.GsonBuilder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.concurrent.BlockingQueue;
 
-import jc.sky.core.SKYHelper;
-import jc.sky.common.SKYGsonUtils;
-import jc.sky.modules.log.L;
-import jc.sky.common.SKYAppUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
+import sky.core.L;
+import sky.core.SKYHelper;
 
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_MOVED_PERM;
@@ -101,17 +104,17 @@ public class SKYDownloadDispatcher extends Thread {
 				if (mRequest instanceof SKYDownloadRequest) { // 下载请求
 					SKYDownloadRequest SKYDownloadRequest = (SKYDownloadRequest) mRequest;
 					mRedirectionCount = 0; // 重定向清零
-					L.i("请求ID = " + SKYDownloadRequest.getRequestId());
+					L.d("请求ID = " + SKYDownloadRequest.getRequestId());
 					SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
 					executeDownload(SKYDownloadRequest, SKYDownloadRequest.getDownloadUrl().toString());
 				} else if (mRequest instanceof SKYUploadRequest) { // 上传请求
 					SKYUploadRequest SKYUploadRequest = (SKYUploadRequest) mRequest;
 					mRedirectionCount = 0; // 重定向清零
-					L.i("请求ID = " + SKYUploadRequest.getRequestId());
+					L.d("请求ID = " + SKYUploadRequest.getRequestId());
 					SKYUploadRequest.setDownloadState(SKYDownloadManager.STATUS_STARTED);// 设置状态
 					executeUpload(SKYUploadRequest, SKYUploadRequest.getUploadUrl().toString());
 				} else {
-					L.i("未知指令");
+					L.d("未知指令");
 				}
 
 			} catch (InterruptedException e) {
@@ -126,7 +129,7 @@ public class SKYDownloadDispatcher extends Thread {
 						updateUploadFailed(SKYUploadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消上传");
 
 					} else {
-						L.i("未知指令");
+						L.d("未知指令");
 					}
 					return;
 				}
@@ -165,8 +168,8 @@ public class SKYDownloadDispatcher extends Thread {
 			updateUploadState(SKYUploadRequest, SKYDownloadManager.STATUS_RUNNING);
 			Response response = okHttpClient.newCall(request).execute();
 			final int responseCode = response.code();
-			L.i("请求头信息:" + request.headers().toString());
-			L.i("请求编号:" + SKYUploadRequest.getRequestId() + ", 响应编号 : " + responseCode);
+			L.d("请求头信息:" + request.headers().toString());
+			L.d("请求编号:" + SKYUploadRequest.getRequestId() + ", 响应编号 : " + responseCode);
 
 			switch (responseCode) {
 				case HTTP_OK:
@@ -187,7 +190,7 @@ public class SKYDownloadDispatcher extends Thread {
 				case HTTP_SEE_OTHER:
 				case HTTP_TEMP_REDIRECT:
 					while (mRedirectionCount++ < MAX_REDIRECTS && shouldAllowRedirects) {
-						L.i("重定向 Id " + SKYUploadRequest.getRequestId());
+						L.d("重定向 Id " + SKYUploadRequest.getRequestId());
 						final String location = response.header("Location");
 						executeUpload(SKYUploadRequest, location); // 执行下载
 						continue;
@@ -278,9 +281,9 @@ public class SKYDownloadDispatcher extends Thread {
 	public void postUploadComplete(final SKYUploadRequest request, final Response response) {
 		try {
 
-			final Class clazz = SKYAppUtil.getClassGenricType(request.getSKYUploadListener().getClass(), 0);
+			final Class clazz = getClassGenricType(request.getSKYUploadListener().getClass(), 0);
 
-			final Object value = SKYGsonUtils.readBody(gson, Charset.forName("UTF-8"), response.body(), clazz);
+			final Object value = readBody(gson, Charset.forName("UTF-8"), response.body(), clazz);
 			SKYHelper.mainLooper().execute(new Runnable() {
 
 				@Override public void run() {
@@ -303,6 +306,56 @@ public class SKYDownloadDispatcher extends Thread {
 		}
 	}
 
+	static final Object readBody(Gson gson, Charset charset, ResponseBody body, Type type) throws IOException {
+		if (body.contentType() != null) {
+			charset = body.contentType().charset(charset);
+		}
+
+		L.tag("GsonConverter");
+
+		InputStream is = body.byteStream();
+
+		InputStreamReader inputStreamReader = new InputStreamReader(is, charset);
+		BufferedReader bufferedReader = null;
+		try {
+			bufferedReader = new BufferedReader(inputStreamReader);
+			StringBuilder result = new StringBuilder();
+			String line = null;
+			while ((line = bufferedReader.readLine()) != null) {
+				result.append(line + "\n");
+			}
+			String json = result.toString();
+			L.tag("SKY-HTTP-RETURN");
+			L.i(result.toString());
+			return gson.fromJson(json, type);
+		} finally {
+			try {
+				inputStreamReader.close();
+				is.close();
+				bufferedReader.close();
+
+			} catch (IOException ignored) {
+			}
+		}
+	}
+
+	static Class getClassGenricType(final Class clazz, final int index) {
+		Type type = clazz.getGenericSuperclass();
+
+		if (!(type instanceof ParameterizedType)) {
+			return null;
+		}
+		// 强制类型转换
+		ParameterizedType pType = (ParameterizedType) type;
+
+		Type[] tArgs = pType.getActualTypeArguments();
+
+		if (tArgs.length < 1) {
+			return null;
+		}
+
+		return (Class) tArgs[index];
+	}
 	/**
 	 * *******************************下载****************************************
 	 */
@@ -332,7 +385,7 @@ public class SKYDownloadDispatcher extends Thread {
 
 			final int responseCode = response.code();
 
-			L.i("请求编号:" + SKYDownloadRequest.getRequestId() + ", 响应编号 : " + responseCode);
+			L.d("请求编号:" + SKYDownloadRequest.getRequestId() + ", 响应编号 : " + responseCode);
 
 			switch (responseCode) {
 				case HTTP_OK:
@@ -348,7 +401,7 @@ public class SKYDownloadDispatcher extends Thread {
 				case HTTP_SEE_OTHER:
 				case HTTP_TEMP_REDIRECT:
 					while (mRedirectionCount++ < MAX_REDIRECTS && shouldAllowRedirects) {
-						L.i("重定向 Id " + SKYDownloadRequest.getRequestId());
+						L.d("重定向 Id " + SKYDownloadRequest.getRequestId());
 						final String location = response.header("Location");
 						executeDownload(SKYDownloadRequest, location); // 执行下载
 						continue;
@@ -444,10 +497,10 @@ public class SKYDownloadDispatcher extends Thread {
 		final byte data[] = new byte[BUFFER_SIZE];
 		mCurrentBytes = 0;
 		SKYDownloadRequest.setDownloadState(SKYDownloadManager.STATUS_RUNNING);
-		L.i("内容长度: " + mContentLength + " 下载ID : " + SKYDownloadRequest.getRequestId());
+		L.d("内容长度: " + mContentLength + " 下载ID : " + SKYDownloadRequest.getRequestId());
 		for (;;) {
 			if (SKYDownloadRequest.isCanceled()) {
-				L.i("取消的请求Id " + SKYDownloadRequest.getRequestId());
+				L.d("取消的请求Id " + SKYDownloadRequest.getRequestId());
 				mRequest.finish();
 				updateDownloadFailed(SKYDownloadRequest, SKYDownloadManager.ERROR_DOWNLOAD_CANCELLED, "取消下载");
 				return;
@@ -529,7 +582,7 @@ public class SKYDownloadDispatcher extends Thread {
 		if (transferEncoding == null) {
 			mContentLength = getHeaderFieldLong(response, "Content-Length", -1);
 		} else {
-			L.i("长度无法确定的请求Id " + SKYDownloadRequest.getRequestId());
+			L.d("长度无法确定的请求Id " + SKYDownloadRequest.getRequestId());
 			mContentLength = -1;
 		}
 
@@ -566,7 +619,7 @@ public class SKYDownloadDispatcher extends Thread {
 	 *            参数
 	 */
 	private void cleanupDestination(SKYDownloadRequest SKYDownloadRequest) {
-		L.i("目标文件路径 : " + SKYDownloadRequest.getDestinationUrl());
+		L.d("目标文件路径 : " + SKYDownloadRequest.getDestinationUrl());
 		File destinationFile = new File(SKYDownloadRequest.getDestinationUrl().getPath().toString());
 		if (destinationFile.exists()) {
 			destinationFile.delete();

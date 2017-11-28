@@ -40,7 +40,8 @@ public class SKYHelper {
 	/**
 	 * 获取管理
 	 *
-	 * @param <M> 参数
+	 * @param <M>
+	 *            参数
 	 * @return 返回值
 	 */
 	protected static <M> M getManage() {
@@ -309,6 +310,15 @@ public class SKYHelper {
 	}
 
 	/**
+	 * MainLooper 主线程中执行
+	 *
+	 * @return 返回值
+	 */
+	public static SynchronousExecutor mainLooper() {
+		return mSKYModulesManage.synchronousExecutor;
+	}
+
+	/**
 	 * 结构管理器
 	 *
 	 * @return 管理器
@@ -324,15 +334,6 @@ public class SKYHelper {
 	 */
 	static SKYThreadPoolManager threadPoolHelper() {
 		return mSKYModulesManage.skyThreadPoolManager;
-	}
-
-	/**
-	 * MainLooper 主线程中执行
-	 *
-	 * @return 返回值
-	 */
-	static SynchronousExecutor mainLooper() {
-		return mSKYModulesManage.synchronousExecutor;
 	}
 
 	/**

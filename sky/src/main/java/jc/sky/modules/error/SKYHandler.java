@@ -1,4 +1,4 @@
-package jc.sky;
+package jc.sky.modules.error;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +8,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import jc.sky.core.SKYHelper;
-import jc.sky.modules.log.L;
+import sky.core.L;
+import sky.core.SKYHelper;
+
 
 /**
  * @author sky

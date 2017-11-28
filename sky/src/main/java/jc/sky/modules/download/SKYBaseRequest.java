@@ -1,6 +1,7 @@
 package jc.sky.modules.download;
 
-import jc.sky.modules.log.L;
+
+import sky.core.L;
 
 /**
  * @author sky
@@ -149,31 +150,31 @@ public class SKYBaseRequest implements Comparable<SKYBaseRequest> {
 		switch (mDownloadState) {
 			case SKYIDownloadMagnager.STATUS_PENDING:
 				L.tag("SKYIDownloadMagnager");
-				L.i("目前正在等待状态");
+				L.d("目前正在等待状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_STARTED:
 				L.tag("SKYIDownloadMagnager");
-				L.i("开始状态");
+				L.d("开始状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_CONNECTING:
 				L.tag("SKYIDownloadMagnager");
-				L.i("联网状态");
+				L.d("联网状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_RUNNING:
 				L.tag("SKYIDownloadMagnager");
-				L.i("运行状态");
+				L.d("运行状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_SUCCESSFUL:
 				L.tag("SKYIDownloadMagnager");
-				L.i("完成状态");
+				L.d("完成状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_FAILED:
 				L.tag("SKYIDownloadMagnager");
-				L.i("失败状态");
+				L.d("失败状态");
 				break;
 			case SKYIDownloadMagnager.STATUS_NOT_FOUND:
 				L.tag("SKYIDownloadMagnager");
-				L.i("失败状态 - 没有找到");
+				L.d("失败状态 - 没有找到");
 				break;
 		}
 		this.mDownloadState = mDownloadState;

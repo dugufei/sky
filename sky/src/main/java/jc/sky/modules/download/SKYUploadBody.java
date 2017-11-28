@@ -1,9 +1,10 @@
 package jc.sky.modules.download;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.List;
 
-import jc.sky.common.SKYCheckUtils;
 import okhttp3.Headers;
 
 /**
@@ -30,7 +31,7 @@ public class SKYUploadBody<T> {
 			buffer.append("form-data; name=\"");
 			buffer.append(this.headerValue);
 			buffer.append("\"");
-			if (file != null && !SKYCheckUtils.isEmpty(file.getName())) {
+			if (file != null && StringUtils.isNotBlank(file.getName())) {
 				buffer.append("; filename=\"");
 				buffer.append(this.file.getName());
 				buffer.append("\"");

@@ -16,6 +16,7 @@ public class SKYGsonHelper {
 
 	static Gson buildGson() {
 		GsonBuilder b = new GsonBuilder();
+		b.enableComplexMapKeySerialization();
 		b.registerTypeAdapter(Date.class, new TypeAdapter<Date>() {
 
 			@Override public void write(com.google.gson.stream.JsonWriter writer, Date value) throws IOException {

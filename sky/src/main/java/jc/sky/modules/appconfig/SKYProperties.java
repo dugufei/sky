@@ -1,5 +1,11 @@
 package jc.sky.modules.appconfig;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,13 +18,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.support.annotation.NonNull;
-
-import jc.sky.modules.log.L;
-import jc.sky.common.SKYCheckUtils;
 import sky.Property;
+import sky.core.L;
 
 /**
  * @author sky
@@ -128,7 +129,7 @@ public abstract class SKYProperties {
 			try {
 				InputStream inputStream = resources.getAssets().open(mPropertiesFileName + EXTENSION);
 				L.tag(initTag());
-				L.i("openProperties() 路径:" + mPropertiesFileName + EXTENSION);
+				L.d("openProperties() 路径:" + mPropertiesFileName + EXTENSION);
 				mProperties.load(inputStream);
 				loadPropertiesValues();
 			} catch (IOException e) {
@@ -191,7 +192,7 @@ public abstract class SKYProperties {
 		String value = null;
 		try {
 			value = mProperties.getProperty(key);
-			if (SKYCheckUtils.isEmpty(value)) {
+			if (StringUtils.isEmpty(value)) {
 				return 0;
 			}
 			return Integer.parseInt(mProperties.getProperty(key));
@@ -206,7 +207,7 @@ public abstract class SKYProperties {
 		String value = null;
 		try {
 			value = mProperties.getProperty(key);
-			if (SKYCheckUtils.isEmpty(value)) {
+			if (StringUtils.isEmpty(value)) {
 				return 0;
 			}
 			return Long.parseLong(mProperties.getProperty(key));
@@ -221,7 +222,7 @@ public abstract class SKYProperties {
 		String value = null;
 		try {
 			value = mProperties.getProperty(key);
-			if (SKYCheckUtils.isEmpty(value)) {
+			if (StringUtils.isEmpty(value)) {
 				return 0;
 			}
 			return Float.parseFloat(mProperties.getProperty(key));
@@ -236,7 +237,7 @@ public abstract class SKYProperties {
 		String value = null;
 		try {
 			value = mProperties.getProperty(key);
-			if (SKYCheckUtils.isEmpty(value)) {
+			if (StringUtils.isEmpty(value)) {
 				return 0;
 			}
 			return Double.parseDouble(mProperties.getProperty(key));
@@ -251,7 +252,7 @@ public abstract class SKYProperties {
 		String value = null;
 		try {
 			value = mProperties.getProperty(key);
-			if (SKYCheckUtils.isEmpty(value)) {
+			if (StringUtils.isEmpty(value)) {
 				return false;
 			}
 			return Boolean.parseBoolean(mProperties.getProperty(key));

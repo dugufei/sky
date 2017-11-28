@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
  * @author sky
  * @version 版本
  */
-class SynchronousExecutor implements Executor {
+public class SynchronousExecutor implements Executor {
 
 	private final Handler				handler				= new Handler(Looper.getMainLooper());
 

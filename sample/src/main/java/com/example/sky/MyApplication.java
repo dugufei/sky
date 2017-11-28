@@ -1,19 +1,18 @@
 package com.example.sky;
 
-import android.app.Application;
 import android.support.v4.app.Fragment;
 
 import com.example.sky.dialog.LoadingDialogFragment;
+import com.example.sky.helper.SampleHelper;
 import com.example.sky.helper.SampleManage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import jc.sky.SKYApplication;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import sky.core.DaggerSKYIComponent;
 import sky.core.ISky;
 import sky.core.SKYActivity;
-import sky.core.SKYHelper;
 import sky.core.SKYModulesManage;
 import sky.core.SKYPlugins;
 import sky.core.exception.SKYHttpException;
@@ -27,15 +26,19 @@ import sky.core.plugins.SKYHttpErrorInterceptor;
  * @version 1.0 on 2017-09-25 下午8:46
  * @see MyApplication
  */
-public class MyApplication extends Application implements ISky {
+public class MyApplication extends SKYApplication implements ISky {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		SKYHelper.newSky().setSky(this).Inject(this);
+		SampleHelper.newSky().setSky(this).Inject(this);
 	}
 
 	@Override public boolean isLogOpen() {
 		return true;
+	}
+
+	@Override public SKYModulesManage modulesManage() {
+		return new SampleManage();
 	}
 
 	@Override public Retrofit.Builder httpAdapter(Retrofit.Builder builder) {
@@ -98,12 +101,19 @@ public class MyApplication extends Application implements ISky {
 		return builder;
 	}
 
-	@Override public DaggerSKYIComponent.Builder module(DaggerSKYIComponent.Builder builder) {
-		return builder;
+	@Override public int layoutLoading() {
+		return 0;
 	}
 
-	@Override public SKYModulesManage modulesManage() {
-		return new SampleManage();
+	@Override public int layoutEmpty() {
+		return 0;
 	}
 
+	@Override public int layoutBizError() {
+		return 0;
+	}
+
+	@Override public int layoutHttpError() {
+		return 0;
+	}
 }

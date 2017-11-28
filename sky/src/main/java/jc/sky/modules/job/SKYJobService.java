@@ -1,5 +1,6 @@
 package jc.sky.modules.job;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -7,8 +8,9 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import jc.sky.core.SKYHelper;
-import jc.sky.modules.log.L;
+import sky.core.L;
+import sky.core.SKYHelper;
+
 
 /**
  * @author sky
@@ -18,7 +20,7 @@ import jc.sky.modules.log.L;
 public class SKYJobService implements SKYIJobService {
 
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void schedule(JobInfo.Builder builder) {
-		JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		@SuppressLint("WrongConstant") JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		if (jobScheduler == null) {
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYJobService");
@@ -30,7 +32,7 @@ public class SKYJobService implements SKYIJobService {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void cancel(int id) {
-		JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		@SuppressLint("WrongConstant") JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		if (jobScheduler == null) {
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYJobService");
@@ -42,7 +44,7 @@ public class SKYJobService implements SKYIJobService {
 	}
 
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP) @Override public void cancelAll() {
-		JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+		@SuppressLint("WrongConstant") JobScheduler jobScheduler = (JobScheduler) SKYHelper.getInstance().getSystemService(Context.JOB_SCHEDULER_SERVICE);
 		if (jobScheduler == null) {
 			if (SKYHelper.isLogOpen()) {
 				L.tag("SKYJobService");
