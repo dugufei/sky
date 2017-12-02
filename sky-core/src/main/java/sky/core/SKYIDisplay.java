@@ -35,6 +35,8 @@ public interface SKYIDisplay {
 	 */
 	<T extends FragmentActivity> T activity();
 
+	void start(@NonNull Class clazz);
+
 	/**
 	 * 跳转
 	 * 

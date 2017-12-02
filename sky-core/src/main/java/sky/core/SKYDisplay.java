@@ -1,6 +1,5 @@
 package sky.core;
 
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +17,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.view.View;
 
+import sky.Repeat;
+
 import static sky.core.SKYUtils.checkArgument;
 import static sky.core.SKYUtils.checkNotNull;
-
 
 /**
  * @author sky
@@ -41,11 +41,20 @@ class SKYDisplay implements SKYIDisplay {
 		}
 	}
 
-	@Override public void intentFromFragment(Class clazz, Fragment fragment, int requestCode) {
-		Intent intent = new Intent();
+	@Repeat(true) @Override public void start(@NonNull Class clazz) {
 		if (activity() == null) {
 			return;
 		}
+		Intent intent = new Intent();
+		intent.setClass(activity(), clazz);
+		activity().startActivity(intent);
+	}
+
+	@Override public void intentFromFragment(Class clazz, Fragment fragment, int requestCode) {
+		if (activity() == null) {
+			return;
+		}
+		Intent intent = new Intent();
 		intent.setClass(activity(), clazz);
 		intentFromFragment(intent, fragment, requestCode);
 	}
@@ -86,7 +95,6 @@ class SKYDisplay implements SKYIDisplay {
 		activity().getSupportFragmentManager().beginTransaction().replace(layoutId, fragment, fragment.getClass().getName()).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.commitAllowingStateLoss();
 	}
-
 
 	@Override public void commitBackStack(int layoutId, Fragment fragment) {
 		checkArgument(layoutId > 0, "提交布局ID 不能为空~");

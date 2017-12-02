@@ -243,6 +243,7 @@ public final class SkyProcessor extends AbstractProcessor {
 	private Set<Class<? extends Annotation>> getSupportedAnnotations() {
 		Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
 		annotations.add(OpenBiz.class);
+		annotations.add(OpenDisplay.class);
 		return annotations;
 	}
 
