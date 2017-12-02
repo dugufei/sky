@@ -26,7 +26,7 @@ import static sky.core.SKYUtils.checkNotNull;
  * @author sky
  * @version 版本
  */
-class SKYDisplay implements SKYIDisplay {
+public class SKYDisplay implements SKYIDisplay {
 
 	@Override public Context context() {
 		return SKYHelper.screenHelper().getCurrentActivity();
