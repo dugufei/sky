@@ -16,12 +16,12 @@ public abstract class SKYApplication extends Application implements ISky, SKYIVi
 
 	@Override public void onCreate() {
 		super.onCreate();
-		// sky架构
-		SKYExtraHelper.newSky().setSky(this).setIViewCommon(this).Inject(this);
-		// 文件初始化
-//		SKYHelper.fileCacheManage().configureCustomerCache(this.getExternalFilesDir(""));
+		initSky();
 	}
 
+	protected void initSky() {
+		SKYExtraHelper.newSky().setSky(this).setIViewCommon(this).Inject(this);
+	}
 
 	@Override public SKYModulesManage modulesManage() {
 		return new SKYExtraModulesManage();

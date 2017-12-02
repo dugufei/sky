@@ -14,5 +14,5 @@ public interface SKYIModule {
 	 * 
 	 * @param concurrentHashMap
 	 */
-	void loadInto(ConcurrentHashMap<String, SkyBizModel> concurrentHashMap);
+	void loadInto(ConcurrentHashMap<String, SkyMethodModel> concurrentHashMap);
 }

@@ -28,8 +28,7 @@ import sky.core.plugins.SKYHttpErrorInterceptor;
  */
 public class MyApplication extends SKYApplication implements ISky {
 
-	@Override public void onCreate() {
-		super.onCreate();
+	@Override public void initSky() {
 		SampleHelper.newSky().setSky(this).Inject(this);
 	}
 

@@ -49,27 +49,28 @@ final class SKYModuleUtils {
 			long e = System.currentTimeMillis();
 			Object skyMap;
 			if (!SKYHelper.isLogOpen() && !isNewVersion(context)) {
-				L.d("Sky::", "加载缓存.");
+				L.d("Sky::%s", "加载缓存.");
 				skyMap = new HashSet(context.getSharedPreferences("SP_SKY_CACHE", 0).getStringSet("SKY_MAP", new HashSet()));
 			} else {
-				L.d("Sky::", "获取运行时，指定包目录下的所有信息并缓存到skyMap");
-				skyMap = SKYModuleUtils.getFileNameByPackageName(context, "com.sky.android.module.biz");
+				L.d("Sky::%s", "获取运行时，指定包目录下的所有信息并缓存到skyMap");
+				skyMap = SKYModuleUtils.getFileNameByPackageName(context, "com.sky.android.module.biz","com.sky.android.module.display");
 				if (!((Set) skyMap).isEmpty()) {
 					context.getSharedPreferences("SP_SKY_CACHE", 0).edit().putStringSet("SKY_MAP", (Set) skyMap).apply();
 				}
 			}
 
-			L.d("Sky::", "Find router map finished, map size = " + ((Set) skyMap).size() + ", cost " + (System.currentTimeMillis() - e) + " ms.");
+			L.d("Sky::%s", "Find router map finished, map size = " + ((Set) skyMap).size() + ", cost " + (System.currentTimeMillis() - e) + " ms.");
 			e = System.currentTimeMillis();
 			Iterator var5 = ((Set) skyMap).iterator();
 
 			while (var5.hasNext()) {
 				String className = (String) var5.next();
-				String bizName = StringUtils.removeStart(className, "com.sky.android.module.biz.Sky$$Biz$$");
+				String tempName = StringUtils.removeStart(className, "com.sky.android.module.biz.Sky$$Biz$$");
+				String bizName = StringUtils.removeStart(tempName, "com.sky.android.module.display.Sky$$Display$$");
 				skyModulesManage.provideModule.put(bizName, (Class<? extends SKYIModule>) Class.forName(className));
 			}
 
-			L.d("Sky::", "加载完毕, cost " + (System.currentTimeMillis() - e) + " ms.");
+			L.d("Sky::%s", "加载完毕, cost " + (System.currentTimeMillis() - e) + " ms.");
 		} catch (Exception var7) {
 			throw new SKYNullPointerException("Sky::Sky init logistics center exception! [" + var7.getMessage() + "]");
 		}
@@ -84,7 +85,7 @@ final class SKYModuleUtils {
 	 *            包名
 	 * @return 所有class的集合
 	 */
-	static Set<String> getFileNameByPackageName(Context context, final String packageName) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
+	static Set<String> getFileNameByPackageName(Context context, final String packageName, final String packageName2) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
 		final Set<String> classNames = new HashSet<>();
 
 		List<String> paths = getSourcePaths(context);
@@ -109,7 +110,7 @@ final class SKYModuleUtils {
 						Enumeration<String> dexEntries = dexfile.entries();
 						while (dexEntries.hasMoreElements()) {
 							String className = dexEntries.nextElement();
-							if (className.startsWith(packageName)) {
+							if (className.startsWith(packageName) || className.startsWith(packageName2)) {
 								classNames.add(className);
 							}
 						}
@@ -184,7 +185,7 @@ final class SKYModuleUtils {
 		ArrayList instantRunSourcePaths = new ArrayList();
 		if (Build.VERSION.SDK_INT >= 21 && null != applicationInfo.splitSourceDirs) {
 			instantRunSourcePaths.addAll(Arrays.asList(applicationInfo.splitSourceDirs));
-			L.d("Sky::", "Found InstantRun support");
+			L.d("Sky::%s", "Found InstantRun support");
 		} else {
 			try {
 				Class e = Class.forName("com.android.tools.fd.runtime.Paths");
@@ -203,10 +204,10 @@ final class SKYModuleUtils {
 						}
 					}
 
-					L.d("Sky::", "Found InstantRun support");
+					L.d("Sky::%s", "Found InstantRun support");
 				}
 			} catch (Exception var11) {
-				L.e("Sky::", "InstantRun support error, " + var11.getMessage());
+				L.e("Sky::%s", "InstantRun support error, " + var11.getMessage());
 			}
 		}
 
@@ -241,7 +242,7 @@ final class SKYModuleUtils {
 			;
 		}
 
-		L.i("Sky::", "VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
+		L.i("Sky::%s", "VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
 		return isMultidexCapable;
 	}
 

@@ -48,8 +48,9 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				display(SKYIDisplay.class).intent(ShareActivity.class);
 				break;
 			case R.id.button6:
-				// SKYHelper.moduleBiz("NotifyBiz").method("intentOder").run();
-				display(SKYIDisplay.class).intent(MainActivity.class);
+//				SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
+				SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky",1);
+				// display(SKYIDisplay.class).intent(MainActivity.class);
 				break;
 		}
 	}

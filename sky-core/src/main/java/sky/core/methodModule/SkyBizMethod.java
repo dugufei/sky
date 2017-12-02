@@ -10,21 +10,14 @@ import sky.core.SKYHelper;
 /**
  * @author sky
  * @version 1.0 on 2017-10-30 下午9:03
- * @see SkyBizMethodModel
+ * @see SkyBizMethod
  */
-public class SkyBizMethodModel implements SKYIMethodRun {
+public class SkyBizMethod extends SkyBaseModel {
 
-	Class	clazz;
-
-	String	methodName;
-
-	Class[]	paramTypes;
-
-	public SkyBizMethodModel(Class clazz, String methodName, Class[] paramTypes) {
-		this.methodName = methodName;
-		this.paramTypes = paramTypes;
-		this.clazz = clazz;
+	public SkyBizMethod(Class clazz, String methodName, Class[] paramTypes) {
+		super(clazz, methodName, paramTypes);
 	}
+
 	@Override public <T> T run(Object... params) {
 		Object obj = SKYHelper.biz(clazz);
 		if (obj == null) {

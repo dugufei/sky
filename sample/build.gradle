@@ -24,7 +24,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile deps.library.butterknife
-    annotationProcessor "com.jakewharton:butterknife-compiler:${versions.butterknife}"
+
+    annotationProcessor deps.library.butterknife_compiler
+
     compile project(':sky')
     annotationProcessor project(':sky-compiler')
 

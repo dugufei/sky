@@ -36,7 +36,7 @@ public class Sky {
 	 * @param application
 	 *            参数
 	 */
-	public void Inject(Application application) {
+	public void Inject(final Application application) {
 		if (application == null) {
 			throw new RuntimeException("Sky架构:Application没有设置");
 		}
@@ -48,13 +48,21 @@ public class Sky {
 		if (this.skyiViewCommon == null) {
 			this.skyiViewCommon = SKYIViewCommon.SKYI_VIEW_COMMON;
 		}
+		// debug
+		if (sky.isLogOpen()) {
+			L.plant(new L.DebugTree());
+		}
 		// 提供者
 		SKYModule skyModule = new SKYModule(application);
 		skyModule.setSky(this.sky);
 		skyModule.setSkyiViewCommon(this.skyiViewCommon);
 		SKYHelper.mSKYModulesManage = this.sky.modulesManage();
 		DaggerSKYIComponent.builder().sKYModule(skyModule).build().inject(SKYHelper.mSKYModulesManage);
-		// 初始化组件化
-		SKYModuleUtils.initModule(application);
+		// 初始化组件
+		SKYHelper.threadPoolHelper().getWorkExecutorService().execute(new Runnable() {
+			@Override public void run() {
+				SKYModuleUtils.initModule(application);
+			}
+		});
 	}
 }

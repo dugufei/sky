@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import sky.core.methodModule.SKYIModule;
-import sky.core.methodModule.SkyBizModel;
+import sky.core.methodModule.SkyMethodModel;
 import sky.core.screen.SKYScreenManager;
 
 /**
@@ -185,7 +185,7 @@ public class SKYModule {
 	 * 
 	 * @return
 	 */
-	@Provides @Singleton public ConcurrentHashMap<String, SkyBizModel> provideModuleBiz() {
+	@Provides @Singleton public ConcurrentHashMap<String, SkyMethodModel> provideModuleBiz() {
 		return new ConcurrentHashMap<>();
 	}
 

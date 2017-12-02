@@ -15,8 +15,8 @@ import sky.core.exception.SKYBizException;
 import sky.core.exception.SKYHttpException;
 import sky.core.exception.SKYUINullPointerException;
 import sky.core.methodModule.SKYIModule;
-import sky.core.methodModule.SKYIModuleBiz;
-import sky.core.methodModule.SkyBizModel;
+import sky.core.methodModule.SKYIModuleMethod;
+import sky.core.methodModule.SkyMethodModel;
 import sky.core.screen.SKYScreenHolder;
 import sky.core.screen.SKYScreenManager;
 
@@ -67,27 +67,56 @@ public class SKYHelper {
 	 * @param clazzName
 	 *            类名
 	 */
-	public static synchronized SKYIModuleBiz moduleBiz(String clazzName) {
-		SkyBizModel skyBizModel = mSKYModulesManage.provideModuleBiz.get(clazzName);
-		if (skyBizModel == null) {
+	public static synchronized SKYIModuleMethod moduleBiz(String clazzName) {
+		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get(clazzName);
+		if (skyMethodModel == null) {
 			Class clazz = mSKYModulesManage.provideModule.get(clazzName);
 			if (null == clazz) {
-				L.i("Sky::没有匹配到Biz [" + clazzName + "]");
-				return SKYIModuleBiz.NONE;
+				L.d("Sky::没有匹配到Biz [" + clazzName + "]");
+				return SKYIModuleMethod.NONE;
 
 			}
 			SKYIModule skyiModule;
 			try {
 				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
 			} catch (Exception var8) {
-				L.i("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
-				return SKYIModuleBiz.NONE;
+				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+				return SKYIModuleMethod.NONE;
 			}
 			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz);
 			mSKYModulesManage.provideModule.remove(clazzName);
 			return moduleBiz(clazzName);
 		}
-		return skyBizModel;
+		return skyMethodModel;
+	}
+
+	/**
+	 * 执行业务代码
+	 *
+	 * @param clazzName
+	 *            类名
+	 */
+	public static synchronized SKYIModuleMethod moduleDisplay(String clazzName) {
+		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get(clazzName);
+		if (skyMethodModel == null) {
+			Class clazz = mSKYModulesManage.provideModule.get(clazzName);
+			if (null == clazz) {
+				L.d("Sky::没有匹配到Display [" + clazzName + "]");
+				return SKYIModuleMethod.NONE;
+
+			}
+			SKYIModule skyiModule;
+			try {
+				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
+			} catch (Exception var8) {
+				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+				return SKYIModuleMethod.NONE;
+			}
+			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz);
+			mSKYModulesManage.provideModule.remove(clazzName);
+			return moduleBiz(clazzName);
+		}
+		return skyMethodModel;
 	}
 
 	/**

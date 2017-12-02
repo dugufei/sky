@@ -10,10 +10,10 @@ buildscript {
             'buildTools'        : '27.0.1',
 
             'supportLibrary'    : '27.0.1',
-            'androidPlugin'     : '3.0.0',
+            'androidPlugin'     : '3.0.1',
             'kotlin'            : '1.1.2-4',
 
-            'butterknife'       : '8.7.0',
+            'butterknife'       : '9.0.0-SNAPSHOT',
             'nineoldandroids'   : '2.4.0',
             'systembartint'     : '1.0.4',
             'commons_lang'      : '3.5',
@@ -42,7 +42,7 @@ buildscript {
             ],
             'library'   : [
                     'butterknife'         : "com.jakewharton:butterknife:${versions.butterknife}",
-                    'butterknife-compiler': "com.jakewharton:butterknife-compiler:${versions.butterknife}",
+                    'butterknife_compiler': "com.jakewharton:butterknife-compiler:${versions.butterknife}",
                     'nineoldandroids'     : "com.nineoldandroids:library:${versions.nineoldandroids}",
                     'systembartint'       : "com.readystatesoftware.systembartint:systembartint:${versions.systembartint}",
                     'commons_lang3'       : "org.apache.commons:commons-lang3:${versions.commons_lang}",

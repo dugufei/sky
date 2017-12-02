@@ -20,10 +20,12 @@ import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static sky.compiler.SkyConsts.METHOD_LOAD_INTO;
 import static sky.compiler.SkyConsts.NAME_OF_GROUP;
-import static sky.compiler.SkyConsts.PACKAGE_OF_GENERATE_FILE;
+import static sky.compiler.SkyConsts.PACKAGE_OF_GENERATE_BIZ_FILE;
+import static sky.compiler.SkyConsts.PACKAGE_OF_GENERATE_DISPLAY_FILE;
 import static sky.compiler.SkyConsts.SKY_I_MODULE;
 import static sky.compiler.SkyConsts.SKY_I_MODULE_PARAM;
-import static sky.compiler.SkyConsts.SKY_I_MODULE_PARAM_METHOD_MODEL;
+import static sky.compiler.SkyConsts.SKY_I_MODULE_PARAM_METHOD_BIZ;
+import static sky.compiler.SkyConsts.SKY_I_MODULE_PARAM_METHOD_DISPLAY;
 import static sky.compiler.SkyConsts.SKY_I_MODULE_PARAM_MODEL;
 import static sky.compiler.SkyConsts.WARNING_TIPS;
 
@@ -57,7 +59,12 @@ final class SkyBind {
 
 	public JavaFile brewModuleBiz() {
 
-		return JavaFile.builder(PACKAGE_OF_GENERATE_FILE, createModuleBizType()).addFileComment("Generated code from Sky. Do not modify!").build();
+		return JavaFile.builder(PACKAGE_OF_GENERATE_BIZ_FILE, createModuleBizType()).addFileComment("Generated code from Sky. Do not modify!").build();
+	}
+
+	public JavaFile brewModuleDisplay() {
+
+		return JavaFile.builder(PACKAGE_OF_GENERATE_DISPLAY_FILE, createModuleDisplayType()).addFileComment("Generated code from Sky. Do not modify!").build();
 	}
 
 	private TypeSpec createModuleBizType() {
@@ -73,14 +80,13 @@ final class SkyBind {
 
 		MethodSpec.Builder loadIntoMethodOfGroupBuilder = MethodSpec.methodBuilder(METHOD_LOAD_INTO).addAnnotation(Override.class).addModifiers(PUBLIC).addParameter(groupParamSpec);
 
-
 		CodeBlock.Builder builder = CodeBlock.builder();
 
-		builder.add("SkyBizModel skyBizModel = new SkyBizModel($T.class);\n", defaultClassName);
+		builder.add("SkyMethodModel skyMethodModel = new SkyMethodModel($T.class,0);\n", defaultClassName);
 
 		for (SkyMethod method : methodViewBindings) {
 
-			builder.add("skyBizModel.add($S, new $T($T.class, $S, new Class[] {", method.getName(), SKY_I_MODULE_PARAM_METHOD_MODEL, defaultClassName, method.getName());
+			builder.add("skyMethodModel.add($S, new $T($T.class, $S, new Class[] {", method.getName(), SKY_I_MODULE_PARAM_METHOD_BIZ, defaultClassName, method.getName());
 
 			int count = method.getParameters().size();
 			for (int i = 0; i < count; i++) {
@@ -90,15 +96,14 @@ final class SkyBind {
 					builder.add("$T.class, ", bestGuess(method.getParameters().get(i).asType()));
 				}
 			}
-			if(count == 0){
+			if (count == 0) {
 				builder.add("}));\n");
 			}
 		}
 
-		builder.add("concurrentHashMap.put($S,skyBizModel);\n",defaultClassName.simpleName().toString());
+		builder.add("concurrentHashMap.put($S,skyMethodModel);\n", defaultClassName.simpleName().toString());
 
 		loadIntoMethodOfGroupBuilder.addCode(builder.build());
-
 
 		TypeSpec.Builder result = TypeSpec.classBuilder(className);
 
@@ -109,15 +114,62 @@ final class SkyBind {
 		return result.build();
 	}
 
-	static Builder newBuilder(TypeElement enclosingElement) {
+	private TypeSpec createModuleDisplayType() {
+		/*
+		 * ```ConcurrentHashMap<String, SkyBizModel>```
+		 */
+		ParameterizedTypeName inputMapTypeOfGroup = ParameterizedTypeName.get(SKY_I_MODULE_PARAM, ClassName.get(String.class), SKY_I_MODULE_PARAM_MODEL);
+
+		/*
+		 * Build input param name.
+		 */
+		ParameterSpec groupParamSpec = ParameterSpec.builder(inputMapTypeOfGroup, "concurrentHashMap").build();
+
+		MethodSpec.Builder loadIntoMethodOfGroupBuilder = MethodSpec.methodBuilder(METHOD_LOAD_INTO).addAnnotation(Override.class).addModifiers(PUBLIC).addParameter(groupParamSpec);
+
+		CodeBlock.Builder builder = CodeBlock.builder();
+
+		builder.add("SkyMethodModel skyMethodModel = new SkyMethodModel($T.class,1);\n", defaultClassName);
+
+		for (SkyMethod method : methodViewBindings) {
+
+			builder.add("skyMethodModel.add($S, new $T($T.class, $S, new Class[] {", method.getName(), SKY_I_MODULE_PARAM_METHOD_DISPLAY, defaultClassName, method.getName());
+
+			int count = method.getParameters().size();
+			for (int i = 0; i < count; i++) {
+				if (i == count - 1) {
+					builder.add("$T.class}));\n", bestGuess(method.getParameters().get(i).asType()));
+				} else {
+					builder.add("$T.class, ", bestGuess(method.getParameters().get(i).asType()));
+				}
+			}
+			if (count == 0) {
+				builder.add("}));\n");
+			}
+		}
+
+		builder.add("concurrentHashMap.put($S,skyMethodModel);\n", defaultClassName.simpleName().toString());
+
+		loadIntoMethodOfGroupBuilder.addCode(builder.build());
+
+		TypeSpec.Builder result = TypeSpec.classBuilder(className);
+
+		result.addJavadoc(WARNING_TIPS);
+		result.addSuperinterface(SKY_I_MODULE);
+		result.addModifiers(PUBLIC);
+		result.addMethod(loadIntoMethodOfGroupBuilder.build());
+		return result.build();
+	}
+
+	static Builder newBuilder(TypeElement enclosingElement,String group) {
 		TypeMirror typeMirror = enclosingElement.asType();
 		TypeName targetType = TypeName.get(typeMirror);
 		if (targetType instanceof ParameterizedTypeName) {
 			targetType = ((ParameterizedTypeName) targetType).rawType;
 		}
 
-		String packageName = PACKAGE_OF_GENERATE_FILE;
-		String className = NAME_OF_GROUP + enclosingElement.getSimpleName().toString();
+		String packageName = PACKAGE_OF_GENERATE_BIZ_FILE;
+		String className = group + enclosingElement.getSimpleName().toString();
 
 		String defaultPakageNameS = getPackage(enclosingElement).getQualifiedName().toString();
 		String defaultClassNameS = enclosingElement.getSimpleName().toString();

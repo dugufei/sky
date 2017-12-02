@@ -28,9 +28,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import butterknife.ButterKnife;
-import sky.core.interfaces.SKYIView;
 import sky.core.interfaces.SKYFooterListener;
+import sky.core.interfaces.SKYIView;
 import sky.core.interfaces.SKYRefreshListener;
 import sky.core.view.sticky.SKYFooterOnScrollListener;
 import sky.core.view.sticky.SKYOnScrollListener;
@@ -757,7 +756,7 @@ public final class SKYBuilder {
 			RelativeLayout.LayoutParams contentLayoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			contentLayoutParams.addRule(RelativeLayout.BELOW, R.id.toolbar);
 			toolbarRoot.addView(view, contentLayoutParams);
-			toolbar = ButterKnife.findById(toolbarRoot, getToolbarId());
+			toolbar = toolbarRoot.findViewById(getToolbarId());
 
 			checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
 
@@ -794,7 +793,7 @@ public final class SKYBuilder {
 			return toolbarRoot;
 		} else if (isOpenCustomToolbar()) {
 			view.setId(R.id.sky_home);
-			toolbar = ButterKnife.findById(view, getToolbarId());
+			toolbar = view.findViewById(getToolbarId());
 
 			checkNotNull(toolbar, "无法根据布局文件ID,获取Toolbar");
 
@@ -845,7 +844,7 @@ public final class SKYBuilder {
 	 */
 	private void createRecyclerView(View view) {
 		if (getRecyclerviewId() > 0) {
-			recyclerView = ButterKnife.findById(view, getRecyclerviewId());
+			recyclerView = view.findViewById(getRecyclerviewId());
 			checkNotNull(recyclerView, "无法根据布局文件ID,获取recyclerView");
 			checkNotNull(layoutManager, "LayoutManger不能为空");
 			recyclerView.setLayoutManager(layoutManager);
@@ -890,7 +889,7 @@ public final class SKYBuilder {
 				recyclerView.setHasFixedSize(true);
 				// 设置上拉和下拉事件
 				if (getRecyclerviewSwipRefreshId() != 0) {
-					recyclerviewSwipeContainer = ButterKnife.findById(view, getRecyclerviewSwipRefreshId());
+					recyclerviewSwipeContainer = view.findViewById(getRecyclerviewSwipRefreshId());
 					checkNotNull(recyclerviewSwipeContainer, "无法根据布局文件ID,获取recyclerview的SwipRefresh下载刷新布局");
 
 					if (onRefreshListener != null) {

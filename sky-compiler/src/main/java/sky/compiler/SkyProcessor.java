@@ -26,20 +26,22 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
-import javax.lang.model.element.Modifier;
 
 import sky.OpenBiz;
+import sky.OpenDisplay;
+
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.ElementKind.METHOD;
 import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.STATIC;
-
+import static sky.compiler.SkyConsts.NAME_OF_GROUP;
+import static sky.compiler.SkyConsts.NAME_OF_GROUP_DISPLAY;
 
 @AutoService(Processor.class)
 public final class SkyProcessor extends AbstractProcessor {
@@ -98,8 +100,8 @@ public final class SkyProcessor extends AbstractProcessor {
 		Set<? extends Element> routeElements = env.getElementsAnnotatedWith(OpenBiz.class);
 
 		// 搜索注解
-		logger.info(">>> Found sky, 开始... <<<");
-		Map<TypeElement, SkyBind> bindingMap = parseOpenBiz(routeElements);
+		logger.info(">>> Found sky biz, 开始... <<<");
+		Map<TypeElement, SkyBind> bindingMap = parseOpenBiz(routeElements,OpenBiz.class);
 
 		int count = bindingMap.entrySet().size();
 		if (count < 1) { // 表示没有给类进行注解
@@ -116,11 +118,28 @@ public final class SkyProcessor extends AbstractProcessor {
 				logger.error(e);
 			}
 		}
+		logger.info(">>> Found sky biz, 结束... <<<");
+
+		// display
+		logger.info(">>> Found sky display, 开始... <<<");
+		Map<TypeElement, SkyBind> displayMap = findMethods(env, OpenDisplay.class);
+
+		for (Map.Entry<TypeElement, SkyBind> entry : displayMap.entrySet()) {
+			SkyBind binding = entry.getValue();
+
+			JavaFile javaIFile = binding.brewModuleDisplay();
+			try {
+				javaIFile.writeTo(filer);
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		}
+		logger.info(">>> Found sky display, 结束... <<<");
 
 		return false;
 	}
 
-	private Map<TypeElement, SkyBind> parseOpenBiz(Set<? extends Element> routeElements) {
+	private Map<TypeElement, SkyBind> parseOpenBiz(Set<? extends Element> routeElements, Class<? extends Annotation> annotationClass) {
 		Map<TypeElement, SkyBind.Builder> builderMap = new LinkedHashMap<>();
 		Map<TypeElement, SkyBind> bindingMap = new LinkedHashMap<>();
 
@@ -139,7 +158,7 @@ public final class SkyProcessor extends AbstractProcessor {
 
 				SkyMethod binding = new SkyMethod(name, methodParameters, executableElement.getReturnType());
 
-				SkyBind.Builder builder = getOrCreateBindingBuilder(builderMap, (TypeElement) element);
+				SkyBind.Builder builder = getOrCreateBindingBuilder(builderMap, (TypeElement) element, annotationClass);
 				builder.setMethodViewBinding(binding);
 			}
 		}
@@ -181,8 +200,7 @@ public final class SkyProcessor extends AbstractProcessor {
 		return bindingMap;
 	}
 
-	private void parseListenerAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<TypeElement, SkyBind.Builder> builderMap)
-			throws Exception {
+	private void parseListenerAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<TypeElement, SkyBind.Builder> builderMap) throws Exception {
 		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
 			throw new IllegalStateException(String.format("@%s annotation must be on a method.", annotationClass.getSimpleName()));
 		}
@@ -201,7 +219,7 @@ public final class SkyProcessor extends AbstractProcessor {
 
 		SkyMethod binding = new SkyMethod(name, methodParameters, executableElement.getReturnType());
 
-		SkyBind.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
+		SkyBind.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement, annotationClass);
 		builder.setMethodViewBinding(binding);
 
 	}
@@ -228,10 +246,14 @@ public final class SkyProcessor extends AbstractProcessor {
 		return annotations;
 	}
 
-	private SkyBind.Builder getOrCreateBindingBuilder(Map<TypeElement, SkyBind.Builder> builderMap, TypeElement enclosingElement) {
+	private SkyBind.Builder getOrCreateBindingBuilder(Map<TypeElement, SkyBind.Builder> builderMap, TypeElement enclosingElement, Class<? extends Annotation> annotationClass) {
 		SkyBind.Builder builder = builderMap.get(enclosingElement);
 		if (builder == null) {
-			builder = SkyBind.newBuilder(enclosingElement);
+			if (annotationClass.equals(OpenBiz.class)) {
+				builder = SkyBind.newBuilder(enclosingElement,NAME_OF_GROUP);
+			} else if (annotationClass.equals(OpenDisplay.class)) {
+				builder = SkyBind.newBuilder(enclosingElement,NAME_OF_GROUP_DISPLAY);
+			}
 			builderMap.put(enclosingElement, builder);
 		}
 		return builder;
@@ -243,7 +265,7 @@ public final class SkyProcessor extends AbstractProcessor {
 
 		// Verify method modifiers.
 		Set<Modifier> modifiers = element.getModifiers();
-		if (modifiers.contains(PRIVATE) || modifiers.contains(STATIC)) {
+		if (modifiers.contains(PRIVATE)) {
 			hasError = true;
 		}
 

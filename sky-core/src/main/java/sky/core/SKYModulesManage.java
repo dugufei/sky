@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import retrofit2.Retrofit;
 import sky.core.methodModule.SKYIModule;
-import sky.core.methodModule.SkyBizModel;
+import sky.core.methodModule.SkyMethodModel;
 import sky.core.screen.SKYScreenManager;
 
 /**
@@ -39,7 +39,7 @@ public class SKYModulesManage{
 
 	@Inject public ISky														sky;					// 架构
 
-	@Inject public ConcurrentHashMap<String, SkyBizModel>					provideModuleBiz;		// 架构 组件化
+	@Inject public ConcurrentHashMap<String, SkyMethodModel>					provideModuleBiz;		// 架构 组件化
 
 	@Inject public ConcurrentHashMap<String, Class<? extends SKYIModule>>	provideModule;			// 架构组件化
 
