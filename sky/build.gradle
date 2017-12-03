@@ -14,22 +14,22 @@ android {
     }
 }
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':sky-core')
-    compile deps.support.cardview_v7
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':sky-core')
+    api deps.support.cardview_v7
 
-    compile deps.library.nineoldandroids
-    compile deps.library.gson
+    api deps.library.nineoldandroids
+    api deps.library.gson
 
-    compile deps.library.glide
-    compile deps.library.glide_okhttp3
-    compile deps.library.okhttp3
-    compile deps.library.java5
+    api deps.library.glide
+    api deps.library.glide_okhttp3
+    api deps.library.okhttp3
+    api deps.library.java5
 
     annotationProcessor deps.annotation.dagger_compiler
 
-    compile group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    api group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
+    api 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 //apply from: rootProject.file('gradle/maven-github-aar.gradle')//Github打包
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

@@ -6,7 +6,7 @@ buildscript {
             'release'           : '3.1.0-SNAPSHOT',
 
             'minSdk'            : 14,
-            'compileSdk'        : 26,
+            'compileSdk'        : 27,
             'buildTools'        : '27.0.1',
 
             'supportLibrary'    : '27.0.1',

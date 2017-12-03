@@ -15,21 +15,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':sky-annotations')
-    compile project(':sky-cglib')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':sky-annotations')
+    implementation project(':sky-cglib')
 
-    compile deps.support.recyclerview_v7
-    compile deps.support.compat_v7
+    api deps.support.recyclerview_v7
+    api deps.support.compat_v7
 
-    compile deps.library.dagger
+    api deps.library.dagger
     annotationProcessor deps.annotation.dagger_compiler
 
-    compile deps.library.retrofit
-    compile deps.library.butterknife
-    compile deps.library.commons_lang3
-    compile deps.library.guava
-    compile deps.library.systembartint
+    api deps.library.retrofit
+    api deps.library.butterknife
+    api deps.library.commons_lang3
+    api deps.library.guava
+    api deps.library.systembartint
 
 }
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

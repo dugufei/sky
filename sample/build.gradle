@@ -21,21 +21,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile deps.library.butterknife
+    implementation deps.library.butterknife
 
     annotationProcessor deps.library.butterknife_compiler
 
-    compile project(':sky')
+    implementation project(':sky')
     annotationProcessor project(':sky-compiler')
 
-    compile deps.support.cardview_v7
-    compile deps.library.glide
-    compile deps.library.glide_okhttp3
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    implementation deps.support.cardview_v7
+    implementation deps.library.glide
+    implementation deps.library.glide_okhttp3
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
 
     // retrofit2 - gson
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.2.0'
 }
