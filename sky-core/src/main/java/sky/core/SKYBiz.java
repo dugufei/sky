@@ -7,6 +7,7 @@ import java.util.Vector;
 import retrofit2.Call;
 import sky.core.exception.SKYHttpException;
 import sky.core.exception.SKYNotUIPointerException;
+import sky.core.exception.SKYNullPointerException;
 import sky.core.interfaces.SKYIView;
 
 /**
@@ -115,6 +116,10 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	void initUI(SKYStructureModel SKYStructureModel) {
 		this.SKYStructureModel = SKYStructureModel;
 		ui = SKYUtils.getClassGenricType(this.getClass(), 0);
+		if(ui == null){
+			throw new SKYNullPointerException("view或者biz 没有指定泛型");
+		}
+
 		if (!ui.isInterface()) {
 			u = (U) SKYHelper.structureHelper().createMainLooperNotIntf(ui, this.SKYStructureModel.getView());
 		} else {

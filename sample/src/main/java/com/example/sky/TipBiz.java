@@ -10,7 +10,7 @@ import sky.core.SKYBiz;
  * @version 1.0
  * @Description TipBiz - 描述
  */
-public class TipBiz extends SKYBiz {
+public class TipBiz extends SKYBiz<TipDialogFragment> {
 
 	@Override protected void initBiz(Bundle bundle) {
 		super.initBiz(bundle);

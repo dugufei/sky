@@ -44,8 +44,8 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
 				break;
 			case R.id.button3:
-				// TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
-				display(SKYIDisplay.class).intent(ShareActivity.class);
+				 TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
+//				display(SKYIDisplay.class).intent(ShareActivity.class);
 				break;
 			case R.id.button6:
 //				SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
