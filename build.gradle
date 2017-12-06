@@ -11,7 +11,7 @@ buildscript {
 
             'supportLibrary'    : '27.0.1',
             'androidPlugin'     : '3.0.1',
-            'kotlin'            : '1.1.2-4',
+            'kotlin'            : '1.2.0',
 
             'butterknife'       : '9.0.0-SNAPSHOT',
             'nineoldandroids'   : '2.4.0',
@@ -68,6 +68,7 @@ buildscript {
             //插件
             'kotlin'    : [
                     'stdLibJre8': "org.jetbrains.kotlin:kotlin-stdlib-jre8:${versions.kotlin}",
+                    'gradlePlugin' : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
             ],
             javaparser  : 'com.github.javaparser:javaparser-core:3.2.8',
             javapoet    : 'com.squareup:javapoet:1.9.0',
@@ -78,8 +79,6 @@ buildscript {
                     'runtime' : "com.jincanshen:sky:${versions.release}",
                     'compiler': "com.jincanshen:sky-compiler:${versions.release}"
             ],
-
-
     ]
 
 }
@@ -134,7 +133,7 @@ subprojects { project ->
         }
         dependencies {
             classpath deps.android.gradlePlugin
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+            classpath deps.kotlin.gradlePlugin
         }
     }
 }
