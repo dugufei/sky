@@ -49,5 +49,4 @@ public class OderAdapter extends SKYRVAdapter<Model, OderAdapter.ItemHolder> {
 
 	}
 
-
 }

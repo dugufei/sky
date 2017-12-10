@@ -11,6 +11,7 @@ import retrofit2.Call;
 import sky.Background;
 import sky.BackgroundType;
 import sky.core.SKYBiz;
+import sky.core.exception.SKYHttpException;
 
 public class OderBiz extends SKYBiz<OderActivity> {
 
@@ -18,7 +19,7 @@ public class OderBiz extends SKYBiz<OderActivity> {
 		super.initBiz(bundle);
 	}
 
-	@Background(BackgroundType.SINGLEWORK) public void load() {
+	@Background(BackgroundType.HTTP) public void load() {
 
 		Call<List<Model>> limitModelCall = http(GithubHttp.class).rateLimit();
 		List<Model> limitModel = httpBody(limitModelCall);
@@ -26,6 +27,12 @@ public class OderBiz extends SKYBiz<OderActivity> {
 			limitModel.get(i).img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
 		}
 
+		httpCancel();
 		ui().setData(limitModel);
+	}
+
+	@Override
+	public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
+		return super.interceptHttpError(method, sKYHttpException);
 	}
 }
