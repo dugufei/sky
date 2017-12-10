@@ -1,19 +1,34 @@
 # SKY
 接受不完美的自己，享受不断完善的自己 我们的承诺是，每天都要有进步
 
-[![](https://jitpack.io/v/skyJinc/sky.svg)](https://jitpack.io/#skyJinc/sky) [![Maven Central][mavenbadge-svg]][mavenbadge]
+[![Maven Central][mavenbadge-svg]][mavenbadge]
 
 版本说明
 -----------------------------------
-3.0.0-SNAPSHOT<br />
+3.1.0-SNAPSHOT<br />
+1.支持kotlin 前提是 类和方法都加上open
+<br />
+2.支持父类方法的调用
+<br />
+3.增加display module 组件化跳转
+<br />
+4.调整结构 - 核心代码 放到sky-core项目里
+<br />
+
+3.0.0<br />
 1.新增helper.ui(class)  直接获取activity,fragment 来执行方法, 无需判定是否在子线程和是否为空<br />
 2.新增 cglib for android 动态代理，无需在声明接口，可直接使用，详情可看 [sample demo](https://github.com/skyJinc/sky/tree/master/sample/src/main/java/com/example/sky)<br />
 3.新建插件 快速生成 <br />
 
+sky wiki
+-----------------------------------
+
+
+
 Gradle 版本
 -----------------------------------
-1.插件 com.android.tools.build:gradle:2.3.3'<br />
-2.版本 - gradle-3.4-all.zip<br />
+1.插件 com.android.tools.build:gradle:3.0.1'<br />
+2.版本 - gradle-4.3-all.zip<br />
 
 项目引用 - 方法1 - maven 中央库
 ----------------------
@@ -21,25 +36,8 @@ Gradle 版本
 App-build.gradle:
 
      dependencies {
-        compile 'com.jincanshen:sky:3.0.0-SNAPSHOT'
+        compile 'com.jincanshen:sky:3.1.0-SNAPSHOT'
      }
-     
-项目引用 - 方法2 - JitPack
---------------------
-Project-build.gradle
-
-    allprojects {
-    		repositories {
-    			...
-    			maven { url "https://jitpack.io" }
-    		}
-    	}
-
-App-build.gradle:
- 
-      dependencies {
-         compile 'com.github.skyJinc:sky:2.4.0'
-      }   	
 
 插件/工具 | 简述
 -------- | --------

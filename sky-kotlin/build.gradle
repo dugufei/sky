@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
 
@@ -16,8 +14,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation   deps.kotlin.stdLibJre8
+    api deps.kotlin.stdLibJre8
+    api deps.support.compat_v7
+    api deps.support.constraint_layout
 
 }
 

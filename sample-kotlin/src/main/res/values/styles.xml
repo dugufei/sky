@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- base -->
+    <style name="SKTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#FAFAFA</item>
+        <item name="colorAccent">#0011ff</item>
+    </style>
+</resources>

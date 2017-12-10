@@ -1,7 +1,6 @@
 package sky.kotlin
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 
 /**
@@ -11,16 +10,14 @@ import android.support.v7.app.AppCompatActivity
  */
 abstract class SKActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        /** 初始化核心 **/
-        initCore()
-        /** 初始化堆栈 **/
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        /** 初始化数据 **/
+        initData(intent.extras)
     }
 
-    abstract fun a()
+    abstract fun initView()
 
-    fun initCore(){}
-
-
+    abstract fun initData(bundle: Bundle?)
 }
