@@ -5,20 +5,19 @@
 
 版本说明
 -----------------------------------
-3.1.0-SNAPSHOT<br />
-1.支持kotlin 前提是 类和方法都加上open
-<br />
-2.支持父类方法的调用
-<br />
-3.增加display module 组件化跳转
-<br />
-4.调整结构 - 核心代码 放到sky-core项目里
+3.1.0-SNAPSHOT
+
+ - 支持kotlin 前提是 类和方法都加上open
+ - 支持父类方法的调用
+ - 增加display module 组件化跳转
+ - 调整结构 - 核心代码 放到sky-core项目里
 <br />
 
-3.0.0<br />
-1.新增helper.ui(class)  直接获取activity,fragment 来执行方法, 无需判定是否在子线程和是否为空<br />
-2.新增 cglib for android 动态代理，无需在声明接口，可直接使用，详情可看 [sample demo](https://github.com/skyJinc/sky/tree/master/sample/src/main/java/com/example/sky)<br />
-3.新建插件 快速生成 <br />
+3.0.0
+
+ - 新增helper.ui(class)  直接获取activity,fragment 来执行方法, 无需判定是否在子线程和是否为空
+ - 新增 cglib for android 动态代理，无需在声明接口，可直接使用，详情可看 [sample demo](https://github.com/skyJinc/sky/tree/master/sample/src/main/java/com/example/sky)<br />
+ - 新建插件 快速生成
 
 sky wiki
 -----------------------------------
