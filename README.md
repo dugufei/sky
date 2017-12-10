@@ -40,7 +40,8 @@ App-build.gradle:
 
 插件/工具 | 简述
 -------- | --------
-[sky plugin](https://github.com/skyJinc/SkyPlugin) | 快速创建架构View和Biz，以及快速添加方法注解
+[sky plugin](https://github.com/skyJinc/SkyPlugin) | 快速创建view和biz,gson转换,注解findview 等功能...
+[sky gradle plugin](https://github.com/skyJinc/SkyGradlePlugIn) | 组件化插件
 [folding-plugin](https://github.com/dmytrodanylyk/folding-plugin) | layout 文件夹里的布局文件一般很长很长没有目录, 这个插件就可以把 layout 分好层级结构, 类似 src 下目录结构
 [AndroidLocalizationer](https://github.com/westlinkin/AndroidLocalizationer) | 可用于将项目中的 string 资源自动翻译为其他语言的插件, 其翻译支持使用 Microsoft Translator 或 Google Translation
 [ParcelableGenerator](https://github.com/mcharmas/android-parcelable-intellij-plugin) | Android中的序列化有两种方式, 分别是实现 Serializable 接口和 Parcelable 接口, 但在 Android 中是推荐使用 Parcelable, 只不过我们这种方式要比Serializable方式要繁琐, 那么有了这个插件一切就ok了
