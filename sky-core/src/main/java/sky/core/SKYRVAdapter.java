@@ -119,6 +119,10 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 		notifyDataSetChanged();
 	}
 
+	public void initItems(List items) {
+		mItems = items;
+	}
+
 	public void add(int position, Object object) {
 		if (object == null || getItems() == null || position < 0 || position > getItems().size()) {
 			return;
