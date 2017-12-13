@@ -27,4 +27,17 @@ public abstract class SKYHolder<T> extends RecyclerView.ViewHolder {
 	public <T extends SKYRVAdapter> T getAdapter() {
 		return (T) adapter;
 	}
+
+	public <B extends SKYBiz> B biz(Class<B> service) {
+		return (B) adapter.biz(service);
+	}
+
+	protected <E extends SKYIDisplay> E display(Class<E> e) {
+		return (E) adapter.display(e);
+	}
+
+	public T getItem(int position) {
+		return (T) adapter.getItem(position);
+	}
+
 }

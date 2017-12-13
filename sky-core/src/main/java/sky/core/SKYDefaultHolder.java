@@ -14,6 +14,5 @@ public class SKYDefaultHolder<T> extends SKYHolder<T> {
 	}
 
 	@Override public void bindData(Object o, int position) {
-
 	}
 }
