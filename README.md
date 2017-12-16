@@ -32,13 +32,25 @@ Gradle 版本
 项目引用 - 方法1 - maven 中央库
 ----------------------
 
+ - [精简版](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
+ 
+App-build.gradle:
+
+     dependencies {
+        api 'com.jincanshen:sky-core:3.1.0-SNAPSHOT'
+        annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+     }
+
+ - [扩展版](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
+ 
 App-build.gradle:
 
      dependencies {
         api 'com.jincanshen:sky:3.1.0-SNAPSHOT'
         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
      }
-     
+
+
 帮助
 -----------------------
 
