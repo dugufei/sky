@@ -35,8 +35,15 @@ Gradle 版本
 App-build.gradle:
 
      dependencies {
-        compile 'com.jincanshen:sky:3.1.0-SNAPSHOT'
+        api 'com.jincanshen:sky:3.1.0-SNAPSHOT'
+        annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
      }
+     
+帮助
+-----------------------
+
+如果需要帮助，请给我提问题, [open a new issue on Github](https://github.com/skyJinc/sky/issues/new).
+
 
 插件/工具 | 简述
 -------- | --------
