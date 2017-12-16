@@ -29,7 +29,7 @@ Gradle 版本
 1.插件 com.android.tools.build:gradle:3.0.1'<br />
 2.版本 - gradle-4.3-all.zip<br />
 
-项目引用 - 方法1 - maven 中央库
+Gradle maven 中央库
 ----------------------
 
  - [精简版](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
