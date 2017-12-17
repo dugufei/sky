@@ -1,6 +1,7 @@
 package sky.core;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,16 +31,16 @@ public class SKYModule {
 	 * @param application
 	 *            参数
 	 */
-	public SKYModule(Application application) {
+	public SKYModule(@NonNull Application application) {
 		this.application = application;
 	}
 
 	/**
 	 * 设置全局布局
 	 * 
-	 * @param skyiViewCommon
+	 * @param skyiViewCommon 参数
 	 */
-	void setSkyiViewCommon(SKYIViewCommon skyiViewCommon) {
+	void setSkyiViewCommon(@NonNull SKYIViewCommon skyiViewCommon) {
 		this.skyiViewCommon = skyiViewCommon;
 	}
 
@@ -48,16 +49,17 @@ public class SKYModule {
 	 * 
 	 * @param sky
 	 */
-	void setSky(ISky sky) {
+	void setSky(@NonNull ISky sky) {
 		this.sky = sky;
 	}
 
 	/**
 	 * 全局上下文
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
-	@Provides @Singleton public Application provideApplication() {
+
+	@Provides @Singleton  public Application provideApplication() {
 		return application;
 	}
 
@@ -110,7 +112,7 @@ public class SKYModule {
 	 * 网络
 	 * 
 	 * @param builder
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public Retrofit provideRetrofit(Retrofit.Builder builder) {
 		return this.sky.httpAdapter(builder).build();
@@ -129,7 +131,7 @@ public class SKYModule {
 	 * 插件
 	 * 
 	 * @param builder
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public SKYPlugins providePlugins(SKYPlugins.Builder builder) {
 		return this.sky.pluginInterceptor(builder).build();
@@ -183,7 +185,7 @@ public class SKYModule {
 	/**
 	 * sky架构 - 组件化biz
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public ConcurrentHashMap<String, SkyMethodModel> provideModuleBiz() {
 		return new ConcurrentHashMap<>();
@@ -192,7 +194,7 @@ public class SKYModule {
 	/**
 	 * sky架构 - 组件化biz
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public ConcurrentHashMap<String, Class<? extends SKYIModule>> provideModule() {
 		return new ConcurrentHashMap<>();
@@ -201,7 +203,7 @@ public class SKYModule {
 	/**
 	 * sky架构 - 组件化biz
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	@Provides @Singleton public ConcurrentHashMap<Integer, Boolean> provideBizTypes() {
 		return new ConcurrentHashMap<>();

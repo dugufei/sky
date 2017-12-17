@@ -241,7 +241,7 @@ public class SKYFileCacheManage {
 	 *            参数
 	 * @param <T>
 	 *            参数
-	 * @return the {@link T} type object you previous stored
+	 * @return 返回值
 	 */
 	public <T> T readObjectFile(String fileName, Type type) {
 		return objectFromJson(readFile(fileName), type);

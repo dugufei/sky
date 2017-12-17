@@ -31,7 +31,7 @@ public class SKYHelper {
 	/**
 	 * 绑定
 	 * 
-	 * @return
+	 * @return 返回值
 	 */
 	public static Sky newSky() {
 		return new Sky();

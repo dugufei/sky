@@ -16,7 +16,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':sky-core')
-    api deps.support.cardview_v7
 
     api deps.library.nineoldandroids
     api deps.library.gson

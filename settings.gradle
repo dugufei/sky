@@ -1,11 +1,12 @@
 include ':sky'
 include ':sky-core'
-include ':sky-kotlin'
 include ':sky-annotations'
 include ':sky-compiler'
 include ':sky-cglib'
 
 include ':sample'
-include ':sample-kotlin'
+
+//include ':sample-kotlin'
+//include ':sky-kotlin'
 
 rootProject.name = 'sky-parent'

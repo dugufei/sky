@@ -1,5 +1,7 @@
 package sky.cglib.proxy;
 
+import android.content.Context;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -15,7 +17,6 @@ import sky.cglib.dx.Label;
 import sky.cglib.dx.Local;
 import sky.cglib.dx.MethodId;
 import sky.cglib.dx.TypeId;
-import android.content.Context;
 
 public class Enhancer {
 
@@ -119,7 +120,7 @@ public class Enhancer {
                 continue;
             }
             int modifiers = method.getModifiers();
-            if (Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+            if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
                 continue;
             }
             list.add(method);
@@ -132,7 +133,7 @@ public class Enhancer {
                 continue;
             }
             int modifiers = method.getModifiers();
-            if (Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+            if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
                 continue;
             }
             list.add(method);

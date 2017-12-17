@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 /**
  * @author sky
  * @version 1.0 on 2017-12-06 上午10:56
- * @see SKActivity
+ * @see SKActivity 参数
  */
 abstract class SKActivity : AppCompatActivity() {
 
