@@ -10,6 +10,7 @@ dependencies {
     implementation deps.javapoet
     implementation deps.library.commons_lang3
     implementation deps.library.collections4
+    implementation deps.library.butterknife_annotations
     compileOnly deps.auto.service
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
