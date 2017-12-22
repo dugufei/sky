@@ -143,6 +143,9 @@ public abstract class SKYActivity<B extends SKYBiz> extends AppCompatActivity im
 	}
 
 	Object model() {
+		if (skyStructureModel.getSKYProxy() == null) {
+			return null;
+		}
 		return skyStructureModel.getSKYProxy().impl;
 	}
 

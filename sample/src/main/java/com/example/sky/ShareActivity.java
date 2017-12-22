@@ -20,7 +20,7 @@ import sky.core.SKYIDisplay;
  * @version 1.0
  * @Description ShareActivity - 描述
  */
-public class ShareActivity extends SKYActivity<ShareBiz> {
+public class ShareActivity extends SKYActivity {
 
 	@BindView(R.id.btn) Button			btn;
 
@@ -41,6 +41,9 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
+		if(savedInstanceState == null){
+			return;
+		}
 		btn.setText(savedInstanceState.getString("name"));
 		btnLoading.setText(String.valueOf(savedInstanceState.getInt("number")));
 	}
@@ -64,7 +67,7 @@ public class ShareActivity extends SKYActivity<ShareBiz> {
 	@OnClick({ R.id.btn_loading, R.id.btn_close }) public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.btn_loading:
-				biz().load();
+				SKYHelper.biz(ShareBiz.class).load();
 				// close();
 				// biz(MainBiz.class).load();
 				// loading();

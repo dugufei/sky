@@ -116,7 +116,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	void initUI(SKYStructureModel SKYStructureModel) {
 		this.SKYStructureModel = SKYStructureModel;
 		ui = SKYUtils.getClassGenricType(this.getClass(), 0);
-		if(ui == null){
+		if (ui == null) {
 			throw new SKYNullPointerException("view或者biz 没有指定泛型");
 		}
 
@@ -167,6 +167,9 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 * 进度条
 	 */
 	public void loading() {
+		if (ui == null) {
+			return;
+		}
 		((SKYIView) ui()).loading();
 	}
 
@@ -174,6 +177,9 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 * 关闭进度条
 	 */
 	public void closeLoading() {
+		if (ui == null) {
+			return;
+		}
 		((SKYIView) ui()).closeLoading();
 	}
 

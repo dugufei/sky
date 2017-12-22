@@ -178,7 +178,9 @@ public class SKYHelper {
 			if (isMain) {
 				SKYActivity skyactivity = (SKYActivity) u;
 				SKYBiz skyBiz = (SKYBiz) skyactivity.model();
-				u = (U) skyBiz.ui();
+				if(skyBiz != null){
+					u = (U) skyBiz.ui();
+				}
 			}
 		}
 
