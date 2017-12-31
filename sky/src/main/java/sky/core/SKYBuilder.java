@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import sky.R;
 import sky.core.interfaces.SKYFooterListener;
 import sky.core.interfaces.SKYIView;
 import sky.core.interfaces.SKYRefreshListener;

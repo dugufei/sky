@@ -1,7 +1,7 @@
 #sky--------------------------------------------------------------------------------------------------------
--keep class jc.sky.** { *; }
--dontwarn jc.sky.**
--keep @jc.sky.core.Impl class * {*;}
+-keep class sky.** { *; }
+-dontwarn sky.**
+-keep @sky.core.Impl class * {*;}
 -keepclasseswithmembers class * {
     <init> ();
 }
