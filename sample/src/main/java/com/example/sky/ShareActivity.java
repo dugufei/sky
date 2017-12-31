@@ -35,7 +35,7 @@ public class ShareActivity extends SKYActivity {
 		SKYHelper.display(SKYIDisplay.class).intent(ShareActivity.class,bundle);
 	}
 
-	@Override protected sky.core.SKYBuilder build(SKYBuilder initialSKYBuilder) {
+	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
 		initialSKYBuilder.layoutId(R.layout.activity_share);
 		return initialSKYBuilder;
 	}

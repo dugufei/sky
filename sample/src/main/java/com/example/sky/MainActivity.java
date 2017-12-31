@@ -25,7 +25,7 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
-	@Deprecated @Override protected sky.core.SKYBuilder build(SKYBuilder initialSKYBuilder) {
+	@Deprecated @Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
 		initialSKYBuilder.layoutId(R.layout.activity_main);
 		initialSKYBuilder.layoutLoadingId(R.layout.layout_loading);
 		initialSKYBuilder.layoutEmptyId(R.layout.layout_empty);
@@ -36,6 +36,8 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 	@Override protected void initData(Bundle savedInstanceState) {
 		// biz().load();
+		biz(MainBiz.class).tip();
+		biz(NotifyBiz.class).aaa();
 	}
 
 	@OnClick({ R.id.button2, R.id.button3, R.id.button6 }) public void onViewClicked(View view) {
@@ -44,12 +46,12 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
 				break;
 			case R.id.button3:
-//				 TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
+				// TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
 				display(SKYIDisplay.class).intent(ShareActivity.class);
 				break;
 			case R.id.button6:
-//				SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
-				SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky",1);
+				// SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
+				SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky", 1);
 				// display(SKYIDisplay.class).intent(MainActivity.class);
 				break;
 		}

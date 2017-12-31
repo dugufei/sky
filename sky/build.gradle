@@ -15,20 +15,24 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':sky-core')
-
-    api deps.library.nineoldandroids
     api deps.library.gson
-
     api deps.library.glide
     api deps.library.glide_okhttp3
-    api deps.library.okhttp3
-    api deps.library.java5
+    api group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
 
+    api project(':sky-annotations')
+    implementation project(':sky-cglib')
+
+    api deps.support.recyclerview_v7
+    api deps.support.compat_v7
+
+    api deps.library.dagger
     annotationProcessor deps.annotation.dagger_compiler
 
-    api group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
-    api 'com.android.support.constraint:constraint-layout:1.0.2'
+    api deps.library.retrofit
+    api deps.library.butterknife
+    api deps.library.commons_lang3
+    api deps.library.guava
+    api deps.library.systembartint
 }
-//apply from: rootProject.file('gradle/maven-github-aar.gradle')//Github打包
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包
