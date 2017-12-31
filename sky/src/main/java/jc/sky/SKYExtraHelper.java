@@ -1,1 +1,0 @@
-        SKYExtraModulesManage  manage = getManage();
