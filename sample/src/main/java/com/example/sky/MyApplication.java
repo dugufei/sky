@@ -100,19 +100,4 @@ public class MyApplication extends SKYApplication implements ISky {
 		return builder;
 	}
 
-	@Override public int layoutLoading() {
-		return 0;
-	}
-
-	@Override public int layoutEmpty() {
-		return 0;
-	}
-
-	@Override public int layoutBizError() {
-		return 0;
-	}
-
-	@Override public int layoutHttpError() {
-		return 0;
-	}
 }
