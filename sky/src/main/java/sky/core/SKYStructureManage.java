@@ -15,7 +15,6 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import sky.R;
 import sky.cglib.proxy.Enhancer;
 import sky.cglib.proxy.MethodInterceptor;
 import sky.core.plugins.ImplEndInterceptor;
