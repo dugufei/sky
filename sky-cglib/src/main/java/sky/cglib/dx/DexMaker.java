@@ -16,10 +16,6 @@
 
 package sky.cglib.dx;
 
-import static java.lang.reflect.Modifier.PRIVATE;
-import static java.lang.reflect.Modifier.STATIC;
-import static sky.cglib.dx.rop.code.AccessFlags.ACC_CONSTRUCTOR;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +44,10 @@ import sky.cglib.dx.rop.code.RopMethod;
 import sky.cglib.dx.rop.cst.CstString;
 import sky.cglib.dx.rop.cst.CstType;
 import sky.cglib.dx.rop.type.StdTypeList;
+
+import static java.lang.reflect.Modifier.PRIVATE;
+import static java.lang.reflect.Modifier.STATIC;
+import static sky.cglib.dx.rop.code.AccessFlags.ACC_CONSTRUCTOR;
 
 /**
  * Generates a </i><strong>D</strong>alvik <strong>EX</strong>ecutable (dex)
@@ -261,10 +261,10 @@ public final class DexMaker {
         if ((flags & ~supportedFlags) != 0) {
             if(flags == 102){
                 throw new IllegalArgumentException("Unexpected flag: "
-                        + Integer.toHexString(flags)+" method access type not public");
+                        + Integer.toHexString(flags)+" 方法不能私有化(private)");
             }else {
                 throw new IllegalArgumentException("Unexpected flag: "
-                        + Integer.toHexString(flags));
+                        + Integer.toHexString(flags) +" 方法不能私有化(private)");
             }
         }
 
