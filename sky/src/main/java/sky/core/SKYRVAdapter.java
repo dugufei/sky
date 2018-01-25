@@ -38,7 +38,7 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 	 */
 	private List	mItems;
 
-	private SKYView skyView;
+	private SKYView	skyView;
 
 	private int		state;
 
@@ -103,6 +103,15 @@ public abstract class SKYRVAdapter<T, V extends SKYHolder> extends RecyclerView.
 			holder = newViewHolder(viewGroup, viewType);
 			holder.setAdapter(this);
 		}
+		if (holder == null) {
+			holder = holderIsNullHandel(viewGroup, viewType);
+		}
+		return holder;
+	}
+
+	public V holderIsNullHandel(ViewGroup viewGroup, int viewType) {
+		V holder = (V) new SKYDefaultHolder<>(new View(viewGroup.getContext()));
+		L.i("viewType = " + viewType + ", holder为空创建默认holder");
 		return holder;
 	}
 

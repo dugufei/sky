@@ -53,7 +53,7 @@ public class SKYScreenManager {
 	public <T extends FragmentActivity> T getCurrentIsRunningActivity() {
 		if (activities.size() > 0) {
 			synchronized (activities) {
-				for (int i = 0; i < activities.size(); i++) {
+				for (int i = activities.size() - 1; i >= 0; i--) {
 					if (activities.get(i).isRunning()) {
 						return (T) activities.get(i).getActivity();
 					}
