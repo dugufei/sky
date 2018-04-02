@@ -11,7 +11,6 @@ import retrofit2.Call;
 import sky.Background;
 import sky.BackgroundType;
 import sky.core.SKYBiz;
-import sky.core.exception.SKYHttpException;
 
 public class OderBiz extends SKYBiz<OderActivity> {
 
@@ -31,8 +30,4 @@ public class OderBiz extends SKYBiz<OderActivity> {
 		ui().setData(limitModel);
 	}
 
-	@Override
-	public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
-		return super.interceptHttpError(method, sKYHttpException);
-	}
 }

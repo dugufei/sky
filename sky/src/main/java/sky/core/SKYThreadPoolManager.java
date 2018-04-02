@@ -16,7 +16,7 @@ final class SKYThreadPoolManager {
 	private SKYWorkExecutorService SKYWorkExecutorService;
 
 	/** 线程服务-串行工作线程池 **/
-	private SKYSingleWorkExecutorServiece SKYSingleWorkExecutorServiece;
+	private SKYSingleWorkExecutorService SKYSingleWorkExecutorServiece;
 
 	public synchronized ExecutorService getHttpExecutorService() {
 		if (SKYHttpExecutorService == null) {
@@ -27,7 +27,7 @@ final class SKYThreadPoolManager {
 
 	public synchronized ExecutorService getSingleWorkExecutorService() {
 		if (SKYSingleWorkExecutorServiece == null) {
-			SKYSingleWorkExecutorServiece = new SKYSingleWorkExecutorServiece();
+			SKYSingleWorkExecutorServiece = new SKYSingleWorkExecutorService();
 		}
 		return SKYSingleWorkExecutorServiece;
 	}

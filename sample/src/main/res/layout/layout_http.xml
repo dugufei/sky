@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/tv_reload_a"
         android:text="网络错误布局"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

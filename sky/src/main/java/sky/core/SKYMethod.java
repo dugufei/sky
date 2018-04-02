@@ -277,22 +277,22 @@ final class SKYMethod {
 			SKYIIntercept skyiIntercept = (SKYIIntercept) impl;
 
 			if (throwable.getCause() instanceof SKYHttpException) {
-				if (!skyiIntercept.interceptHttpError(method, (SKYHttpException) throwable.getCause())) {
+				if (!skyiIntercept.interceptHttpError(interceptor, (SKYHttpException) throwable.getCause())) {
 					// 网络错误拦截器
 					for (SKYHttpErrorInterceptor item : SKYHelper.methodsProxy().skyHttpErrorInterceptors) {
-						item.methodError(service, method, (SKYHttpException) throwable.getCause());
+						item.interceptorError(((SKYBiz) impl).ui(), interceptor, (SKYHttpException) throwable.getCause());
 					}
 				}
 			} else if (throwable.getCause() instanceof SKYNotUIPointerException) {
 				// 忽略
-				if (!skyiIntercept.interceptUIError(method, (SKYNotUIPointerException) throwable.getCause())) {
+				if (!skyiIntercept.interceptUIError(interceptor, (SKYNotUIPointerException) throwable.getCause())) {
 				}
 				return;
 			} else {
-				if (!skyiIntercept.interceptBizError(method, throwable.getCause())) {
+				if (!skyiIntercept.interceptBizError(interceptor, throwable.getCause())) {
 					// 业务错误拦截器
 					for (SKYBizErrorInterceptor item : SKYHelper.methodsProxy().skyErrorInterceptor) {
-						item.interceptorError(service, method, throwable);
+						item.interceptorError(((SKYBiz) impl).ui(), interceptor, throwable.getCause());
 					}
 				}
 			}

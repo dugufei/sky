@@ -5,7 +5,7 @@ include ':sky-cglib'
 
 include ':sample'
 
-//include ':sample-kotlin'
-//include ':sky-kotlin'
+include ':sample-kotlin'
+include ':sky-kotlin'
 
 rootProject.name = 'sky-parent'

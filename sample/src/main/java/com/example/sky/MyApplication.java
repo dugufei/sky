@@ -16,6 +16,7 @@ import sky.core.SKYActivity;
 import sky.core.SKYModulesManage;
 import sky.core.SKYPlugins;
 import sky.core.exception.SKYHttpException;
+import sky.core.interfaces.SKYIView;
 import sky.core.plugins.SKYActivityInterceptor;
 import sky.core.plugins.SKYBizErrorInterceptor;
 import sky.core.plugins.SKYFragmentInterceptor;
@@ -49,19 +50,18 @@ public class MyApplication extends SKYApplication implements ISky {
 	}
 
 	@Override public SKYPlugins.Builder pluginInterceptor(SKYPlugins.Builder builder) {
-		builder.addHttpErrorInterceptor(new SKYHttpErrorInterceptor() {
+		builder.addHttpErrorInterceptor(new SKYHttpErrorInterceptor<SKYIView>() {
 
-			@Override public void methodError(Class view, String method, SKYHttpException skyHttpException) {
-
+			@Override public void interceptorError(SKYIView view, int interceptor, SKYHttpException skyHttpException) {
+				view.showHttpError();
 			}
 		});
 
-		builder.addBizErrorInterceptor(new SKYBizErrorInterceptor() {
+		builder.addBizErrorInterceptor(new SKYBizErrorInterceptor<SKYIView>() {
 
-			@Override public void interceptorError(Class view, String method, Throwable throwable) {
-
+			@Override public void interceptorError(SKYIView view, int interceptor, Throwable sKYBizException) {
+				view.showBizError();
 			}
-
 		});
 
 		builder.setActivityInterceptor(new SKYActivityInterceptor.AdapterInterceptor() {

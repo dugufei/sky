@@ -23,6 +23,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':sky-kotlin')
-    implementation project(':sky-core')
+    implementation project(':sky')
 
 }

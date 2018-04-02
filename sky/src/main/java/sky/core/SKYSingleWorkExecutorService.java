@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit;
  * @author sky
  * @version 版本
  */
-class SKYSingleWorkExecutorServiece extends ThreadPoolExecutor {
+class SKYSingleWorkExecutorService extends ThreadPoolExecutor {
 
-	SKYSingleWorkExecutorServiece() {
-		super(1, 1, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+	SKYSingleWorkExecutorService() {
+		super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 }

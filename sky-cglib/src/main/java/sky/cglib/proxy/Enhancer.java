@@ -110,34 +110,36 @@ public class Enhancer {
 		code.returnValue(retObjLocal);
 
 		// override super's methods
-        List<Method> list = new ArrayList<>();
+		List<Method> list = new ArrayList<>();
+		// 当前类方法
+		Method[] methods = superclass.getDeclaredMethods();
+		for (Method method : methods) {
+			String methodName = method.getName();
+			if (methodName.contains("$")) { // Android studio will generate access$super method for every class
+				continue;
+			}
+			int modifiers = method.getModifiers();
+			if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers)
+					|| Modifier.isFinal(modifiers)) {
+				continue;
+			}
+			list.add(method);
+		}
+		// 父类方法
+		Method[] superMethos = superclass.getSuperclass().getDeclaredMethods();
+		for (Method method : superMethos) {
+			String methodName = method.getName();
+			if (methodName.contains("$")) { // Android studio will generate access$super method for every class
+				continue;
+			}
+			int modifiers = method.getModifiers();
+			if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers)
+					|| Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+				continue;
+			}
+			list.add(method);
+		}
 
-        //父类方法
-        Method[] superMethos = superclass.getSuperclass().getDeclaredMethods();
-        for (Method method : superMethos) {
-            String methodName = method.getName();
-            if (methodName.contains("$")) { // Android studio will generate access$super method for every class
-                continue;
-            }
-            int modifiers = method.getModifiers();
-            if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
-                continue;
-            }
-            list.add(method);
-        }
-        //当前类方法
-        Method[] methods = superclass.getDeclaredMethods();
-        for (Method method : methods) {
-            String methodName = method.getName();
-            if (methodName.contains("$")) { // Android studio will generate access$super method for every class
-                continue;
-            }
-            int modifiers = method.getModifiers();
-            if (Modifier.isNative(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers) || Modifier.isAbstract(modifiers) || Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
-                continue;
-            }
-            list.add(method);
-        }
 		MethodId<?, ?> superMethodId = null;
 		MethodId<?, ?> subMethodId = null;
 		TypeId<?>[] argsTypeId = null;
@@ -170,6 +172,10 @@ public class Enhancer {
 			} else {
 				subMethodId = subType.getMethod(methodReturnType, methodName);
 			}
+			if(dexMaker.isAlreadyDeclared(subMethodId)){
+				continue;
+			}
+
 			code = dexMaker.declare(subMethodId, method.getModifiers());
 
 			Local retLocal = code.newLocal(methodReturnType);

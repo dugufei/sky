@@ -10,9 +10,9 @@ import sky.core.exception.SKYNotUIPointerException;
  */
 interface SKYIIntercept {
 
-	boolean interceptHttpError(String method, SKYHttpException sKYHttpException);
+	boolean interceptHttpError(int interceptor, SKYHttpException sKYHttpException);
 
-	boolean interceptUIError(String method, SKYNotUIPointerException sKYNotUIPointerException);
+	boolean interceptUIError( int interceptor, SKYNotUIPointerException sKYNotUIPointerException);
 
-	boolean interceptBizError(String method, Throwable throwable);
+	boolean interceptBizError(int interceptor, Throwable throwable);
 }

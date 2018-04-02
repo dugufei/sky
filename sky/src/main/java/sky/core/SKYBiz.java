@@ -183,15 +183,15 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 		((SKYIView) ui()).closeLoading();
 	}
 
-	@Override public boolean interceptHttpError(String method, SKYHttpException sKYHttpException) {
+	@Override public boolean interceptHttpError(int interceptor, SKYHttpException sKYHttpException) {
 		return false;
 	}
 
-	@Override public boolean interceptUIError(String method, SKYNotUIPointerException sKYNotUIPointerException) {
+	@Override public boolean interceptUIError(int interceptor, SKYNotUIPointerException sKYNotUIPointerException) {
 		return false;
 	}
 
-	@Override public boolean interceptBizError(String method, Throwable throwable) {
+	@Override public boolean interceptBizError(int interceptor, Throwable sKYBizException) {
 		return false;
 	}
 }

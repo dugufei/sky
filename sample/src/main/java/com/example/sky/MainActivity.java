@@ -40,21 +40,31 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 		biz(NotifyBiz.class).aaa();
 	}
 
-	@OnClick({ R.id.button2, R.id.button3, R.id.button6 }) public void onViewClicked(View view) {
+	@OnClick({ R.id.button2, R.id.button3, R.id.button6, R.id.tv_reload , R.id.tv_reload_a }) public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.button2:// 登录
 				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();
 				break;
 			case R.id.button3:
 				// TipDialogFragment.getInstance().show(getSupportFragmentManager(), this, 100);
-				display(SKYIDisplay.class).intent(ShareActivity.class);
+				// display(SKYIDisplay.class).intent(ShareActivity.class);
+				biz().setShare("");
 				break;
 			case R.id.button6:
+				biz().errormethod();
 				// SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
-				SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky", 1);
+				// SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky", 1);
 				// display(SKYIDisplay.class).intent(MainActivity.class);
 				break;
+			case R.id.tv_reload:
+			case R.id.tv_reload_a:
+				showContent();
+				break;
 		}
+	}
+
+	@Override public void showContent() {
+		super.showContent();
 	}
 
 	@Override public void onCancelled(int requestCode) {
