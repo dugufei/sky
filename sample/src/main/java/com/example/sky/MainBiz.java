@@ -2,6 +2,8 @@ package com.example.sky;
 
 import android.os.Bundle;
 
+import com.example.sky.helper.SampleHelper;
+
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;
@@ -40,8 +42,10 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	}
 
 	@Interceptor(1) @Background(BackgroundType.WORK) public void errormethod() {
-		Object obj = null;
-		obj.toString();
+
+		SampleHelper.api().show();
+//		Object obj = null;
+//		obj.toString();
 	}
 
 	@Override public boolean interceptBizError(int interceptor, Throwable throwable) {

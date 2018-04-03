@@ -36,7 +36,7 @@ public class SKYHelper {
 	 * 
 	 * @return 返回值
 	 */
-	public static Sky newSky() {
+	public static final Sky newSky() {
 		return new Sky();
 	}
 
@@ -47,7 +47,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	protected static <M> M getManage() {
+	protected static final <M> M getManage() {
 		return (M) mSKYModulesManage;
 	}
 
@@ -60,8 +60,8 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <D extends SKYIDisplay> D display(Class<D> eClass) {
-		return mSKYModulesManage.skyCacheManager.display(eClass);
+	public static final <D extends SKYIDisplay> D display(Class<D> eClass) {
+		return mSKYModulesManage.skyCacheManager.get().display(eClass);
 	}
 
 	/**
@@ -70,10 +70,10 @@ public class SKYHelper {
 	 * @param clazzName
 	 *            类名
 	 */
-	public static synchronized SKYIModuleMethod moduleBiz(String clazzName) {
-		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get(clazzName);
+	public static final synchronized SKYIModuleMethod moduleBiz(String clazzName) {
+		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get().get(clazzName);
 		if (skyMethodModel == null) {
-			Class clazz = mSKYModulesManage.provideModule.get(clazzName);
+			Class clazz = mSKYModulesManage.provideModule.get().get(clazzName);
 			if (null == clazz) {
 				L.d("Sky::没有匹配到Biz [" + clazzName + "]");
 				return SKYIModuleMethod.NONE;
@@ -86,8 +86,8 @@ public class SKYHelper {
 				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
 				return SKYIModuleMethod.NONE;
 			}
-			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz);
-			mSKYModulesManage.provideModule.remove(clazzName);
+			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz.get());
+			mSKYModulesManage.provideModule.get().remove(clazzName);
 			return moduleBiz(clazzName);
 		}
 		return skyMethodModel;
@@ -99,10 +99,10 @@ public class SKYHelper {
 	 * @param clazzName
 	 *            类名
 	 */
-	public static synchronized SKYIModuleMethod moduleDisplay(String clazzName) {
-		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get(clazzName);
+	public static final synchronized SKYIModuleMethod moduleDisplay(String clazzName) {
+		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get().get(clazzName);
 		if (skyMethodModel == null) {
-			Class clazz = mSKYModulesManage.provideModule.get(clazzName);
+			Class clazz = mSKYModulesManage.provideModule.get().get(clazzName);
 			if (null == clazz) {
 				L.d("Sky::没有匹配到Display [" + clazzName + "]");
 				return SKYIModuleMethod.NONE;
@@ -115,8 +115,8 @@ public class SKYHelper {
 				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
 				return SKYIModuleMethod.NONE;
 			}
-			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz);
-			mSKYModulesManage.provideModule.remove(clazzName);
+			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz.get());
+			mSKYModulesManage.provideModule.get().remove(clazzName);
 			return moduleBiz(clazzName);
 		}
 		return skyMethodModel;
@@ -127,9 +127,9 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static SKYIJobService jobSerceHelper() {
+	public static final SKYIJobService jobSerceHelper() {
 		SKYModulesManage manage = getManage();
-		return manage.skyJobService;
+		return manage.skyJobService.get();
 	}
 
 	/**
@@ -137,9 +137,9 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static SKYFileCacheManage fileCacheManage() {
-		SKYModulesManage  manage = getManage();
-		return manage.skyFileCacheManage;
+	public static final SKYFileCacheManage fileCacheManage() {
+		SKYModulesManage manage = getManage();
+		return manage.skyFileCacheManage.get();
 	}
 
 	/**
@@ -147,11 +147,10 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static SKYDownloadManager downloader() {
-		SKYModulesManage  manage = getManage();
-		return manage.skyDownloadManager;
+	public static final SKYDownloadManager downloader() {
+		SKYModulesManage manage = getManage();
+		return manage.skyDownloadManager.get();
 	}
-
 
 	/**
 	 * 获取业务
@@ -162,9 +161,9 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <B extends SKYBiz> B biz(Class<B> service) {
+	public static final <B extends SKYBiz> B biz(Class<B> service) {
 		if (checkBizIsPublic(service)) { // 判定是否是公共方法
-			return mSKYModulesManage.skyCacheManager.biz(service);
+			return mSKYModulesManage.skyCacheManager.get().biz(service);
 		}
 		return structureHelper().biz(service);
 	}
@@ -178,7 +177,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <U> U ui(Class<U> uiClazz) {
+	public static final <U> U ui(Class<U> uiClazz) {
 		if (uiClazz.isInterface()) {
 			throw new SKYUINullPointerException("3.0.0 - ui(class)方法,3.0.0版本不支持接口获取代理类");
 		}
@@ -212,7 +211,7 @@ public class SKYHelper {
 			if (isMain) {
 				SKYActivity skyactivity = (SKYActivity) u;
 				SKYBiz skyBiz = (SKYBiz) skyactivity.model();
-				if(skyBiz != null){
+				if (skyBiz != null) {
 					u = (U) skyBiz.ui();
 				}
 			}
@@ -234,7 +233,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return true 存在 false 不存在
 	 */
-	public static <B extends SKYBiz> boolean isExist(Class<B> service) {
+	public static final <B extends SKYBiz> boolean isExist(Class<B> service) {
 		return structureHelper().isExist(service);
 	}
 
@@ -247,7 +246,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <B extends SKYBiz> List<B> bizList(Class<B> service) {
+	public static final <B extends SKYBiz> List<B> bizList(Class<B> service) {
 		if (checkBizIsPublic(service)) { // 判定是否是公共方法
 			throw new SKYBizException("Class 不能是公共业务类");
 		}
@@ -259,7 +258,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static Application getInstance() {
+	public static final Application getInstance() {
 		return mSKYModulesManage.application;
 	}
 
@@ -272,7 +271,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <D> D httpBody(Call<D> call) {
+	public static final <D> D httpBody(Call<D> call) {
 		if (call == null) {
 			throw new SKYHttpException("Call 不能为空～");
 		}
@@ -314,7 +313,7 @@ public class SKYHelper {
 	 * @param call
 	 *            参数
 	 */
-	public static void httpCancel(Call call) {
+	public static final void httpCancel(Call call) {
 		if (call == null) {
 			return;
 		}
@@ -329,7 +328,7 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static boolean isLogOpen() {
+	public static final boolean isLogOpen() {
 		return mSKYModulesManage.sky.isLogOpen();
 	}
 
@@ -338,7 +337,7 @@ public class SKYHelper {
 	 *
 	 * @return true 子线程 false 主线程
 	 */
-	public static boolean isMainLooperThread() {
+	public static final boolean isMainLooperThread() {
 		return Looper.getMainLooper().getThread() != Thread.currentThread();
 	}
 
@@ -347,8 +346,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static SKYToast toast() {
-		return mSKYModulesManage.skyToast;
+	public static final SKYToast toast() {
+		return mSKYModulesManage.skyToast.get();
 	}
 
 	/**
@@ -360,8 +359,8 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	public static <H> H http(Class<H> httpClazz) {
-		return mSKYModulesManage.skyCacheManager.http(httpClazz);
+	public static final <H> H http(Class<H> httpClazz) {
+		return mSKYModulesManage.skyCacheManager.get().http(httpClazz);
 
 	}
 
@@ -370,8 +369,8 @@ public class SKYHelper {
 	 *
 	 * @return 管理器
 	 */
-	public static SKYScreenManager screenHelper() {
-		return mSKYModulesManage.skyScreenManager;
+	public static final SKYScreenManager screenHelper() {
+		return mSKYModulesManage.skyScreenManager.get();
 	}
 
 	/**
@@ -379,8 +378,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	public static SynchronousExecutor mainLooper() {
-		return mSKYModulesManage.synchronousExecutor;
+	public static final SynchronousExecutor mainLooper() {
+		return mSKYModulesManage.synchronousExecutor.get();
 	}
 
 	/**
@@ -388,8 +387,8 @@ public class SKYHelper {
 	 *
 	 * @return 管理器
 	 */
-	static SKYStructureIManage structureHelper() {
-		return mSKYModulesManage.skyStructureManage;
+	static final SKYStructureIManage structureHelper() {
+		return mSKYModulesManage.skyStructureManage.get();
 	}
 
 	/**
@@ -397,8 +396,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	static SKYThreadPoolManager threadPoolHelper() {
-		return mSKYModulesManage.skyThreadPoolManager;
+	static final SKYThreadPoolManager threadPoolHelper() {
+		return mSKYModulesManage.skyThreadPoolManager.get();
 	}
 
 	/**
@@ -406,8 +405,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	static Retrofit httpAdapter() {
-		return mSKYModulesManage.retrofit;
+	static final Retrofit httpAdapter() {
+		return mSKYModulesManage.retrofit.get();
 	}
 
 	/**
@@ -415,8 +414,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	static SKYPlugins methodsProxy() {
-		return mSKYModulesManage.skyPlugins;
+	static final SKYPlugins methodsProxy() {
+		return mSKYModulesManage.skyPlugins.get();
 	}
 
 	/**
@@ -424,8 +423,8 @@ public class SKYHelper {
 	 *
 	 * @return 返回值
 	 */
-	static SKYIViewCommon getComnonView() {
-		return mSKYModulesManage.skyiViewCommon;
+	static final SKYIViewCommon getComnonView() {
+		return mSKYModulesManage.skyiViewCommon.get();
 	}
 
 	/**
@@ -435,17 +434,17 @@ public class SKYHelper {
 	 *            biz
 	 * @return true 公共业务 false 不是公共业务
 	 */
-	static boolean checkBizIsPublic(Class bizClazz) {
+	static final boolean checkBizIsPublic(Class bizClazz) {
 		boolean isPublic = false;
 
-		if (mSKYModulesManage.provideBizTypes.get(bizClazz.hashCode()) == null) {
+		if (mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode()) == null) {
 			Class genricType = SKYUtils.getClassGenricType(bizClazz, 0);
 			if (genricType == null && !bizClazz.isInterface()) { // 表示公共biz
 				isPublic = true;
 			}
-			mSKYModulesManage.provideBizTypes.put(bizClazz.hashCode(), isPublic);
+			mSKYModulesManage.provideBizTypes.get().put(bizClazz.hashCode(), isPublic);
 		} else {
-			isPublic = mSKYModulesManage.provideBizTypes.get(bizClazz.hashCode());
+			isPublic = mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode());
 		}
 		return isPublic;
 	}

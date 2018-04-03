@@ -67,7 +67,7 @@ final class SKYModuleUtils {
 				String className = (String) var5.next();
 				String tempName = StringUtils.removeStart(className, "com.sky.android.module.biz.Sky$$Biz$$");
 				String bizName = StringUtils.removeStart(tempName, "com.sky.android.module.display.Sky$$Display$$");
-				skyModulesManage.provideModule.put(bizName, (Class<? extends SKYIModule>) Class.forName(className));
+				skyModulesManage.provideModule.get().put(bizName, (Class<? extends SKYIModule>) Class.forName(className));
 			}
 
 			L.d("Sky::%s", "加载完毕, cost " + (System.currentTimeMillis() - e) + " ms.");
