@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static java.lang.annotation.RetentionPolicy.CLASS;
+
 /**
  * @author sky
  * @version 1.0 on 2017-07-02 下午1:12
@@ -12,7 +14,7 @@ import java.lang.annotation.Target;
  */
 
 @Target({ ElementType.TYPE,ElementType.METHOD })
-@Retention(RetentionPolicy.CLASS)
+@Retention(CLASS)
 public @interface OpenBiz {
 
 	/**

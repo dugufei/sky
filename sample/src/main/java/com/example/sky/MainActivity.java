@@ -1,8 +1,11 @@
 package com.example.sky;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.sky.test.MainVM;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,9 +41,16 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 		// biz().load();
 		biz(MainBiz.class).tip();
 		biz(NotifyBiz.class).aaa();
+
+		MainVM mainVM = ViewModelProviders.of(this).get(MainVM.class);
+
+		mainVM.userMutableLiveData.observe(this, user -> {
+			textView2.setText(user.name);
+		});
+
 	}
 
-	@OnClick({ R.id.button2, R.id.button3, R.id.button6, R.id.tv_reload , R.id.tv_reload_a }) public void onViewClicked(View view) {
+	@OnClick({ R.id.button2, R.id.button3, R.id.button6, R.id.tv_reload, R.id.tv_reload_a }) public void onViewClicked(View view) {
 		switch (view.getId()) {
 			case R.id.button2:// 登录
 				getSupportFragmentManager().beginTransaction().add(R.id.linearLayout, LoginFragment.getInstance(), "login").addToBackStack(null).commitAllowingStateLoss();

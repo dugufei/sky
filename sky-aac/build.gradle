@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+    }
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+        abortOnError false
+    }
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':sky-annotations')
+    implementation project(':sky-di')
+    annotationProcessor project(':sky-compiler')
+
+    api deps.lifecycle
+    api deps.paging
+    api deps.support.recyclerview_v7
+    api deps.support.compat_v7
+
+
+    api deps.library.dagger
+    annotationProcessor deps.annotation.dagger_compiler
+
+    api deps.library.dagger_android
+    api deps.library.dagger_android_support
+    annotationProcessor deps.annotation.dagger_android_compiler
+
+}
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

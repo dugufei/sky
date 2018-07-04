@@ -26,7 +26,10 @@ buildscript {
             'annotations_java5' : '15.0',
             'glide'             : '4.3.1',
             'dagger'            : '2.10',
+            'dagger_android'    : '2.16',
             'guava'             : '22.0-android',
+            'lifecycle_version' : '1.1.1',
+            'paging_version'    : '1.0.0'
     ]
 
     ext.deps = [
@@ -57,9 +60,12 @@ buildscript {
                     'glide'                  : "com.github.bumptech.glide:glide:${versions.glide}",
                     'dagger'                 : "com.google.dagger:dagger:${versions.dagger}",
                     'guava'                  : "com.google.guava:guava:${versions.guava}",
+                    'dagger_android'         : "com.google.dagger:dagger-android:${versions.dagger_android}",
+                    'dagger_android_support' : "com.google.dagger:dagger-android-support:${versions.dagger_android}",
             ],
             'annotation': [
-                    'dagger_compiler': "com.google.dagger:dagger-compiler:${versions.dagger}",
+                    'dagger_compiler'        : "com.google.dagger:dagger-compiler:${versions.dagger_android}",
+                    'dagger_android_compiler': "com.google.dagger:dagger-android-processor:${versions.dagger_android}",
             ],
 
             // 代码生成
@@ -76,6 +82,8 @@ buildscript {
             javapoet    : 'com.squareup:javapoet:1.9.0',
             junit       : 'junit:junit:4.12',
             truth       : 'com.google.truth:truth:0.36',
+            lifecycle   : "android.arch.lifecycle:extensions:${versions.lifecycle_version}",
+            paging   : "android.arch.paging:runtime:${versions.paging_version}",
             //引用
             'release'   : [
                     'runtime' : "com.jincanshen:sky:${versions.release}",

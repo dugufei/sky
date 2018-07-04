@@ -1,15 +1,16 @@
 package com.example.sky;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
 
 import com.example.sky.helper.SampleHelper;
+import com.example.sky.test.User;
 
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;
 import sky.core.L;
 import sky.core.SKYBiz;
-import sky.core.exception.SKYHttpException;
 
 /**
  * @author sky
@@ -19,9 +20,13 @@ import sky.core.exception.SKYHttpException;
  */
 public class MainBiz extends SKYBiz<MainActivity> {
 
+	MutableLiveData<User> mutableLiveData = new MutableLiveData<>();
+
 	@Override protected void initBiz(Bundle bundle) {
 		super.initBiz(bundle);
 	}
+
+
 
 	@Background(BackgroundType.HTTP) public void load() {
 		loading();
@@ -37,8 +42,9 @@ public class MainBiz extends SKYBiz<MainActivity> {
 
 	@Interceptor(2) @Background(BackgroundType.HTTP) public void setShare(String value) {
 		/*ui().setTextView2(value);*/
-
-		throw  new SKYHttpException("哈哈哈");
+		User user = new User();
+		user.name = "我被点击啦";
+		mutableLiveData.postValue(user);
 	}
 
 	@Interceptor(1) @Background(BackgroundType.WORK) public void errormethod() {

@@ -22,7 +22,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':sky-kotlin')
-    implementation project(':sky')
-
+    implementation project(':sky-aac')
+    api deps.support.recyclerview_v7
+    api deps.support.compat_v7
+    api deps.support.constraint_layout
 }
