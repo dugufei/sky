@@ -12,7 +12,7 @@ import sky.di.SKLazy;
  * @version 1.0 on 2018-06-23 下午10:04
  * @see hhh
  */
-@SKSource({ASource.class,BSource.class})
+@SKSource({ ASource.class, BSource.class })
 public class hhh {
 
 	public hhh() {
@@ -21,16 +21,23 @@ public class hhh {
 
 	@SKInput A			a;
 
-	@SKInput B			b;
+	@SKInput SKLazy<B>	b;
 
-	@SKInput C	c;
+	@SKInput C			c;
 
 	@SKInput D			d;
 
+	@SKInput F			f;
+
 	@SKInput bbb		bbb;
 
-	public void init() {
-		Log.d("我是谁", a.s);
-		Log.d("我是谁111", c.c);
+	public void init(A aaaaa, B bnnnn) {
+		Log.d("我是谁aaaa", aaaaa + "：");
+		Log.d("我是谁bbbb", bnnnn + "：");
+		Log.d("我是谁", this.a + "：");
+		Log.d("我是谁111", this.b.get() + "");
+		Log.d("我是谁222", c + "");
+		Log.d("我是谁333", d + "");
+		Log.d("我是谁444", bbb + "");
 	}
 }

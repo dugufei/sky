@@ -3,6 +3,7 @@ package sky.example.textdi;
 import sk.SKInputs;
 import sky.SKInput;
 import sky.SKSource;
+import sky.di.SKLazy;
 
 /**
  * @author sky
@@ -16,7 +17,7 @@ public class bbb {
 		SKInputs.inject(this);
 	}
 
-	@SKInput A		a;
+	@SKInput A			a;
 
-	@SKInput B		b;
+	@SKInput SKLazy<B>	b;
 }

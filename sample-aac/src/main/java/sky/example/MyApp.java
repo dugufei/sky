@@ -1,7 +1,7 @@
 package sky.example;
 
 import sk.SKApp;
-import sky.di.manage.SKDI;
+import sk.SKDI;
 
 /**
  * @author sky

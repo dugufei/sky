@@ -1,11 +1,18 @@
 package sk.compiler;
 
+import static com.google.auto.common.MoreElements.getPackage;
+import static javax.lang.model.element.ElementKind.CLASS;
+import static javax.lang.model.element.ElementKind.METHOD;
+import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.STATIC;
+import static sk.compiler.SKUtils.lowerCase;
+import static sk.compiler.SkConsts.SK_I_LAZY;
+import static sk.compiler.SkConsts.SK_I_PROVIDER;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
@@ -28,7 +35,6 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
@@ -42,21 +48,20 @@ import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.sun.source.util.Trees;
 
-import sky.OpenBiz;
-import sky.OpenDisplay;
+import sk.compiler.model.SKCheckProviderModel;
+import sk.compiler.model.SKInputClassModel;
+import sk.compiler.model.SKInputModel;
+import sk.compiler.model.SKParamProviderModel;
+import sk.compiler.model.SKProviderModel;
+import sk.compiler.model.SKSourceModel;
 import sky.SKInput;
 import sky.SKProvider;
 import sky.SKSingleton;
 import sky.SKSource;
-
-import static javax.lang.model.element.ElementKind.CLASS;
-import static javax.lang.model.element.ElementKind.FIELD;
-import static javax.lang.model.element.ElementKind.METHOD;
-import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.STATIC;
 
 @AutoService(Processor.class)
 public final class SkDIProcessor extends AbstractProcessor {
@@ -133,38 +138,37 @@ public final class SkDIProcessor extends AbstractProcessor {
 	@Override public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
 		// 如果没有注解
 		if (CollectionUtils.isEmpty(elements)) {
-			logger.info(">>> SkyProcessor 没有注解. <<<");
+			logger.info(">>> SkProcessor 没有注解. <<<");
 			return false;
 		}
 
 		logger.info(">>> Found SKProvider, 开始... <<<");
-		Map<TypeElement, SkBind> bindingProviderMap = findMethodsProvider(env, SKProvider.class);
-
-		if(bindingProviderMap == null){
+		Map<String, SKSourceModel> skSourceModelMap = new LinkedHashMap<>();
+		Map<String, SKProviderModel> skProviderModels = findMethodsProvider(env, SKProvider.class,skSourceModelMap);
+		if (skProviderModels == null) {
 			logger.info(">>> Found SKProvider 异常... <<<");
 			return false;
 		}
-		Map<String, SkBind> map = new LinkedHashMap<>();
+		SKProviderCreate skProviderCreate = new SKProviderCreate();
 
-		for (Map.Entry<TypeElement, SkBind> entry : bindingProviderMap.entrySet()) {
-			SkBind binding = entry.getValue();
-			binding.inpuName(map);
-			for (SkMethod skMethod : binding.methodViewBindings) {
-				JavaFile javaIFile = binding.brewProvider(skMethod);
-				try {
-					javaIFile.writeTo(filer);
-				} catch (IOException e) {
-					logger.error(e);
-				}
+		for (SKProviderModel item : skProviderModels.values()) {
+			JavaFile javaIFile = skProviderCreate.brewProvider(item);
+			try {
+				javaIFile.writeTo(filer);
+			} catch (IOException e) {
+				logger.error(e);
 			}
 		}
 		logger.info(">>> Found SKProvider 结束... <<<");
 
 		logger.info(">>> Found SKInput, 开始... <<<");
-		Map<TypeElement, SkBind> bindingInputMap = findFieldInput(env, SKInput.class);
-		for (Map.Entry<TypeElement, SkBind> entry : bindingInputMap.entrySet()) {
-			SkBind binding = entry.getValue();
-			JavaFile javaIFile = binding.brewInput();
+
+		Map<TypeElement, SKInputClassModel> skInputModels = findFieldInput(env, SKInput.class, skProviderModels);
+
+		SKInputCreate skInputCreate = new SKInputCreate();
+
+		for(SKInputClassModel item : skInputModels.values()){
+			JavaFile javaIFile = skInputCreate.brewInput(item);
 			try {
 				javaIFile.writeTo(filer);
 			} catch (IOException e) {
@@ -173,233 +177,169 @@ public final class SkDIProcessor extends AbstractProcessor {
 		}
 		logger.info(">>> Found SKInput 结束... <<<");
 
-		logger.info(">>> Found SKSource, 开始... <<<");
-		Set<? extends Element> routeElements = env.getElementsAnnotatedWith(SKSource.class);
-		Map<TypeElement, SkBind> bindingSourceMap = findClass(routeElements, SKSource.class);
-		for (Map.Entry<TypeElement, SkBind> entry : bindingSourceMap.entrySet()) {
-			SkBind binding = entry.getValue();
 
-			try {
-				JavaFile javaIFile = binding.brewSource(map);
-				javaIFile.writeTo(filer);
-			} catch (IOException e) {
-				logger.error(e);
-			}
+		logger.info(">>> Found SKDI, 开始... <<<");
+
+		SKDICreate skdiCreate = new SKDICreate();
+
+		JavaFile javaIFile = skdiCreate.brewDI(skProviderModels,skInputModels,skSourceModelMap);
+		try {
+			javaIFile.writeTo(filer);
+		} catch (IOException e) {
+			logger.error(e);
 		}
-		logger.info(">>> Found SKSource 结束... <<<");
+
+		logger.info(">>> Found SKDI, 结束... <<<");
+
 
 		return false;
 	}
 
-	private Map<TypeElement, SkBind> findClass(Set<? extends Element> routeElements, Class<? extends Annotation> annotationClass) {
+	private Map<TypeElement, SKInputClassModel> findFieldInput(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKProviderModel> skProviderModels) {
 
-		Map<TypeElement, SkBind.Builder> builderMap = new LinkedHashMap<>();
-		Map<TypeElement, SkBind> bindingMap = new LinkedHashMap<>();
 
-		if (CollectionUtils.isEmpty(routeElements)) {
-			logger.info(">>> SKSource 没有注解. <<<");
-			return bindingMap;
-		}
-		SkBind.Builder builderBind = null;
-
-		for (Element element : routeElements) {
-
-			List<TypeMirror> listParams = new ArrayList<>();
-			List<? extends AnnotationMirror> annotationMirrors = element.getAnnotationMirrors();
-			for (AnnotationMirror annotationMirror : annotationMirrors) {
-				Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = annotationMirror.getElementValues();
-				for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : elementValues.entrySet()) {
-					if (entry.getValue().getValue() instanceof AnnotationValue) {
-						TypeMirror typeMirror = (TypeMirror) entry.getValue().getValue();
-						listParams.add(typeMirror);
-					} else if (entry.getValue().getValue() instanceof List<?>) {
-						List<? extends AnnotationValue> typeMirrors = (List<? extends AnnotationValue>) entry.getValue().getValue();
-						for (AnnotationValue annotationValue : typeMirrors) {
-							TypeMirror typeMirror = (TypeMirror) annotationValue.getValue();
-							listParams.add(typeMirror);
-						}
-					}
-
-				}
-			}
-			if (listParams.size() < 1) {
-				continue;
-			}
-			String name = element.getSimpleName().toString();
-
-			TypeMirror classType = element.asType();
-
-			List<VariableElement> fields = ElementFilter.fieldsIn(element.getEnclosedElements());
-
-			List<SkField> skFields = new ArrayList<>();
-			for (VariableElement variableElement : fields) {
-
-				Name simpleName = variableElement.getSimpleName();
-
-				TypeMirror elementType = variableElement.asType();
-
-				String nameField = simpleName.toString();
-				TypeName typeField = TypeName.get(elementType);
-
-				SkField skField = new SkField(nameField, typeField, elementType);
-
-				skFields.add(skField);
-			}
-			SkClass binding = new SkClass(name, listParams, classType, skFields);
-
-			if (builderBind == null) {
-				builderBind = SkBind.newBuilder((TypeElement) element);
-				builderMap.put((TypeElement) element, builderBind);
-
-			}
-
-			if (skFields.size() < 1) {
-				continue;
-			}
-
-			builderBind.setClassBinding(binding);
-
-		}
-
-		Deque<Map.Entry<TypeElement, SkBind.Builder>> entries = new ArrayDeque<>(builderMap.entrySet());
-		while (!entries.isEmpty()) {
-			Map.Entry<TypeElement, SkBind.Builder> entry = entries.removeFirst();
-			TypeElement type = entry.getKey();
-			SkBind.Builder builder = entry.getValue();
-			bindingMap.put(type, builder.build());
-		}
-
-		return bindingMap;
-	}
-
-	private Map<TypeElement, SkBind> findFieldInput(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
-		Map<TypeElement, SkBind.Builder> builderMap = new LinkedHashMap<>();
-		Map<TypeElement, SkBind> bindingMap = new LinkedHashMap<>();
+		Map<TypeElement, SKInputClassModel> modelMap = new LinkedHashMap<>();
 
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseFieldAnnotation(annotationClass, element, builderMap);
+				parseInputAnnotation(element, modelMap, skProviderModels);
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.info("Unable to generate view binder for @%s.\n\n%s");
+				logger.info("生成input异常");
 			}
 		}
 
-		Deque<Map.Entry<TypeElement, SkBind.Builder>> entries = new ArrayDeque<>(builderMap.entrySet());
-		while (!entries.isEmpty()) {
-			Map.Entry<TypeElement, SkBind.Builder> entry = entries.removeFirst();
-			TypeElement type = entry.getKey();
-			SkBind.Builder builder = entry.getValue();
-			bindingMap.put(type, builder.build());
-		}
-
-		return bindingMap;
+		return modelMap;
 	}
 
-	private void parseFieldAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<TypeElement, SkBind.Builder> builderMap) {
+	private void parseInputAnnotation(Element element, Map<TypeElement, SKInputClassModel> inputClassModelMap, Map<String, SKProviderModel> skProviderModels) {
 		boolean hasError = isInaccessibleViaGeneratedCode(element);
 
 		if (hasError) {
 			return;
 		}
-		Name simpleName = element.getSimpleName();
-
-		TypeMirror elementType = element.asType();
-
-		String name = simpleName.toString();
-		TypeName type = TypeName.get(elementType);
 
 		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
 
-		SkField skField = new SkField(name, type, elementType);
+		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
 
-		SkBind.Builder builder = builderMap.get(enclosingElement);
-		if (builder == null) {
-			builder = SkBind.newBuilder(enclosingElement);
-			builderMap.put(enclosingElement, builder);
+		SKInputModel skInputModel = new SKInputModel();
+		skInputModel.type = TypeName.get(element.asType());
+		ClassName typeClassName;
+
+		// 判断是否是延迟加载
+		if (skInputModel.type instanceof ParameterizedTypeName) {
+			ParameterizedTypeName isLazyType = ((ParameterizedTypeName) skInputModel.type);
+			if (isLazyType.rawType.equals(SK_I_LAZY)) {
+				skInputModel.type = isLazyType.typeArguments.get(0);
+				typeClassName = (ClassName) skInputModel.type;
+				skInputModel.isLazy = true;
+			}else {
+				skInputModel.type = isLazyType.rawType;
+				typeClassName = (ClassName) skInputModel.type;
+			}
+		}else {
+			typeClassName = (ClassName) skInputModel.type;
 		}
-		builder.setFieldBinding(skField);
+
+		skInputModel.name =  lowerCase(typeClassName.simpleName());
+		skInputModel.packageName = packageName;
+		skInputModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+		skInputModel.skProviderModel = skProviderModels.get(typeClassName.reflectionName());
+
+		SKInputClassModel skInputClassModel =  getOrCreateInputClassModel(inputClassModelMap,enclosingElement);
+		skInputClassModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+		skInputClassModel.packageName = packageName;
+		skInputClassModel.skInputModels.add(skInputModel);
 	}
 
-	private Map<TypeElement, SkBind> findMethodsProvider(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
+	private SKInputClassModel getOrCreateInputClassModel(Map<TypeElement, SKInputClassModel> inputClassModelMap, TypeElement enclosingElement) {
+		SKInputClassModel skInputClassModel = inputClassModelMap.get(enclosingElement);
+		if (skInputClassModel == null) {
+			skInputClassModel = new SKInputClassModel();
+			skInputClassModel.skInputModels = new ArrayList<>();
+			inputClassModelMap.put(enclosingElement, skInputClassModel);
+		}
+		return skInputClassModel;
+	}
 
-		Map<TypeElement, SkBind.Builder> builderMap = new LinkedHashMap<>();
-		Map<TypeElement, SkBind> bindingMap = new LinkedHashMap<>();
+
+	private Map<String, SKProviderModel> findMethodsProvider(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKSourceModel> skSourceModelMap) {
+
+		Map<String, SKProviderModel> modelMap = new LinkedHashMap<>();
 
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseListenerAnnotation(annotationClass, element, builderMap);
+				parseProviderAnnotation(annotationClass, element, modelMap,skSourceModelMap);
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.info("Unable to generate view binder for @%s.\n\n%s");
+				logger.info("解析 @SKProvider 注解出现问题~~");
 			}
 		}
+		HashMap<String, SKCheckProviderModel> checkHashMap = new HashMap<>();
+		HashMap<SKCheckProviderModel, SKCheckProviderModel> print = new HashMap();
 
-		Deque<Map.Entry<TypeElement, SkBind.Builder>> entries = new ArrayDeque<>(builderMap.entrySet());
+		for (SKProviderModel item : modelMap.values()) {
+			ClassName type = (ClassName) item.returnType;
 
-        HashMap<String, SKCheckModel> checkHashMap = new HashMap<>();
-		HashMap<SKCheckModel, SKCheckModel> print = new HashMap();
+			SKCheckProviderModel skCheckModel = checkHashMap.get(type.reflectionName());
 
-		while (!entries.isEmpty()) {
-			Map.Entry<TypeElement, SkBind.Builder> entry = entries.removeFirst();
-			TypeElement type = entry.getKey();
-			SkBind.Builder builder = entry.getValue();
-			bindingMap.put(type, builder.build());
-			// 检查是否有相同返回类型
-			for (SkMethod skMethod : builder.getMethodBindings()) {
-				ClassName name = (ClassName) ClassName.get(skMethod.getReturnType());
-				SKCheckModel skCheckModel = checkHashMap.get(name.simpleName());
-
-				if (skCheckModel != null && skMethod.isSingle()) {
-					SKCheckModel errorCheckModel = new SKCheckModel();
-					errorCheckModel.methodName = skMethod.getName();
-					errorCheckModel.providerName = builder.getClassName();
-					errorCheckModel.isSingle = skMethod.isSingle();
-					print.put(errorCheckModel, skCheckModel);
-					continue;
-				}
-
-				if(skMethod.isSingle()){
-					SKCheckModel checkMethod = new SKCheckModel();
-					checkMethod.methodName = skMethod.getName();
-					checkMethod.providerName = builder.getClassName();
-					checkMethod.isSingle = skMethod.isSingle();
-					checkHashMap.put(name.simpleName(), checkMethod);
-				}
+			if (skCheckModel != null) {
+				SKCheckProviderModel errorCheckModel = new SKCheckProviderModel();
+				errorCheckModel.methodName = item.name;
+				errorCheckModel.providerName = item.className.simpleName();
+				errorCheckModel.isSingle = item.isSingle;
+				errorCheckModel.returnType = type.simpleName();
+				print.put(errorCheckModel, skCheckModel);
+				continue;
 			}
 
+			SKCheckProviderModel checkMethod = new SKCheckProviderModel();
+			checkMethod.methodName = item.name;
+			checkMethod.providerName = item.className.simpleName();
+			checkMethod.isSingle = item.isSingle;
+			checkMethod.returnType = type.simpleName();
+			checkHashMap.put(type.reflectionName(), checkMethod);
 		}
 
 		StringBuilder stringBuilder = null;
-		for (Map.Entry<SKCheckModel, SKCheckModel> item : print.entrySet()) {
+		for (Map.Entry<SKCheckProviderModel, SKCheckProviderModel> item : print.entrySet()) {
 
 			if (stringBuilder == null) {
-				stringBuilder = new StringBuilder("注解@SKSingleton的方法,返回值必须是唯一值,请删除重复返回值或者删除对应方法的@SKSingleton注解~~");
+				stringBuilder = new StringBuilder("返回值必须是唯一值,请删除重复返回值~~");
 			} else {
 				stringBuilder.append(",");
 			}
 
 			stringBuilder.append("[");
-			stringBuilder.append(item.getKey().providerName.simpleName());
+			stringBuilder.append(item.getKey().providerName);
 			stringBuilder.append(".");
 			stringBuilder.append(item.getKey().methodName);
 			stringBuilder.append(" = ");
-			stringBuilder.append(item.getValue().providerName.simpleName());
+			stringBuilder.append(item.getValue().providerName);
 			stringBuilder.append(".");
 			stringBuilder.append(item.getValue().methodName);
 			stringBuilder.append("]");
 		}
-		if(stringBuilder != null){
-			logger.info(stringBuilder.toString());
+		if (stringBuilder != null) {
+			logger.error(stringBuilder.toString());
+			modelMap = null;
 		}
 
-		return bindingMap;
+		return modelMap;
+
 	}
 
-	//
-	private void parseListenerAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<TypeElement, SkBind.Builder> builderMap) {
+	/**
+	 * 解析provider注解
+	 *  @param annotationClass
+	 * @param element
+	 * @param providerModels
+	 * @param skSourceModelMap
+	 */
+	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<String, SKProviderModel> providerModels, Map<String, SKSourceModel> skSourceModelMap) {
 		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
 			throw new IllegalStateException(String.format("@%s annotation must be on a .", annotationClass.getSimpleName()));
 		}
@@ -412,29 +352,54 @@ public final class SkDIProcessor extends AbstractProcessor {
 		ExecutableElement executableElement = (ExecutableElement) element;
 		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
 
+		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
+
 		String name = executableElement.getSimpleName().toString();
 
 		List<? extends VariableElement> methodParameters = executableElement.getParameters();
 
 		SKSingleton skSingleton = element.getAnnotation(SKSingleton.class);
 
-		SkMethod binding = new SkMethod(name, methodParameters, executableElement.getReturnType(), skSingleton != null);
+		SKProviderModel skProviderModel = new SKProviderModel();
 
-		SkBind.Builder builder = getOrCreateBindingBuilder(builderMap, enclosingElement);
-		builder.setMethodViewBinding(binding);
+		skProviderModel.name = name;
+		skProviderModel.packageName = packageName;
+		skProviderModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 
-	}
+		skProviderModel.isSingle = skSingleton != null;
+		skProviderModel.returnType = SKUtils.bestGuess(executableElement.getReturnType());
+		skProviderModel.parameters = new ArrayList<>();
 
-	private SkBind.Builder getOrCreateBindingBuilder(Map<TypeElement, SkBind.Builder> builderMap, TypeElement enclosingElement) {
-		SkBind.Builder builder = builderMap.get(enclosingElement);
-		if (builder == null) {
-			builder = SkBind.newBuilder(enclosingElement);
-			builderMap.put(enclosingElement, builder);
+		for (VariableElement item : methodParameters) {
+			SKParamProviderModel skParamProviderModel = new SKParamProviderModel();
+
+			skParamProviderModel.name = item.getSimpleName().toString();
+			skParamProviderModel.packageName = getPackage(item).getQualifiedName().toString();
+			skParamProviderModel.classType = SKUtils.bestGuess(item.asType());
+			skParamProviderModel.providerType = ParameterizedTypeName.get(SK_I_PROVIDER, skParamProviderModel.classType);
+
+			skProviderModel.parameters.add(skParamProviderModel);
 		}
-		return builder;
+		ClassName classNameKey = (ClassName) skProviderModel.returnType;
+		providerModels.put(classNameKey.reflectionName(), skProviderModel);
+
+		// 记录source
+		SKSourceModel skSourceModel = getOrCreateSourceClassModel(skSourceModelMap,skProviderModel.className);
+		skSourceModel.className = skProviderModel.className;
+		if(skProviderModel.isSingle){
+			skSourceModel.isSingle = true;
+		}
 	}
 
-	//
+	private SKSourceModel getOrCreateSourceClassModel(Map<String, SKSourceModel> skSourceModelMap,ClassName className) {
+		SKSourceModel skSourceModel = skSourceModelMap.get(className.reflectionName());
+		if (skSourceModel == null) {
+			skSourceModel = new SKSourceModel();
+			skSourceModelMap.put(className.reflectionName(),skSourceModel);
+		}
+		return skSourceModel;
+	}
+
 	private boolean isInaccessibleViaGeneratedCode(Element element) {
 		boolean hasError = false;
 		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();

@@ -10,19 +10,20 @@ import sky.SKSingleton;
  */
 public class ASource {
 
-	@SKSingleton @SKProvider public A providerA(B b,D d) {
+	@SKSingleton @SKProvider public A providerA(B b) {
 		return new A();
 	}
 
-	@SKProvider public B providerB() {
+	@SKSingleton @SKProvider public B providerB() {
 		return new B();
 	}
 
-	@SKProvider public C providerC(A a) {
-		return new C();
+	//
+	@SKProvider public hhh providerHHH() {
+		return new hhh();
 	}
-
-	@SKSingleton @SKProvider public D providerD(B b) {
-		return new D();
-	}
+	//
+	// @SKSingleton @SKProvider public D providerD(B b) {
+	// return new D();
+	// }
 }

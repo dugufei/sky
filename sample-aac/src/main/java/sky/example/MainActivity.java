@@ -14,15 +14,16 @@ import sk.SKHelper;
 import sky.SKInput;
 import sky.SKSource;
 import sky.example.bean.User;
+import sky.example.textdi.A;
+import sky.example.textdi.B;
+import sky.example.textdi.D;
 import sky.example.textdi.hhh;
-import sky.example.textdi2.CProvider;
 
 /**
  * @author sky
  * @version 1.0 on 2018-04-28 上午10:07
  * @see MainActivity
  */
-@SKSource(CProvider.class)
 public class MainActivity extends SKActivity<MainViewModel> {
 
 	TextView		textView;
@@ -33,15 +34,23 @@ public class MainActivity extends SKActivity<MainViewModel> {
 
 	@SKInput hhh	hhh;
 
+	@SKInput A		a;
+
+	@SKInput B		b;
+
+	@SKInput D		d;
+
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		textView = findViewById(R.id.tv_one);
 		textView.setOnClickListener(view -> {
 
-			Intent intent = new Intent();
-			intent.setClass(MainActivity.this, OneActivity.class);
-			startActivity(intent);
+			hhh.init(a, b);
+
+			// Intent intent = new Intent();
+			// intent.setClass(MainActivity.this, OneActivity.class);
+			// startActivity(intent);
 		});
 		Toast.makeText(this, user.name + " :" + skData, Toast.LENGTH_SHORT).show();
 
@@ -53,7 +62,6 @@ public class MainActivity extends SKActivity<MainViewModel> {
 
 		SKHelper.input(this);
 
-		hhh.init();
 	}
 
 	private void showFragment(Bundle savedInstanceState) {
