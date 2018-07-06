@@ -21,10 +21,6 @@ public class ASource {
 		return new B();
 	}
 
-	@SKSingleton @SKProvider public B providerC() {
-		return new B();
-	}
-
 	//
 	@SKProvider public hhh providerHHH() {
 		return new hhh();

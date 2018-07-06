@@ -150,7 +150,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		Map<String, SKSourceModel> skSourceModelMap = new LinkedHashMap<>();
 		Map<String, SKProviderModel> skProviderModels = findMethodsProvider(env, SKProvider.class, skSourceModelMap);
 		if (skProviderModels == null) {
-			logger.info(">>> Found SKProvider 异常... <<<");
+			logger.error(">>> Found SKProvider 异常... <<<");
 			return false;
 		}
 		SKProviderCreate skProviderCreate = new SKProviderCreate();
