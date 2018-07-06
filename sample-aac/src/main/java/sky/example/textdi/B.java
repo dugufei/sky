@@ -6,4 +6,5 @@ package sky.example.textdi;
  * @see B
  */
 public class B {
+    public String b;
 }

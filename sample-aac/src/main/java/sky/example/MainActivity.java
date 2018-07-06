@@ -2,8 +2,12 @@ package sky.example;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,19 +28,23 @@ import sky.example.textdi.hhh;
  */
 public class MainActivity extends SKActivity<MainViewModel> {
 
-	TextView		textView;
+	TextView				textView;
 
-	@Inject User	user;
+	@Inject User			user;
 
-	@Inject SKData	skData;
+	@Inject SKData			skData;
 
-	@SKInput hhh	hhh;
+	@SKInput hhh			hhh;
 
-	@SKInput A		a;
+	@SKInput A				a;
 
-	@SKInput B		b;
+	@SKInput B				b;
 
-	@SKInput D		d;
+	@SKInput D				d;
+
+	@SKInput ArrayList<A>	lista;
+
+	@SKInput ArrayList<B>	listb;
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +53,14 @@ public class MainActivity extends SKActivity<MainViewModel> {
 		textView.setOnClickListener(view -> {
 
 			hhh.init(a, b);
+
+			for (A a : lista) {
+				Log.d("lista", a.s);
+			}
+
+			for (B b : listb) {
+				Log.d("lista", b.b);
+			}
 
 			// Intent intent = new Intent();
 			// intent.setClass(MainActivity.this, OneActivity.class);

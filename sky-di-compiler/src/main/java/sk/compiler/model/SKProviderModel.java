@@ -1,6 +1,7 @@
 package sk.compiler.model;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 
 import java.util.List;
@@ -18,9 +19,55 @@ public class SKProviderModel {
 
 	public String						name;
 
-	public List<SKParamProviderModel>	parameters;	// 参数
+	public List<SKParamProviderModel>	parameters;			// 参数
 
-	public TypeName						returnType;	// 返回值
+	public TypeName						returnType;			// 返回值
 
-	public boolean						isSingle;	// 是否单例
+	public List<TypeName>				returnTypeGenerics;	// 返回值 - 泛型
+
+	public boolean						isSingle;			// 是否单例
+
+	public String						key;
+
+	/**
+	 * 生成
+	 */
+	public void buildKey() {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		if (returnType instanceof ParameterizedTypeName) {
+			ParameterizedTypeName returnTypeName = ((ParameterizedTypeName) returnType);
+			returnTypeGenerics = returnTypeName.typeArguments;
+			// 组合
+			stringBuilder.append((returnTypeName.rawType).reflectionName());
+			for (TypeName itemGeneric : returnTypeGenerics) {
+				stringBuilder.append("-");
+				stringBuilder.append(((ClassName) itemGeneric).reflectionName());
+			}
+		} else {
+			stringBuilder.append(((ClassName) returnType).reflectionName());
+		}
+
+		key = stringBuilder.toString();
+	}
+
+	public String getClassName(String provider) {
+		StringBuilder providerName = new StringBuilder();
+
+		if (returnType instanceof ParameterizedTypeName) {
+			ParameterizedTypeName returnTypeName = ((ParameterizedTypeName) returnType);
+			providerName.append(returnTypeName.rawType.simpleName());
+			for (TypeName itemGeneric : returnTypeGenerics) {
+				providerName.append("_");
+				providerName.append(((ClassName) itemGeneric).simpleName());
+			}
+			providerName.append(provider);
+		} else {
+			ClassName type = (ClassName) returnType;
+			providerName.append(type.simpleName());
+			providerName.append(provider);
+		}
+
+		return providerName.toString();
+	}
 }

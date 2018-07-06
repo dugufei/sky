@@ -52,8 +52,6 @@ class SKInputCreate {
         // 重写方法
         MethodSpec.Builder input = MethodSpec.methodBuilder("input").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).addParameter(skInputClassModel.className, "instance");
 
-
-
         for(SKInputModel item : skInputClassModel.skInputModels){
             String name = item.name + "Provider";
             ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName.get(SK_I_PROVIDER, item.type);
@@ -72,14 +70,13 @@ class SKInputCreate {
             }
 
             if (item.isLazy) {
-                input.addStatement("input$T(instance,$T.lazy($N))", item.type, SK_DC, name);
+                input.addStatement("input$N(instance,$T.lazy($N))", item.methodName, SK_DC, name);
             } else {
-                input.addStatement("input$T(instance,$N.get())", item.type, name);
+                input.addStatement("input$N(instance,$N.get())", item.methodName, name);
             }
 
             // 每个属性创建方法
-            ClassName simpleName = (ClassName) item.type;
-            MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("input" + simpleName.simpleName()).addModifiers(Modifier.PUBLIC, Modifier.STATIC).addParameter(item.className, "instance").addStatement("instance.$N = $N", item.name, item.name);
+            MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("input" + item.methodName).addModifiers(Modifier.PUBLIC, Modifier.STATIC).addParameter(item.className, "instance").addStatement("instance.$N = $N", item.fieldName, item.name);
 
             //添加自动加载属性
             if(item.isImplInitInterface){

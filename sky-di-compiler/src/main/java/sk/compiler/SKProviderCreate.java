@@ -29,8 +29,7 @@ class SKProviderCreate {
 	}
 
 	private TypeSpec createProvider(SKProviderModel item) {
-		ClassName type = (ClassName) item.returnType;
-		String providerName = type.simpleName() + NAME_PROVIDER;
+		String providerName = item.getClassName(NAME_PROVIDER);
 
 		ClassName providerClassName = ClassName.get(item.packageName, providerName);
 

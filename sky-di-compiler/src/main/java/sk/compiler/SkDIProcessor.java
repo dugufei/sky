@@ -226,34 +226,18 @@ public final class SkDIProcessor extends AbstractProcessor {
 		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
 
 		SKInputModel skInputModel = new SKInputModel();
+		skInputModel.fieldName = element.getSimpleName().toString();
 		skInputModel.type = TypeName.get(element.asType());
-		ClassName typeClassName;
-		TypeMirror typeMirror = element.asType();
-		// 判断是否是延迟加载
-		if (skInputModel.type instanceof ParameterizedTypeName) {
-			ParameterizedTypeName isLazyType = ((ParameterizedTypeName) skInputModel.type);
-			if (isLazyType.rawType.equals(SK_I_LAZY)) {
-				skInputModel.type = isLazyType.typeArguments.get(0);
-				DeclaredType declaredType = (DeclaredType) typeMirror;
-				typeMirror = declaredType.getTypeArguments().get(0);
-
-				typeClassName = (ClassName) skInputModel.type;
-				skInputModel.isLazy = true;
-			} else {
-				skInputModel.type = isLazyType.rawType;
-				typeClassName = (ClassName) skInputModel.type;
-			}
-		} else {
-			typeClassName = (ClassName) skInputModel.type;
-		}
-
-		skInputModel.name = lowerCase(typeClassName.simpleName());
-		skInputModel.packageName = packageName;
 		skInputModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
-		skInputModel.skProviderModel = skProviderModels.get(typeClassName.reflectionName());
+		skInputModel.packageName = packageName;
+		skInputModel.typeMirror = element.asType();
+
+		skInputModel.build(SK_I_LAZY);
+
+		skInputModel.skProviderModel = skProviderModels.get(skInputModel.providerKey);
 
 		// 查找是否需要自动注入
-		findParentInterface(skInputModel,typeMirror);
+		findParentInterface(skInputModel);
 
 		SKInputClassModel skInputClassModel = getOrCreateInputClassModel(inputClassModelMap, enclosingElement);
 		skInputClassModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
@@ -274,30 +258,31 @@ public final class SkDIProcessor extends AbstractProcessor {
 	private Map<String, SKProviderModel> findMethodsProvider(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKSourceModel> skSourceModelMap) {
 
 		Map<String, SKProviderModel> modelMap = new LinkedHashMap<>();
+		List<SKProviderModel> allModel = new ArrayList<>();
 
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseProviderAnnotation(annotationClass, element, modelMap, skSourceModelMap);
+				parseProviderAnnotation(annotationClass, element,allModel, modelMap, skSourceModelMap);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.info("解析 @SKProvider 注解出现问题~~");
 			}
 		}
+
+		//开始检查
 		HashMap<String, SKCheckProviderModel> checkHashMap = new HashMap<>();
 		HashMap<SKCheckProviderModel, SKCheckProviderModel> print = new HashMap();
 
-		for (SKProviderModel item : modelMap.values()) {
-			ClassName type = (ClassName) item.returnType;
+		for (SKProviderModel item : allModel) {
 
-			SKCheckProviderModel skCheckModel = checkHashMap.get(type.reflectionName());
+			SKCheckProviderModel skCheckModel = checkHashMap.get(item.key);
 
 			if (skCheckModel != null) {
 				SKCheckProviderModel errorCheckModel = new SKCheckProviderModel();
 				errorCheckModel.methodName = item.name;
 				errorCheckModel.providerName = item.className.simpleName();
 				errorCheckModel.isSingle = item.isSingle;
-				errorCheckModel.returnType = type.simpleName();
 				print.put(errorCheckModel, skCheckModel);
 				continue;
 			}
@@ -306,8 +291,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 			checkMethod.methodName = item.name;
 			checkMethod.providerName = item.className.simpleName();
 			checkMethod.isSingle = item.isSingle;
-			checkMethod.returnType = type.simpleName();
-			checkHashMap.put(type.reflectionName(), checkMethod);
+			checkHashMap.put(item.key, checkMethod);
 		}
 
 		StringBuilder stringBuilder = null;
@@ -340,13 +324,13 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	/**
 	 * 解析provider注解
-	 * 
 	 * @param annotationClass
 	 * @param element
+	 * @param allModelMap
 	 * @param providerModels
 	 * @param skSourceModelMap
 	 */
-	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, Map<String, SKProviderModel> providerModels, Map<String, SKSourceModel> skSourceModelMap) {
+	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, List<SKProviderModel> allModelMap, Map<String, SKProviderModel> providerModels, Map<String, SKSourceModel> skSourceModelMap) {
 		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
 			throw new IllegalStateException(String.format("@%s annotation must be on a .", annotationClass.getSimpleName()));
 		}
@@ -387,8 +371,14 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			skProviderModel.parameters.add(skParamProviderModel);
 		}
-		ClassName classNameKey = (ClassName) skProviderModel.returnType;
-		providerModels.put(classNameKey.reflectionName(), skProviderModel);
+
+		// 生成key
+		skProviderModel.buildKey();
+
+		providerModels.put(skProviderModel.key, skProviderModel);
+
+		//记录-统计全部方法 用于判断是否有相同
+		allModelMap.add(skProviderModel);
 
 		// 记录source
 		SKSourceModel skSourceModel = getOrCreateSourceClassModel(skSourceModelMap, skProviderModel.className);
@@ -399,13 +389,22 @@ public final class SkDIProcessor extends AbstractProcessor {
 		}
 	}
 
-	private void findParentInterface(SKInputModel skInputModel, TypeMirror typeMirror) {
+	private void findParentInterface(SKInputModel skInputModel) {
 
-		TypeElement returnTypeElement = (TypeElement) ((DeclaredType) typeMirror).asElement();
-
+		TypeElement returnTypeElement = (TypeElement) ((DeclaredType) skInputModel.typeMirror).asElement();
 		// 是否实现接口
+
+		if (returnTypeElement.getKind().isInterface()) {
+			return;
+		}
+
 		for (TypeMirror item : returnTypeElement.getInterfaces()) {
-			ClassName interfaceClassName = (ClassName) bestGuess(item);
+			TypeName typeName = bestGuess(item);
+			if (typeName instanceof ParameterizedTypeName) {
+				continue;
+			}
+
+			ClassName interfaceClassName = (ClassName) typeName;
 			if (SK_INTERFACE.equals(interfaceClassName)) {
 				skInputModel.isImplInitInterface = true;
 				break;
@@ -425,7 +424,12 @@ public final class SkDIProcessor extends AbstractProcessor {
 			returnTypeElement = (TypeElement) ((DeclaredType) superType).asElement();
 
 			for (TypeMirror item : returnTypeElement.getInterfaces()) {
-				ClassName interfaceClassName = (ClassName) bestGuess(item);
+				TypeName typeName = bestGuess(item);
+				if (typeName instanceof ParameterizedTypeName) {
+					continue;
+				}
+
+				ClassName interfaceClassName = (ClassName) typeName;
 				if (SK_INTERFACE.equals(interfaceClassName)) {
 					skInputModel.isImplInitInterface = true;
 					return;

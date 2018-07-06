@@ -1,5 +1,8 @@
 package sky.example.textdi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sky.SKProvider;
 import sky.SKSingleton;
 
@@ -18,10 +21,31 @@ public class ASource {
 		return new B();
 	}
 
+	@SKSingleton @SKProvider public B providerC() {
+		return new B();
+	}
+
 	//
 	@SKProvider public hhh providerHHH() {
 		return new hhh();
 	}
+
+	@SKProvider public ArrayList<A> providerListA() {
+		ArrayList<A> list = new ArrayList();
+		A a = new A();
+		a.s = "哈哈哈";
+		list.add(a);
+		return list;
+	}
+
+	@SKProvider public ArrayList<B> providerListB() {
+		ArrayList<B> list = new ArrayList();
+		B a = new B();
+		a.b = "吼吼";
+		list.add(a);
+		return list;
+	}
+
 	//
 	// @SKSingleton @SKProvider public D providerD(B b) {
 	// return new D();

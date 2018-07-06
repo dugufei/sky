@@ -120,17 +120,15 @@ class SKDICreate {
 				initProvider(skInputModel.skProviderModel, clazzConstructors, skdiBuilder, builderInput, initialize, initializeImpl, singleSKDIProvider, singleImplProvider, singleImplSource);
 
 				// 注入类名
-				ClassName providerType = (ClassName) skInputModel.skProviderModel.returnType;
-				String providerName = lowerCase(providerType.simpleName()) + PROVIDER;
-
+				String providerName = lowerCase(skInputModel.skProviderModel.getClassName(PROVIDER));
 				String inputClass = skInputModel.className.simpleName() + NAME_INPUT;
 
 				ClassName inputClassName = ClassName.get(skInputModel.packageName, inputClass);
 
 				if (skInputModel.isLazy) {
-					clazzInput.addStatement("$T.input$T(instance, $T.lazy($N))", inputClassName, skInputModel.type, SK_DC, providerName);
+					clazzInput.addStatement("$T.input$N(instance, $T.lazy($N))", inputClassName, skInputModel.methodName, SK_DC, providerName);
 				} else {
-					clazzInput.addStatement("$T.input$T(instance, $N.get())", inputClassName, skInputModel.type, providerName);
+					clazzInput.addStatement("$T.input$N(instance, $N.get())", inputClassName, skInputModel.methodName, providerName);
 				}
 			}
 			// 构造函数
@@ -225,7 +223,7 @@ class SKDICreate {
 				codeBlock.add(".put($T.class,($T)$T.this.$N)", item.className, SK_I_PROVIDER, currentClassName, inputNameImpl);
 			}
 			mapBuilder.addStatement("$L.build()", codeBlock.build());
-		}else {
+		} else {
 			mapBuilder.addStatement("return null");
 		}
 		skdiBuilder.addMethod(mapBuilder.build());
@@ -242,9 +240,8 @@ class SKDICreate {
 			MethodSpec.Builder initializeImpl, HashMap<String, ParameterizedTypeName> singleSKDIProvider, HashMap<String, ParameterizedTypeName> singleImplProvider,
 			HashMap<String, ClassName> singleImplSource) {
 		// 根据返回结果找到对应的类
-		ClassName providerType = (ClassName) skProviderModel.returnType;
-		String providerName = lowerCase(providerType.simpleName()) + PROVIDER;
-		ClassName providerClassName = ClassName.get(skProviderModel.packageName, providerType.simpleName() + NAME_PROVIDER);
+		String providerName = lowerCase(skProviderModel.getClassName(PROVIDER));
+		ClassName providerClassName = ClassName.get(skProviderModel.packageName, skProviderModel.getClassName(NAME_PROVIDER));
 
 		// 创建属性
 		ParameterizedTypeName fieldProvider = ParameterizedTypeName.get(SK_I_PROVIDER, skProviderModel.returnType);
