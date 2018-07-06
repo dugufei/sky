@@ -41,6 +41,8 @@ class SkConsts {
 
 	static final ClassName	SK_DI				= ClassName.get(FACADE_PACKAGE, "SKDispatchingInput");
 
+	static final ClassName	SK_INTERFACE		= ClassName.get(FACADE_PACKAGE, "SKInitInterface");
+
 	static final ClassName	SK_MANAGE_INTERFACE	= ClassName.get(FACADE_PACKAGE, "SKInputInterface");
 
 	static final ClassName	SK_HELPER			= ClassName.get("sk", "SKHelper");

@@ -225,6 +225,8 @@ class SKDICreate {
 				codeBlock.add(".put($T.class,($T)$T.this.$N)", item.className, SK_I_PROVIDER, currentClassName, inputNameImpl);
 			}
 			mapBuilder.addStatement("$L.build()", codeBlock.build());
+		}else {
+			mapBuilder.addStatement("return null");
 		}
 		skdiBuilder.addMethod(mapBuilder.build());
 

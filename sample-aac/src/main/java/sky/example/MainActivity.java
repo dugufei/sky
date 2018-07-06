@@ -1,6 +1,5 @@
 package sky.example;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import sk.SKActivity;
 import sk.SKData;
 import sk.SKHelper;
 import sky.SKInput;
-import sky.SKSource;
 import sky.example.bean.User;
 import sky.example.textdi.A;
 import sky.example.textdi.B;
@@ -59,9 +57,6 @@ public class MainActivity extends SKActivity<MainViewModel> {
 		});
 
 		showFragment(savedInstanceState);
-
-		SKHelper.input(this);
-
 	}
 
 	private void showFragment(Bundle savedInstanceState) {

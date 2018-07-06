@@ -12,13 +12,14 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import sky.di.SKInitInterface;
 
 /**
  * @author sky
  * @version 1.0 on 2018-04-27 上午11:26
  * @see SKActivity
  */
-public class SKActivity<M extends SKViewModel> extends AppCompatActivity implements HasSupportFragmentInjector {
+public class SKActivity<M extends SKViewModel> extends AppCompatActivity implements HasSupportFragmentInjector, SKInitInterface {
 
 	@Inject DispatchingAndroidInjector<Fragment>	dispatchingAndroidInjector;
 
@@ -26,9 +27,10 @@ public class SKActivity<M extends SKViewModel> extends AppCompatActivity impleme
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		AndroidInjection.inject(this);
+		initSK();
 		super.onCreate(savedInstanceState);
 		initViewModel();
-//		setContentView();
+		// setContentView();
 	}
 
 	protected M model;
@@ -40,5 +42,9 @@ public class SKActivity<M extends SKViewModel> extends AppCompatActivity impleme
 
 	@Override public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
 		return dispatchingAndroidInjector;
+	}
+
+	@Override public final void initSK() {
+		SKInputs.inject(this);
 	}
 }

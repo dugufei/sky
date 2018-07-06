@@ -14,6 +14,7 @@ import sk.compiler.model.SKInputModel;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static sk.compiler.SkConsts.NAME_INPUT;
 import static sk.compiler.SkConsts.SK_DC;
+import static sk.compiler.SkConsts.SK_INTERFACE;
 import static sk.compiler.SkConsts.SK_I_INPUT;
 import static sk.compiler.SkConsts.SK_I_LAZY;
 import static sk.compiler.SkConsts.SK_I_PROVIDER;
@@ -79,6 +80,12 @@ class SKInputCreate {
             // 每个属性创建方法
             ClassName simpleName = (ClassName) item.type;
             MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("input" + simpleName.simpleName()).addModifiers(Modifier.PUBLIC, Modifier.STATIC).addParameter(item.className, "instance").addStatement("instance.$N = $N", item.name, item.name);
+
+            //添加自动加载属性
+            if(item.isImplInitInterface){
+                methodSpec.addStatement("if($N instanceof $T)(($T)$N).initSK()",item.name,SK_INTERFACE,SK_INTERFACE,item.name);
+            }
+
             if (item.isLazy) {
                 ParameterizedTypeName lazyTypeName = ParameterizedTypeName.get(SK_I_LAZY, item.type);
                 methodSpec.addParameter(lazyTypeName, item.name);
