@@ -27,6 +27,10 @@ public final class SKMapBuilder<K, V> {
 		contributions.put(key, value);
 		return this;
 	}
+	public SKMapBuilder<K, V> putAll(Map<K, V> map) {
+		contributions.putAll(map);
+		return this;
+	}
 
 	public Map<K, V> build() {
 		switch (contributions.size()) {

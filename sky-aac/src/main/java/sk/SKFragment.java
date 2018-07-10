@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
 
 /**
  * @author sky
@@ -17,10 +15,9 @@ import dagger.android.support.AndroidSupportInjection;
  */
 public class SKFragment<M extends SKViewModel> extends Fragment {
 
-	@Inject ViewModelProvider.Factory viewModelFactory;
+//	ViewModelProvider.Factory viewModelFactory;
 
 	@Override public void onCreate(@Nullable Bundle savedInstanceState) {
-		AndroidSupportInjection.inject(this);
 		super.onCreate(savedInstanceState);
 		initViewModel();
 	}
@@ -29,7 +26,7 @@ public class SKFragment<M extends SKViewModel> extends Fragment {
 
 	private void initViewModel() {
 		Class clazz = SKCoreUtils.getClassGenricType(this.getClass(), 0);
-		model = (M) ViewModelProviders.of(this, viewModelFactory).get(clazz);
+//		model = (M) ViewModelProviders.of(this, viewModelFactory).get(clazz);
 	}
 
 }

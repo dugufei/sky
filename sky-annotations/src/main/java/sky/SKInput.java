@@ -6,6 +6,7 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * @author sky
@@ -14,5 +15,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Target(FIELD)
-@Retention(RUNTIME)
+@Retention(SOURCE)
 public @interface SKInput {}

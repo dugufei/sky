@@ -12,9 +12,6 @@ public class SKHelper {
 
 	static SKDispatchingInput skDispatchingInput;
 
-	static final void inputDispatching(SKDispatchingInput param) {
-		skDispatchingInput = param;
-	}
 
 	/**
 	 * 公共视图
@@ -26,8 +23,20 @@ public class SKHelper {
 		return null;
 	}
 
+	/**
+	 * 注入
+	 * 
+	 * @param instance
+	 * @param <T>
+	 * @return
+	 */
 	public static <T> T input(T instance) {
 		skDispatchingInput.input(instance);
 		return instance;
 	}
+
+	static final void inputDispatching(SKDispatchingInput param) {
+		skDispatchingInput = param;
+	}
+
 }

@@ -2,9 +2,7 @@ package sk;
 
 import static sky.di.SKPreconditions.checkNotNull;
 
-import android.app.Activity;
 
-import dagger.android.HasActivityInjector;
 import sky.di.SKInputInterface;
 
 /**

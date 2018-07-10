@@ -30,9 +30,9 @@ public class OneActivity extends SKActivity<OneViewModel> {
 		((TextView) findViewById(R.id.tv_me)).setText(user.name + "是个大好人" + string+":"+skData);
 
 
-		model.load().observe(this, user -> {
-			((TextView) findViewById(R.id.tv_me)).setText(user.name);
-		});
+//		model.load().observe(this, user -> {
+//			((TextView) findViewById(R.id.tv_me)).setText(user.name);
+//		});
 
 	}
 }

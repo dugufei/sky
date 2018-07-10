@@ -27,9 +27,9 @@ public class MainFragment extends SKFragment<MainViewModel> {
 			// startActivity(intent);
 		});
 
-		model.load1().observe(this, user -> {
-			textView.setText(user.name+"1" + model.hashCode());
-		});
+//		model.load1().observe(this, user -> {
+//			textView.setText(user.name+"1" + model.hashCode());
+//		});
 		return view;
 	}
 }

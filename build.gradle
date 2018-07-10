@@ -79,7 +79,7 @@ buildscript {
                     'gradlePlugin': "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
             ],
             javaparser  : 'com.github.javaparser:javaparser-core:3.2.8',
-            javapoet    : 'com.squareup:javapoet:1.9.0',
+            javapoet    : 'com.squareup:javapoet:1.11.1',
             junit       : 'junit:junit:4.12',
             truth       : 'com.google.truth:truth:0.36',
             lifecycle   : "android.arch.lifecycle:extensions:${versions.lifecycle_version}",

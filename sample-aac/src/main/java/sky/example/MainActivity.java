@@ -30,10 +30,6 @@ public class MainActivity extends SKActivity<MainViewModel> {
 
 	TextView				textView;
 
-	@Inject User			user;
-
-	@Inject SKData			skData;
-
 	@SKInput hhh			hhh;
 
 	@SKInput A				a;
@@ -66,11 +62,10 @@ public class MainActivity extends SKActivity<MainViewModel> {
 			// intent.setClass(MainActivity.this, OneActivity.class);
 			// startActivity(intent);
 		});
-		Toast.makeText(this, user.name + " :" + skData, Toast.LENGTH_SHORT).show();
 
-		model.load().observe(this, user -> {
-			textView.setText(user.name + ":" + model.hashCode());
-		});
+//		model.load().observe(this, user -> {
+//			textView.setText(user.name + ":" + model.hashCode());
+//		});
 
 		showFragment(savedInstanceState);
 	}

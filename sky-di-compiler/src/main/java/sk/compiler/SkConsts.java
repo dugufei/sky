@@ -23,6 +23,8 @@ class SkConsts {
 
 	static final String		NAME_INPUT_IMPL		= "_SKInput_Impl";
 
+	static final String		NAME_LIBRARY		= "_SKDILibrary";
+
 	static final ClassName	SK_I_LAZY			= ClassName.get(FACADE_PACKAGE, "SKLazy");
 
 	static final ClassName	SK_I_PROVIDER		= ClassName.get(FACADE_PACKAGE, "SKProvider");

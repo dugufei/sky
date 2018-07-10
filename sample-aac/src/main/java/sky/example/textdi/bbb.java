@@ -1,10 +1,7 @@
 package sky.example.textdi;
 
 import sk.SKInject;
-import sk.SKInputs;
 import sky.SKInput;
-import sky.SKSource;
-import sky.di.SKInitInterface;
 import sky.di.SKLazy;
 
 /**

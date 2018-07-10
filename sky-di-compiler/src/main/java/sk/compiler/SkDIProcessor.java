@@ -1,22 +1,20 @@
 package sk.compiler;
 
-import static com.google.auto.common.MoreElements.getPackage;
-import static javax.lang.model.element.ElementKind.CLASS;
-import static javax.lang.model.element.ElementKind.METHOD;
-import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.STATIC;
-import static sk.compiler.SKUtils.bestGuess;
-import static sk.compiler.SKUtils.lowerCase;
-import static sk.compiler.SkConsts.SK_INTERFACE;
-import static sk.compiler.SkConsts.SK_I_LAZY;
-import static sk.compiler.SkConsts.SK_I_PROVIDER;
+import com.google.auto.common.SuperficialValidation;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
+import com.sun.source.util.Trees;
+import com.sun.tools.javac.code.Attribute;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -33,39 +31,46 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
-import org.apache.commons.collections4.CollectionUtils;
-
-import com.google.auto.common.SuperficialValidation;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
-import com.sun.source.util.Trees;
-
 import sk.compiler.model.SKCheckProviderModel;
 import sk.compiler.model.SKInputClassModel;
 import sk.compiler.model.SKInputModel;
+import sk.compiler.model.SKDILibraryModel;
 import sk.compiler.model.SKParamProviderModel;
 import sk.compiler.model.SKProviderModel;
 import sk.compiler.model.SKSourceModel;
+import sky.SKDIApp;
 import sky.SKInput;
+import sky.SKDILibrary;
 import sky.SKProvider;
 import sky.SKSingleton;
-import sky.SKSource;
+import sun.print.AttributeClass;
+
+import static com.google.auto.common.MoreElements.getPackage;
+import static javax.lang.model.element.ElementKind.CLASS;
+import static javax.lang.model.element.ElementKind.METHOD;
+import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.STATIC;
+import static sk.compiler.SKUtils.bestGuess;
+import static sk.compiler.SKUtils.getAnnotationMirror;
+import static sk.compiler.SKUtils.getAnnotationValue;
+import static sk.compiler.SKUtils.getAnnotationValueAsType;
+import static sk.compiler.SKUtils.typeToString;
+import static sk.compiler.SkConsts.NAME_LIBRARY;
+import static sk.compiler.SkConsts.SK_INTERFACE;
+import static sk.compiler.SkConsts.SK_I_LAZY;
+import static sk.compiler.SkConsts.SK_I_PROVIDER;
 
 @AutoService(Processor.class)
 public final class SkDIProcessor extends AbstractProcessor {
@@ -132,7 +137,8 @@ public final class SkDIProcessor extends AbstractProcessor {
 		annotations.add(SKInput.class);
 		annotations.add(SKProvider.class);
 		annotations.add(SKSingleton.class);
-		annotations.add(SKSource.class);
+		annotations.add(SKDIApp.class);
+		annotations.add(SKDILibrary.class);
 		return annotations;
 	}
 
@@ -146,6 +152,12 @@ public final class SkDIProcessor extends AbstractProcessor {
 			return false;
 		}
 
+		logger.info(">>> Found SKDILibrary, 开始... <<<");
+
+		SKDILibraryModel skLibraryModel = findLibrary(env, SKDILibrary.class);
+
+		logger.info(">>> Found SKDILibrary 结束... <<<");
+
 		logger.info(">>> Found SKProvider, 开始... <<<");
 		Map<String, SKSourceModel> skSourceModelMap = new LinkedHashMap<>();
 		Map<String, SKProviderModel> skProviderModels = findMethodsProvider(env, SKProvider.class, skSourceModelMap);
@@ -153,6 +165,10 @@ public final class SkDIProcessor extends AbstractProcessor {
 			logger.error(">>> Found SKProvider 异常... <<<");
 			return false;
 		}
+		if (skSourceModelMap.size() < 1) {
+			return false;
+		}
+
 		SKProviderCreate skProviderCreate = new SKProviderCreate();
 
 		for (SKProviderModel item : skProviderModels.values()) {
@@ -185,7 +201,17 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		SKDICreate skdiCreate = new SKDICreate();
 
-		JavaFile javaIFile = skdiCreate.brewDI(skProviderModels, skInputModels, skSourceModelMap);
+		JavaFile javaIFile;
+
+		if (skLibraryModel == null) {
+
+			List<SKDILibraryModel> skdiLibraryModelList = findApp(env, SKDIApp.class);
+
+			javaIFile = skdiCreate.brewDI(skProviderModels, skInputModels, skSourceModelMap, skdiLibraryModelList);
+		} else {
+			javaIFile = skdiCreate.brewDILibrary(skProviderModels, skInputModels, skSourceModelMap, skLibraryModel);
+		}
+
 		try {
 			javaIFile.writeTo(filer);
 		} catch (IOException e) {
@@ -195,6 +221,91 @@ public final class SkDIProcessor extends AbstractProcessor {
 		logger.info(">>> Found SKDI, 结束... <<<");
 
 		return false;
+	}
+
+	private List<SKDILibraryModel> findApp(RoundEnvironment env, Class<? extends Annotation> skdiLibraryClass) {
+		List<SKDILibraryModel> libraryModels = new ArrayList<>();
+
+		Set<? extends Element> set = env.getElementsAnnotatedWith(skdiLibraryClass);
+		if (set.size() < 1) {
+			return libraryModels;
+		}
+		if (set.size() > 1) {
+			logger.info("@SKDIApp 注解只能有一个~~");
+			return libraryModels;
+		}
+
+		for (Element element : set) {
+
+			if (!SuperficialValidation.validateElement(element)) continue;
+			try {
+				parseAppAnnotation(element, libraryModels);
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.info("解析 @SKDIApp 异常");
+			}
+		}
+
+		return libraryModels;
+	}
+
+	private void parseAppAnnotation(Element element, List<SKDILibraryModel> libraryModels) {
+		TypeElement enclosingElement = (TypeElement) element;
+		StringBuilder result = new StringBuilder();
+		AnnotationMirror annotationMirror = getAnnotationMirror(enclosingElement, SKDIApp.class.getCanonicalName());
+		AnnotationValue annotationValue = getAnnotationValue(annotationMirror, "value");
+
+		List<Object> list = (List<Object>) annotationValue.getValue();
+		//
+		for (Object clazz : list) {
+			SKDILibraryModel skLibraryModel = new SKDILibraryModel();
+			String value = clazz.toString();
+			String[] classes = value.split("\\.");
+			String className = classes[classes.length - 2];
+
+            skLibraryModel.name = className + NAME_LIBRARY;
+            skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
+			libraryModels.add(skLibraryModel);
+		}
+	}
+
+	private SKDILibraryModel findLibrary(RoundEnvironment env, Class<? extends Annotation> skdiLibraryClass) {
+		SKDILibraryModel skLibraryModel = null;
+
+		for (Element element : env.getElementsAnnotatedWith(skdiLibraryClass)) {
+
+			if (!SuperficialValidation.validateElement(element)) continue;
+			try {
+				skLibraryModel = parseLibraryAnnotation(element);
+
+				if (skLibraryModel != null) {
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.info("解析library异常");
+			}
+		}
+
+		return skLibraryModel;
+	}
+
+	private SKDILibraryModel parseLibraryAnnotation(Element element) {
+
+		TypeElement enclosingElement = (TypeElement) element;
+
+		if (enclosingElement.getKind() != ElementKind.INTERFACE) {
+			logger.info("注解 SKDILibrary 声明的类必须是接口~~");
+			return null;
+		}
+
+		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
+
+		SKDILibraryModel skLibraryModel = new SKDILibraryModel();
+		skLibraryModel.packageName = packageName;
+		skLibraryModel.name = enclosingElement.getSimpleName().toString();
+		skLibraryModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+		return skLibraryModel;
 	}
 
 	private Map<TypeElement, SKInputClassModel> findFieldInput(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKProviderModel> skProviderModels) {
@@ -263,14 +374,14 @@ public final class SkDIProcessor extends AbstractProcessor {
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseProviderAnnotation(annotationClass, element,allModel, modelMap, skSourceModelMap);
+				parseProviderAnnotation(annotationClass, element, allModel, modelMap, skSourceModelMap);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.info("解析 @SKProvider 注解出现问题~~");
 			}
 		}
 
-		//开始检查
+		// 开始检查
 		HashMap<String, SKCheckProviderModel> checkHashMap = new HashMap<>();
 		HashMap<SKCheckProviderModel, SKCheckProviderModel> print = new HashMap();
 
@@ -324,13 +435,15 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	/**
 	 * 解析provider注解
+	 * 
 	 * @param annotationClass
 	 * @param element
 	 * @param allModelMap
 	 * @param providerModels
 	 * @param skSourceModelMap
 	 */
-	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, List<SKProviderModel> allModelMap, Map<String, SKProviderModel> providerModels, Map<String, SKSourceModel> skSourceModelMap) {
+	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, List<SKProviderModel> allModelMap, Map<String, SKProviderModel> providerModels,
+			Map<String, SKSourceModel> skSourceModelMap) {
 		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
 			throw new IllegalStateException(String.format("@%s annotation must be on a .", annotationClass.getSimpleName()));
 		}
@@ -377,7 +490,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		providerModels.put(skProviderModel.key, skProviderModel);
 
-		//记录-统计全部方法 用于判断是否有相同
+		// 记录-统计全部方法 用于判断是否有相同
 		allModelMap.add(skProviderModel);
 
 		// 记录source
