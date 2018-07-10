@@ -13,8 +13,10 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -251,7 +253,6 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	private void parseAppAnnotation(Element element, List<SKDILibraryModel> libraryModels) {
 		TypeElement enclosingElement = (TypeElement) element;
-		StringBuilder result = new StringBuilder();
 		AnnotationMirror annotationMirror = getAnnotationMirror(enclosingElement, SKDIApp.class.getCanonicalName());
 		AnnotationValue annotationValue = getAnnotationValue(annotationMirror, "value");
 
@@ -263,8 +264,8 @@ public final class SkDIProcessor extends AbstractProcessor {
 			String[] classes = value.split("\\.");
 			String className = classes[classes.length - 2];
 
-            skLibraryModel.name = className + NAME_LIBRARY;
-            skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
+			skLibraryModel.name = className + NAME_LIBRARY;
+			skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
 			libraryModels.add(skLibraryModel);
 		}
 	}
@@ -311,21 +312,46 @@ public final class SkDIProcessor extends AbstractProcessor {
 	private Map<TypeElement, SKInputClassModel> findFieldInput(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKProviderModel> skProviderModels) {
 
 		Map<TypeElement, SKInputClassModel> modelMap = new LinkedHashMap<>();
+		Set<TypeElement> erasedTargetNames = new LinkedHashSet<>();
 
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseInputAnnotation(element, modelMap, skProviderModels);
+				parseInputAnnotation(element, modelMap, skProviderModels, erasedTargetNames);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.info("生成input异常");
 			}
 		}
 
+		Deque<Map.Entry<TypeElement, SKInputClassModel>> entries = new ArrayDeque<>(modelMap.entrySet());
+
+		while (!entries.isEmpty()) {
+			Map.Entry<TypeElement, SKInputClassModel> entry = entries.removeFirst();
+
+			TypeElement type = entry.getKey();
+
+			TypeElement parentType = findParentType(type, erasedTargetNames);
+
+			if (parentType != null) {
+				SKInputClassModel skInputClassModel = modelMap.get(parentType);
+
+				if(skInputClassModel != null){
+					SKInputClassModel currentModel = entry.getValue();
+
+					for(SKInputModel skInputModel : skInputClassModel.skInputModels){
+                        skInputModel.className = currentModel.className;
+                        currentModel.skInputModels.add(skInputModel);
+                    }
+				}
+				modelMap.remove(parentType);
+			}
+		}
+
 		return modelMap;
 	}
 
-	private void parseInputAnnotation(Element element, Map<TypeElement, SKInputClassModel> inputClassModelMap, Map<String, SKProviderModel> skProviderModels) {
+	private void parseInputAnnotation(Element element, Map<TypeElement, SKInputClassModel> inputClassModelMap, Map<String, SKProviderModel> skProviderModels, Set<TypeElement> erasedTargetNames) {
 		boolean hasError = isInaccessibleViaGeneratedCode(element);
 
 		if (hasError) {
@@ -333,7 +359,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		}
 
 		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-
+		erasedTargetNames.add(enclosingElement);
 		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
 
 		SKInputModel skInputModel = new SKInputModel();
@@ -353,6 +379,29 @@ public final class SkDIProcessor extends AbstractProcessor {
 		SKInputClassModel skInputClassModel = getOrCreateInputClassModel(inputClassModelMap, enclosingElement);
 		skInputClassModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 		skInputClassModel.packageName = packageName;
+		skInputClassModel.skInputModels.add(skInputModel);
+	}
+
+	private void parseInputParentAnnotation(Element element, SKInputClassModel skInputClassModel, Map<String, SKProviderModel> skProviderModels) {
+
+		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
+
+		SKInputModel skInputModel = new SKInputModel();
+		skInputModel.fieldName = enclosingElement.getSimpleName().toString();
+		skInputModel.type = TypeName.get(enclosingElement.asType());
+		skInputModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+		skInputModel.packageName = packageName;
+		skInputModel.typeMirror = enclosingElement.asType();
+
+		skInputModel.build(SK_I_LAZY);
+
+		skInputModel.skProviderModel = skProviderModels.get(skInputModel.providerKey);
+
+		// 查找是否需要自动注入
+		findParentInterface(skInputModel);
+
 		skInputClassModel.skInputModels.add(skInputModel);
 	}
 
@@ -585,4 +634,18 @@ public final class SkDIProcessor extends AbstractProcessor {
 		return hasError;
 	}
 
+	/** Finds the parent binder type in the supplied set, if any. */
+	private TypeElement findParentType(TypeElement typeElement, Set<TypeElement> parents) {
+		TypeMirror type;
+		while (true) {
+			type = typeElement.getSuperclass();
+			if (type.getKind() == TypeKind.NONE) {
+				return null;
+			}
+			typeElement = (TypeElement) ((DeclaredType) type).asElement();
+			if (parents.contains(typeElement)) {
+				return typeElement;
+			}
+		}
+	}
 }

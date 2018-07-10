@@ -184,6 +184,14 @@ class SKDICreate {
 				String name = lowerCase(item.className.simpleName());
 				builder.addField(item.className, name, PRIVATE);
 				builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+
+				//增加赋值方法
+				String methodSourceName = "set" + item.className.simpleName();
+				MethodSpec.Builder setSource = MethodSpec.methodBuilder(methodSourceName).addModifiers(Modifier.PUBLIC).returns(builderName);
+				setSource.addParameter(item.className, name);
+				setSource.addStatement("this.$N = $N", name, name);
+				setSource.addStatement("return this");
+				builder.addMethod(setSource.build());
 			}
 		}
 		// 添加library
@@ -191,6 +199,14 @@ class SKDICreate {
 			String name = lowerCase(skdiLibraryModel.name);
 			builder.addField(skdiLibraryModel.className, name, PRIVATE);
 			builderConstructorsMethod.addStatement("if($N == null)this.$N = $T.create(false)", name, name, skdiLibraryModel.className);
+
+			//增加赋值方法
+			String methodSourceName = "set" + skdiLibraryModel.className.simpleName();
+			MethodSpec.Builder setSource = MethodSpec.methodBuilder(methodSourceName).addModifiers(Modifier.PUBLIC).returns(builderName);
+			setSource.addParameter(skdiLibraryModel.className, name);
+			setSource.addStatement("this.$N = $N", name, name);
+			setSource.addStatement("return this");
+			builder.addMethod(setSource.build());
 		}
 
 		builderConstructorsMethod.addStatement("return new $T(this)", currentClassName);
@@ -249,11 +265,6 @@ class SKDICreate {
 		newSKDispatchingInputBuilder.addStatement("return new $T($N())", SK_DI, mapBuilderName);
 		skdiBuilder.addMethod(newSKDispatchingInputBuilder.build());
 
-		// helper
-//		for (SKDILibraryModel item : skdiLibraryModelList) {
-//			initialize.addStatement("map.putAll(builder.$N.$N())", item.name, mapBuilderName);
-//		}
-
 		if (skdiLibraryModelList.size() < 1) {
 			initialize.addStatement("$T.inputDispatching(newSKDispatchingInput())", SK_HELPER);
 		} else {
@@ -264,7 +275,7 @@ class SKDICreate {
 			for (SKDILibraryModel item : skdiLibraryModelList) {
 				String name = lowerCase(item.name) + "_MAP";
 
-				initialize.addStatement("$T $N = builder.$N.$N()", returnTypeMap, name,lowerCase(item.name), mapBuilderName);
+				initialize.addStatement("$T $N = builder.$N.$N()", returnTypeMap, name, lowerCase(item.name), mapBuilderName);
 				initialize.addStatement("count += $N.size()", name);
 			}
 
