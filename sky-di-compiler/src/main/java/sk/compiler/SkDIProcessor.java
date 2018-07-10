@@ -6,6 +6,7 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
+import com.sun.org.apache.regexp.internal.RE;
 import com.sun.source.util.Trees;
 import com.sun.tools.javac.code.Attribute;
 
@@ -62,7 +63,9 @@ import sun.print.AttributeClass;
 import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.ElementKind.METHOD;
+import static javax.lang.model.element.Modifier.DEFAULT;
 import static javax.lang.model.element.Modifier.PRIVATE;
+import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 import static sk.compiler.SKUtils.bestGuess;
 import static sk.compiler.SKUtils.getAnnotationMirror;
@@ -336,13 +339,13 @@ public final class SkDIProcessor extends AbstractProcessor {
 			if (parentType != null) {
 				SKInputClassModel skInputClassModel = modelMap.get(parentType);
 
-				if(skInputClassModel != null){
+				if (skInputClassModel != null) {
 					SKInputClassModel currentModel = entry.getValue();
 
-					for(SKInputModel skInputModel : skInputClassModel.skInputModels){
-                        skInputModel.className = currentModel.className;
-                        currentModel.skInputModels.add(skInputModel);
-                    }
+					for (SKInputModel skInputModel : skInputClassModel.skInputModels) {
+						skInputModel.className = currentModel.className;
+						currentModel.skInputModels.add(skInputModel);
+					}
 				}
 				modelMap.remove(parentType);
 			}
@@ -359,6 +362,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		}
 
 		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
 		erasedTargetNames.add(enclosingElement);
 		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
 
@@ -379,29 +383,6 @@ public final class SkDIProcessor extends AbstractProcessor {
 		SKInputClassModel skInputClassModel = getOrCreateInputClassModel(inputClassModelMap, enclosingElement);
 		skInputClassModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 		skInputClassModel.packageName = packageName;
-		skInputClassModel.skInputModels.add(skInputModel);
-	}
-
-	private void parseInputParentAnnotation(Element element, SKInputClassModel skInputClassModel, Map<String, SKProviderModel> skProviderModels) {
-
-		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-
-		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
-
-		SKInputModel skInputModel = new SKInputModel();
-		skInputModel.fieldName = enclosingElement.getSimpleName().toString();
-		skInputModel.type = TypeName.get(enclosingElement.asType());
-		skInputModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
-		skInputModel.packageName = packageName;
-		skInputModel.typeMirror = enclosingElement.asType();
-
-		skInputModel.build(SK_I_LAZY);
-
-		skInputModel.skProviderModel = skProviderModels.get(skInputModel.providerKey);
-
-		// 查找是否需要自动注入
-		findParentInterface(skInputModel);
-
 		skInputClassModel.skInputModels.add(skInputModel);
 	}
 
@@ -484,7 +465,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	/**
 	 * 解析provider注解
-	 * 
+	 *
 	 * @param annotationClass
 	 * @param element
 	 * @param allModelMap
@@ -618,6 +599,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		if (modifiers.contains(PRIVATE)) {
 			hasError = true;
 		}
+
 		if (modifiers.contains(STATIC)) {
 			hasError = true;
 		}
