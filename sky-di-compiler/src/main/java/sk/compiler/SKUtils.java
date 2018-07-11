@@ -57,6 +57,15 @@ class SKUtils {
 		return str.substring(0, 1).toLowerCase() + str.substring(1);
 	}
 
+	static AnnotationMirror getAnnotationMirror(Element typeElement, String className) {
+		for (AnnotationMirror m : typeElement.getAnnotationMirrors()) {
+			if (m.getAnnotationType().toString().equals(className)) {
+				return m;
+			}
+		}
+		return null;
+	}
+
 	static AnnotationMirror getAnnotationMirror(TypeElement typeElement, String className) {
 		for (AnnotationMirror m : typeElement.getAnnotationMirrors()) {
 			if (m.getAnnotationType().toString().equals(className)) {

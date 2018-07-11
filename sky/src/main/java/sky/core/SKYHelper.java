@@ -47,7 +47,7 @@ public class SKYHelper {
 	 *            参数
 	 * @return 返回值
 	 */
-	protected static final <M> M getManage() {
+	protected static final <M extends SKYModulesManage> M getManage() {
 		return (M) mSKYModulesManage;
 	}
 

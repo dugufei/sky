@@ -16,6 +16,7 @@ import sk.SKData;
 import sk.SKHelper;
 import sky.SKInput;
 import sky.example.bean.User;
+import sky.example.helper.TextHelper;
 import sky.example.textdi.A;
 import sky.example.textdi.B;
 import sky.example.textdi.D;
@@ -57,6 +58,8 @@ public class MainActivity extends SKActivity<MainViewModel> {
 			for (B b : listb) {
 				Log.d("lista", b.b);
 			}
+			SKHelper.toast().show("你好啊啊啊");
+			SKHelper.toast().show(TextHelper.abc().MM);
 
 			// Intent intent = new Intent();
 			// intent.setClass(MainActivity.this, OneActivity.class);

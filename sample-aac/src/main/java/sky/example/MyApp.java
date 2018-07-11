@@ -1,9 +1,14 @@
 package sky.example;
 
+import retrofit2.Retrofit;
+import sk.ISK;
 import sk.SKApp;
+import sk.SKCommonView;
 import sk.SKDI;
 import sk.SKDefaultLibrary;
+import sk.SKDefaultManager;
 import sky.SKDIApp;
+import sky.example.helper.TextBind;
 
 /**
  * @author sky
@@ -16,6 +21,23 @@ public class MyApp extends SKApp {
 
 	@Override public void onCreate() {
 		super.onCreate();
-		SKDI.create();
+		SKDI.builder().setApplication(this).setISK(new TextBind()).setSKCommonView(new SKCommonView() {
+
+			@Override public int layoutLoading() {
+				return 0;
+			}
+
+			@Override public int layoutEmpty() {
+				return 0;
+			}
+
+			@Override public int layoutBizError() {
+				return 0;
+			}
+
+			@Override public int layoutHttpError() {
+				return 0;
+			}
+		}).build();
 	}
 }

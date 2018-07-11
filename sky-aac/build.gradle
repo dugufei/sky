@@ -25,5 +25,7 @@ dependencies {
     api deps.paging
     api deps.support.recyclerview_v7
     api deps.support.compat_v7
+    api deps.library.retrofit
+    api deps.library.butterknife
 }
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

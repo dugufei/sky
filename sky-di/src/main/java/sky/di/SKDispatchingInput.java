@@ -20,8 +20,11 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 
 	private final Map<Class<? extends T>, SKProvider<SKInputInterface<T>>>	inputProvider;
 
-	public SKDispatchingInput(Map<Class<? extends T>, SKProvider<SKInputInterface<T>>> inputProvider) {
+	private final Map<Class<?>, Class<?>>									inputSupport;
+
+	public SKDispatchingInput(Map<Class<? extends T>, SKProvider<SKInputInterface<T>>> inputProvider, Map<Class<?>, Class<?>> inputSupport) {
 		this.inputProvider = inputProvider;
+		this.inputSupport = inputSupport;
 	}
 
 	@Override public void input(T instance) {
@@ -32,6 +35,20 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 	}
 
 	public boolean maybeInject(T instance) {
+		Class<?> supportClazz = inputSupport.get(instance.getClass());
+
+		if(supportClazz != null){
+			SKProvider<SKInputInterface<T>> factoryProvider = inputProvider.get(supportClazz);
+			if (factoryProvider != null) {
+				try {
+					SKInputInterface<T> injector = factoryProvider.get();
+					injector.input(instance);
+				} catch (ClassCastException e) {
+					throw new InvalidInjectorBindingException(
+							String.format("%s does not implement AndroidInjector.Factory<%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+				}
+			}
+		}
 		SKProvider<SKInputInterface<T>> factoryProvider = inputProvider.get(instance.getClass());
 		if (factoryProvider == null) {
 			return false;
@@ -42,8 +59,8 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 			injector.input(instance);
 			return true;
 		} catch (ClassCastException e) {
-			throw new InvalidInjectorBindingException(String.format("%s does not implement AndroidInjector.Factory<%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()),
-					e);
+			throw new InvalidInjectorBindingException(
+					String.format("%s does not implement AndroidInjector.Factory<%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
 		}
 	}
 

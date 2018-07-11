@@ -23,8 +23,8 @@ dependencies {
     api project(':sky-annotations')
     implementation project(':sky-cglib')
 
-    api deps.support.recyclerview_v7
-    api deps.support.compat_v7
+    implementation deps.support.recyclerview_v7
+    implementation deps.support.compat_v7
 
     api deps.library.dagger
     annotationProcessor deps.annotation.dagger_compiler

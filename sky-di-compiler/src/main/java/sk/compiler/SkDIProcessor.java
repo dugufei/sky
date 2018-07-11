@@ -6,9 +6,7 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
-import com.sun.org.apache.regexp.internal.RE;
 import com.sun.source.util.Trees;
-import com.sun.tools.javac.code.Attribute;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -42,36 +40,34 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 import sk.compiler.model.SKCheckProviderModel;
+import sk.compiler.model.SKConstructorsModel;
+import sk.compiler.model.SKDILibraryModel;
 import sk.compiler.model.SKInputClassModel;
 import sk.compiler.model.SKInputModel;
-import sk.compiler.model.SKDILibraryModel;
 import sk.compiler.model.SKParamProviderModel;
 import sk.compiler.model.SKProviderModel;
 import sk.compiler.model.SKSourceModel;
 import sky.SKDIApp;
-import sky.SKInput;
 import sky.SKDILibrary;
+import sky.SKInput;
 import sky.SKProvider;
 import sky.SKSingleton;
-import sun.print.AttributeClass;
 
 import static com.google.auto.common.MoreElements.getPackage;
 import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.ElementKind.METHOD;
-import static javax.lang.model.element.Modifier.DEFAULT;
 import static javax.lang.model.element.Modifier.PRIVATE;
-import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 import static sk.compiler.SKUtils.bestGuess;
 import static sk.compiler.SKUtils.getAnnotationMirror;
 import static sk.compiler.SKUtils.getAnnotationValue;
-import static sk.compiler.SKUtils.getAnnotationValueAsType;
-import static sk.compiler.SKUtils.typeToString;
+import static sk.compiler.SkConsts.NAME_DEFAULT_LIBRARY;
 import static sk.compiler.SkConsts.NAME_LIBRARY;
 import static sk.compiler.SkConsts.SK_INTERFACE;
 import static sk.compiler.SkConsts.SK_I_LAZY;
@@ -105,7 +101,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 				env.getMessager().printMessage(Diagnostic.Kind.WARNING, "Unable to parse supplied minSdk option '" + sdk + "'. Falling back to API 1 support.");
 			}
 		}
-
+		this.sdk += 1;
 		elementUtils = env.getElementUtils();
 		typeUtils = env.getTypeUtils();
 		filer = env.getFiler();
@@ -212,7 +208,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			List<SKDILibraryModel> skdiLibraryModelList = findApp(env, SKDIApp.class);
 
-			javaIFile = skdiCreate.brewDI(skProviderModels, skInputModels, skSourceModelMap, skdiLibraryModelList);
+			Map<TypeElement, TypeElement> skSupport = findSupport(skInputModels);
+
+			javaIFile = skdiCreate.brewDI(skProviderModels, skInputModels, skSourceModelMap, skdiLibraryModelList, skSupport);
 		} else {
 			javaIFile = skdiCreate.brewDILibrary(skProviderModels, skInputModels, skSourceModelMap, skLibraryModel);
 		}
@@ -226,6 +224,42 @@ public final class SkDIProcessor extends AbstractProcessor {
 		logger.info(">>> Found SKDI, 结束... <<<");
 
 		return false;
+	}
+
+	private Map<TypeElement, TypeElement> findSupport(Map<TypeElement, SKInputClassModel> skInputModels) {
+		Map<TypeElement, TypeElement> map = new HashMap<>();
+
+		Deque<Map.Entry<TypeElement, SKInputClassModel>> entries = new ArrayDeque<>(skInputModels.entrySet());
+
+		while (!entries.isEmpty()) {
+			Map.Entry<TypeElement, SKInputClassModel> entry = entries.removeFirst();
+
+			TypeElement type = entry.getKey();
+
+			// 收集一级父类集合
+			TypeMirror supportType = type.getSuperclass();
+			if (supportType.getKind() == TypeKind.NONE) {
+				continue;
+			}
+			TypeElement typeElement = (TypeElement) ((DeclaredType) supportType).asElement();
+
+			boolean is = true;
+
+			for (Element enclosedElement : typeElement.getEnclosedElements()) {
+				if (enclosedElement.getKind() == ElementKind.FIELD) {
+					SKInput skInput = enclosedElement.getAnnotation(SKInput.class);
+					if (skInput != null) {
+						is = false;
+						break;
+					}
+				}
+			}
+			if (is) {
+				continue;
+			}
+			map.put(type, typeElement);
+		}
+		return map;
 	}
 
 	private List<SKDILibraryModel> findApp(RoundEnvironment env, Class<? extends Annotation> skdiLibraryClass) {
@@ -269,6 +303,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			skLibraryModel.name = className + NAME_LIBRARY;
 			skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
+			if (skLibraryModel.name.equals(NAME_DEFAULT_LIBRARY)) {
+				skLibraryModel.isSKDefaultLibrary = true;
+			}
 			libraryModels.add(skLibraryModel);
 		}
 	}
@@ -309,6 +346,10 @@ public final class SkDIProcessor extends AbstractProcessor {
 		skLibraryModel.packageName = packageName;
 		skLibraryModel.name = enclosingElement.getSimpleName().toString();
 		skLibraryModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+
+		if ((skLibraryModel.name + NAME_LIBRARY).equals(NAME_DEFAULT_LIBRARY)) {
+			skLibraryModel.isSKDefaultLibrary = true;
+		}
 		return skLibraryModel;
 	}
 
@@ -524,7 +565,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		allModelMap.add(skProviderModel);
 
 		// 记录source
-		SKSourceModel skSourceModel = getOrCreateSourceClassModel(skSourceModelMap, skProviderModel.className);
+		SKSourceModel skSourceModel = getOrCreateSourceClassModel(enclosingElement, skSourceModelMap, skProviderModel.className);
 		skSourceModel.className = skProviderModel.className;
 
 		if (skProviderModel.isSingle) {
@@ -581,10 +622,29 @@ public final class SkDIProcessor extends AbstractProcessor {
 		}
 	}
 
-	private SKSourceModel getOrCreateSourceClassModel(Map<String, SKSourceModel> skSourceModelMap, ClassName className) {
+	private SKSourceModel getOrCreateSourceClassModel(TypeElement enclosingElement, Map<String, SKSourceModel> skSourceModelMap, ClassName className) {
 		SKSourceModel skSourceModel = skSourceModelMap.get(className.reflectionName());
 		if (skSourceModel == null) {
 			skSourceModel = new SKSourceModel();
+			// 构造函数
+			List<ExecutableElement> executableElements = ElementFilter.constructorsIn(enclosingElement.getEnclosedElements());
+
+			if (executableElements.size() > 1) {
+				logger.error(skSourceModel.className.simpleName() + "类的构造函数不能存在多个");
+			} else if (executableElements.size() == 1) {
+				skSourceModel.skConstructorsModelList = new ArrayList<>();
+				ExecutableElement item = executableElements.get(0);
+				for (VariableElement variableElement : item.getParameters()) {
+					SKConstructorsModel skConstructorsModel = new SKConstructorsModel();
+					skConstructorsModel.packageName = getPackage(variableElement).getQualifiedName().toString();
+					skConstructorsModel.fieldName = variableElement.getSimpleName().toString();
+					skConstructorsModel.type = TypeName.get(variableElement.asType());
+					skConstructorsModel.className = (ClassName) ClassName.get(variableElement.asType());
+					skConstructorsModel.typeMirror = variableElement.asType();
+					skSourceModel.skConstructorsModelList.add(skConstructorsModel);
+				}
+			}
+
 			skSourceModelMap.put(className.reflectionName(), skSourceModel);
 		}
 		return skSourceModel;

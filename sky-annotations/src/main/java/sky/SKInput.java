@@ -15,5 +15,5 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  */
 @Documented
 @Target(FIELD)
-@Retention(SOURCE)
+@Retention(RUNTIME)
 public @interface SKInput {}

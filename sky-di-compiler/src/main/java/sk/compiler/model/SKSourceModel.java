@@ -2,6 +2,8 @@ package sk.compiler.model;
 
 import com.squareup.javapoet.ClassName;
 
+import java.util.List;
+
 /**
  * @author sky
  * @version 1.0 on 2018-07-05 下午3:36
@@ -9,10 +11,11 @@ import com.squareup.javapoet.ClassName;
  */
 public class SKSourceModel {
 
-	public ClassName	className;
+	public ClassName					className;
 
-	public boolean		isSingle;
+	public boolean						isSingle;
 
-	public boolean		isSingleGenerate;
+	public boolean						isSingleGenerate;
 
+	public List<SKConstructorsModel>	skConstructorsModelList;
 }

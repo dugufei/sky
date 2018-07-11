@@ -1,5 +1,8 @@
 package sk;
 
+import android.app.Application;
+import android.os.Looper;
+
 import sky.di.SKDispatchingInput;
 import sky.di.SKInput;
 
@@ -10,17 +13,57 @@ import sky.di.SKInput;
  */
 public class SKHelper {
 
-	static SKDispatchingInput skDispatchingInput;
+	static SKDispatchingInput	skDispatchingInput;
 
+	static SKDefaultManager		skDefaultManager;
+
+	/**
+	 * 初始化
+	 */
+	static void init() {
+		input(skDefaultManager);
+	}
+
+	/**
+	 * 获取管理
+	 *
+	 * @param <M>
+	 *            参数
+	 * @return 返回值
+	 */
+	protected static final <M extends SKDefaultManager> M getManage() {
+		return (M) skDefaultManager;
+	}
+
+	static final void inputDispatching(SKDispatchingInput param) {
+		skDispatchingInput = param;
+	}
 
 	/**
 	 * 公共视图
 	 *
 	 * @return 返回值
 	 */
-	static final SKCommonView getComnonView() {
-		// return skModules.commonViewSKLazy.get();
-		return null;
+	static final SKCommonView commonView() {
+		return getManage().skCommonView.get();
+	}
+
+	/**
+	 * 是否打印日志
+	 *
+	 * @return 返回值
+	 */
+	public static final boolean isLogOpen() {
+		return getManage().isk.isLogOpen();
+	}
+
+	/**
+	 * 获取全局上下文
+	 *
+	 * @return 返回值
+	 */
+	public static final Application getInstance() {
+		return getManage().application;
 	}
 
 	/**
@@ -35,8 +78,31 @@ public class SKHelper {
 		return instance;
 	}
 
-	static final void inputDispatching(SKDispatchingInput param) {
-		skDispatchingInput = param;
+	/**
+	 * 判断是否是主线程
+	 *
+	 * @return true 主线程 false 子线程
+	 */
+	public static final boolean isMainLooperThread() {
+		return Looper.getMainLooper().getThread() == Thread.currentThread();
+	}
+
+	/**
+	 * MainLooper 主线程中执行
+	 *
+	 * @return 返回值
+	 */
+	public static final SKAppExecutors executors() {
+		return getManage().skAppExecutors.get();
+	}
+
+	/**
+	 * Toast 提示信息
+	 *
+	 * @return 返回值
+	 */
+	public static final SKToast toast() {
+		return getManage().skToast.get();
 	}
 
 }

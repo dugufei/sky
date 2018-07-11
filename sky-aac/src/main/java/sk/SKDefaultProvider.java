@@ -12,8 +12,35 @@ import sky.SKSingleton;
  */
 public class SKDefaultProvider {
 
-	@SKProvider @SKSingleton public Application provideApplication() {
-		return null;
+	final Application	application;
+
+	final SKCommonView	skCommonView;
+
+	final ISK			isk;
+
+	public SKDefaultProvider(Application application, SKCommonView skCommonView, ISK isk) {
+		this.application = application;
+		this.skCommonView = skCommonView;
+		this.isk = isk;
 	}
 
+	@SKProvider @SKSingleton public Application provideApplication() {
+		return application;
+	}
+
+	@SKProvider @SKSingleton public SKCommonView provideSKCommonView() {
+		return skCommonView;
+	}
+
+	@SKProvider @SKSingleton public ISK provideISK() {
+		return isk == null ? ISK.NONE : isk;
+	}
+
+	@SKProvider @SKSingleton public SKAppExecutors provideSKAppExecutors() {
+		return new SKAppExecutors();
+	}
+
+	@SKProvider @SKSingleton public SKToast provideSKToast() {
+		return new SKToast();
+	}
 }

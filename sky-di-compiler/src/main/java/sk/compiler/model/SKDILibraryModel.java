@@ -14,4 +14,7 @@ public class SKDILibraryModel {
 	public String		name;
 
 	public ClassName	className;
+
+	public boolean		isSKDefaultLibrary;
+
 }
