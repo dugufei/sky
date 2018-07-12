@@ -1,11 +1,11 @@
-package sky.di;
+package sk;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static sky.di.SKPreconditions.checkNotNull;
+import static sk.SKPreconditions.checkNotNull;
 
 /**
  * @author sky

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sky.di;
+package sk;
 
 /**
  * @author sky

@@ -39,6 +39,7 @@ buildscript {
             ],
             'support'   : [
                     'compat_v7'        : "com.android.support:appcompat-v7:${versions.supportLibrary}",
+                    'fragment'        : "com.android.support:support-fragment:${versions.supportLibrary}",
                     'cardview_v7'      : "com.android.support:cardview-v7:${versions.supportLibrary}",
                     'recyclerview_v7'  : "com.android.support:recyclerview-v7:${versions.supportLibrary}",
                     'supportAnnotation': "com.android.support:support-annotations:${versions.supportLibrary}",

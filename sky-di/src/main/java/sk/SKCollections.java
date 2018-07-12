@@ -1,4 +1,4 @@
-package sky.di;
+package sk;
 
 import java.util.ArrayList;
 import java.util.Collections;

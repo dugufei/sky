@@ -19,11 +19,37 @@
  - 新增 cglib for android 动态代理，无需在声明接口，可直接使用，详情可看 [sample demo](https://github.com/skyJinc/sky/tree/master/sample/src/main/java/com/example/sky)<br />
  - 新建插件 快速生成
  
-[SKY-AAC](https://github.com/skyJinc/sky/wiki)
+ Gradle maven 中央库
+ ----------------------
+ 
+  - [WIKI](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
+  
+ App-build.gradle:
+ 
+      dependencies {
+         api 'com.jincanshen:sky:3.1.0-SNAPSHOT' //SKY架构
+         api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 架构 
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+      }
+ 
+[SKY-AAC 版本说明](https://github.com/skyJinc/sky/wiki)
 -----------------------------------
 3.1.0-SNAPSHOT
 
  - 新结构正在设计
+
+ Gradle maven 中央库
+ ----------------------
+ 
+  - [WIKI](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
+  
+ App-build.gradle:
+ 
+      dependencies {
+         api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+      }
+ 
  
 [SKY-DI 注入架构 版本说明](https://github.com/skyJinc/sky/wiki/DI%E6%B3%A8%E5%85%A5%E6%A1%86%E6%9E%B6)
 -----------------------------------
@@ -34,24 +60,24 @@
  - 支持library注入
  - 支持继承注入
 
+ Gradle maven 中央库
+ ----------------------
+ 
+  - [WIKI](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
+  
+ App-build.gradle:
+ 
+      dependencies {
+         api 'com.jincanshen:sky-di:3.1.0-SNAPSHOT' 
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+      }
+ 
 
 Gradle 版本
 -----------------------------------
 1.插件 com.android.tools.build:gradle:3.0.1'<br />
 2.版本 - gradle-4.+-all.zip<br />
 
-Gradle maven 中央库
-----------------------
-
- - [WIKI](https://github.com/skyJinc/sky/wiki/3.1.0-gradle_init)
- 
-App-build.gradle:
-
-     dependencies {
-        api 'com.jincanshen:sky:3.1.0-SNAPSHOT'
-        api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 架构 
-        annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
-     }
 
 
 帮助

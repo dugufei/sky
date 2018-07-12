@@ -13,7 +13,7 @@ public class SKActivity<M extends SKViewModel> extends AppCompatActivity {
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SKInputs.inject(this);
+		SKInputs.input(this);
 		initViewModel();
 	}
 

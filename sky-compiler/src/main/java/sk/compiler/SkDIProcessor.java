@@ -88,7 +88,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	private Trees				trees;
 
-	private sk.compiler.SkLogger logger;
+	private SkLogger logger;
 
 	@Override public synchronized void init(ProcessingEnvironment env) {
 		super.init(env);
@@ -106,7 +106,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		typeUtils = env.getTypeUtils();
 		filer = env.getFiler();
 
-		logger = new sk.compiler.SkLogger(processingEnv.getMessager()); // Package the log utils.
+		logger = new SkLogger(processingEnv.getMessager()); // Package the log utils.
 
 		logger.info(">>> SkProcessor 初始化. <<<");
 
@@ -170,7 +170,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 			return false;
 		}
 
-		sk.compiler.SKProviderCreate skProviderCreate = new sk.compiler.SKProviderCreate();
+		SKProviderCreate skProviderCreate = new SKProviderCreate();
 
 		for (SKProviderModel item : skProviderModels.values()) {
 			JavaFile javaIFile = skProviderCreate.brewProvider(item);
@@ -200,11 +200,11 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		logger.info(">>> Found SKDI, 开始... <<<");
 
-		sk.compiler.SKDICreate skdiCreate = new sk.compiler.SKDICreate();
 
 		JavaFile javaIFile;
 
 		if (skLibraryModel == null) {
+			SKDICreate skdiCreate = new SKDICreate();
 
 			List<SKDILibraryModel> skdiLibraryModelList = findApp(env, SKDIApp.class);
 
@@ -212,7 +212,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			javaIFile = skdiCreate.brewDI(skProviderModels, skInputModels, skSourceModelMap, skdiLibraryModelList, skSupport);
 		} else {
-			javaIFile = skdiCreate.brewDILibrary(skProviderModels, skInputModels, skSourceModelMap, skLibraryModel);
+			SKDILibraryCreate libraryCreate = new SKDILibraryCreate();
+
+			javaIFile = libraryCreate.brewDILibrary(skProviderModels, skInputModels, skSourceModelMap, skLibraryModel);
 		}
 
 		try {

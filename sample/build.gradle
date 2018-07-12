@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.example.sky"
         minSdkVersion versions.minSdk
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -27,10 +27,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':sky')
+    implementation project(':sky-di')
     annotationProcessor project(':sky-compiler')
     api deps.lifecycle
 
     implementation deps.support.cardview_v7
+    implementation deps.support.fragment
+    implementation deps.support.recyclerview_v7
+    implementation deps.support.compat_v7
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // retrofit2 - gson

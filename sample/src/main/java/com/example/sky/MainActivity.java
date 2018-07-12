@@ -44,9 +44,9 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 		MainVM mainVM = ViewModelProviders.of(this).get(MainVM.class);
 
-		mainVM.userMutableLiveData.observe(this, user -> {
-			textView2.setText(user.name);
-		});
+//		mainVM.userMutableLiveData.observe(this, user -> {
+//			textView2.setText(user.name);
+//		});
 
 	}
 

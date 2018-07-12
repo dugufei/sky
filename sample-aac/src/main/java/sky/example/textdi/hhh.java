@@ -3,7 +3,7 @@ package sky.example.textdi;
 import android.util.Log;
 
 import sky.SKInput;
-import sky.di.SKLazy;
+import sk.SKLazy;
 
 /**
  * @author sky

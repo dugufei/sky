@@ -1,10 +1,9 @@
-package sky.di;
+package sk;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static sky.di.SKCollections.newLinkedHashMapWithExpectedSize;
+import static sk.SKCollections.newLinkedHashMapWithExpectedSize;
 
 /**
  * @author sky

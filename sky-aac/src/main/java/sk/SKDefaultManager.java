@@ -3,7 +3,6 @@ package sk;
 import android.app.Application;
 
 import sky.SKInput;
-import sky.di.SKLazy;
 
 /**
  * @author sky

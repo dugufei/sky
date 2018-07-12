@@ -2,7 +2,7 @@ package sky.example.helper;
 
 import sk.SKDefaultManager;
 import sky.SKInput;
-import sky.di.SKLazy;
+import sk.SKLazy;
 import sky.example.helper.modules.ABC;
 
 /**

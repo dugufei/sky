@@ -80,7 +80,7 @@ class SKInputCreate {
 					.addStatement("instance.$N = $N", item.fieldName, item.name);
 
 			if (item.isAutoInput) {
-				methodSpec.addStatement("$T.inject($N)", SK_INPUTS, item.name);
+				methodSpec.addStatement("$T.input($N)", SK_INPUTS, item.name);
 			}
 
 			if (item.isLazy) {

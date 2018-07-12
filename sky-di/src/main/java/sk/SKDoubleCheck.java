@@ -1,6 +1,6 @@
-package sky.di;
+package sk;
 
-import static sky.di.SKPreconditions.checkNotNull;
+import static sk.SKPreconditions.checkNotNull;
 
 /**
  * @author sky

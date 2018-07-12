@@ -1,7 +1,7 @@
 package sky.example.textdi;
 
 import sky.SKInput;
-import sky.di.SKLazy;
+import sk.SKLazy;
 
 /**
  * @author sky

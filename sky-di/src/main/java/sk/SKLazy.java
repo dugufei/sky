@@ -1,4 +1,4 @@
-package sky.di;
+package sk;
 
 /**
  * @author sky

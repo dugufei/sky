@@ -3,9 +3,6 @@ package sk;
 import android.app.Application;
 import android.os.Looper;
 
-import sky.di.SKDispatchingInput;
-import sky.di.SKInput;
-
 /**
  * @author sky
  * @version 1.0 on 2018-06-13 下午10:53
@@ -13,15 +10,13 @@ import sky.di.SKInput;
  */
 public class SKHelper {
 
-	static SKDispatchingInput	skDispatchingInput;
-
 	static SKDefaultManager		skDefaultManager;
 
 	/**
 	 * 初始化
 	 */
 	static void init() {
-		input(skDefaultManager);
+		SKInputs.input(skDefaultManager);
 	}
 
 	/**
@@ -33,10 +28,6 @@ public class SKHelper {
 	 */
 	protected static final <M extends SKDefaultManager> M getManage() {
 		return (M) skDefaultManager;
-	}
-
-	static final void inputDispatching(SKDispatchingInput param) {
-		skDispatchingInput = param;
 	}
 
 	/**
@@ -64,18 +55,6 @@ public class SKHelper {
 	 */
 	public static final Application getInstance() {
 		return getManage().application;
-	}
-
-	/**
-	 * 注入
-	 * 
-	 * @param instance
-	 * @param <T>
-	 * @return
-	 */
-	public static <T> T input(T instance) {
-		skDispatchingInput.input(instance);
-		return instance;
 	}
 
 	/**
