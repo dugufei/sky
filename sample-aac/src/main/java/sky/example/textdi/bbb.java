@@ -1,6 +1,5 @@
 package sky.example.textdi;
 
-import sk.SKInject;
 import sky.SKInput;
 import sky.di.SKLazy;
 
@@ -9,7 +8,7 @@ import sky.di.SKLazy;
  * @version 1.0 on 2018-06-28 下午3:20
  * @see bbb
  */
-public class bbb extends SKInject {
+public class bbb  {
 
 	@SKInput A			a;
 

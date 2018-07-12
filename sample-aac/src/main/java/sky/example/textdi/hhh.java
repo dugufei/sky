@@ -2,7 +2,6 @@ package sky.example.textdi;
 
 import android.util.Log;
 
-import sk.SKInject;
 import sky.SKInput;
 import sky.di.SKLazy;
 
@@ -11,7 +10,7 @@ import sky.di.SKLazy;
  * @version 1.0 on 2018-06-23 下午10:04
  * @see hhh
  */
-public class hhh extends SKInject {
+public class hhh {
 
 	@SKInput A			a;
 
@@ -34,7 +33,6 @@ public class hhh extends SKInject {
 		Log.d("我是谁333", d + "");
 		Log.d("我是谁444", bbb + "");
 	}
-
 
 }
 
