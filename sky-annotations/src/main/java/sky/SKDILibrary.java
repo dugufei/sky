@@ -6,6 +6,7 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author sky
@@ -14,5 +15,5 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
  */
 @Documented
 @Target(TYPE)
-@Retention(CLASS)
+@Retention(RUNTIME)
 public @interface SKDILibrary {}
