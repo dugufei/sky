@@ -14,9 +14,9 @@ import static sky.di.SKPreconditions.checkNotNull;
  */
 public class SKDispatchingInput<T> implements SKInputInterface<T> {
 
-	private static final String												NO_SUPERTYPES_BOUND_FORMAT	= "没有使用@source绑定来源 for Class<%s>";
+	private static final String												NO_SUPERTYPES_BOUND_FORMAT	= "异常 Class<%s> 没有需要注入的属性";
 
-	private static final String												SUPERTYPES_BOUND_FORMAT		= "没有使用@source绑定来源 for Class<%s>. 是不是给父类做了@source操作，应该给子类 注解上@source " + "of %1$s: %2$s";
+	private static final String												SUPERTYPES_BOUND_FORMAT		= "异常 Class<%s> 注入类 %1$s: %2$s";
 
 	private final Map<Class<? extends T>, SKProvider<SKInputInterface<T>>>	inputProvider;
 
@@ -45,7 +45,7 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 					injector.input(instance);
 				} catch (ClassCastException e) {
 					throw new InvalidInjectorBindingException(
-							String.format("%s does not implement AndroidInjector.Factory<%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+							String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 			return true;
 		} catch (ClassCastException e) {
 			throw new InvalidInjectorBindingException(
-					String.format("%s does not implement AndroidInjector.Factory<%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+					String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
 		}
 	}
 
@@ -72,6 +72,7 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 	}
 
 	private String errorMessageSuggestions(T instance) {
+
 		List<String> suggestions = new ArrayList<String>();
 		for (Class<?> activityClass : inputProvider.keySet()) {
 			if (activityClass.isInstance(instance)) {

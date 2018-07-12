@@ -574,52 +574,23 @@ public final class SkDIProcessor extends AbstractProcessor {
 	}
 
 	private void findParentInterface(SKInputModel skInputModel) {
+        TypeElement superTypeElement = (TypeElement) ((DeclaredType) skInputModel.typeMirror).asElement();
 
-		TypeElement returnTypeElement = (TypeElement) ((DeclaredType) skInputModel.typeMirror).asElement();
-		// 是否实现接口
-
-		if (returnTypeElement.getKind().isInterface()) {
-			return;
-		}
-
-		for (TypeMirror item : returnTypeElement.getInterfaces()) {
-			TypeName typeName = bestGuess(item);
-			if (typeName instanceof ParameterizedTypeName) {
-				continue;
-			}
-
-			ClassName interfaceClassName = (ClassName) typeName;
-			if (SK_INTERFACE.equals(interfaceClassName)) {
-				skInputModel.isImplInitInterface = true;
-				break;
-			}
-		}
-		if (skInputModel.isImplInitInterface) {
-			return;
-		}
-
-		// 查找父类
-		TypeMirror superType;
-		while (true) {
-			superType = returnTypeElement.getSuperclass();
-			if (superType.getKind() == TypeKind.NONE) {
-				return;
-			}
-			returnTypeElement = (TypeElement) ((DeclaredType) superType).asElement();
-
-			for (TypeMirror item : returnTypeElement.getInterfaces()) {
-				TypeName typeName = bestGuess(item);
-				if (typeName instanceof ParameterizedTypeName) {
-					continue;
-				}
-
-				ClassName interfaceClassName = (ClassName) typeName;
-				if (SK_INTERFACE.equals(interfaceClassName)) {
-					skInputModel.isImplInitInterface = true;
-					return;
-				}
-			}
-		}
+        boolean is = true;
+        // 是否实现接口
+        for (Element enclosedElement : superTypeElement.getEnclosedElements()) {
+            if (enclosedElement.getKind() == ElementKind.FIELD) {
+                SKInput skInput = enclosedElement.getAnnotation(SKInput.class);
+                if (skInput != null) {
+                    is = false;
+                    break;
+                }
+            }
+        }
+        if (is) {
+            return;
+        }
+        skInputModel.isAutoInput =true;
 	}
 
 	private SKSourceModel getOrCreateSourceClassModel(TypeElement enclosingElement, Map<String, SKSourceModel> skSourceModelMap, ClassName className) {

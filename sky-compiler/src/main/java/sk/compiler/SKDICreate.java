@@ -265,7 +265,7 @@ class SKDICreate {
 				builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
 
 				// 添加初始化
-				constructors.addStatement("SKHelper.init()");
+				constructors.addStatement("$T.init()",SK_HELPER);
 			} else {
 				builderConstructorsMethod.addStatement("if($N == null)this.$N = $T.create(false)", name, name, skdiLibraryModel.className);
 			}
@@ -554,7 +554,7 @@ class SKDICreate {
 		constructors.addParameter(builderName, "builder");
 		constructors.addStatement("initialize(builder)");
 		if (skLibraryModel.isSKDefaultLibrary) {
-			initialize.addStatement("SKHelper.skDefaultManager = iSKProvider.get().manage()");
+			initialize.addStatement("$T.skDefaultManager = iSKProvider.get().manage()",SK_HELPER);
 		}
 
 		initialize.addStatement("if(this.builder.$N) $T.inputDispatching(newSKDispatchingInput())", initFieldName, SK_HELPER);

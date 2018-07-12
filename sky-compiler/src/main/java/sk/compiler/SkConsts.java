@@ -43,6 +43,8 @@ class SkConsts {
 
 	static final ClassName	SK_MAP					= ClassName.get(FACADE_PACKAGE, "SKMapBuilder");
 
+	static final ClassName	SK_INPUTS				= ClassName.get("sk", "SKInputs");
+
 	static final ClassName	SK_I_INPUT				= ClassName.get(FACADE_PACKAGE, "SKInput");
 
 	static final ClassName	SK_PRECOND				= ClassName.get(FACADE_PACKAGE, "SKPreconditions");

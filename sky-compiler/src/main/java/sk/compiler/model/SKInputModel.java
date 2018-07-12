@@ -32,7 +32,7 @@ public class SKInputModel {
 
 	public boolean			isLazy;					// 是否懒加载
 
-	public boolean			isImplInitInterface;	// 是否自动加载
+	public boolean			isAutoInput;	// 是否自动加载
 
 	public sk.compiler.model.SKProviderModel skProviderModel;		// 来源数据
 
