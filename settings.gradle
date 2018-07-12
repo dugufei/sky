@@ -3,14 +3,12 @@ include ':sky-annotations'
 include ':sky-compiler'
 include ':sky-cglib'
 
-include ':sky-di'
-include ':sky-di-compiler'
-
 include ':sample'
 include ':sample-kotlin'
 include ':sample-aac'
 
 include ':sky-kotlin'
 include ':sky-aac'
+include ':sky-di'
 
 rootProject.name = 'sky-parent'

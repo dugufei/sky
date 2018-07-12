@@ -88,7 +88,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	private Trees				trees;
 
-	private SkLogger			logger;
+	private sk.compiler.SkLogger logger;
 
 	@Override public synchronized void init(ProcessingEnvironment env) {
 		super.init(env);
@@ -106,7 +106,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		typeUtils = env.getTypeUtils();
 		filer = env.getFiler();
 
-		logger = new SkLogger(processingEnv.getMessager()); // Package the log utils.
+		logger = new sk.compiler.SkLogger(processingEnv.getMessager()); // Package the log utils.
 
 		logger.info(">>> SkProcessor 初始化. <<<");
 
@@ -170,7 +170,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 			return false;
 		}
 
-		SKProviderCreate skProviderCreate = new SKProviderCreate();
+		sk.compiler.SKProviderCreate skProviderCreate = new sk.compiler.SKProviderCreate();
 
 		for (SKProviderModel item : skProviderModels.values()) {
 			JavaFile javaIFile = skProviderCreate.brewProvider(item);
@@ -200,7 +200,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		logger.info(">>> Found SKDI, 开始... <<<");
 
-		SKDICreate skdiCreate = new SKDICreate();
+		sk.compiler.SKDICreate skdiCreate = new sk.compiler.SKDICreate();
 
 		JavaFile javaIFile;
 
@@ -542,7 +542,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		skProviderModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 
 		skProviderModel.isSingle = skSingleton != null;
-		skProviderModel.returnType = SKUtils.bestGuess(executableElement.getReturnType());
+		skProviderModel.returnType = bestGuess(executableElement.getReturnType());
 		skProviderModel.parameters = new ArrayList<>();
 
 		for (VariableElement item : methodParameters) {
@@ -550,7 +550,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			skParamProviderModel.name = item.getSimpleName().toString();
 			skParamProviderModel.packageName = getPackage(item).getQualifiedName().toString();
-			skParamProviderModel.classType = SKUtils.bestGuess(item.asType());
+			skParamProviderModel.classType = bestGuess(item.asType());
 			skParamProviderModel.providerType = ParameterizedTypeName.get(SK_I_PROVIDER, skParamProviderModel.classType);
 
 			skProviderModel.parameters.add(skParamProviderModel);

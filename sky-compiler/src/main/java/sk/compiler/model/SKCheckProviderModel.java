@@ -1,7 +1,5 @@
 package sk.compiler.model;
 
-import com.squareup.javapoet.ClassName;
-
 /**
  * @author sky
  * @version 1.0 on 2018-07-03 下午2:25

@@ -18,7 +18,6 @@ dependencies {
     implementation project(':sky-annotations')
 
     api project(':sky-di')
-    annotationProcessor project(':sky-di-compiler')
     annotationProcessor project(':sky-compiler')
 
     api deps.lifecycle

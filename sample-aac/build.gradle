@@ -27,10 +27,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':sky-aac')
-
     annotationProcessor project(':sky-compiler')
-    annotationProcessor project(':sky-di-compiler')
-
 
     api deps.library.dagger
     annotationProcessor deps.annotation.dagger_compiler

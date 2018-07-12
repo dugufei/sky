@@ -15,5 +15,5 @@ public class SKInputClassModel {
 
 	public String				packageName;
 
-	public List<SKInputModel>	skInputModels;
+	public List<sk.compiler.model.SKInputModel>	skInputModels;
 }
