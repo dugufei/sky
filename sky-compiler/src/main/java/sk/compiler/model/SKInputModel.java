@@ -34,7 +34,7 @@ public class SKInputModel {
 
 	public boolean			isAutoInput;	// 是否自动加载
 
-	public sk.compiler.model.SKProviderModel skProviderModel;		// 来源数据
+	public SKProviderModel skProviderModel;		// 来源数据
 
 	public String			providerKey;
 

@@ -13,7 +13,11 @@ public class SKSourceModel {
 
 	public ClassName					className;
 
+	public ClassName					classNameLibrary;
+
 	public boolean						isSingle;
+
+	public boolean						isLibrary;
 
 	public boolean						isSingleGenerate;
 

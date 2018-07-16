@@ -7,6 +7,8 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.sun.source.util.Trees;
+import com.sun.tools.javac.code.Attribute;
+import com.sun.tools.javac.code.Type;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -88,7 +90,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 	private Trees				trees;
 
-	private SkLogger logger;
+	private SkLogger			logger;
 
 	@Override public synchronized void init(ProcessingEnvironment env) {
 		super.init(env);
@@ -200,13 +202,12 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		logger.info(">>> Found SKDI, 开始... <<<");
 
-
 		JavaFile javaIFile;
 
 		if (skLibraryModel == null) {
 			SKDICreate skdiCreate = new SKDICreate();
 
-			List<SKDILibraryModel> skdiLibraryModelList = findApp(env, SKDIApp.class);
+			List<SKDILibraryModel> skdiLibraryModelList = findApp(env, SKDIApp.class, skSourceModelMap);
 
 			Map<TypeElement, TypeElement> skSupport = findSupport(skInputModels);
 
@@ -264,7 +265,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		return map;
 	}
 
-	private List<SKDILibraryModel> findApp(RoundEnvironment env, Class<? extends Annotation> skdiLibraryClass) {
+	private List<SKDILibraryModel> findApp(RoundEnvironment env, Class<? extends Annotation> skdiLibraryClass, Map<String, SKSourceModel> skSourceModelMap) {
 		List<SKDILibraryModel> libraryModels = new ArrayList<>();
 
 		Set<? extends Element> set = env.getElementsAnnotatedWith(skdiLibraryClass);
@@ -280,7 +281,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseAppAnnotation(element, libraryModels);
+				parseAppAnnotation(element, libraryModels, skSourceModelMap);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.info("解析 @SKDIApp 异常");
@@ -290,25 +291,46 @@ public final class SkDIProcessor extends AbstractProcessor {
 		return libraryModels;
 	}
 
-	private void parseAppAnnotation(Element element, List<SKDILibraryModel> libraryModels) {
+	private void parseAppAnnotation(Element element, List<SKDILibraryModel> libraryModels, Map<String, SKSourceModel> skSourceModelMap) {
 		TypeElement enclosingElement = (TypeElement) element;
 		AnnotationMirror annotationMirror = getAnnotationMirror(enclosingElement, SKDIApp.class.getCanonicalName());
 		AnnotationValue annotationValue = getAnnotationValue(annotationMirror, "value");
 
-		List<Object> list = (List<Object>) annotationValue.getValue();
-		//
-		for (Object clazz : list) {
-			SKDILibraryModel skLibraryModel = new SKDILibraryModel();
-			String value = clazz.toString();
-			String[] classes = value.split("\\.");
-			String className = classes[classes.length - 2];
+		List<Attribute.Class> elementList = (List<Attribute.Class>) annotationValue.getValue();
 
-			skLibraryModel.name = className + NAME_LIBRARY;
-			skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
+		for (Attribute.Class clazz : elementList) {
+			SKDILibraryModel skLibraryModel = new SKDILibraryModel();
+			ClassName classNameLibrary = (ClassName) ClassName.get(clazz.getValue());
+			skLibraryModel.name = classNameLibrary.simpleName() + NAME_LIBRARY;
+			skLibraryModel.className = ClassName.get(classNameLibrary.packageName(), skLibraryModel.name);
 			if (skLibraryModel.name.equals(NAME_DEFAULT_LIBRARY)) {
 				skLibraryModel.isSKDefaultLibrary = true;
 			}
 			libraryModels.add(skLibraryModel);
+
+			// 找到library 所有provider
+			TypeElement libraryClass = elementUtils.getTypeElement(classNameLibrary.reflectionName());
+
+			if (libraryClass == null) {
+				return;
+			}
+			skLibraryModel.skProviderModels = new HashMap<>();
+			for (Element elementItem : libraryClass.getEnclosedElements()) {
+
+				if (elementItem.getKind() == ElementKind.METHOD) {
+
+					ExecutableElement executableElement = (ExecutableElement) elementItem;
+
+					TypeElement superTypeElement = (TypeElement) ((DeclaredType) executableElement.getReturnType()).asElement();
+
+					for (Element enclosedElement : superTypeElement.getEnclosedElements()) {
+						if (enclosedElement.getKind() != ElementKind.METHOD) {
+							continue;
+						}
+						findLibraryProvider(enclosedElement, skLibraryModel, skSourceModelMap);
+					}
+				}
+			}
 		}
 	}
 
@@ -333,9 +355,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 		return skLibraryModel;
 	}
 
-	private SKDILibraryModel parseLibraryAnnotation(Element element) {
+	private SKDILibraryModel parseLibraryAnnotation(Element elementLibrary) {
 
-		TypeElement enclosingElement = (TypeElement) element;
+		TypeElement enclosingElement = (TypeElement) elementLibrary;
 
 		if (enclosingElement.getKind() != ElementKind.INTERFACE) {
 			logger.info("注解 SKDILibrary 声明的类必须是接口~~");
@@ -352,7 +374,64 @@ public final class SkDIProcessor extends AbstractProcessor {
 		if ((skLibraryModel.name + NAME_LIBRARY).equals(NAME_DEFAULT_LIBRARY)) {
 			skLibraryModel.isSKDefaultLibrary = true;
 		}
+
 		return skLibraryModel;
+	}
+
+	private void findLibraryProvider(Element element, SKDILibraryModel skProviderModels, Map<String, SKSourceModel> skSourceModelMap) {
+		ExecutableElement executableElement = (ExecutableElement) element;
+		TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+		String packageName = getPackage(enclosingElement).getQualifiedName().toString();
+
+		String name = executableElement.getSimpleName().toString();
+
+		List<? extends VariableElement> methodParameters = executableElement.getParameters();
+
+		SKSingleton skSingleton = element.getAnnotation(SKSingleton.class);
+
+		SKProviderModel skProviderModel = new SKProviderModel();
+
+		skProviderModel.name = name;
+		skProviderModel.packageName = packageName;
+		skProviderModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
+
+		skProviderModel.isSingle = skSingleton != null;
+		skProviderModel.returnType = bestGuess(executableElement.getReturnType());
+		skProviderModel.parameters = new ArrayList<>();
+
+		for (VariableElement item : methodParameters) {
+			SKParamProviderModel skParamProviderModel = new SKParamProviderModel();
+
+			skParamProviderModel.name = item.getSimpleName().toString();
+			skParamProviderModel.packageName = getPackage(item).getQualifiedName().toString();
+			skParamProviderModel.classType = bestGuess(item.asType());
+			skParamProviderModel.providerType = ParameterizedTypeName.get(SK_I_PROVIDER, skParamProviderModel.classType);
+
+			skProviderModel.parameters.add(skParamProviderModel);
+		}
+		// library方法
+		skProviderModel.isLibrary = true;
+		skProviderModel.classNameLibrary = skProviderModels.className;
+
+		// 生成key
+		skProviderModel.buildKey();
+
+		skProviderModels.skProviderModels.put(skProviderModel.key, skProviderModel);
+		// 记录source
+		SKSourceModel skSourceModel = getOrCreateSourceClassModel(enclosingElement, skSourceModelMap, skProviderModels);
+		skSourceModel.className = skProviderModel.className;
+
+		if (skSourceModel.skConstructorsModelList.size() > 0) {
+			skSourceModel.isSingle = true;
+		}
+
+		if (skProviderModel.isSingle) {
+			skSourceModel.isSingle = true;
+		}
+
+		skSourceModel.isLibrary = true;
+		skSourceModel.classNameLibrary = skProviderModels.className;
 	}
 
 	private Map<TypeElement, SKInputClassModel> findFieldInput(RoundEnvironment env, Class<? extends Annotation> annotationClass, Map<String, SKProviderModel> skProviderModels) {
@@ -427,6 +506,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		skInputClassModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 		skInputClassModel.packageName = packageName;
 		skInputClassModel.skInputModels.add(skInputModel);
+
 	}
 
 	private SKInputClassModel getOrCreateInputClassModel(Map<TypeElement, SKInputClassModel> inputClassModelMap, TypeElement enclosingElement) {
@@ -570,29 +650,33 @@ public final class SkDIProcessor extends AbstractProcessor {
 		SKSourceModel skSourceModel = getOrCreateSourceClassModel(enclosingElement, skSourceModelMap, skProviderModel.className);
 		skSourceModel.className = skProviderModel.className;
 
+		if (skSourceModel.skConstructorsModelList.size() > 0) {
+			skSourceModel.isSingle = true;
+		}
+
 		if (skProviderModel.isSingle) {
 			skSourceModel.isSingle = true;
 		}
 	}
 
 	private void findParentInterface(SKInputModel skInputModel) {
-        TypeElement superTypeElement = (TypeElement) ((DeclaredType) skInputModel.typeMirror).asElement();
+		TypeElement superTypeElement = (TypeElement) ((DeclaredType) skInputModel.typeMirror).asElement();
 
-        boolean is = true;
-        // 是否实现接口
-        for (Element enclosedElement : superTypeElement.getEnclosedElements()) {
-            if (enclosedElement.getKind() == ElementKind.FIELD) {
-                SKInput skInput = enclosedElement.getAnnotation(SKInput.class);
-                if (skInput != null) {
-                    is = false;
-                    break;
-                }
-            }
-        }
-        if (is) {
-            return;
-        }
-        skInputModel.isAutoInput =true;
+		boolean is = true;
+		// 是否实现接口
+		for (Element enclosedElement : superTypeElement.getEnclosedElements()) {
+			if (enclosedElement.getKind() == ElementKind.FIELD) {
+				SKInput skInput = enclosedElement.getAnnotation(SKInput.class);
+				if (skInput != null) {
+					is = false;
+					break;
+				}
+			}
+		}
+		if (is) {
+			return;
+		}
+		skInputModel.isAutoInput = true;
 	}
 
 	private SKSourceModel getOrCreateSourceClassModel(TypeElement enclosingElement, Map<String, SKSourceModel> skSourceModelMap, ClassName className) {
@@ -619,6 +703,35 @@ public final class SkDIProcessor extends AbstractProcessor {
 			}
 
 			skSourceModelMap.put(className.reflectionName(), skSourceModel);
+		}
+		return skSourceModel;
+	}
+
+	private SKSourceModel getOrCreateSourceClassModel(TypeElement enclosingElement, Map<String, SKSourceModel> skSourceModelMap, SKDILibraryModel skdiLibraryModel) {
+		SKSourceModel skSourceModel = skSourceModelMap.get(skdiLibraryModel.className.reflectionName());
+		if (skSourceModel == null) {
+			skSourceModel = new SKSourceModel();
+			// 构造函数
+			List<ExecutableElement> executableElements = ElementFilter.constructorsIn(enclosingElement.getEnclosedElements());
+
+			if (executableElements.size() > 1) {
+				logger.error(skSourceModel.className.simpleName() + "类的构造函数不能存在多个");
+			} else if (executableElements.size() == 1) {
+				skSourceModel.skConstructorsModelList = new ArrayList<>();
+				ExecutableElement item = executableElements.get(0);
+				for (VariableElement variableElement : item.getParameters()) {
+					SKConstructorsModel skConstructorsModel = new SKConstructorsModel();
+					skConstructorsModel.packageName = getPackage(variableElement).getQualifiedName().toString();
+					skConstructorsModel.fieldName = variableElement.getSimpleName().toString();
+					skConstructorsModel.type = TypeName.get(variableElement.asType());
+					skConstructorsModel.className = (ClassName) ClassName.get(variableElement.asType());
+					skConstructorsModel.typeMirror = variableElement.asType();
+					skSourceModel.skConstructorsModelList.add(skConstructorsModel);
+				}
+				skdiLibraryModel.skConstructorsModelList = skSourceModel.skConstructorsModelList;
+			}
+
+			skSourceModelMap.put(skdiLibraryModel.className.reflectionName(), skSourceModel);
 		}
 		return skSourceModel;
 	}

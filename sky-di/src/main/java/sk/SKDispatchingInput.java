@@ -1,5 +1,7 @@
 package sk;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,23 +31,26 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 
 	@Override public void input(T instance) {
 		boolean wasInjected = maybeInject(instance);
+
 		if (!wasInjected) {
-			throw new IllegalArgumentException(errorMessageSuggestions(instance));
+			wasInjected = maybeSuperInject(instance);
+			if (!wasInjected) {
+				throw new IllegalArgumentException(errorMessageSuggestions(instance));
+			}
 		}
 	}
 
 	public boolean maybeInject(T instance) {
 		Class<?> supportClazz = inputSupport.get(instance.getClass());
 
-		if(supportClazz != null){
+		if (supportClazz != null) {
 			SKProvider<SKInputInterface<T>> factoryProvider = inputProvider.get(supportClazz);
 			if (factoryProvider != null) {
 				try {
 					SKInputInterface<T> injector = factoryProvider.get();
 					injector.input(instance);
 				} catch (ClassCastException e) {
-					throw new InvalidInjectorBindingException(
-							String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+					throw new InvalidInjectorBindingException(String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
 				}
 			}
 		}
@@ -59,8 +64,22 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 			injector.input(instance);
 			return true;
 		} catch (ClassCastException e) {
-			throw new InvalidInjectorBindingException(
-					String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+			throw new InvalidInjectorBindingException(String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
+		}
+	}
+
+	public boolean maybeSuperInject(T instance) {
+		SKProvider<SKInputInterface<T>> factoryProvider = inputProvider.get(instance.getClass().getSuperclass());
+		if (factoryProvider == null) {
+			return false;
+		}
+
+		try {
+			SKInputInterface<T> injector = factoryProvider.get();
+			injector.input(instance);
+			return true;
+		} catch (ClassCastException e) {
+			throw new InvalidInjectorBindingException(String.format("%s 类, 绑定异常 <%s>", factoryProvider.getClass().getSuperclass().getCanonicalName(), instance.getClass().getCanonicalName()), e);
 		}
 	}
 

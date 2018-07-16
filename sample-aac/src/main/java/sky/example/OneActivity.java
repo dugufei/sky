@@ -1,15 +1,12 @@
 package sky.example;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import javax.inject.Inject;
-
+import butterknife.BindView;
+import butterknife.OnClick;
 import sk.SKActivity;
-import sk.SKData;
-import sky.example.bean.User;
+import sk.SKBuilder;
 
 /**
  * @author sky
@@ -18,21 +15,19 @@ import sky.example.bean.User;
  */
 public class OneActivity extends SKActivity<OneViewModel> {
 
-	@Inject User	user;
+	@BindView(R.id.tv_me) TextView	tvMe;
 
-	@Inject String	string;
-
-	@Inject SKData	skData;
-
-	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_one);
-		((TextView) findViewById(R.id.tv_me)).setText(user.name + "是个大好人" + string+":"+skData);
-
-
-//		model.load().observe(this, user -> {
-//			((TextView) findViewById(R.id.tv_me)).setText(user.name);
-//		});
-
+	@Override protected SKBuilder build(SKBuilder skBuilder) {
+		skBuilder.layoutId(R.layout.activity_one);
+		return skBuilder;
 	}
+
+	@Override protected void initData(Bundle savedInstanceState) {
+//		tvMe.setText(user.name + "是个大好人" + string + ":" + skData);
+		model.load().observe(this, user -> {
+			((TextView) findViewById(R.id.tv_me)).setText(user.name);
+		});
+	}
+
+	@OnClick(R.id.tv_me) public void onViewClicked() {}
 }

@@ -81,7 +81,7 @@ class SKDILibraryCreate {
 		skdiBuilder.addJavadoc(WARNING_TIPS);
 		skdiBuilder.addModifiers(PUBLIC, FINAL);
 		// 创建属性 builder
-		skdiBuilder.addField(builderName, "builder", PRIVATE);
+		skdiBuilder.addField(builderName, "builder");
 		// 初始化方法
 		MethodSpec.Builder initialize = MethodSpec.methodBuilder("initialize").addModifiers(Modifier.PRIVATE).addParameter(builderName, "builder");
 		initialize.addStatement("this.builder = builder");
@@ -181,7 +181,7 @@ class SKDILibraryCreate {
 
 				// 构造函数
 				if (item.skConstructorsModelList == null) {
-					builder.addField(item.className, name, PRIVATE);
+					builder.addField(item.className, name);
 					builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
 				} else {
 					CodeBlock.Builder consCodeBlock = null;
@@ -189,26 +189,25 @@ class SKDILibraryCreate {
 					for (SKConstructorsModel skConstructorsModel : item.skConstructorsModelList) {
 
 						SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
-
-						if (temp != null) {
-							continue;
-						}
-
 						String consName = lowerCase(skConstructorsModel.className.simpleName());
-						builder.addField(skConstructorsModel.className, consName, PRIVATE);
-
-						// 增加赋值方法
-						builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
-
 						if (consCodeBlock == null) {
 							consCodeBlock = CodeBlock.builder();
 							consCodeBlock.add("$N", consName);
 						} else {
 							consCodeBlock.add(",$N", consName);
 						}
+						if (temp != null) {
+							continue;
+						}
+
+						builder.addField(skConstructorsModel.className, consName, PRIVATE);
+
+						// 增加赋值方法
+						builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+
 						singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
 					}
-					builder.addField(item.className, name, PRIVATE);
+					builder.addField(item.className, name);
 					builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
 				}
 				// 增加赋值方法

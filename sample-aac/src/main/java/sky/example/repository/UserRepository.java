@@ -1,32 +1,24 @@
-package sky.example.providers;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+package sky.example.repository;
 
 import sk.SKAppExecutors;
 import sk.SKData;
+import sky.SKInput;
 import sky.example.bean.User;
 
 /**
  * @author sky
  * @version 1.0 on 2018-04-28 下午10:03
- * @see UserProvider
+ * @see UserRepository
  */
-@Singleton
-public class UserProvider {
+public class UserRepository {
 
-	SKAppExecutors skAppExecutors;
-
-	@Inject public UserProvider(SKAppExecutors skAppExecutors) {
-		this.skAppExecutors = skAppExecutors;
-	}
-
+	@SKInput SKAppExecutors	skAppExecutors;
 
 	public SKData<User> getUser() {
 		SKData<User> skListing = new SKData<>();
 
 		User user = new User();
-		user.name = "开始" ;
+		user.name = "开始";
 		skListing.setValue(user);
 		refreshUser(skListing); // try to refresh data if possible from Github Api
 		return skListing; // return a LiveData directly from the database.
@@ -40,7 +32,7 @@ public class UserProvider {
 				e.printStackTrace();
 			}
 			User user = userSKData.getValue();
-			user.name = "金灿是神"+Math.random();
+			user.name = "金灿是神" + Math.random();
 			userSKData.postValue(user);
 		});
 	}
@@ -53,5 +45,11 @@ public class UserProvider {
 		skListing.setValue(user);
 		refreshUser(skListing); // try to refresh data if possible from Github Api
 		return skListing; // return a LiveData directly from the database.
+	}
+
+	public void changeUser(SKData<User> skData) {
+		User user = skData.getValue();
+		user.name ="哈哈哈哈 改变了";
+		skData.setValue(user);
 	}
 }

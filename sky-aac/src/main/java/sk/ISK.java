@@ -31,7 +31,7 @@ public interface ISK {
 	 *            参数
 	 * @return 返回值
 	 */
-	// SKYPlugins.Builder pluginInterceptor(SKYPlugins.Builder builder);
+	SKInterceptor.Builder pluginInterceptor(SKInterceptor.Builder builder);
 
 	/**
 	 * 获取配置管理器
@@ -59,6 +59,10 @@ public interface ISK {
 		 */
 		@Override public Retrofit.Builder httpAdapter(Retrofit.Builder builder) {
 			builder.baseUrl("http://www.jincanshen.com");
+			return builder;
+		}
+
+		@Override public SKInterceptor.Builder pluginInterceptor(SKInterceptor.Builder builder) {
 			return builder;
 		}
 

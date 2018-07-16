@@ -3,6 +3,7 @@ package sky.example.helper;
 import retrofit2.Retrofit;
 import sk.ISK;
 import sk.SKDefaultManager;
+import sk.SKInterceptor;
 
 /**
  * @author sky
@@ -12,10 +13,14 @@ import sk.SKDefaultManager;
 public class TextBind implements ISK {
 
 	@Override public boolean isLogOpen() {
-		return false;
+		return true;
 	}
 
 	@Override public Retrofit.Builder httpAdapter(Retrofit.Builder builder) {
+		return builder;
+	}
+
+	@Override public SKInterceptor.Builder pluginInterceptor(SKInterceptor.Builder builder) {
 		return builder;
 	}
 

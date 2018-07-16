@@ -2,6 +2,7 @@ package sk;
 
 import android.app.Application;
 
+import sk.screen.SKScreenManager;
 import sky.SKInput;
 
 /**
@@ -11,14 +12,17 @@ import sky.SKInput;
  */
 public class SKDefaultManager {
 
-	@SKInput Application			application;
+	@SKInput Application				application;
 
-	@SKInput ISK					isk;
+	@SKInput ISK						isk;
 
-	@SKInput SKLazy<SKCommonView>	skCommonView;
+	@SKInput SKLazy<SKCommonView>		skCommonView;
 
-	@SKInput SKLazy<SKAppExecutors>	skAppExecutors;
+	@SKInput SKLazy<SKAppExecutors>		skAppExecutors;
 
-	@SKInput SKLazy<SKToast>		skToast;
+	@SKInput SKLazy<SKToast>			skToast;
 
+	@SKInput SKLazy<SKScreenManager>	skyScreenManager;
+
+	@SKInput SKLazy<SKInterceptor>		skInterceptorSKLazy;
 }

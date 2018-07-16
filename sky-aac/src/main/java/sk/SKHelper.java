@@ -3,6 +3,8 @@ package sk;
 import android.app.Application;
 import android.os.Looper;
 
+import sk.screen.SKScreenManager;
+
 /**
  * @author sky
  * @version 1.0 on 2018-06-13 下午10:53
@@ -10,7 +12,7 @@ import android.os.Looper;
  */
 public class SKHelper {
 
-	static SKDefaultManager		skDefaultManager;
+	static SKDefaultManager skDefaultManager;
 
 	/**
 	 * 初始化
@@ -35,7 +37,7 @@ public class SKHelper {
 	 *
 	 * @return 返回值
 	 */
-	static final SKCommonView commonView() {
+	public static final SKCommonView commonView() {
 		return getManage().skCommonView.get();
 	}
 
@@ -84,4 +86,21 @@ public class SKHelper {
 		return getManage().skToast.get();
 	}
 
+	/**
+	 * activity管理器
+	 *
+	 * @return 管理器
+	 */
+	public static final SKScreenManager screen() {
+		return getManage().skyScreenManager.get();
+	}
+
+	/**
+	 * 拦截器管理器
+	 *
+	 * @return 管理器
+	 */
+	public static final SKInterceptor interceptor() {
+		return getManage().skInterceptorSKLazy.get();
+	}
 }

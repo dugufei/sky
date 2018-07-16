@@ -29,15 +29,7 @@ dependencies {
     implementation project(':sky-aac')
     annotationProcessor project(':sky-compiler')
 
-    api deps.library.dagger
-    annotationProcessor deps.annotation.dagger_compiler
-
-    api deps.library.dagger_android
-    api deps.library.dagger_android_support
-    annotationProcessor deps.annotation.dagger_android_compiler
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-
     implementation deps.support.cardview_v7
 
 }

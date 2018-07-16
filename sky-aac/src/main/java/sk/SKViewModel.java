@@ -7,4 +7,6 @@ import android.arch.lifecycle.ViewModel;
  * @version 1.0 on 2018-04-27 上午11:28
  * @see SKViewModel
  */
-public class SKViewModel extends ViewModel {}
+public class SKViewModel extends ViewModel {
+    SKData<SKViewState> viewStateSKData = new SKData<>();
+}

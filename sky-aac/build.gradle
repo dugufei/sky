@@ -26,5 +26,7 @@ dependencies {
     api deps.support.compat_v7
     api deps.library.retrofit
     api deps.library.butterknife
+    api deps.library.systembartint
+
 }
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

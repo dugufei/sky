@@ -10,6 +10,8 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.WildcardTypeName;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +133,15 @@ class SKDICreate {
 
 			// 注入
 			for (SKInputModel skInputModel : item.skInputModels) {
-				// 注入属性
+				// 搜索library
+				if (skInputModel.skProviderModel == null) {
+					for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
+
+						if (skdiLibraryModel.skProviderModels != null) {
+							skInputModel.skProviderModel = skdiLibraryModel.skProviderModels.get(skInputModel.providerKey);
+						}
+					}
+				}
 				if (skInputModel.skProviderModel == null) {
 					continue;
 				}
@@ -185,7 +195,44 @@ class SKDICreate {
 		MethodSpec.Builder builderConstructorsMethod = MethodSpec.methodBuilder("build").addModifiers(Modifier.PUBLIC).returns(currentClassName);
 
 		HashMap<String, SKConstructorsModel> singleConsProvider = new HashMap<>();
+		// 添加library
+		for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
+			String name = lowerCase(skdiLibraryModel.name);
+			builder.addField(skdiLibraryModel.className, name, PRIVATE);
 
+			String libraryBuilderName = name + "builder";
+
+			ClassName libraryBuilder = skdiLibraryModel.className.nestedClass("Builder");
+
+			FieldSpec fieldBuilder = FieldSpec.builder(libraryBuilder, libraryBuilderName).addModifiers(Modifier.PRIVATE).initializer("$T.builder()", skdiLibraryModel.className).build();
+
+			builder.addField(fieldBuilder);
+
+			for (SKConstructorsModel skConstructorsModel : skdiLibraryModel.skConstructorsModelList) {
+
+				SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
+				String consName = lowerCase(skConstructorsModel.className.simpleName());
+
+				if (temp != null) {
+					continue;
+				}
+
+				// 增加赋值方法
+				builder.addField(skConstructorsModel.className, consName, PRIVATE);
+
+				builder.addMethod(addSetMethod(builderName, libraryBuilderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+
+				singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
+			}
+
+			builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
+			// 添加初始化
+			constructors.addStatement("$T.init()", SK_HELPER);
+
+			// 增加赋值方法
+			builder.addMethod(addEqualMethod(builderName, skdiLibraryModel.className, skdiLibraryModel.className.simpleName()));
+		}
+		// 来源
 		for (SKSourceModel item : skSourceModelMap.values()) {
 			if (item.isSingle || item.isSingleGenerate) {
 				String name = lowerCase(item.className.simpleName());
@@ -193,33 +240,43 @@ class SKDICreate {
 				// 构造函数
 				if (item.skConstructorsModelList == null) {
 					builder.addField(item.className, name, PRIVATE);
-					builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+
+					if (item.isLibrary) {
+						builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N)", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
+					} else {
+						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+					}
 				} else {
+					builder.addField(item.className, name, PRIVATE);
+
+					if (item.isLibrary) {
+						builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
+						continue;
+					}
+
 					CodeBlock.Builder consCodeBlock = null;
 
 					for (SKConstructorsModel skConstructorsModel : item.skConstructorsModelList) {
 
 						SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
-
-						if (temp != null) {
-							continue;
-						}
-
 						String consName = lowerCase(skConstructorsModel.className.simpleName());
-						builder.addField(skConstructorsModel.className, consName, PRIVATE);
-
-						// 增加赋值方法
-						builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
-
 						if (consCodeBlock == null) {
 							consCodeBlock = CodeBlock.builder();
 							consCodeBlock.add("$N", consName);
 						} else {
 							consCodeBlock.add(",$N", consName);
 						}
+						if (temp != null) {
+							continue;
+						}
+
+						builder.addField(skConstructorsModel.className, consName, PRIVATE);
+
+						// 增加赋值方法
+						builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+
 						singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
 					}
-					builder.addField(item.className, name, PRIVATE);
 					if (consCodeBlock == null) {
 						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
 					} else {
@@ -230,40 +287,6 @@ class SKDICreate {
 				// 增加赋值方法
 				builder.addMethod(addEqualMethod(builderName, item.className, item.className.simpleName()));
 			}
-		}
-		// 添加library
-		for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
-			String name = lowerCase(skdiLibraryModel.name);
-			builder.addField(skdiLibraryModel.className, name, PRIVATE);
-
-			if (skdiLibraryModel.isSKDefaultLibrary) {
-
-				String libraryBuilderName = name + "builder";
-
-				ClassName libraryBuilder = skdiLibraryModel.className.nestedClass("Builder");
-
-				FieldSpec fieldBuilder = FieldSpec.builder(libraryBuilder, libraryBuilderName).addModifiers(Modifier.PRIVATE).initializer("$T.builder()", skdiLibraryModel.className).build();
-
-				builder.addField(fieldBuilder);
-				// setApplication
-				builder.addMethod(addSetMethod(builderName, libraryBuilderName, APPLICATION, APPLICATION.simpleName()));
-
-				// setSKCommonView
-				builder.addMethod(addSetMethod(builderName, libraryBuilderName, SK_COMMONVIEW, SK_COMMONVIEW.simpleName()));
-
-				// setISK
-				builder.addMethod(addSetMethod(builderName, libraryBuilderName, SK_ISK, SK_ISK.simpleName()));
-
-				builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
-
-				// 添加初始化
-				constructors.addStatement("$T.init()",SK_HELPER);
-			} else {
-				builderConstructorsMethod.addStatement("if($N == null)this.$N = $T.create(false)", name, name, skdiLibraryModel.className);
-			}
-
-			// 增加赋值方法
-			builder.addMethod(addEqualMethod(builderName, skdiLibraryModel.className, skdiLibraryModel.className.simpleName()));
 		}
 
 		builderConstructorsMethod.addStatement("return new $T(this)", currentClassName);
@@ -291,17 +314,31 @@ class SKDICreate {
 		int supportSiz = skSupport.size();
 		if (supportSiz == 1) {
 			for (Map.Entry<TypeElement, TypeElement> entry : skSupport.entrySet()) {
-				supportBuilder.addStatement("return $T.<$T,$T>singletonMap($T.class,$T.class)", COLLECTIONS, classOfAny, classOfAny, entry.getKey(), entry.getValue());
+				TypeName valueTypeName = TypeName.get(entry.getValue().asType());
+
+				if (valueTypeName instanceof ParameterizedTypeName) {
+					ParameterizedTypeName valueParameter = ((ParameterizedTypeName) valueTypeName);
+					valueTypeName = valueParameter.rawType;
+				}
+
+				supportBuilder.addStatement("return $T.<$T,$T>singletonMap($T.class,$T.class)", COLLECTIONS, classOfAny, classOfAny, entry.getKey(), valueTypeName);
 			}
 		} else if (supportSiz > 1) {
 			CodeBlock.Builder codeBlock = CodeBlock.builder().add("return $T.<$T,$T>newMapBuilder($L)", SK_MAP, classOfAny, classOfAny, supportSiz);
 
 			for (Map.Entry<TypeElement, TypeElement> entry : skSupport.entrySet()) {
-				codeBlock.add(".put($T.class,$T.class)", entry.getKey(), entry.getValue());
+				TypeName valueTypeName = TypeName.get(entry.getValue().asType());
+
+				if (valueTypeName instanceof ParameterizedTypeName) {
+					ParameterizedTypeName valueParameter = ((ParameterizedTypeName) valueTypeName);
+					valueTypeName = valueParameter.rawType;
+				}
+
+				codeBlock.add(".put($T.class,$T.class)", entry.getKey(), valueTypeName);
 			}
 			supportBuilder.addStatement("$L.build()", codeBlock.build());
 		} else {
-			supportBuilder.addStatement("return $T.EMPTY_MAP",COLLECTIONS);
+			supportBuilder.addStatement("return $T.EMPTY_MAP", COLLECTIONS);
 		}
 		skdiBuilder.addMethod(supportBuilder.build());
 
@@ -330,7 +367,7 @@ class SKDICreate {
 			}
 			mapBuilder.addStatement("$L.build()", codeBlock.build());
 		} else {
-			mapBuilder.addStatement("return $T.EMPTY_MAP",COLLECTIONS);
+			mapBuilder.addStatement("return $T.EMPTY_MAP", COLLECTIONS);
 		}
 		skdiBuilder.addMethod(mapBuilder.build());
 
@@ -421,7 +458,16 @@ class SKDICreate {
 						} else {
 							if (singleImplSource.get(skSourceModel.className.reflectionName()) == null) {
 								builderInput.addField(skSourceModel.className, sourceName, PRIVATE);
-								clazzConstructors.addStatement("this.$N = new $T()", sourceName, skSourceModel.className);
+								// 判断是否是library而来
+								if (skProviderModel.isLibrary) {
+									if (skSourceModel.isSingle) {
+										clazzConstructors.addStatement("this.$N = builder.$N.builder.$N", sourceName, lowerCase(skProviderModel.classNameLibrary.simpleName()), sourceName);
+									} else {
+										clazzConstructors.addStatement("this.$N = new $T()", sourceName, skSourceModel.className);
+									}
+								} else {
+									clazzConstructors.addStatement("this.$N = new $T()", sourceName, skSourceModel.className);
+								}
 								singleImplSource.put(skSourceModel.className.reflectionName(), skSourceModel.className);
 							}
 							initializeImpl.addStatement("this.$N = $T.create($N$N)", providerName, providerClassName, sourceName, initProvider.build().toString());
@@ -455,6 +501,7 @@ class SKDICreate {
 		String methodSourceName = "set" + name;
 		MethodSpec.Builder setSource = MethodSpec.methodBuilder(methodSourceName).addModifiers(Modifier.PUBLIC).returns(returnName);
 		setSource.addParameter(parameName, lowerCase(name));
+		setSource.addStatement("this.$N = $N", lowerCase(name), lowerCase(name));
 		setSource.addStatement("this.$N.$N($N)", fieldName, methodSourceName, lowerCase(name));
 		setSource.addStatement("return this");
 		return setSource.build();

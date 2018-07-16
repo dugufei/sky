@@ -28,13 +28,10 @@ public class MyApp extends SKApp {
 				return 0;
 			}
 
-			@Override public int layoutBizError() {
+			@Override public int layoutError() {
 				return 0;
 			}
 
-			@Override public int layoutHttpError() {
-				return 0;
-			}
 		}).build();
 	}
 }

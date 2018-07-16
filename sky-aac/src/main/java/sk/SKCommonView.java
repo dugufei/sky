@@ -22,18 +22,11 @@ public interface SKCommonView {
 	int layoutEmpty();
 
 	/**
-	 * 网络业务错误
+	 * 错误布局
 	 *
 	 * @return 返回值
 	 */
-	int layoutBizError();
-
-	/**
-	 * 网络错误
-	 * 
-	 * @return 返回值
-	 */
-	int layoutHttpError();
+	int layoutError();
 
 	SKCommonView NULL = new SKCommonView() {
 
@@ -45,12 +38,9 @@ public interface SKCommonView {
 			return 0;
 		}
 
-		@Override public int layoutBizError() {
+		@Override public int layoutError() {
 			return 0;
 		}
 
-		@Override public int layoutHttpError() {
-			return 0;
-		}
 	};
 }

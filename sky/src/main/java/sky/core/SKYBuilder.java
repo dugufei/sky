@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -286,7 +287,7 @@ public final class SKYBuilder {
 			view.setVisibility(View.GONE);
 			anim = AnimationUtils.loadAnimation(skyView.activity(), android.R.anim.fade_out);
 		}
-
+		anim.setInterpolator(new LinearInterpolator());
 		anim.setDuration(skyView.activity().getResources().getInteger(android.R.integer.config_shortAnimTime));
 		view.startAnimation(anim);
 	}

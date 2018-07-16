@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import sk.SKDI;
 import sky.SKYApplication;
 import sky.core.ISky;
 import sky.core.SKYActivity;
@@ -32,7 +31,6 @@ public class MyApplication extends SKYApplication implements ISky {
 
 	@Override public void initSky() {
 		SampleHelper.newSky().setSky(this).Inject(this);
-		SKDI.create();
 	}
 
 	@Override public boolean isLogOpen() {

@@ -1,11 +1,10 @@
 package sky.example;
 
-import javax.inject.Inject;
-
 import sk.SKData;
 import sk.SKViewModel;
+import sky.SKInput;
 import sky.example.bean.User;
-import sky.example.providers.UserProvider;
+import sky.example.repository.UserRepository;
 
 /**
  * @author sky
@@ -14,17 +13,18 @@ import sky.example.providers.UserProvider;
  */
 public class MainViewModel extends SKViewModel {
 
-	@Inject public MainViewModel(UserProvider userProvider) {
-		this.userProvider = userProvider;
-	}
+	@SKInput UserRepository userProvider;
 
-	UserProvider userProvider;
+	SKData<User> skData;
+
 
 	public SKData<User> load() {
-		return userProvider.getUser();
+		skData = userProvider.getUser();
+		return skData;
 	}
 
-	public SKData<User> load1() {
-		return userProvider.getUser1();
+
+	public void change(){
+		userProvider.changeUser(skData);
 	}
 }

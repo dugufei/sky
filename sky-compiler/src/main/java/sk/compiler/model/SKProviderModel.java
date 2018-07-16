@@ -27,6 +27,10 @@ public class SKProviderModel {
 
 	public boolean						isSingle;			// 是否单例
 
+	public boolean						isLibrary;			// 是否是外部
+
+	public ClassName					classNameLibrary;	// 外部 class
+
 	public String						key;
 
 	/**

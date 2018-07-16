@@ -21,4 +21,5 @@ public class SKConstructorsModel {
 	public TypeName		type;		// 数据类型
 
 	public TypeMirror	typeMirror;	// 数据类型
+
 }

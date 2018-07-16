@@ -8,4 +8,8 @@ import sky.SKDILibrary;
  * @see SKDefaultLibrary
  */
 @SKDILibrary
-public interface SKDefaultLibrary {}
+public interface SKDefaultLibrary {
+
+	SKDefaultProvider provider();
+
+}
