@@ -85,6 +85,14 @@ Gradle 版本
 
 如果需要帮助，请给我提问题, [open a new issue on Github](https://github.com/skyJinc/sky/issues/new).
 
+测试和检测
+-----------------------
+* Unit Testing: [JUnit4](https://github.com/junit-team/junit4) +
+ [Mockito](https://github.com/mockito/mockito) +
+ [Hamcrest](https://github.com/hamcrest/JavaHamcrest)
+* Developer Debugging Tools: [Stetho](https://github.com/facebook/stetho) +
+ [LeakCanary](https://github.com/square/leakcanary)
+
 
 插件/工具 | 简述
 -------- | --------
