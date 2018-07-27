@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import sk.SKActivity;
-import sk.SKBuilder;
+import sk.SKActivityBuilder;
 
 
 /**
@@ -14,7 +14,7 @@ import sk.SKBuilder;
  */
 public interface SKActivityInterceptor {
 
-	void build(SKActivity skyActivity, SKBuilder initialSKBuilder);
+	void build(SKActivity skyActivity, SKActivityBuilder initialSKBuilder);
 
 	void onCreate(SKActivity skyActivity, Bundle bundle, Bundle savedInstanceState);
 
@@ -44,7 +44,7 @@ public interface SKActivityInterceptor {
 
 	class AdapterInterceptor implements SKActivityInterceptor {
 
-		@Override public void build(SKActivity skyActivity, SKBuilder initialSKBuilder) {
+		@Override public void build(SKActivity skyActivity, SKActivityBuilder initialSKBuilder) {
 
 		}
 
@@ -103,7 +103,7 @@ public interface SKActivityInterceptor {
 
 	SKActivityInterceptor NONE = new SKActivityInterceptor() {
 
-		@Override public void build(SKActivity skyActivity, SKBuilder initialSKBuilder) {
+		@Override public void build(SKActivity skyActivity, SKActivityBuilder initialSKBuilder) {
 
 		}
 

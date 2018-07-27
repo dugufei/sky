@@ -1,9 +1,18 @@
 package sk;
 
 import android.app.Application;
+import android.arch.lifecycle.SKHolderFragment;
+import android.arch.lifecycle.SKViewModelProviders;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sk.screen.SKScreenHolder;
 import sk.screen.SKScreenManager;
+
 
 /**
  * @author sky
@@ -102,5 +111,47 @@ public class SKHelper {
 	 */
 	public static final SKInterceptor interceptor() {
 		return getManage().skInterceptorSKLazy.get();
+	}
+
+	/**
+	 * 搜索view model
+	 * 
+	 * @param modelClazz
+	 * @param <T>
+	 * @return
+	 */
+	public static final <T extends SKViewModel> T find(Class<T> modelClazz) {
+		T viewModel = null;
+		ArrayList<SKScreenHolder> skScreenHolders = screen().getActivities();
+		for (int i = skScreenHolders.size() - 1; i >= 0; i--) {
+			FragmentActivity skFragmentActivity = skScreenHolders.get(i).getActivity();
+
+			viewModel = SKViewModelProviders.find(skFragmentActivity, modelClazz);
+
+			if (viewModel != null) {
+				break;
+			}
+			// 检查 fragment
+			List<Fragment> fragments = skFragmentActivity.getSupportFragmentManager().getFragments();
+			for (int j = fragments.size() - 1; j >= 0; j--) {
+				Fragment fragment = fragments.get(j);
+				if(fragment instanceof SKHolderFragment){
+					continue;
+				}
+				viewModel = SKViewModelProviders.find(fragment, modelClazz);
+				if (viewModel != null) {
+					break;
+				}
+				List<Fragment> childFragments = fragment.getChildFragmentManager().getFragments();
+				for (int c = childFragments.size() - 1; c >= 0; c--) {
+					Fragment fragmentC = childFragments.get(j);
+					viewModel = SKViewModelProviders.find(fragmentC, modelClazz);
+					if (viewModel != null) {
+						break;
+					}
+				}
+			}
+		}
+		return viewModel;
 	}
 }

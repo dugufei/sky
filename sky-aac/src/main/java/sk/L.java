@@ -18,7 +18,7 @@ import android.util.Log;
  * @author sky
  * @version 版本
  */
-public final class SKLog {
+public final class L {
 
 	/** Log a verbose message with optional format args. */
 	public static void v(@NonNull String message, Object... args) {
@@ -396,7 +396,7 @@ public final class SKLog {
 															}
 														};
 
-	private SKLog() {
+	private L() {
 		throw new AssertionError("No instances.");
 	}
 

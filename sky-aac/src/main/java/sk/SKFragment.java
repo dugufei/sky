@@ -25,7 +25,7 @@ public class SKFragment<M extends SKViewModel> extends Fragment {
 	protected M model;
 
 	private void initViewModel() {
-		Class clazz = SKCoreUtils.getClassGenricType(this.getClass(), 0);
+//		Class clazz = SKCoreUtils.getClassGenricType(this.getClass(), 0);
 //		model = (M) ViewModelProviders.of(this, viewModelFactory).get(clazz);
 	}
 

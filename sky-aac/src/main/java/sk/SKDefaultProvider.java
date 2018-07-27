@@ -1,6 +1,9 @@
 package sk;
 
 import android.app.Application;
+import android.arch.lifecycle.SKViewModelFactory;
+
+import com.squareup.leakcanary.LeakCanary;
 
 import sk.screen.SKScreenManager;
 import sky.SKProvider;
@@ -24,7 +27,9 @@ public class SKDefaultProvider {
 		this.skCommonView = skCommonView;
 		this.isk = isk;
 		if(this.isk.isLogOpen()){
-			SKLog.plant(new SKLog.DebugTree());
+			L.plant(new L.DebugTree());
+			//内存泄露检测
+			LeakCanary.install(application);
 		}
 	}
 

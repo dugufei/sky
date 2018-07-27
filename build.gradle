@@ -29,7 +29,8 @@ buildscript {
             'dagger_android'    : '2.16',
             'guava'             : '22.0-android',
             'lifecycle_version' : '1.1.1',
-            'paging_version'    : '1.0.0'
+            'paging_version'    : '1.0.0',
+            'leakcanary'        : '1.6.1'
     ]
 
     ext.deps = [
@@ -39,7 +40,7 @@ buildscript {
             ],
             'support'   : [
                     'compat_v7'        : "com.android.support:appcompat-v7:${versions.supportLibrary}",
-                    'fragment'        : "com.android.support:support-fragment:${versions.supportLibrary}",
+                    'fragment'         : "com.android.support:support-fragment:${versions.supportLibrary}",
                     'cardview_v7'      : "com.android.support:cardview-v7:${versions.supportLibrary}",
                     'recyclerview_v7'  : "com.android.support:recyclerview-v7:${versions.supportLibrary}",
                     'supportAnnotation': "com.android.support:support-annotations:${versions.supportLibrary}",
@@ -63,6 +64,7 @@ buildscript {
                     'guava'                  : "com.google.guava:guava:${versions.guava}",
                     'dagger_android'         : "com.google.dagger:dagger-android:${versions.dagger_android}",
                     'dagger_android_support' : "com.google.dagger:dagger-android-support:${versions.dagger_android}",
+                    'leakcanary'             : "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakcanary}",
             ],
             'annotation': [
                     'dagger_compiler'        : "com.google.dagger:dagger-compiler:${versions.dagger_android}",
@@ -84,7 +86,7 @@ buildscript {
             junit       : 'junit:junit:4.12',
             truth       : 'com.google.truth:truth:0.36',
             lifecycle   : "android.arch.lifecycle:extensions:${versions.lifecycle_version}",
-            paging   : "android.arch.paging:runtime:${versions.paging_version}",
+            paging      : "android.arch.paging:runtime:${versions.paging_version}",
             //引用
             'release'   : [
                     'runtime' : "com.jincanshen:sky:${versions.release}",

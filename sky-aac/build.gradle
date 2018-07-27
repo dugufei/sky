@@ -27,6 +27,6 @@ dependencies {
     api deps.library.retrofit
     api deps.library.butterknife
     api deps.library.systembartint
-
+    implementation deps.library.leakcanary
 }
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

@@ -12,16 +12,19 @@ import sky.example.bean.User;
  */
 public class UserRepository {
 
-	@SKInput SKAppExecutors	skAppExecutors;
+	@SKInput SKAppExecutors skAppExecutors;
 
 	public SKData<User> getUser() {
-		SKData<User> skListing = new SKData<>();
+		SKData<User> userSKData = new SKData<>();
 
-		User user = new User();
+		User user = userSKData.getValue();
+		if (user == null) {
+			user = new User();
+		}
 		user.name = "开始";
-		skListing.setValue(user);
-		refreshUser(skListing); // try to refresh data if possible from Github Api
-		return skListing; // return a LiveData directly from the database.
+		userSKData.setValue(user);
+		refreshUser(userSKData); // try to refresh data if possible from Github Api
+		return userSKData; // return a LiveData directly from the database.
 	}
 
 	private void refreshUser(SKData<User> userSKData) {
@@ -37,19 +40,12 @@ public class UserRepository {
 		});
 	}
 
-	public SKData<User> getUser1() {
-		SKData<User> skListing = new SKData<>();
+	public void changeUser(SKData<User> skData, String one) {
+		skAppExecutors.diskIO().execute(() -> {
 
-		User user = new User();
-		user.name = "开始开始 开始1";
-		skListing.setValue(user);
-		refreshUser(skListing); // try to refresh data if possible from Github Api
-		return skListing; // return a LiveData directly from the database.
-	}
-
-	public void changeUser(SKData<User> skData) {
-		User user = skData.getValue();
-		user.name ="哈哈哈哈 改变了";
-		skData.setValue(user);
+			User user = null;
+			user.name = "哈哈哈哈 改变了" + one;
+			skData.setValue(user);
+		});
 	}
 }

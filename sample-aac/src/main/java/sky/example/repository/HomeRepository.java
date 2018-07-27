@@ -16,16 +16,10 @@ public class HomeRepository {
 
 	public SKData<User> getMM(String value) {
 		SKData<User> skListing = new SKData<>();
-
-		if (value == "你好") {
-
-		} else if (value == "不好") {
-			User user = new User();
-			user.name = "开始";
-			skListing.setValue(user);
-			refreshUser(skListing);
-		}
-
+		User user = new User();
+		user.name = "开始" + value;
+		skListing.setValue(user);
+		refreshUser(skListing);
 		return skListing; // return a LiveData directly from the database.
 	}
 
@@ -42,13 +36,9 @@ public class HomeRepository {
 		});
 	}
 
-	public SKData<User> getUser1() {
-		SKData<User> skListing = new SKData<>();
-
-		User user = new User();
-		user.name = "开始开始 开始1";
+	public void reloadMM(SKData<User> skListing) {
+		User user = skListing.getValue();
+		user.name = "重新开始";
 		skListing.setValue(user);
-		refreshUser(skListing); // try to refresh data if possible from Github Api
-		return skListing; // return a LiveData directly from the database.
 	}
 }

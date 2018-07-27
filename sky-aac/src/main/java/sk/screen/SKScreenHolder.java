@@ -1,9 +1,8 @@
 package sk.screen;
 
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
-import sk.SKHelper;
+import sk.L;
 
 /**
  * @author sky
@@ -11,13 +10,13 @@ import sk.SKHelper;
  */
 public class SKScreenHolder {
 
-	private FragmentActivity activity;
+	private FragmentActivity	activity;
 
-	private boolean		isLanding	= false;
+	private boolean				isLanding;
 
-	private boolean		isRunning	= true;
+	private boolean				isRunning	= true;
 
-	private String		activityName;
+	private String				activityName;
 
 	public SKScreenHolder(FragmentActivity activity, boolean isLanding) {
 		this.activity = activity;
@@ -36,7 +35,7 @@ public class SKScreenHolder {
 		log(" 运行.");
 	}
 
-	public void result(){
+	public void result() {
 		this.isRunning = true;
 	}
 
@@ -67,9 +66,8 @@ public class SKScreenHolder {
 	}
 
 	private void log(String message) {
-		if (SKHelper.isLogOpen()) {
-			Log.i("SKYActivityManager", activityName + message);
-		}
+		L.tag("SKYActivityManager");
+		L.i(activityName + message);
 	}
 
 }

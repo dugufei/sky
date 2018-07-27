@@ -9,7 +9,19 @@
         android:id="@+id/tv_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我是谁"/>
+        android:text="我是谁1"/>
+
+    <TextView
+        android:id="@+id/tv_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我是谁2"/>
+
+    <TextView
+        android:id="@+id/tv_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我是谁3"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

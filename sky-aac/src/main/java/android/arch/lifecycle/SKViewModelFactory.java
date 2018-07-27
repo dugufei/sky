@@ -1,10 +1,8 @@
-package sk;
+package android.arch.lifecycle;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import java.util.Map;
+import sk.SKInputs;
 
 /**
  * @author sky

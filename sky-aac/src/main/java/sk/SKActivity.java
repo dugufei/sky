@@ -1,14 +1,14 @@
 package sk;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.arch.lifecycle.SKViewModelFactory;
+import android.arch.lifecycle.SKViewModelProviders;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -17,8 +17,6 @@ import android.widget.EditText;
 
 import sky.SKInput;
 
-import static sk.SKViewState.EMPTY;
-
 /**
  * @author sky
  * @version 1.0 on 2018-04-27 上午11:26
@@ -26,30 +24,16 @@ import static sk.SKViewState.EMPTY;
  */
 public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivity {
 
-	private boolean							isFinish;
+	private SKActivityBuilder	skBuilder;
 
-	private SKBuilder						skBuilder;
-
-	protected M								model;
+	protected M					model;
 
 	@SKInput SKViewModelFactory	skViewModelFactory;
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SKInputs.input(this);
-		/** 初始化堆栈 **/
-		SKHelper.screen().onCreate(this);
-		/** 活动拦截器 **/
-		SKHelper.interceptor().activityInterceptor().onCreate(this, getIntent().getExtras(), savedInstanceState);
 		/** 初始化编辑器 **/
-		skBuilder = new SKBuilder(this, getLifecycle());
-		/** 初始化view model **/
-		initViewModel();
-	}
-
-	private void initViewModel() {
-		Class clazz = SKCoreUtils.getClassGenricType(this.getClass(), 0);
-		model = (M) ViewModelProviders.of(this, skViewModelFactory).get(clazz);
+		skBuilder = new SKActivityBuilder(this, getLifecycle(), savedInstanceState);
 	}
 
 	/**
@@ -59,7 +43,7 @@ public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivit
 	 *            参数
 	 * @return 返回值
 	 **/
-	protected abstract SKBuilder build(SKBuilder skBuilder);
+	protected abstract SKActivityBuilder build(SKActivityBuilder skBuilder);
 
 	/**
 	 * 初始化数据
@@ -71,78 +55,27 @@ public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivit
 
 	@Override protected void onPostCreate(@Nullable Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		SKHelper.interceptor().activityInterceptor().onPostCreate(this, savedInstanceState);
+		skBuilder.onPostCreate(savedInstanceState);
 	}
 
 	@Override protected void onPostResume() {
 		super.onPostResume();
-		SKHelper.interceptor().activityInterceptor().onPostResume(this);
-	}
-
-	@Override protected void onStart() {
-		super.onStart();
-		SKHelper.interceptor().activityInterceptor().onStart(this);
-	}
-
-	@Override protected void onResume() {
-		super.onResume();
-		SKHelper.screen().onResume(this);
-		SKHelper.interceptor().activityInterceptor().onResume(this);
+		skBuilder.onPostResume();
 	}
 
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		SKHelper.screen().onActivityResult(this);
-		SKHelper.interceptor().activityInterceptor().onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override protected void onPause() {
-		super.onPause();
-		SKHelper.screen().onPause(this);
-		SKHelper.interceptor().activityInterceptor().onPause(this);
-
-		if (isFinishing()) {
-			isFinish = true;
-			SKHelper.screen().onDestroy(this);
-			SKHelper.interceptor().activityInterceptor().onDestroy(this);
-			/** 关闭键盘 **/
-			hideSoftInput();
-		}
-	}
-
-	@Override protected void onDestroy() {
-		super.onDestroy();
-		if (!isFinish) {
-			SKHelper.screen().onDestroy(this);
-			SKHelper.interceptor().activityInterceptor().onDestroy(this);
-			/** 关闭键盘 **/
-			hideSoftInput();
-		}
+		skBuilder.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override protected void onRestart() {
 		super.onRestart();
-		SKHelper.interceptor().activityInterceptor().onRestart(this);
+		skBuilder.onRestart();
 	}
 
-	@Override protected void onStop() {
-		super.onStop();
-		SKHelper.interceptor().activityInterceptor().onStop(this);
-	}
-
-	/**
-	 * 权限
-	 * 
-	 * @param requestCode
-	 *            参数
-	 * @param permissions
-	 *            参数
-	 * @param grantResults
-	 *            参数
-	 */
 	@Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		SKHelper.interceptor().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
+		skBuilder.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
 	/**
@@ -191,14 +124,6 @@ public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivit
 	}
 
 	/**
-	 * 隐藏键盘
-	 */
-	protected void hideSoftInput() {
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-	}
-
-	/**
 	 * 返回按钮
 	 * 
 	 * @return
@@ -219,18 +144,16 @@ public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivit
 		SKHelper.screen().setAsLanding(this);
 	}
 
-	/**
-	 * @return 返回值
-	 */
 	protected final RecyclerView.LayoutManager layoutManager() {
 		return skBuilder.skRecyclerViewBuilder == null ? null : skBuilder.skRecyclerViewBuilder.layoutManager;
 	}
 
-	/**
-	 * @return 返回值
-	 */
 	protected final <R extends RecyclerView> R recyclerView() {
 		return skBuilder.skRecyclerViewBuilder == null ? null : (R) skBuilder.skRecyclerViewBuilder.recyclerView;
+	}
+
+	protected <T extends SKViewModel> T find(Class<T> modelClazz) {
+		return SKHelper.find(modelClazz);
 	}
 
 	public void showContent() {

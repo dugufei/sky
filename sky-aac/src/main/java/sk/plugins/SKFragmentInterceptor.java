@@ -3,7 +3,7 @@ package sk.plugins;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import sk.SKBuilder;
+import sk.SKActivityBuilder;
 import sk.SKFragment;
 
 /**
@@ -12,7 +12,7 @@ import sk.SKFragment;
  */
 public interface SKFragmentInterceptor {
 
-	void build(Fragment skyFragment, SKBuilder initialSKBuilder);
+	void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder);
 
 	void onFragmentCreated(SKFragment skyFragment, Bundle bundle, Bundle savedInstanceState);
 
@@ -34,7 +34,7 @@ public interface SKFragmentInterceptor {
 
 	class AdapterInterceptor implements SKFragmentInterceptor {
 
-		@Override public void build(Fragment skyFragment, SKBuilder initialSKBuilder) {
+		@Override public void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder) {
 
 		}
 
@@ -77,7 +77,7 @@ public interface SKFragmentInterceptor {
 
 	SKFragmentInterceptor NONE = new SKFragmentInterceptor() {
 
-		@Override public void build(Fragment skyFragment, SKBuilder initialSKBuilder) {
+		@Override public void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder) {
 
 		}
 

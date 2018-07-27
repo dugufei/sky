@@ -2,7 +2,9 @@ package sky.example;
 
 import sk.SKData;
 import sk.SKViewModel;
+import sky.SKInput;
 import sky.example.bean.User;
+import sky.example.repository.HomeRepository;
 import sky.example.repository.UserRepository;
 
 /**
@@ -12,13 +14,19 @@ import sky.example.repository.UserRepository;
  */
 public class OneViewModel extends SKViewModel {
 
-	public OneViewModel(UserRepository userProvider) {
-		this.userProvider = userProvider;
+	@SKInput UserRepository	userProvider;
+
+	SKData<User>			skData;
+
+	public void change(String one) {
+		userProvider.changeUser(skData, one);
 	}
 
-	UserRepository userProvider;
+	@Override public void init() {
+		skData = userProvider.getUser();
+	}
 
-	public SKData<User> load() {
-		return userProvider.getUser();
+	public void update(){
+		userProvider.changeUser(skData, "改改");
 	}
 }

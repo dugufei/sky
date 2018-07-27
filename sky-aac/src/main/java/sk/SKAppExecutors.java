@@ -5,7 +5,9 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author sky
@@ -14,13 +16,13 @@ import java.util.concurrent.Executors;
  */
 public final class SKAppExecutors {
 
-	private final Executor	diskIO;		// io操作
+	private final Executor					diskIO;		// io操作
 
-	private final Executor	network;	// 网络操作
+	private final Executor					network;	// 网络操作
 
-	private final Executor	scheduled;	// 定时任务
+	private final ScheduledExecutorService	scheduled;	// 定时任务
 
-	private final Executor	mainThread;
+	private final Executor					mainThread;
 
 	public SKAppExecutors() {
 		diskIO = Executors.newSingleThreadExecutor();
@@ -41,7 +43,7 @@ public final class SKAppExecutors {
 		return mainThread;
 	}
 
-	public Executor scheduled() {
+	public ScheduledExecutorService scheduled() {
 		return scheduled;
 	}
 

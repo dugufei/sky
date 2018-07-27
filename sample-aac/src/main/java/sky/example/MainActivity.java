@@ -6,8 +6,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import sk.SKActivity;
-import sk.SKBuilder;
-import sky.example.helper.TextHelper;
+import sk.SKActivityBuilder;
 
 /**
  * @author sky
@@ -16,17 +15,21 @@ import sky.example.helper.TextHelper;
  */
 public class MainActivity extends SKActivity<MainViewModel> {
 
-	@BindView(R.id.tv_one) TextView textView;
+	@BindView(R.id.tv_one) TextView		textView;
 
-	@Override protected SKBuilder build(SKBuilder skBuilder) {
+	@BindView(R.id.tv_two) TextView		textTwo;
+
+	@BindView(R.id.tv_three) TextView	tvThree;
+
+	@Override protected SKActivityBuilder build(SKActivityBuilder skBuilder) {
 		skBuilder.layoutId(R.layout.activity_main);
 		return skBuilder;
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		model.load().observe(this, user -> {
-			textView.setText(user.name);
-		});
+		model.userSKData.observe(this, user -> textView.setText(user.name));
+		model.stringSKData.observe(this, string -> textTwo.setText(string));
+		model.userHomeSKData.observe(this, user -> tvThree.setText(user.name));
 	}
 
 	private void showFragment(Bundle savedInstanceState) {
@@ -40,9 +43,7 @@ public class MainActivity extends SKActivity<MainViewModel> {
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		textView.setText("我是谁111");
-		model.change();
-		TextHelper.toast().show("你好啊啊啊");
-		TextHelper.toast().show(TextHelper.abc().MM);
+		model.change("改改改");
+		// OneActivity.intent();
 	}
 }
