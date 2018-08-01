@@ -7,14 +7,18 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import javax.lang.model.element.Modifier;
+
 import sk.compiler.model.SKParamProviderModel;
 import sk.compiler.model.SKProviderModel;
 
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static sk.compiler.SKUtils.lowerCase;
 import static sk.compiler.SkConsts.NAME_PROVIDER;
+import static sk.compiler.SkConsts.SK_HELPER;
 import static sk.compiler.SkConsts.SK_I_PROVIDER;
 import static sk.compiler.SkConsts.SK_PRECOND;
+import static sk.compiler.SkConsts.SK_PROXY;
+import static sk.compiler.SkConsts.SK_REPOSITORY;
 import static sk.compiler.SkConsts.WARNING_TIPS;
 
 /**
@@ -108,17 +112,32 @@ class SKProviderCreate {
 		classBuilder.addMethod(get);
 
 		// 添加 proxy
-		provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
-				proxyParameter == null ? "" : proxyParameter.toString());
-        classBuilder.addMethod(provideProxy.build());
+		if (item.isProxy) {
+			ClassName returnClassName = (ClassName) item.returnType;
+			String returnName = lowerCase(returnClassName.simpleName());
+
+			provideProxy.addStatement("$T $N = $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, item.name,
+					proxyParameter == null ? "" : proxyParameter.toString());
+
+			provideProxy.beginControlFlow("if($N instanceof $T)", returnName, SK_REPOSITORY);
+
+			provideProxy.addStatement("$T $N = $T.bizStore().createProxy($T.class,$N)", SK_PROXY, lowerCase(SK_PROXY.simpleName()), SK_HELPER, returnClassName, returnName);
+			provideProxy.addStatement("$N.repository = ($T) $N.proxy", returnName, returnClassName, lowerCase(SK_PROXY.simpleName()));
+			provideProxy.endControlFlow();
+			provideProxy.addStatement("return $N", returnName);
+		} else {
+			provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
+					proxyParameter == null ? "" : proxyParameter.toString());
+		}
+		classBuilder.addMethod(provideProxy.build());
 
 		// 添加静态方法 Instance
 		provideInstance.addStatement("return $N($N)", currentName, instanceParameter.toString());
-        classBuilder.addMethod(provideInstance.build());
+		classBuilder.addMethod(provideInstance.build());
 
 		// 添加当前类create方法
 		create.addStatement("return new $T($N)", providerClassName, createParameter.toString());
-        classBuilder.addMethod(create.build());
+		classBuilder.addMethod(create.build());
 
 		return classBuilder.build();
 	}

@@ -10,9 +10,9 @@ import android.support.v4.app.FragmentActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.proxy.SKBizStore;
 import sk.screen.SKScreenHolder;
 import sk.screen.SKScreenManager;
-
 
 /**
  * @author sky
@@ -66,6 +66,15 @@ public class SKHelper {
 	 */
 	public static final Application getInstance() {
 		return getManage().application;
+	}
+
+	/**
+	 * 获取全局上下文
+	 *
+	 * @return 返回值
+	 */
+	public static final SKBizStore bizStore() {
+		return getManage().skBizStoreSKLazy.get();
 	}
 
 	/**
@@ -135,7 +144,7 @@ public class SKHelper {
 			List<Fragment> fragments = skFragmentActivity.getSupportFragmentManager().getFragments();
 			for (int j = fragments.size() - 1; j >= 0; j--) {
 				Fragment fragment = fragments.get(j);
-				if(fragment instanceof SKHolderFragment){
+				if (fragment instanceof SKHolderFragment) {
 					continue;
 				}
 				viewModel = SKViewModelProviders.find(fragment, modelClazz);
@@ -154,4 +163,6 @@ public class SKHelper {
 		}
 		return viewModel;
 	}
+
+
 }

@@ -26,15 +26,17 @@ public class SKInputModel {
 
 	public String			methodName;
 
-	public TypeName			type;					// 数据类型
+	public TypeName			type;				// 数据类型
 
-	public TypeMirror		typeMirror;				// 数据类型
+	public TypeMirror		typeMirror;			// 数据类型
 
-	public boolean			isLazy;					// 是否懒加载
+	public boolean			isLazy;				// 是否懒加载
 
-	public boolean			isAutoInput;	// 是否自动加载
+	public boolean			isAutoInput;		// 是否自动加载
 
-	public SKProviderModel skProviderModel;		// 来源数据
+	public boolean			isProxy;			// 是否代理
+
+	public SKProviderModel	skProviderModel;	// 来源数据
 
 	public String			providerKey;
 

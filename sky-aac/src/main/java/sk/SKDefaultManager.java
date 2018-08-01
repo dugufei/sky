@@ -2,6 +2,7 @@ package sk;
 
 import android.app.Application;
 
+import sk.proxy.SKBizStore;
 import sk.screen.SKScreenManager;
 import sky.SKInput;
 
@@ -25,4 +26,6 @@ public class SKDefaultManager {
 	@SKInput SKLazy<SKScreenManager>	skyScreenManager;
 
 	@SKInput SKLazy<SKInterceptor>		skInterceptorSKLazy;
+
+	@SKInput SKLazy<SKBizStore>			skBizStoreSKLazy;
 }

@@ -1,11 +1,13 @@
 package sk.plugins;
 
+import java.lang.reflect.Method;
+
 /**
  * @author sky
  * @version 版本
  */
 public interface SKErrorInterceptor<U> {
 
-	void interceptorError(U view, int interceptor, Throwable sKYBizException);
+	void interceptorError(Method method, Object clazz, Object[] objects, int interceptor);
 
 }

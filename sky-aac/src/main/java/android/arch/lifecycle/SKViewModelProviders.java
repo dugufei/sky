@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import sk.SKViewModel;
+
 /**
  * @author sky
  * @version 1.0 on 2018-07-25 上午10:36
@@ -15,7 +17,7 @@ import android.support.v4.app.FragmentActivity;
  */
 public class SKViewModelProviders {
 
-	private static final String DEFAULT_KEY = "android.arch.lifecycle.ViewModelProvider.DefaultKey";
+	private static final String DEFAULT_KEY = "android.arch.lifecycle.SKViewModelProvider.DefaultKey";
 
 	@Deprecated public SKViewModelProviders() {}
 
@@ -30,13 +32,13 @@ public class SKViewModelProviders {
 	private static Activity checkActivity(Fragment fragment) {
 		Activity activity = fragment.getActivity();
 		if (activity == null) {
-			throw new IllegalStateException("Can't create ViewModelProvider for detached fragment");
+			throw new IllegalStateException("Can't create SKViewModelProvider for detached fragment");
 		}
 		return activity;
 	}
 
-	@NonNull @MainThread public static <T extends ViewModel> T find(@NonNull Fragment fragment, @NonNull Class<T> modelClass) {
-		ViewModelStore viewModelStore = SKViewModelStores.find(fragment);
+	@NonNull @MainThread public static <T extends SKViewModel> T find(@NonNull Fragment fragment, @NonNull Class<T> modelClass) {
+		SKViewModelStore viewModelStore = SKViewModelStores.find(fragment);
 		if (viewModelStore == null) {
 			return null;
 		}
@@ -47,8 +49,8 @@ public class SKViewModelProviders {
 		return (T) viewModelStore.get(DEFAULT_KEY + ":" + canonicalName);
 	}
 
-	@NonNull @MainThread public static <T extends ViewModel> T find(@NonNull FragmentActivity activity, @NonNull Class<T> modelClass) {
-		ViewModelStore viewModelStore = SKViewModelStores.find(activity);
+	@NonNull @MainThread public static <T extends SKViewModel> T find(@NonNull FragmentActivity activity, @NonNull Class<T> modelClass) {
+		SKViewModelStore viewModelStore = SKViewModelStores.find(activity);
 		if (viewModelStore == null) {
 			return null;
 		}
@@ -59,36 +61,28 @@ public class SKViewModelProviders {
 		return (T) viewModelStore.get(DEFAULT_KEY + ":" + canonicalName);
 	}
 
-	@NonNull @MainThread public static ViewModelProvider of(@NonNull Fragment fragment) {
+	@NonNull @MainThread public static SKViewModelProvider of(@NonNull Fragment fragment) {
 		return of(fragment, null);
 	}
 
-	@NonNull @MainThread public static ViewModelProvider of(@NonNull FragmentActivity activity) {
+	@NonNull @MainThread public static SKViewModelProvider of(@NonNull FragmentActivity activity) {
 		return of(activity, null);
 	}
 
-	@NonNull @MainThread public static ViewModelProvider of(@NonNull Fragment fragment, @Nullable ViewModelProvider.Factory factory) {
+	@NonNull @MainThread public static SKViewModelProvider of(@NonNull Fragment fragment, @Nullable SKViewModelProvider.Factory factory) {
 		Application application = checkApplication(checkActivity(fragment));
 		if (factory == null) {
-			factory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
+			factory = SKViewModelProvider.AndroidViewModelFactory.getInstance(application);
 		}
-		return new ViewModelProvider(SKViewModelStores.of(fragment), factory);
+		return new SKViewModelProvider(SKViewModelStores.of(fragment), factory);
 	}
 
-	@NonNull @MainThread public static ViewModelProvider of(@NonNull FragmentActivity activity, @Nullable ViewModelProvider.Factory factory) {
+	@NonNull @MainThread public static SKViewModelProvider of(@NonNull FragmentActivity activity, @Nullable SKViewModelProvider.Factory factory) {
 		Application application = checkApplication(activity);
 		if (factory == null) {
-			factory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
+			factory = SKViewModelProvider.AndroidViewModelFactory.getInstance(application);
 		}
-		return new ViewModelProvider(SKViewModelStores.of(activity), factory);
+		return new SKViewModelProvider(SKViewModelStores.of(activity), factory);
 	}
 
-	@SuppressWarnings("WeakerAccess")
-	@Deprecated
-	public static class DefaultFactory extends ViewModelProvider.AndroidViewModelFactory {
-
-		@Deprecated public DefaultFactory(@NonNull Application application) {
-			super(application);
-		}
-	}
 }

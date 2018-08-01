@@ -1,8 +1,5 @@
 package sk;
 
-import android.arch.lifecycle.SKViewModelFactory;
-import android.arch.lifecycle.SKViewModelProviders;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -22,11 +19,11 @@ import sky.SKInput;
  * @version 1.0 on 2018-04-27 上午11:26
  * @see SKActivity
  */
-public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivity {
+public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 
 	private SKActivityBuilder	skBuilder;
 
-	protected M					model;
+	B							biz;
 
 	@SKInput SKViewModelFactory	skViewModelFactory;
 
@@ -135,6 +132,14 @@ public abstract class SKActivity<M extends SKViewModel> extends AppCompatActivit
 			finish();
 		}
 		return true;
+	}
+
+	public B biz() {
+		return biz;
+	}
+
+	public <PB extends SKBiz> PB biz(Class<PB> bizClass) {
+		return SKHelper.bizStore().biz(bizClass);
 	}
 
 	/**

@@ -29,6 +29,8 @@ public class SKProviderModel {
 
 	public boolean						isLibrary;			// 是否是外部
 
+	public boolean						isProxy;			// 是否代理
+
 	public ClassName					classNameLibrary;	// 外部 class
 
 	public String						key;

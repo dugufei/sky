@@ -19,7 +19,7 @@ import java.util.Map;
  * @version 1.0 on 2018-07-25 下午2:02
  * @see SKHolderFragment
  */
-public class SKHolderFragment extends Fragment implements ViewModelStoreOwner {
+public class SKHolderFragment extends Fragment implements SKViewModelStoreOwner {
 
 	private static final String												LOG_TAG						= "ViewModelStores";
 
@@ -30,7 +30,7 @@ public class SKHolderFragment extends Fragment implements ViewModelStoreOwner {
 	 */
 	@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP) public static final String	HOLDER_TAG					= "android.arch.lifecycle.state.StateProviderSKHolderFragment";
 
-	private ViewModelStore mViewModelStore				= new ViewModelStore();
+	private SKViewModelStore												mViewModelStore				= new SKViewModelStore();
 
 	public SKHolderFragment() {
 		setRetainInstance(true);
@@ -50,7 +50,7 @@ public class SKHolderFragment extends Fragment implements ViewModelStoreOwner {
 		mViewModelStore.clear();
 	}
 
-	@NonNull @Override public ViewModelStore getViewModelStore() {
+	@NonNull @Override public SKViewModelStore getViewModelStore() {
 		return mViewModelStore;
 	}
 
@@ -185,16 +185,16 @@ public class SKHolderFragment extends Fragment implements ViewModelStoreOwner {
 		}
 
 		public SKHolderFragment holderFragmentFind(Fragment parentFragment) {
-            FragmentManager fm = parentFragment.getChildFragmentManager();
-            SKHolderFragment holder = findSKHolderFragment(fm);
-            if (holder != null) {
-                return holder;
-            }
-            holder = mNotCommittedFragmentHolders.get(parentFragment);
-            if (holder != null) {
-                return holder;
-            }
-            return null;
+			FragmentManager fm = parentFragment.getChildFragmentManager();
+			SKHolderFragment holder = findSKHolderFragment(fm);
+			if (holder != null) {
+				return holder;
+			}
+			holder = mNotCommittedFragmentHolders.get(parentFragment);
+			if (holder != null) {
+				return holder;
+			}
+			return null;
 		}
 	}
 }

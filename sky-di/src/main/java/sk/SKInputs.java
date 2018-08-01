@@ -14,6 +14,7 @@ public final class SKInputs {
 	static final void inputDispatching(SKDispatchingInput param) {
 		skDispatchingInput = param;
 	}
+
 	/**
 	 * 注入
 	 *
@@ -27,6 +28,18 @@ public final class SKInputs {
 		checkNotNull(activityInput, "%activityInput.input() returned null 没有初始化SKDI");
 		activityInput.input(instance);
 		return instance;
+	}
 
+	/**
+	 * 注入 无异常
+	 * 
+	 * @param instance
+	 * @param <T>
+	 * @return
+	 */
+	static <T> T inputNotThrow(T instance) {
+		checkNotNull(instance, "SKInputs inject object not null");
+		skDispatchingInput.inputNotThrow(instance);
+		return instance;
 	}
 }

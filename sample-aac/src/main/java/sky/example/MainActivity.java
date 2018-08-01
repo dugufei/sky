@@ -13,7 +13,7 @@ import sk.SKActivityBuilder;
  * @version 1.0 on 2018-04-28 上午10:07
  * @see MainActivity
  */
-public class MainActivity extends SKActivity<MainViewModel> {
+public class MainActivity extends SKActivity<MainBiz> {
 
 	@BindView(R.id.tv_one) TextView		textView;
 
@@ -27,23 +27,13 @@ public class MainActivity extends SKActivity<MainViewModel> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		model.userSKData.observe(this, user -> textView.setText(user.name));
-		model.stringSKData.observe(this, string -> textTwo.setText(string));
-		model.userHomeSKData.observe(this, user -> tvThree.setText(user.name));
-	}
-
-	private void showFragment(Bundle savedInstanceState) {
-		if (savedInstanceState == null) {
-
-			MainFragment fragment = new MainFragment();
-
-			getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, null).commit();
-		}
-
+		biz().getUserSKData().observe(this, user -> textView.setText(user.name));
+		biz().getStringSKData().observe(this, string -> textTwo.setText(string));
+		biz().getUserHomeSKData().observe(this, user -> tvThree.setText(user.name));
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		model.change("改改改");
+		biz().change("改改改");
 		// OneActivity.intent();
 	}
 }

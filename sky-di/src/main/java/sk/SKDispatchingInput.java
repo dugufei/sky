@@ -40,6 +40,17 @@ public class SKDispatchingInput<T> implements SKInputInterface<T> {
 		}
 	}
 
+	void inputNotThrow(T instance) {
+		boolean wasInjected = maybeInject(instance);
+
+		if (!wasInjected) {
+			wasInjected = maybeSuperInject(instance);
+			if (!wasInjected) {
+				Log.i("SKInput", errorMessageSuggestions(instance));
+			}
+		}
+	}
+
 	public boolean maybeInject(T instance) {
 		Class<?> supportClazz = inputSupport.get(instance.getClass());
 

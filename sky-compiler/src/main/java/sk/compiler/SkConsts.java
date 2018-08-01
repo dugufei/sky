@@ -59,4 +59,8 @@ class SkConsts {
 
 	static final ClassName	SK_HELPER				= ClassName.get(FACADE_PACKAGE, "SKHelper");
 
+	static final ClassName	SK_PROXY				= ClassName.get("sk.proxy", "SKProxy");
+
+	static final ClassName	SK_REPOSITORY			= ClassName.get(FACADE_PACKAGE, "SKRepository");
+
 }

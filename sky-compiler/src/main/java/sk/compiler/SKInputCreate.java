@@ -76,8 +76,13 @@ class SKInputCreate {
 			}
 
 			// 每个属性创建方法
-			MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("input" + item.methodName).addModifiers(Modifier.PUBLIC, Modifier.STATIC).addParameter(item.className, "instance")
-					.addStatement("instance.$N = $N", item.fieldName, item.name);
+			MethodSpec.Builder methodSpec = MethodSpec.methodBuilder("input" + item.methodName).addModifiers(Modifier.PUBLIC, Modifier.STATIC).addParameter(item.className, "instance");
+
+			if(item.isProxy){
+				methodSpec.addStatement("instance.$N = $N.repository", item.fieldName, item.name);
+			}else {
+				methodSpec.addStatement("instance.$N = $N", item.fieldName, item.name);
+			}
 
 			if (item.isAutoInput) {
 				methodSpec.addStatement("$T.input($N)", SK_INPUTS, item.name);

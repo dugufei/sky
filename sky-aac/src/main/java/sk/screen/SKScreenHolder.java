@@ -66,7 +66,7 @@ public class SKScreenHolder {
 	}
 
 	private void log(String message) {
-		L.tag("SKYActivityManager");
+		L.tag("SKActivityManager");
 		L.i(activityName + message);
 	}
 

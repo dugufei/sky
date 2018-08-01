@@ -15,7 +15,7 @@ import sk.SKHelper;
  * @version 1.0 on 2018-04-28 下午1:52
  * @see OneActivity
  */
-public class OneActivity extends SKActivity<OneViewModel> {
+public class OneActivity extends SKActivity<OneBiz> {
 
 	@BindView(R.id.tv_me) TextView		tvMe;
 
@@ -42,6 +42,6 @@ public class OneActivity extends SKActivity<OneViewModel> {
 
 	@OnClick(R.id.tv_me) public void onViewClicked() {
 //		model.change("我是第二页");
-		model.update();
+//		model.update();
 	}
 }

@@ -1,10 +1,10 @@
 package sk;
 
 import android.app.Application;
-import android.arch.lifecycle.SKViewModelFactory;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import sk.proxy.SKBizStore;
 import sk.screen.SKScreenManager;
 import sky.SKProvider;
 import sky.SKSingleton;
@@ -26,9 +26,9 @@ public class SKDefaultProvider {
 		this.application = application;
 		this.skCommonView = skCommonView;
 		this.isk = isk;
-		if(this.isk.isLogOpen()){
+		if (this.isk.isLogOpen()) {
 			L.plant(new L.DebugTree());
-			//内存泄露检测
+			// 内存泄露检测
 			LeakCanary.install(application);
 		}
 	}
@@ -45,14 +45,29 @@ public class SKDefaultProvider {
 		return isk == null ? ISK.NONE : isk;
 	}
 
+	/**
+	 * 线程
+	 * 
+	 * @return
+	 */
 	@SKProvider @SKSingleton public SKAppExecutors provideSKAppExecutors() {
 		return new SKAppExecutors();
 	}
 
+	/**
+	 * 管理器
+	 * 
+	 * @return
+	 */
 	@SKProvider @SKSingleton public SKScreenManager provideSKScreenManager() {
 		return new SKScreenManager();
 	}
 
+	/**
+	 * 吐丝
+	 * 
+	 * @return
+	 */
 	@SKProvider @SKSingleton public SKToast provideSKToast() {
 		return new SKToast();
 	}
@@ -83,5 +98,14 @@ public class SKDefaultProvider {
 	 */
 	@SKSingleton @SKProvider public SKViewModelFactory provideSKViewModelFactory() {
 		return new SKViewModelFactory();
+	}
+
+	/**
+	 * sk view model
+	 *
+	 * @return
+	 */
+	@SKSingleton @SKProvider public SKBizStore provideSKBizStore() {
+		return new SKBizStore();
 	}
 }

@@ -2,6 +2,8 @@ package sky.example.repository;
 
 import sk.SKAppExecutors;
 import sk.SKData;
+import sk.SKRepository;
+import sky.SKIO;
 import sky.SKInput;
 import sky.example.bean.User;
 
@@ -19,21 +21,20 @@ public class HomeRepository {
 		User user = new User();
 		user.name = "开始" + value;
 		skListing.setValue(user);
-		refreshUser(skListing);
+
+//		refreshUser(skListing);
 		return skListing; // return a LiveData directly from the database.
 	}
 
-	private void refreshUser(SKData<User> userSKData) {
-		skAppExecutors.diskIO().execute(() -> {
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			User user = userSKData.getValue();
-			user.name = "金灿是神" + Math.random();
-			userSKData.postValue(user);
-		});
+	@SKIO public void refreshUser(SKData<User> userSKData) {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		User user = null;
+		user.name = "金灿是神" + Math.random();
+		userSKData.postValue(user);
 	}
 
 	public void reloadMM(SKData<User> skListing) {

@@ -8,7 +8,6 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.sun.source.util.Trees;
 import com.sun.tools.javac.code.Attribute;
-import com.sun.tools.javac.code.Type;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -57,6 +56,8 @@ import sk.compiler.model.SKProviderModel;
 import sk.compiler.model.SKSourceModel;
 import sky.SKDIApp;
 import sky.SKDILibrary;
+import sky.SKHTTP;
+import sky.SKIO;
 import sky.SKInput;
 import sky.SKProvider;
 import sky.SKSingleton;
@@ -71,9 +72,9 @@ import static sk.compiler.SKUtils.getAnnotationMirror;
 import static sk.compiler.SKUtils.getAnnotationValue;
 import static sk.compiler.SkConsts.NAME_DEFAULT_LIBRARY;
 import static sk.compiler.SkConsts.NAME_LIBRARY;
-import static sk.compiler.SkConsts.SK_INTERFACE;
 import static sk.compiler.SkConsts.SK_I_LAZY;
 import static sk.compiler.SkConsts.SK_I_PROVIDER;
+import static sk.compiler.SkConsts.SK_REPOSITORY;
 
 @AutoService(Processor.class)
 public final class SkDIProcessor extends AbstractProcessor {
@@ -398,6 +399,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		skProviderModel.isSingle = skSingleton != null;
 		skProviderModel.returnType = bestGuess(executableElement.getReturnType());
+		// 解析是否存在 SKIO 或者 SKHTTP
+		skProviderModel.isProxy = findProviderSKIOAndSKHttp(executableElement.getReturnType());
+
 		skProviderModel.parameters = new ArrayList<>();
 
 		for (VariableElement item : methodParameters) {
@@ -494,7 +498,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 		skInputModel.className = ClassName.get(packageName, enclosingElement.getSimpleName().toString());
 		skInputModel.packageName = packageName;
 		skInputModel.typeMirror = element.asType();
-
+		skInputModel.isProxy = findProviderSKIOAndSKHttp(skInputModel.typeMirror);
 		skInputModel.build(SK_I_LAZY);
 
 		skInputModel.skProviderModel = skProviderModels.get(skInputModel.providerKey);
@@ -625,6 +629,8 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		skProviderModel.isSingle = skSingleton != null;
 		skProviderModel.returnType = bestGuess(executableElement.getReturnType());
+		// 解析是否存在 SKIO 或者 SKHTTP
+		skProviderModel.isProxy = findProviderSKIOAndSKHttp(executableElement.getReturnType());
 		skProviderModel.parameters = new ArrayList<>();
 
 		for (VariableElement item : methodParameters) {
@@ -657,6 +663,11 @@ public final class SkDIProcessor extends AbstractProcessor {
 		if (skProviderModel.isSingle) {
 			skSourceModel.isSingle = true;
 		}
+	}
+
+	private boolean findProviderSKIOAndSKHttp(TypeMirror typeMirror) {
+		TypeElement returnTypeElement = (TypeElement) ((DeclaredType) typeMirror).asElement();
+		return findParentType(returnTypeElement);
 	}
 
 	private void findParentInterface(SKInputModel skInputModel) {
@@ -773,6 +784,24 @@ public final class SkDIProcessor extends AbstractProcessor {
 			typeElement = (TypeElement) ((DeclaredType) type).asElement();
 			if (parents.contains(typeElement)) {
 				return typeElement;
+			}
+		}
+	}
+
+	/** Finds the parent binder type in the supplied set, if any. */
+	private boolean findParentType(TypeElement typeElement) {
+		TypeMirror type;
+		while (true) {
+			type = typeElement.getSuperclass();
+			if (type.getKind() == TypeKind.NONE) {
+				return false;
+			}
+			typeElement = (TypeElement) ((DeclaredType) type).asElement();
+
+			TypeName superReturnType = ClassName.get(typeElement);
+
+			if (superReturnType.equals(SK_REPOSITORY)) {
+				return true;
 			}
 		}
 	}
