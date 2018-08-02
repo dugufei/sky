@@ -5,6 +5,7 @@ import android.app.Application;
 import com.squareup.leakcanary.LeakCanary;
 
 import sk.proxy.SKBizStore;
+import sk.proxy.SKProxy;
 import sk.screen.SKScreenManager;
 import sky.SKProvider;
 import sky.SKSingleton;
@@ -101,11 +102,22 @@ public class SKDefaultProvider {
 	}
 
 	/**
-	 * sk view model
+	 * sk biz store
 	 *
 	 * @return
 	 */
 	@SKSingleton @SKProvider public SKBizStore provideSKBizStore() {
 		return new SKBizStore();
+	}
+
+	/**
+	 * sk display
+	 * 
+	 * @return
+	 */
+	@SKSingleton @SKProvider public SKIDisplay provideSKDisplay(SKBizStore skBizStore) {
+		SKDisplay skDisplay = new SKDisplay();
+		SKProxy skProxy = skBizStore.createDisplay(SKIDisplay.class, skDisplay);
+		return (SKIDisplay) skProxy.proxy;
 	}
 }

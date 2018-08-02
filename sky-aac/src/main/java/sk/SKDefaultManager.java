@@ -28,4 +28,6 @@ public class SKDefaultManager {
 	@SKInput SKLazy<SKInterceptor>		skInterceptorSKLazy;
 
 	@SKInput SKLazy<SKBizStore>			skBizStoreSKLazy;
+
+	@SKInput SKLazy<SKIDisplay>			skiDisplaySKLazy;
 }

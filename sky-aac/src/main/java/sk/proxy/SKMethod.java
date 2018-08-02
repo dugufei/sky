@@ -2,6 +2,8 @@ package sk.proxy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,12 +50,11 @@ final class SKMethod {
 	static <T> SKMethod createDisplayMethod(Method method, Class<T> service) {
 		// 是否重复
 		boolean isRepeat = parseRepeat(method);
-		// 拦截方法标记
 		int interceptor = parseInterceptor(method);
 		// 判断是否是子线程
-		int type = TYPE_DISPLAY_INVOKE_EXE;
+		int type1 = TYPE_DISPLAY_INVOKE_EXE;
 
-		return new SKMethod(interceptor, method, type, isRepeat, service);
+		return new SKMethod(interceptor, method, type1, isRepeat, service);
 
 	}
 
@@ -199,35 +200,10 @@ final class SKMethod {
 				}
 			}
 
-			isExe = SKHelper.interceptor().displayStartInterceptor().interceptStart(implName, service, method, interceptor, clazzName, bundle);
+			isExe = SKHelper.interceptor().displayStartInterceptor().interceptStart(clazzName, bundle);
 		}
 
 		if (isExe) {
-			// 如果是主线程 - 直接执行
-			if (SKHelper.isMainLooperThread()) { // 主线程
-				backgroundResult = method.invoke(impl, objects);
-				return;
-			}
-			Runnable runnable = new Runnable() {
-
-				@Override public void run() {
-					try {
-						method.invoke(impl, objects);
-					} catch (Exception throwable) {
-						if (SKHelper.isLogOpen()) {
-							throwable.printStackTrace();
-						}
-						return;
-					}
-				}
-			};
-			SKHelper.executors().mainThread().execute(runnable);
-			backgroundResult = null;// 执行
-			// 业务拦截器 - 后
-			if (SKHelper.interceptor().displayEndInterceptor() != null) {
-				SKHelper.interceptor().displayEndInterceptor().interceptEnd(implName, service, method, interceptor, clazzName, bundle, backgroundResult);
-			}
-		} else {
 			if (SKHelper.isLogOpen()) {
 				Object[] parameterValues = objects;
 				StringBuilder builder = new StringBuilder("\u21E2 ");
@@ -245,6 +221,37 @@ final class SKMethod {
 				L.i("该方法被过滤 - %s", builder.toString());
 			}
 		}
+
+		// 如果是主线程 - 直接执行
+		if (SKHelper.isMainLooperThread()) { // 主线程
+			backgroundResult = method.invoke(impl, objects);
+			// 业务拦截器 - 后
+			if (SKHelper.interceptor().displayEndInterceptor() != null) {
+				SKHelper.interceptor().displayEndInterceptor().interceptEnd(clazzName, bundle, backgroundResult);
+			}
+			return;
+		}
+		final String finalClazzName = clazzName;
+		final Bundle finalBundle = bundle;
+		Runnable runnable = new Runnable() {
+
+			@Override public void run() {
+				try {
+					backgroundResult = method.invoke(impl, objects);
+					// 业务拦截器 - 后
+					if (SKHelper.interceptor().displayEndInterceptor() != null) {
+						SKHelper.interceptor().displayEndInterceptor().interceptEnd(finalClazzName, finalBundle, backgroundResult);
+					}
+				} catch (Exception throwable) {
+					if (SKHelper.isLogOpen()) {
+						throwable.printStackTrace();
+					}
+					return;
+				}
+			}
+		};
+		SKHelper.executors().mainThread().execute(runnable);
+
 	}
 
 	void exeMethod(Method method, Object impl, Object[] objects) throws InvocationTargetException, IllegalAccessException {

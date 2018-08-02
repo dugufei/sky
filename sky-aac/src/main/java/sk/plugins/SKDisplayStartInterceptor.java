@@ -10,6 +10,5 @@ import android.os.Bundle;
  */
 public interface SKDisplayStartInterceptor {
 
-	<T> boolean interceptStart(String viewName, Class<T> service, Method method, int interceptor, String intent, Bundle bundle);
-
+	boolean interceptStart(String clazzName, Bundle bundle);
 }

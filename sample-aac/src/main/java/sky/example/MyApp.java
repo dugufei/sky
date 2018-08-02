@@ -21,15 +21,15 @@ public class MyApp extends SKApp {
 		SKDI.builder().setApplication(this).setISK(new TextBind()).setSKCommonView(new SKCommonView() {
 
 			@Override public int layoutLoading() {
-				return 0;
+				return R.layout.layout_loading;
 			}
 
 			@Override public int layoutEmpty() {
-				return 0;
+				return R.layout.layout_empty;
 			}
 
 			@Override public int layoutError() {
-				return 0;
+				return R.layout.layout_error;
 			}
 
 		}).build();

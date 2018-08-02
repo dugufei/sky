@@ -123,6 +123,15 @@ public class SKHelper {
 	}
 
 	/**
+	 * 跳转管理器
+	 *
+	 * @return 管理器
+	 */
+	public static final SKIDisplay display() {
+		return getManage().skiDisplaySKLazy.get();
+	}
+
+	/**
 	 * 搜索view model
 	 * 
 	 * @param modelClazz
@@ -163,6 +172,5 @@ public class SKHelper {
 		}
 		return viewModel;
 	}
-
 
 }

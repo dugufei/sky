@@ -6,6 +6,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.SKViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
@@ -85,6 +86,26 @@ public final class SKActivityBuilder implements LifecycleObserver {
 
 	public void layoutId(@LayoutRes int layoutId) {
 		this.skLayoutBuilder.layoutId = layoutId;
+	}
+
+	public void layoutLoadingId(@LayoutRes int layoutId) {
+		this.skLayoutBuilder.layoutLoadingId = layoutId;
+	}
+
+	public void layoutEmptyId(@LayoutRes int layoutId) {
+		this.skLayoutBuilder.layoutEmptyId = layoutId;
+	}
+
+	public void layoutlayoutErrorId(@LayoutRes int layoutId) {
+		this.skLayoutBuilder.layoutErrorId = layoutId;
+	}
+
+	public void layoutBackground(@IdRes int colorId) {
+		this.skLayoutBuilder.layoutBackground = colorId;
+	}
+
+	public void layoutBackground(@NonNull String colorString) {
+		this.skLayoutBuilder.layoutBackground = Color.parseColor(colorString);
 	}
 
 	public void layoutStateId(@IdRes int layoutId) {
@@ -172,24 +193,24 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		}
 	}
 
-	public void onPostCreate(Bundle savedInstanceState) {
+	void onPostCreate(Bundle savedInstanceState) {
 		SKHelper.interceptor().activityInterceptor().onPostCreate(skActivity, savedInstanceState);
 	}
 
-	public void onPostResume() {
+	void onPostResume() {
 		SKHelper.interceptor().activityInterceptor().onPostResume(skActivity);
 	}
 
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	void onActivityResult(int requestCode, int resultCode, Intent data) {
 		SKHelper.screen().onActivityResult(skActivity);
 		SKHelper.interceptor().activityInterceptor().onActivityResult(requestCode, resultCode, data);
 	}
 
-	public void onRestart() {
+	void onRestart() {
 		SKHelper.interceptor().activityInterceptor().onRestart(skActivity);
 	}
 
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+	void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		SKHelper.interceptor().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
@@ -197,7 +218,7 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	 * 隐藏键盘
 	 */
 
-	public void hideSoftInput() {
+	void hideSoftInput() {
 		InputMethodManager imm = (InputMethodManager) skActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(skActivity.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}

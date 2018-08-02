@@ -75,6 +75,7 @@ public class SKLayoutBuilder {
 			}
 			layoutContent.setFitsSystemWindows(fitsSystem);
 			contentRoot.addView(layoutContent, layoutParams);
+			showState = STATE_CONTENT;
 		}
 
 		// 进度布局

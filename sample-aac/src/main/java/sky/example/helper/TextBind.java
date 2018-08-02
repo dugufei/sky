@@ -1,5 +1,7 @@
 package sky.example.helper;
 
+import android.os.Bundle;
+
 import java.lang.reflect.Method;
 
 import retrofit2.Retrofit;
@@ -7,7 +9,8 @@ import sk.ISK;
 import sk.L;
 import sk.SKDefaultManager;
 import sk.SKInterceptor;
-import sk.plugins.SKErrorInterceptor;
+import sk.plugins.SKDisplayEndInterceptor;
+import sk.plugins.SKDisplayStartInterceptor;
 
 /**
  * @author sky
@@ -26,6 +29,20 @@ public class TextBind implements ISK {
 
 	@Override public SKInterceptor.Builder pluginInterceptor(SKInterceptor.Builder builder) {
 		builder.addErrorIntercepor((method, clazz, objects, interceptor) -> L.e(method.getName() + ":" + clazz + ":" + objects));
+		builder.setDisplayStartInterceptor(new SKDisplayStartInterceptor() {
+
+			@Override public boolean interceptStart(String clazzName, Bundle bundle) {
+				L.i("执行开始 ::::" + clazzName + ": " + bundle);
+
+				return false;
+			}
+		});
+		builder.setDisplayEndInterceptor(new SKDisplayEndInterceptor() {
+
+			@Override public void interceptEnd(String clazzName, Bundle bundle, Object backgroundResult) {
+				L.i("执行结束 ::::" + clazzName + ": " + bundle + ": " + backgroundResult);
+			}
+		});
 		return builder;
 	}
 

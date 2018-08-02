@@ -2,6 +2,7 @@ package sky.example.repository;
 
 import sk.SKAppExecutors;
 import sk.SKData;
+import sk.SKHelper;
 import sk.SKRepository;
 import sky.SKIO;
 import sky.SKInput;
@@ -39,11 +40,13 @@ public class UserRepository extends SKRepository<UserRepository> {
 		User user = userSKData.getValue();
 		user.name = "金灿是神" + Math.random();
 		userSKData.postValue(user);
+
+        SKHelper.toast().show("执行啦");
+
 	}
 
 	public void changeUser(SKData<User> skData, String one) {
-		skAppExecutors.diskIO();
-		User user = null;
+		User user = skData.getValue();
 		user.name = "哈哈哈哈 改变了" + one;
 		skData.setValue(user);
 	}

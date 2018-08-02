@@ -8,6 +8,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
+import sk.SKCollections;
 import sk.SKHelper;
 
 /**
@@ -22,10 +23,7 @@ public class OneActivity extends SKActivity<OneBiz> {
 	@BindView(R.id.tv_me_two) TextView	tvMeTwo;
 
 	public static final void intent() {
-		SKActivity skActivity = SKHelper.screen().getCurrentActivity();
-		Intent intent = new Intent();
-		intent.setClass(skActivity, OneActivity.class);
-		skActivity.startActivity(intent);
+		SKHelper.display().intent(OneActivity.class);
 	}
 
 	@Override protected SKActivityBuilder build(SKActivityBuilder skBuilder) {
@@ -35,13 +33,14 @@ public class OneActivity extends SKActivity<OneBiz> {
 
 	@Override protected void initData(Bundle savedInstanceState) {
 		// tvMe.setText(user.name + "是个大好人" + string + ":" + skData);
-//		model.skData.observe(this, user -> {
-//			tvMe.setText(user.name);
-//		});
+		biz().getSkData().observe(this, user -> {
+			tvMe.setText(user.name);
+		});
 	}
 
 	@OnClick(R.id.tv_me) public void onViewClicked() {
-//		model.change("我是第二页");
-//		model.update();
+		biz().change("我是第二页");
+		biz(MainBiz.class).change("啊哈哈哈哈哈");
+		// model.update();
 	}
 }

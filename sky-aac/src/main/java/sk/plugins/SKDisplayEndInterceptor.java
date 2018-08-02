@@ -10,6 +10,5 @@ import android.os.Bundle;
  */
 public interface SKDisplayEndInterceptor {
 
-	<T> void interceptEnd(String viewName, Class<T> service, Method method, int interceptor, String intent, Bundle bundle, Object backgroundResult);
-
+    void interceptEnd(String clazzName, Bundle bundle, Object backgroundResult);
 }

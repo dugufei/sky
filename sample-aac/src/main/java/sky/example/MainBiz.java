@@ -7,9 +7,12 @@ import android.os.Bundle;
 import sk.L;
 import sk.SKBiz;
 import sk.SKData;
+import sk.SKHelper;
 import sk.SKViewModel;
 import sky.Background;
 import sky.BackgroundType;
+import sky.SKHTTP;
+import sky.SKIO;
 import sky.SKInput;
 import sky.example.bean.User;
 import sky.example.repository.HomeRepository;
@@ -51,7 +54,7 @@ public class MainBiz extends SKBiz {
 	}
 
 	public void change(String one) {
-//		userProvider.refreshUser(userSKData);
-		userProvider.changeUser(userSKData, one);
+		// userProvider.refreshUser(userSKData);
+		 userProvider.changeUser(userSKData, one);
 	}
 }

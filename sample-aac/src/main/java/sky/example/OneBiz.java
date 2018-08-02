@@ -18,7 +18,11 @@ public class OneBiz extends SKBiz {
 
 	@SKInput UserRepository	userProvider;
 
-	SKData<User>			skData;
+	public SKData<User> getSkData() {
+		return skData;
+	}
+
+	private SKData<User>			skData;
 
 	public void change(String one) {
 		userProvider.changeUser(skData, one);
@@ -30,6 +34,5 @@ public class OneBiz extends SKBiz {
 
 	@Override public void initBiz(Bundle bundle) {
 		skData = userProvider.getUser();
-
 	}
 }
