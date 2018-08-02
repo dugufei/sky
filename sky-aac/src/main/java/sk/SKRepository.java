@@ -7,5 +7,10 @@ package sk;
  */
 public class SKRepository<R extends SKRepository> {
 
-	public R	repository;
+	public R repository;
+
+	public static final <D> D http(Class<D> httpClazz) {
+		return SKHelper.http(httpClazz);
+	}
+
 }

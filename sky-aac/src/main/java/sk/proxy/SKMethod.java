@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import sk.L;
+import sk.SKErrorEnum;
 import sk.SKHelper;
+import sk.SKHttpException;
 import sk.plugins.SKBizEndInterceptor;
 import sk.plugins.SKBizStartInterceptor;
 import sk.plugins.SKErrorInterceptor;
@@ -270,8 +272,12 @@ final class SKMethod {
 		if (SKHelper.isLogOpen()) {
 			throwable.printStackTrace();
 		}
+		SKErrorEnum skErrorEnum = SKErrorEnum.LOGIC;
 		for (SKErrorInterceptor skErrorInterceptor : SKHelper.interceptor().skErrorInterceptors()) {
-			skErrorInterceptor.interceptorError(method, impl, objects, interceptor);
+			if (throwable.getCause() instanceof SKHttpException) {
+				skErrorEnum = SKErrorEnum.HTTP;
+			}
+			skErrorInterceptor.interceptorError(method, impl, objects, interceptor, skErrorEnum);
 		}
 
 	}

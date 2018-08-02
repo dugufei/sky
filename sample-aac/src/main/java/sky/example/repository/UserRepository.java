@@ -1,12 +1,18 @@
 package sky.example.repository;
 
+import java.util.List;
+
+import retrofit2.SKCall;
 import sk.SKAppExecutors;
 import sk.SKData;
 import sk.SKHelper;
 import sk.SKRepository;
+import sky.SKHTTP;
 import sky.SKIO;
 import sky.SKInput;
 import sky.example.bean.User;
+import sky.example.http.GithubHttp;
+import sky.example.http.model.Model;
 
 /**
  * @author sky
@@ -32,22 +38,25 @@ public class UserRepository extends SKRepository<UserRepository> {
 	}
 
 	@SKIO public void refreshUser(SKData<User> userSKData) {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 		User user = userSKData.getValue();
 		user.name = "金灿是神" + Math.random();
 		userSKData.postValue(user);
 
-        SKHelper.toast().show("执行啦");
+		SKHelper.toast().show("执行啦");
 
 	}
 
-	public void changeUser(SKData<User> skData, String one) {
-		User user = skData.getValue();
-		user.name = "哈哈哈哈 改变了" + one;
-		skData.setValue(user);
+	@SKHTTP public void changeUser(SKData<User> skData, String one) {
+		SKCall<List<Model>> skCall = http(GithubHttp.class).rateLimit();
+
+
+		List<Model> list = skCall.get();
+		List<Model> list1 = skCall.get();
+
+		SKHelper.toast().show(list.size()+"::::");
+//		User user = skData.getValue();
+//		user.name = "哈哈哈哈 改变了" + one;
+//		skData.setValue(user);
 	}
 }

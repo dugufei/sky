@@ -4,6 +4,18 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+
+import javax.annotation.Nullable;
+
+import butterknife.internal.Utils;
+import retrofit2.Call;
+import retrofit2.CallAdapter;
+import retrofit2.Retrofit;
+import retrofit2.SKCall;
+import retrofit2.SKCallAdapterFactory;
+import retrofit2.SKRetrofit;
 import sk.proxy.SKBizStore;
 import sk.proxy.SKProxy;
 import sk.screen.SKScreenManager;
@@ -119,5 +131,26 @@ public class SKDefaultProvider {
 		SKDisplay skDisplay = new SKDisplay();
 		SKProxy skProxy = skBizStore.createDisplay(SKIDisplay.class, skDisplay);
 		return (SKIDisplay) skProxy.proxy;
+	}
+
+	/**
+	 * 网络
+	 * 
+	 * @return 返回值
+	 */
+	@SKSingleton @SKProvider public SKRetrofit provideRetrofit() {
+		Retrofit.Builder builder = new Retrofit.Builder();
+		builder.addCallAdapterFactory(new SKCallAdapterFactory());
+		SKRetrofit skRetrofit = new SKRetrofit(this.isk.httpAdapter(builder).build());
+		return skRetrofit;
+	}
+
+	/**
+	 * 缓存
+	 *
+	 * @return 返回值
+	 */
+	@SKSingleton @SKProvider public SKCacheManager provideCacheManager() {
+		return new SKCacheManager();
 	}
 }

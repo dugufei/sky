@@ -7,9 +7,14 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.SKRetrofit;
 import sk.proxy.SKBizStore;
 import sk.screen.SKScreenHolder;
 import sk.screen.SKScreenManager;
@@ -129,6 +134,28 @@ public class SKHelper {
 	 */
 	public static final SKIDisplay display() {
 		return getManage().skiDisplaySKLazy.get();
+	}
+
+	/**
+	 * 获取网络适配器
+	 *
+	 * @return 返回值
+	 */
+	static final SKRetrofit httpAdapter() {
+		return getManage().skRetrofitSKLazy.get();
+	}
+
+	/**
+	 * 获取网络
+	 *
+	 * @param httpClazz
+	 *            参数
+	 * @param <H>
+	 *            参数
+	 * @return 返回值
+	 */
+	public static final <H> H http(Class<H> httpClazz) {
+		return getManage().skCacheManagerSKLazy.get().http(httpClazz);
 	}
 
 	/**

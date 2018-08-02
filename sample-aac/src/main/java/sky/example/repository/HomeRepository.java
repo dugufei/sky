@@ -12,7 +12,7 @@ import sky.example.bean.User;
  * @version 1.0 on 2018-06-07 下午4:13
  * @see HomeRepository
  */
-public class HomeRepository {
+public class HomeRepository extends SKRepository<HomeRepository> {
 
 	@SKInput SKAppExecutors skAppExecutors;
 
@@ -22,7 +22,7 @@ public class HomeRepository {
 		user.name = "开始" + value;
 		skListing.setValue(user);
 
-//		refreshUser(skListing);
+		repository.refreshUser(skListing);
 		return skListing; // return a LiveData directly from the database.
 	}
 
@@ -32,7 +32,8 @@ public class HomeRepository {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		User user = null;
+
+		User user = userSKData.getValue();
 		user.name = "金灿是神" + Math.random();
 		userSKData.postValue(user);
 	}

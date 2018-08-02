@@ -2,12 +2,15 @@ package sky.example.helper;
 
 import android.os.Bundle;
 
-import java.lang.reflect.Method;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import sk.ISK;
 import sk.L;
 import sk.SKDefaultManager;
+import sk.SKErrorEnum;
 import sk.SKInterceptor;
 import sk.plugins.SKDisplayEndInterceptor;
 import sk.plugins.SKDisplayStartInterceptor;
@@ -24,11 +27,15 @@ public class TextBind implements ISK {
 	}
 
 	@Override public Retrofit.Builder httpAdapter(Retrofit.Builder builder) {
+		builder.baseUrl("https://api.github.com");
+
+		Gson gson = new GsonBuilder().setLenient().create();
+		builder.addConverterFactory(GsonConverterFactory.create(gson));
 		return builder;
 	}
 
 	@Override public SKInterceptor.Builder pluginInterceptor(SKInterceptor.Builder builder) {
-		builder.addErrorIntercepor((method, clazz, objects, interceptor) -> L.e(method.getName() + ":" + clazz + ":" + objects));
+		builder.addErrorIntercepor((method, clazz, objects, interceptor, skErrorEnum) -> L.e(method.getName() + ":" + clazz + ":" + objects));
 		builder.setDisplayStartInterceptor(new SKDisplayStartInterceptor() {
 
 			@Override public boolean interceptStart(String clazzName, Bundle bundle) {

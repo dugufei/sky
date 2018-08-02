@@ -2,6 +2,8 @@ package sk;
 
 import android.app.Application;
 
+import retrofit2.Retrofit;
+import retrofit2.SKRetrofit;
 import sk.proxy.SKBizStore;
 import sk.screen.SKScreenManager;
 import sky.SKInput;
@@ -30,4 +32,9 @@ public class SKDefaultManager {
 	@SKInput SKLazy<SKBizStore>			skBizStoreSKLazy;
 
 	@SKInput SKLazy<SKIDisplay>			skiDisplaySKLazy;
+
+	@SKInput SKLazy<SKRetrofit>			skRetrofitSKLazy;
+
+	@SKInput SKLazy<SKCacheManager>		skCacheManagerSKLazy;
+
 }

@@ -35,7 +35,7 @@ public class MainActivity extends SKActivity<MainBiz> {
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-//		 biz().change("改改改");
-		 OneActivity.intent();
+		 biz().change("改改改");
+//		 OneActivity.intent();
 	}
 }
