@@ -1,12 +1,16 @@
 package sky.example;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import sk.L;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
+import sk.livedata.SKObserver;
+import sky.example.bean.User;
 
 /**
  * @author sky
@@ -27,15 +31,20 @@ public class MainActivity extends SKActivity<MainBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		biz().getUserSKData().observe(this, user -> {
-			textView.setText(user.name);
+		biz().getUserSKData().observe(this, new SKViewObserver<User>() {
+
+			@Override public void onChanged(@Nullable User user) {
+				L.i("执行onChanged");
+				textView.setText(user.name);
+			}
 		});
+
 		biz().getStringSKData().observe(this, string -> textTwo.setText(string));
 		biz().getUserHomeSKData().observe(this, user -> tvThree.setText(user.name));
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
 		 biz().change("改改改");
-//		 OneActivity.intent();
+		// OneActivity.intent();
 	}
 }

@@ -3,8 +3,7 @@ package sky.example;
 import android.os.Bundle;
 
 import sk.SKBiz;
-import sk.SKData;
-import sk.SKViewModel;
+import sk.livedata.SKData;
 import sky.SKInput;
 import sky.example.bean.User;
 import sky.example.repository.UserRepository;
@@ -33,6 +32,6 @@ public class OneBiz extends SKBiz {
 	}
 
 	@Override public void initBiz(Bundle bundle) {
-		skData = userProvider.getUser();
+		skData = userProvider.load();
 	}
 }

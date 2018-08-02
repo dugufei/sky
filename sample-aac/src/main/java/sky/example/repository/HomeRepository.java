@@ -1,7 +1,7 @@
 package sky.example.repository;
 
 import sk.SKAppExecutors;
-import sk.SKData;
+import sk.livedata.SKData;
 import sk.SKRepository;
 import sky.SKIO;
 import sky.SKInput;

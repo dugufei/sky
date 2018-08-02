@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import sk.livedata.SKObserver;
 import sky.SKInput;
 
 /**
@@ -181,4 +182,36 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 		skBuilder.skLayoutBuilder.layoutEmpty();
 	}
 
+	public abstract class SKViewObserver<T> implements SKObserver<T> {
+
+		@Override public void onAction(int state, Object... args) {
+			if (args != null) {
+				if (args.length > 0 && args[0] instanceof Boolean) {
+					if (((Boolean) args[0])) {
+						closeLoading();
+					}
+				}
+			}
+			switch (state) {
+				case 1000:
+					showContent();
+					break;
+				case 2000:
+					showEmpty();
+					break;
+				case 3000:
+					showLoading();
+					break;
+				case 4000:
+					showError();
+					break;
+				case 5000:
+					loading();
+					break;
+				case 6000:
+					closeLoading();
+					break;
+			}
+		}
+	}
 }

@@ -4,9 +4,10 @@ import java.util.List;
 
 import retrofit2.SKCall;
 import sk.SKAppExecutors;
-import sk.SKData;
+import sk.livedata.SKData;
 import sk.SKHelper;
 import sk.SKRepository;
+import sky.Interceptor;
 import sky.SKHTTP;
 import sky.SKIO;
 import sky.SKInput;
@@ -23,13 +24,11 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 	@SKInput SKAppExecutors skAppExecutors;
 
-	public SKData<User> getUser() {
+	public SKData<User> load() {
 		SKData<User> userSKData = new SKData<>();
-		User user = userSKData.getValue();
-		if (user == null) {
-			user = new User();
-		}
+		User user = new User();
 		user.name = "开始";
+		userSKData.showLoading();
 		userSKData.setValue(user);
 
 		repository.refreshUser(userSKData); // try to refresh data if possible from Github Api
@@ -39,24 +38,25 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 	@SKIO public void refreshUser(SKData<User> userSKData) {
 
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		User user = userSKData.getValue();
 		user.name = "金灿是神" + Math.random();
+		userSKData.showContent();
 		userSKData.postValue(user);
-
-		SKHelper.toast().show("执行啦");
-
 	}
 
-	@SKHTTP public void changeUser(SKData<User> skData, String one) {
-		SKCall<List<Model>> skCall = http(GithubHttp.class).rateLimit();
+	@Interceptor(1000) @SKHTTP public void changeUser(SKData<User> skData, String one) {
+		skData.loading();
 
+		List<Model> list = http(GithubHttp.class).rateLimit().get();
 
-		List<Model> list = skCall.get();
-		List<Model> list1 = skCall.get();
+		SKHelper.toast().show(list.size() + "::::");
 
-		SKHelper.toast().show(list.size()+"::::");
-//		User user = skData.getValue();
-//		user.name = "哈哈哈哈 改变了" + one;
-//		skData.setValue(user);
+		skData.closeloading();
 	}
 }

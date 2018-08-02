@@ -1,18 +1,11 @@
 package sky.example;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 import android.os.Bundle;
 
-import sk.L;
 import sk.SKBiz;
-import sk.SKData;
-import sk.SKHelper;
-import sk.SKViewModel;
-import sky.Background;
-import sky.BackgroundType;
-import sky.SKHTTP;
-import sky.SKIO;
+import sk.livedata.SKData;
+import sk.livedata.SKTransformations;
 import sky.SKInput;
 import sky.example.bean.User;
 import sky.example.repository.HomeRepository;
@@ -25,20 +18,20 @@ import sky.example.repository.UserRepository;
  */
 public class MainBiz extends SKBiz {
 
-	@SKInput UserRepository		userProvider;
+	@SKInput UserRepository	userProvider;
 
-	@SKInput HomeRepository		homeRepository;
+	@SKInput HomeRepository	homeRepository;
 
-	private SKData<User>		userSKData;
+	private SKData<User>	userSKData;
 
-	private SKData<User>		userHomeSKData;
+	private SKData<User>	userHomeSKData;
 
-	private LiveData<String>	stringSKData;
+	private SKData<String>	stringSKData;
 
 	@Override public void initBiz(Bundle bundle) {
-		userSKData = userProvider.getUser();
+		userSKData = userProvider.load();
 		userHomeSKData = homeRepository.getMM("哈哈哈");
-		stringSKData = Transformations.map(userSKData, user -> user.name + "" + user.age);
+		stringSKData = SKTransformations.map(userSKData, user -> user.name + "" + user.age);
 	}
 
 	public SKData<User> getUserSKData() {
@@ -55,6 +48,6 @@ public class MainBiz extends SKBiz {
 
 	public void change(String one) {
 		// userProvider.refreshUser(userSKData);
-		 userProvider.changeUser(userSKData, one);
+		userProvider.changeUser(userSKData, one);
 	}
 }
