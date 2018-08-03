@@ -50,4 +50,8 @@ public class MainBiz extends SKBiz {
 		// userProvider.refreshUser(userSKData);
 		userProvider.changeUser(userSKData, one);
 	}
+	public void load(){
+		userSKData.showLoading();
+		userProvider.refreshUser(userSKData);
+	}
 }

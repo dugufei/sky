@@ -6,9 +6,11 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.Optional;
 import sk.L;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
+import sk.builder.SKViewStub;
 import sk.livedata.SKObserver;
 import sky.example.bean.User;
 
@@ -27,6 +29,7 @@ public class MainActivity extends SKActivity<MainBiz> {
 
 	@Override protected SKActivityBuilder build(SKActivityBuilder skBuilder) {
 		skBuilder.layoutId(R.layout.activity_main);
+		skBuilder.layoutErrorViewSub(new Error());
 		return skBuilder;
 	}
 
@@ -44,7 +47,14 @@ public class MainActivity extends SKActivity<MainBiz> {
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		 biz().change("改改改");
+		biz().change("改改改");
 		// OneActivity.intent();
+	}
+
+	public class Error extends SKViewStub {
+
+		@OnClick(R.id.tv_error) public void onError() {
+			biz().load();
+		}
 	}
 }

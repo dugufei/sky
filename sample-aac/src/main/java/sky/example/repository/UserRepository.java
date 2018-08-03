@@ -30,7 +30,6 @@ public class UserRepository extends SKRepository<UserRepository> {
 		user.name = "开始";
 		userSKData.showLoading();
 		userSKData.setValue(user);
-
 		repository.refreshUser(userSKData); // try to refresh data if possible from Github Api
 
 		return userSKData; // return a LiveData directly from the database.

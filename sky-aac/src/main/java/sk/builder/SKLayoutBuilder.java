@@ -53,9 +53,15 @@ public class SKLayoutBuilder {
 
 	public ViewStub		vsLoading;
 
+	public SKViewStub	vsViewLoading;
+
 	public ViewStub		vsEmpty;
 
+	public SKViewStub	vsViewEmpty;
+
 	public ViewStub		vsError;
+
+	public SKViewStub	vsViewError;
 
 	public View			layoutLoading;
 
@@ -153,6 +159,9 @@ public class SKLayoutBuilder {
 
 		if (layoutLoading == null && vsLoading != null) {
 			layoutLoading = vsLoading.inflate();
+			if(vsViewLoading != null){
+				vsViewLoading.init(layoutLoading);
+			}
 			SKPreconditions.checkNotNull(layoutLoading, "无法根据布局文件ID,获取layoutLoading");
 		}
 
@@ -173,6 +182,9 @@ public class SKLayoutBuilder {
 
 		if (layoutEmpty == null && vsEmpty != null) {
 			layoutEmpty = vsEmpty.inflate();
+			if(vsViewEmpty != null){
+				vsViewEmpty.init(layoutEmpty);
+			}
 			SKPreconditions.checkNotNull(layoutEmpty, "无法根据布局文件ID,获取layoutLoading");
 		}
 
@@ -193,6 +205,9 @@ public class SKLayoutBuilder {
 
 		if (layoutError == null && vsError != null) {
 			layoutError = vsError.inflate();
+			if(vsViewError != null){
+				vsViewError.init(layoutError);
+			}
 			SKPreconditions.checkNotNull(layoutError, "无法根据布局文件ID,获取layoutLoading");
 		}
 

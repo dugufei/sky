@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import sk.builder.SKLayoutBuilder;
 import sk.builder.SKRecyclerViewBuilder;
 import sk.builder.SKTintBuilder;
+import sk.builder.SKViewStub;
 
 /**
  * @author sky
@@ -92,12 +93,24 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		this.skLayoutBuilder.layoutLoadingId = layoutId;
 	}
 
+	public <V extends SKViewStub> void layoutLoadingViewSub(V v) {
+		this.skLayoutBuilder.vsViewLoading = v;
+	}
+
 	public void layoutEmptyId(@LayoutRes int layoutId) {
 		this.skLayoutBuilder.layoutEmptyId = layoutId;
 	}
 
+	public <V extends SKViewStub> void layoutEmptyViewSub(V v) {
+		this.skLayoutBuilder.vsViewEmpty = v;
+	}
+
 	public void layoutlayoutErrorId(@LayoutRes int layoutId) {
 		this.skLayoutBuilder.layoutErrorId = layoutId;
+	}
+
+	public <V extends SKViewStub> void layoutErrorViewSub(V v) {
+		this.skLayoutBuilder.vsViewError = v;
 	}
 
 	public void layoutBackground(@IdRes int colorId) {

@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import sk.builder.SKViewStub;
 import sk.livedata.SKObserver;
 import sky.SKInput;
 
