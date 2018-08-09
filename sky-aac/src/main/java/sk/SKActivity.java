@@ -12,8 +12,9 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import sk.builder.SKViewStub;
 import sk.livedata.SKObserver;
+import sk.livedata.SKViewState;
+import sk.livedata.list.SKNetworkState;
 import sky.SKInput;
 
 /**
@@ -25,7 +26,7 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 
 	private SKActivityBuilder	skBuilder;
 
-	B							biz;
+	protected B							biz;
 
 	@SKInput SKViewModelFactory	skViewModelFactory;
 
@@ -152,11 +153,15 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 	}
 
 	protected final RecyclerView.LayoutManager layoutManager() {
-		return skBuilder.skRecyclerViewBuilder == null ? null : skBuilder.skRecyclerViewBuilder.layoutManager;
+		return skBuilder.skRecyclerViewBuilder.layoutManager;
 	}
 
 	protected final <R extends RecyclerView> R recyclerView() {
-		return skBuilder.skRecyclerViewBuilder == null ? null : (R) skBuilder.skRecyclerViewBuilder.recyclerView;
+		return (R) skBuilder.skRecyclerViewBuilder.recyclerView;
+	}
+
+	protected final <A extends SKAdapter> A adapter() {
+		return (A) skBuilder.skRecyclerViewBuilder.skAdapter;
 	}
 
 	protected <T extends SKViewModel> T find(Class<T> modelClazz) {
@@ -183,35 +188,40 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 		skBuilder.skLayoutBuilder.layoutEmpty();
 	}
 
+	protected void handleViewState(SKViewState state) {
+		switch (state) {
+			case CONTENT:
+				showContent();
+				break;
+			case ERROR:
+				showError();
+				break;
+			case EMPTY:
+				showEmpty();
+				break;
+			case LOAD:
+				showLoading();
+				break;
+			case LOADING:
+				loading();
+				break;
+			case CLOSE_LOADING:
+				closeLoading();
+				break;
+		}
+	}
+
 	public abstract class SKViewObserver<T> implements SKObserver<T> {
 
-		@Override public void onAction(int state, Object... args) {
-			if (args != null) {
-				if (args.length > 0 && args[0] instanceof Boolean) {
-					if (((Boolean) args[0])) {
-						closeLoading();
-					}
-				}
-			}
-			switch (state) {
-				case 1000:
-					showContent();
-					break;
-				case 2000:
-					showEmpty();
-					break;
-				case 3000:
-					showLoading();
-					break;
-				case 4000:
-					showError();
-					break;
-				case 5000:
-					loading();
-					break;
-				case 6000:
-					closeLoading();
-					break;
+		@Override public void onAction(int state, Object... args) {}
+
+		@Override public void onAction(SKViewState state) {
+			handleViewState(state);
+		}
+
+		@Override public void onAction(SKNetworkState networkState) {
+			if(adapter() != null){
+				adapter().setNetworkState(networkState);
 			}
 		}
 	}

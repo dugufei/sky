@@ -1,18 +1,20 @@
 package sky.example;
 
+import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Optional;
-import sk.L;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
 import sk.builder.SKViewStub;
-import sk.livedata.SKObserver;
-import sky.example.bean.User;
+import sky.example.adapter.OneAdapter;
+import sky.example.http.model.Model;
 
 /**
  * @author sky
@@ -29,32 +31,31 @@ public class MainActivity extends SKActivity<MainBiz> {
 
 	@Override protected SKActivityBuilder build(SKActivityBuilder skBuilder) {
 		skBuilder.layoutId(R.layout.activity_main);
+		skBuilder.recyclerviewId(R.id.rv_oder, new OneAdapter(null, (actoin, objects) -> {
+			biz().reload();
+		}));
 		skBuilder.layoutErrorViewSub(new Error());
 		return skBuilder;
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		biz().getUserSKData().observe(this, new SKViewObserver<User>() {
+		biz.listSKData.observe(this, new SKViewObserver<PagedList<List<Model>>>() {
 
-			@Override public void onChanged(@Nullable User user) {
-				L.i("执行onChanged");
-				textView.setText(user.name);
+			@Override public void onChanged(@Nullable PagedList<List<Model>> lists) {
+				adapter().submitList(lists);
 			}
 		});
-
-		biz().getStringSKData().observe(this, string -> textTwo.setText(string));
-		biz().getUserHomeSKData().observe(this, user -> tvThree.setText(user.name));
+		biz.listSKData.observe(this, lists -> adapter().submitList(lists));
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		biz().change("改改改");
-		// OneActivity.intent();
+		OneActivity.intent();
 	}
 
 	public class Error extends SKViewStub {
 
 		@OnClick(R.id.tv_error) public void onError() {
-			biz().load();
+			biz().reload();
 		}
 	}
 }

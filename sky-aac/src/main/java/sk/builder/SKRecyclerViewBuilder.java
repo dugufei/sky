@@ -1,6 +1,7 @@
 package sk.builder;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -17,7 +18,7 @@ import sk.view.sticky.stickyheader.StickyRecyclerHeadersTouchListener;
  */
 public class SKRecyclerViewBuilder {
 
-	private final int														recyclerviewId;
+	private final int												recyclerviewId;
 
 	public RecyclerView												recyclerView;
 
@@ -41,8 +42,12 @@ public class SKRecyclerViewBuilder {
 		if (recyclerviewId > 0) {
 			recyclerView = view.findViewById(recyclerviewId);
 			SKPreconditions.checkNotNull(recyclerView, "无法根据布局文件ID,获取recyclerView");
-			SKPreconditions.checkNotNull(layoutManager, "LayoutManger不能为空");
 			SKPreconditions.checkNotNull(skAdapter, "adapter不能为空");
+
+			if(layoutManager == null){
+				layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
+			}
+
 			recyclerView.setLayoutManager(layoutManager);
 			// 扩展适配器
 			if (skAdapter instanceof SKYStickyHeaders) {
@@ -78,9 +83,13 @@ public class SKRecyclerViewBuilder {
 			recyclerView.setAdapter(skAdapter);
 
 			// 设置Item增加、移除动画
-			recyclerView.setItemAnimator(itemAnimator);
+			if(itemAnimator != null){
+				recyclerView.setItemAnimator(itemAnimator);
+			}
 			// 添加分割线
-			recyclerView.addItemDecoration(itemDecoration);
+			if(itemDecoration != null){
+				recyclerView.addItemDecoration(itemDecoration);
+			}
 			// 优化
 			recyclerView.setHasFixedSize(true);
 		}

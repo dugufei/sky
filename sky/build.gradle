@@ -17,7 +17,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api deps.library.gson
     api deps.library.glide
-    api deps.library.glide_okhttp3
     api group: 'commons-io', name: 'commons-io', version: "${versions.commons_io}"
 
     api project(':sky-annotations')

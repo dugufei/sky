@@ -1,5 +1,7 @@
 package sk.livedata;
 
+import sk.livedata.list.SKNetworkState;
+
 /**
  * @author sky
  * @version 1.0 on 2018-08-02 下午8:54
@@ -9,15 +11,25 @@ public interface SKAction {
 
 	void action(int state, Object... args);
 
-	void showLoading(Object... args);
+	void viewState(SKViewState skViewState);
 
-	void showContent(Object... args);
+	void networkState(SKNetworkState skNetworkState);
 
-	void showEmpty(Object... args);
+	void layoutLoading();
 
-	void showError(Object... args);
+	void layoutContent();
+
+	void layoutEmpty();
+
+	void layoutError();
 
 	void loading();
 
-	void closeloading();
+	void closeLoading();
+
+	void netWorkRunning();
+
+	void netWorkSuccess();
+
+	void netWorkFailed(String message);
 }

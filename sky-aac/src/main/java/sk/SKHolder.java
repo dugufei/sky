@@ -28,16 +28,12 @@ public abstract class SKHolder<T> extends RecyclerView.ViewHolder {
 		return (T) adapter;
 	}
 
-//	public <B extends SKYBiz> B biz(Class<B> service) {
-//		return (B) adapter.biz(service);
-//	}
-
-//	protected <E extends SKYIDisplay> E display(Class<E> e) {
-//		return (E) adapter.display(e);
-//	}
+	public <B extends SKBiz> B biz(Class<B> bizClass) {
+		return SKHelper.biz(bizClass);
+	}
 
 	public T getItem(int position) {
-		return (T) adapter.getItem(position);
+		return (T) adapter.getItems().get(position);
 	}
 
 }

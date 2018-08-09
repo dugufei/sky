@@ -83,6 +83,17 @@ public class SKHelper {
 	}
 
 	/**
+	 * 获取业务
+	 * 
+	 * @param bClass
+	 * @param <B>
+	 * @return
+	 */
+	public static final <B extends SKBiz> B biz(Class<B> bClass) {
+		return bizStore().biz(bClass);
+	}
+
+	/**
 	 * 判断是否是主线程
 	 *
 	 * @return true 主线程 false 子线程

@@ -4,18 +4,10 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
-import javax.annotation.Nullable;
-
-import butterknife.internal.Utils;
-import retrofit2.Call;
-import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
-import retrofit2.SKCall;
 import retrofit2.SKCallAdapterFactory;
 import retrofit2.SKRetrofit;
+import sk.livedata.list.SKPaged;
 import sk.proxy.SKBizStore;
 import sk.proxy.SKProxy;
 import sk.screen.SKScreenManager;
@@ -153,4 +145,9 @@ public class SKDefaultProvider {
 	@SKSingleton @SKProvider public SKCacheManager provideCacheManager() {
 		return new SKCacheManager();
 	}
+
+	@SKSingleton @SKProvider public SKPaged providePaged() {
+		return new SKPaged();
+	}
+
 }

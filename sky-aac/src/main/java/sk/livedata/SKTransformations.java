@@ -6,6 +6,8 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import sk.livedata.list.SKNetworkState;
+
 /**
  * @author sky
  * @version 1.0 on 2018-08-02 下午9:06
@@ -23,6 +25,14 @@ public class SKTransformations {
 
 			@Override public void onAction(int id, Object... args) {
 				result.action(id, args);
+			}
+
+			@Override public void onAction(SKViewState state) {
+				result.viewState(state);
+			}
+
+			@Override public void onAction(SKNetworkState networkState) {
+				result.networkState(networkState);
 			}
 		});
 		return result;
@@ -48,6 +58,14 @@ public class SKTransformations {
 
 						@Override public void onAction(int id, Object... args) {
 							result.action(id, args);
+						}
+
+						@Override public void onAction(SKViewState state) {
+							result.viewState(state);
+						}
+
+						@Override public void onAction(SKNetworkState networkState) {
+							result.networkState(networkState);
 						}
 
 						@Override public void onChanged(@Nullable Y y) {

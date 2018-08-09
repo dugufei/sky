@@ -1,13 +1,14 @@
 package sky.example;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.paging.PagedList;
 import android.os.Bundle;
+
+import java.util.List;
 
 import sk.SKBiz;
 import sk.livedata.SKData;
-import sk.livedata.SKTransformations;
 import sky.SKInput;
-import sky.example.bean.User;
+import sky.example.http.model.Model;
 import sky.example.repository.HomeRepository;
 import sky.example.repository.UserRepository;
 
@@ -18,40 +19,17 @@ import sky.example.repository.UserRepository;
  */
 public class MainBiz extends SKBiz {
 
-	@SKInput UserRepository	userProvider;
+	@SKInput UserRepository			userProvider;
 
-	@SKInput HomeRepository	homeRepository;
+	@SKInput HomeRepository			homeRepository;
 
-	private SKData<User>	userSKData;
-
-	private SKData<User>	userHomeSKData;
-
-	private SKData<String>	stringSKData;
+	SKData<PagedList<List<Model>>>	listSKData;
 
 	@Override public void initBiz(Bundle bundle) {
-		userSKData = userProvider.load();
-		userHomeSKData = homeRepository.getMM("哈哈哈");
-		stringSKData = SKTransformations.map(userSKData, user -> user.name + "" + user.age);
+		listSKData = userProvider.loadModel();
 	}
 
-	public SKData<User> getUserSKData() {
-		return userSKData;
-	}
-
-	public SKData<User> getUserHomeSKData() {
-		return userHomeSKData;
-	}
-
-	public LiveData<String> getStringSKData() {
-		return stringSKData;
-	}
-
-	public void change(String one) {
-		// userProvider.refreshUser(userSKData);
-		userProvider.changeUser(userSKData, one);
-	}
-	public void load(){
-		userSKData.showLoading();
-		userProvider.refreshUser(userSKData);
+	public void reload() {
+		listSKData.retry();
 	}
 }

@@ -28,13 +28,16 @@ public class SKViewModelFactory extends SKViewModelProvider.NewInstanceFactory {
 			/** 创建类 **/
 			final Object impl = c.newInstance();
 			/** 创建代理类 **/
-			SKProxy proxy = SKHelper.bizStore().createProxy(biz, impl);
+//			SKProxy proxy = SKHelper.bizStore().createProxy(biz, impl);
+			SKProxy proxy = new SKProxy();
+			proxy.impl = impl;
+			proxy.bizClass = biz;
 			/** 创建 ViewModel **/
 			viewModel = modelClass.getConstructor(SKProxy.class).newInstance(proxy);
 			/** 注入 **/
 			SKInputs.inputNotThrow(impl);
 			/** 初始化值 **/
-			((SKBiz) proxy.proxy).initBiz(bundle);
+			((SKBiz) proxy.impl).initBiz(bundle);
 		} catch (InstantiationException e) {
 			throw new RuntimeException("Cannot create an instance of " + modelClass, e);
 		} catch (IllegalAccessException e) {

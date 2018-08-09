@@ -40,7 +40,6 @@ public class OneActivity extends SKActivity<OneBiz> {
 
 	@OnClick(R.id.tv_me) public void onViewClicked() {
 		biz().change("我是第二页");
-		biz(MainBiz.class).change("啊哈哈哈哈哈");
 		// model.update();
 	}
 }

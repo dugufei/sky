@@ -6,12 +6,16 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import sk.L;
 import sk.SKHelper;
+import sk.livedata.list.SKNetworkState;
 
 /**
  * @author sky
@@ -20,11 +24,19 @@ import sk.SKHelper;
  */
 public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAction {
 
-	private Set<SKObserver<T>>	actionObservers	= new HashSet<>();
+	private Set<SKObserver<T>>		actionObservers	= new HashSet<>();
 
-	private boolean				active;
+	private boolean					active;
 
-	private SKActionModel		skActionModel;
+	private Deque<SKActionModel>	skActionModelDeque;
+
+	private Deque<SKNetworkState>	skNetworkStateDeque;
+
+	private Deque<SKViewState>		skViewStateDeque;
+
+	private Runnable				onActiveRunnable;
+
+	private Runnable				onInactiveRunnable;
 
 	/**
 	 * 通知Observer更新事件
@@ -32,8 +44,26 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 	private void dispatchAction() {
 		if (active) {
 			for (SKObserver<T> actionObserver : actionObservers) {
-				if (skActionModel != null) {
-					actionObserver.onAction(skActionModel.state, skActionModel.extra);
+				if (skViewStateDeque != null) {
+					while (!skViewStateDeque.isEmpty()) {
+						SKViewState skViewState = skViewStateDeque.removeFirst();
+						actionObserver.onAction(skViewState);
+						L.i("执行 skViewStateDeque" + skViewState);
+					}
+				}
+				if (skNetworkStateDeque != null) {
+					while (!skNetworkStateDeque.isEmpty()) {
+						SKNetworkState skNetworkState = skNetworkStateDeque.removeFirst();
+						actionObserver.onAction(skNetworkState);
+						L.i("执行 skNetworkStateDeque");
+					}
+				}
+				if (skActionModelDeque != null) {
+					while (!skActionModelDeque.isEmpty()) {
+						SKActionModel skActionModel = skActionModelDeque.removeFirst();
+						actionObserver.onAction(skActionModel.state, skActionModel.extra);
+						L.i("执行 skActionModelDeque");
+					}
 				}
 			}
 		}
@@ -46,6 +76,9 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 			entry.getValue().plug();
 		}
 		dispatchAction();
+		if (onActiveRunnable != null) {
+			onActiveRunnable.run();
+		}
 	}
 
 	@Override protected void onInactive() {
@@ -53,6 +86,9 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 		active = false;
 		for (Map.Entry<SKParentLD<?>, ActionSource<?>> entry : mHandlers.entrySet()) {
 			entry.getValue().unplug();
+		}
+		if (onInactiveRunnable != null) {
+			onInactiveRunnable.run();
 		}
 	}
 
@@ -70,8 +106,31 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 		}
 	}
 
-	@Override public void action(int state, Object... args) {
-		skActionModel = new SKActionModel(state, args);
+	@Override public void action(final int state, final Object... args) {
+		if (skActionModelDeque == null) {
+			skActionModelDeque = new ArrayDeque<>();
+		}
+		skActionModelDeque.add(new SKActionModel(state, args));
+		checkExecutors();
+	}
+
+	@Override public void viewState(SKViewState skViewState) {
+		if (this.skViewStateDeque == null) {
+			this.skViewStateDeque = new ArrayDeque<>();
+		}
+		this.skViewStateDeque.add(skViewState);
+		checkExecutors();
+	}
+
+	@Override public void networkState(SKNetworkState skNetworkState) {
+		if (this.skNetworkStateDeque == null) {
+			this.skNetworkStateDeque = new ArrayDeque<>();
+		}
+		this.skNetworkStateDeque.add(skNetworkState);
+		checkExecutors();
+	}
+
+	private void checkExecutors() {
 		if (SKHelper.isMainLooperThread()) {
 			dispatchAction();
 		} else {
@@ -120,6 +179,14 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 		}
 	}
 
+	public void setOnActiveRunnable(Runnable mRefreshRunnable) {
+		this.onActiveRunnable = mRefreshRunnable;
+	}
+
+	public void setOnInactiveRunnable(Runnable mRefreshRunnable) {
+		this.onInactiveRunnable = mRefreshRunnable;
+	}
+
 	public static class ActionSource<T> implements SKActionHandler {
 
 		SKParentLD<T>	actionLiveData;
@@ -141,6 +208,14 @@ public abstract class SKParentLD<T> extends MediatorLiveData<T> implements SKAct
 
 		@Override public void onAction(int id, Object... args) {
 			actionObserver.onAction(id, args);
+		}
+
+		@Override public void onAction(SKViewState state) {
+			actionObserver.onAction(state);
+		}
+
+		@Override public void onAction(SKNetworkState networkState) {
+			actionObserver.onAction(networkState);
 		}
 	}
 }

@@ -11,5 +11,4 @@ import sk.SKErrorEnum;
 public interface SKErrorInterceptor<U> {
 
 	void interceptorError(Method method, Object clazz, Object[] objects, int interceptor, SKErrorEnum skErrorEnum);
-
 }

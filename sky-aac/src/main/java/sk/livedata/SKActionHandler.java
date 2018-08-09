@@ -1,5 +1,7 @@
 package sk.livedata;
 
+import sk.livedata.list.SKNetworkState;
+
 /**
  * @author sky
  * @version 1.0 on 2018-08-02 下午8:57
@@ -8,4 +10,9 @@ package sk.livedata;
 public interface SKActionHandler {
 
 	void onAction(int state, Object... args);
+
+	void onAction(SKViewState state);
+
+	void onAction(SKNetworkState networkState);
+
 }

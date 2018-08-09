@@ -2,7 +2,6 @@ package sky.example.provider;
 
 import sky.SKProvider;
 import sky.SKSingleton;
-import sky.example.bean.User;
 import sky.example.repository.HomeRepository;
 import sky.example.repository.UserRepository;
 

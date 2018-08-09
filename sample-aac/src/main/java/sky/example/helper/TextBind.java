@@ -50,9 +50,9 @@ public class TextBind implements ISK {
 					if (obj instanceof SKData) {
 						SKData skData = (SKData) obj;
 						if (interceptor == 1000) {
-							skData.showError(true);
+							skData.layoutError();
 						}else {
-							skData.closeloading();
+							skData.closeLoading();
 						}
 						break;
 					}
@@ -79,6 +79,7 @@ public class TextBind implements ISK {
 			@Override public void onShowLoading(SKActivity skyActivity) {
 				super.onShowLoading(skyActivity);
 				skyActivity.getSupportFragmentManager().beginTransaction().add(LoadingDialogFragment.getInstance(), "loading_dialog").commitAllowingStateLoss();
+				skyActivity.getSupportFragmentManager().executePendingTransactions();
 			}
 
 			@Override public void onCloseLoading(SKActivity skyActivity) {
@@ -86,6 +87,7 @@ public class TextBind implements ISK {
 				LoadingDialogFragment loadingDialogFragment = (LoadingDialogFragment) skyActivity.getSupportFragmentManager().findFragmentByTag("loading_dialog");
 				if (loadingDialogFragment != null) {
 					loadingDialogFragment.dismissAllowingStateLoss();
+					skyActivity.getSupportFragmentManager().executePendingTransactions();
 				}
 			}
 		});

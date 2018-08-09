@@ -12,6 +12,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
 
@@ -20,6 +21,7 @@ import sk.builder.SKLayoutBuilder;
 import sk.builder.SKRecyclerViewBuilder;
 import sk.builder.SKTintBuilder;
 import sk.builder.SKViewStub;
+import sk.view.sticky.stickyheader.StickyRecyclerHeadersTouchListener;
 
 /**
  * @author sky
@@ -78,7 +80,7 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		Class clazz = SKCoreUtils.getClassGenricType(skActivity.getClass(), 0);
 		Bundle bundle = skActivity.getIntent() == null ? null : skActivity.getIntent().getExtras();
 		SKViewModel skViewModel = SKViewModelProviders.of(skActivity, skActivity.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
-		skActivity.biz = (SKBiz) skViewModel.skProxy.proxy;
+		skActivity.biz = (SKBiz) skViewModel.skProxy.impl;
 	}
 
 	/**
@@ -150,9 +152,31 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	}
 
 	// 设置
-	public void recyclerviewId(@IdRes int recyclerviewId) {
+	public void recyclerviewId(@IdRes int recyclerviewId, @NonNull SKAdapter skAdapter) {
 		skRecyclerViewBuilder = new SKRecyclerViewBuilder(recyclerviewId);
+		skRecyclerViewBuilder.skAdapter = skAdapter;
 	}
+
+	public void recyclerviewLayoutManager(@NonNull RecyclerView.LayoutManager layoutManager) {
+		skRecyclerViewBuilder.layoutManager = layoutManager;
+	}
+
+	public void recyclerviewAnimator(@NonNull RecyclerView.ItemAnimator itemAnimator) {
+		skRecyclerViewBuilder.itemAnimator = itemAnimator;
+	}
+
+	public void recyclerviewItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+		skRecyclerViewBuilder.itemDecoration = itemDecoration;
+
+	}
+
+	public void recyclerviewStickyHeaderClick(@NonNull StickyRecyclerHeadersTouchListener.OnHeaderClickListener onHeaderClickListener) {
+		skRecyclerViewBuilder.onHeaderClickListener = onHeaderClickListener;
+	}
+	public void recyclerviewGridOpenHeaderFooter(boolean bool) {
+		skRecyclerViewBuilder.isHeaderFooter = bool;
+	}
+
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE) void create() {
 		SKInputs.input(skActivity);
@@ -235,5 +259,6 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		InputMethodManager imm = (InputMethodManager) skActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(skActivity.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}
+
 
 }

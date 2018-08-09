@@ -27,6 +27,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':sky-aac')
+    implementation deps.library.glide
     annotationProcessor project(':sky-compiler')
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
