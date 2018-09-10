@@ -1,5 +1,6 @@
 package sky.core;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -66,7 +69,7 @@ public class SKYDisplay implements SKYIDisplay {
 		activity().startActivityFromFragment(fragment, intent, requestCode);
 	}
 
-	@Override public void commitAdd(int layoutId, Fragment fragment) {
+	@SuppressLint("ResourceType") @Override public void commitAdd(int layoutId, Fragment fragment) {
 		checkArgument(layoutId > 0, "布局ID 不能为空~");
 		checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
@@ -76,7 +79,7 @@ public class SKYDisplay implements SKYIDisplay {
 				.commitAllowingStateLoss();
 	}
 
-	@Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
+	@SuppressLint("ResourceType") @Override public void commitChildReplace(Fragment srcFragment, int layoutId, Fragment fragment) {
 		checkArgument(layoutId > 0, "提交布局ID 不能为空~");
 		checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
@@ -86,7 +89,7 @@ public class SKYDisplay implements SKYIDisplay {
 				.commitAllowingStateLoss();
 	}
 
-	@Override public void commitReplace(int layoutId, Fragment fragment) {
+	@SuppressLint("ResourceType") @Override public void commitReplace(int layoutId, Fragment fragment) {
 		checkArgument(layoutId > 0, "提交布局ID 不能为空~");
 		checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
@@ -96,7 +99,7 @@ public class SKYDisplay implements SKYIDisplay {
 				.commitAllowingStateLoss();
 	}
 
-	@Override public void commitBackStack(int layoutId, Fragment fragment) {
+	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment) {
 		checkArgument(layoutId > 0, "提交布局ID 不能为空~");
 		checkNotNull(fragment, "fragment不能为空~");
 		if (activity() == null) {
@@ -107,7 +110,7 @@ public class SKYDisplay implements SKYIDisplay {
 
 	}
 
-	@Override public void commitBackStack(int layoutId, Fragment fragment, int animation) {
+	@SuppressLint("ResourceType") @Override public void commitBackStack(int layoutId, Fragment fragment, int animation) {
 		checkArgument(layoutId > 0, "提交布局ID 不能为空~");
 		checkArgument(animation > 0, "动画 不能为空~");
 		checkNotNull(fragment, "fragment不能为空~");

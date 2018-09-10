@@ -542,16 +542,12 @@ class SKYStructureManage implements SKYStructureIManage {
 		}
 		Log.v(cls.getSimpleName(), builder.toString());
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			final String section = builder.toString().substring(2);
-			Trace.beginSection(section);
-		}
+		final String section = builder.toString().substring(2);
+		Trace.beginSection(section);
 	}
 
 	private void exitMethod(Method method, Object result, long lengthMillis) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			Trace.endSection();
-		}
+		Trace.endSection();
 		Class<?> cls = method.getDeclaringClass();
 		String methodName = method.getName();
 		boolean hasReturnType = method.getReturnType() != void.class;

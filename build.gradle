@@ -4,13 +4,13 @@ buildscript {
     ext.versions = [
             'release'           : '3.1.0-SNAPSHOT',
 
-            'minSdk'            : 14,
+            'minSdk'            : 18,
             'compileSdk'        : 27,
-            'buildTools'        : '27.0.2',
+            'buildTools'        : '27.0.3',
 
-            'supportLibrary'    : '27.0.2',
+            'supportLibrary'    : '27.1.1',
             'constraintVersion' : '1.0.2',
-            'androidPlugin'     : '3.0.1',
+            'androidPlugin'     : '3.1.4',
             'kotlin'            : '1.2.0',
 
             'butterknife'       : '9.0.0-SNAPSHOT',
@@ -134,9 +134,11 @@ subprojects { project ->
 //    }
 
     buildscript {
+
         repositories {
             google()
             mavenCentral()
+            jcenter()
             maven {
                 url "https://plugins.gradle.org/m2/"
             }
@@ -146,4 +148,5 @@ subprojects { project ->
             classpath deps.kotlin.gradlePlugin
         }
     }
+
 }
