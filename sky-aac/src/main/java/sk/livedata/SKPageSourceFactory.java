@@ -1,22 +1,27 @@
-package sk.livedata.list.factory;
+package sk.livedata;
 
 import android.arch.paging.DataSource;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
 
 import sk.SKHelper;
-import sk.livedata.list.SKSourceState;
 
-import static sk.livedata.list.SKSourceState.AFTER;
-import static sk.livedata.list.SKSourceState.BEFORE;
-import static sk.livedata.list.SKSourceState.INIT;
+import static sk.livedata.SKSourceState.AFTER;
+import static sk.livedata.SKSourceState.BEFORE;
+import static sk.livedata.SKSourceState.INIT;
 
 /**
  * @author sky
  * @version 1.0 on 2018-08-06 上午11:21
- * @see SKPageFactory
+ * @see SKPageSourceFactory
  */
-public abstract class SKPageFactory<Key, Value> extends DataSource.Factory<Key, Value> {
+public abstract class SKPageSourceFactory<Key, Value> extends DataSource.Factory<Key, Value> {
+
+	final SKData skData;
+
+	public SKPageSourceFactory() {
+		this.skData = new SKData();
+	}
 
 	@Override public DataSource<Key, Value> create() {
 		SKPageDataSource pageKeyedDataSource = new SKPageDataSource<Key, Value>() {
@@ -90,4 +95,39 @@ public abstract class SKPageFactory<Key, Value> extends DataSource.Factory<Key, 
 
 	public abstract void error(@NonNull SKSourceState skSourceState);
 
+	public void layoutLoading() {
+		skData.layoutLoading();
+	}
+
+	public void layoutContent() {
+		skData.layoutContent();
+	}
+
+	public void layoutEmpty() {
+		skData.layoutEmpty();
+	}
+
+	public void layoutError() {
+		skData.layoutError();
+	}
+
+	public void loading() {
+		skData.loading();
+	}
+
+	public void closeLoading() {
+		skData.closeLoading();
+	}
+
+	public void netWorkRunning() {
+		skData.netWorkRunning();
+	}
+
+	public void netWorkSuccess() {
+		skData.netWorkSuccess();
+	}
+
+	public void netWorkFailed(String message) {
+		skData.netWorkFailed(message);
+	}
 }

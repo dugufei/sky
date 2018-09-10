@@ -7,7 +7,7 @@ import com.squareup.leakcanary.LeakCanary;
 import retrofit2.Retrofit;
 import retrofit2.SKCallAdapterFactory;
 import retrofit2.SKRetrofit;
-import sk.livedata.list.SKPaged;
+import sk.livedata.SKPaged;
 import sk.proxy.SKBizStore;
 import sk.proxy.SKProxy;
 import sk.screen.SKScreenManager;

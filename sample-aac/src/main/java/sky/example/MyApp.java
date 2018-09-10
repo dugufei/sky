@@ -14,13 +14,13 @@ import sk.SKCommonView;
 import sk.SKDI;
 import sk.SKDefaultLibrary;
 import sk.SKHolder;
-import sk.livedata.list.SKLoadMoreHolder;
-import sk.livedata.list.SKNetworkState;
+import sk.livedata.SKLoadMoreHolder;
+import sk.livedata.SKNetworkState;
 import sky.SKDIApp;
 import sky.example.helper.TextBind;
 
-import static sk.livedata.list.SKNetworkState.FAILED;
-import static sk.livedata.list.SKNetworkState.RUNNING;
+import static sk.livedata.SKNetworkState.FAILED;
+import static sk.livedata.SKNetworkState.RUNNING;
 
 
 /**

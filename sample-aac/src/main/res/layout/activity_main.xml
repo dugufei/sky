@@ -23,10 +23,17 @@
         android:layout_height="wrap_content"
         android:text="我是谁3"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_oder"
-        android:background="#000000"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_oder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

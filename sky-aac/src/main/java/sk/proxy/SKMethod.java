@@ -62,8 +62,8 @@ final class SKMethod {
 
 	private static boolean parseRepeat(Method method) {
 
-		Repeat SKYRepeat = method.getAnnotation(Repeat.class);
-		if (SKYRepeat != null && SKYRepeat.value()) {
+		Repeat repeat = method.getAnnotation(Repeat.class);
+		if (repeat != null && repeat.value()) {
 			return true;
 		} else {
 			return false;
@@ -103,7 +103,7 @@ final class SKMethod {
 		if (!isRepeat) {
 			if (isExe) { // 如果存在什么都不做
 				if (SKHelper.isLogOpen()) {
-					L.tag("SKY-Method");
+					L.tag("SK-Method");
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.append(impl.getClass().getSimpleName());
 					stringBuilder.append(".");

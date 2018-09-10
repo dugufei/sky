@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Model {
 
+
 	public String						img;
 
 	@SerializedName("id") public String	id;

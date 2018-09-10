@@ -4,9 +4,6 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 
-import sk.livedata.list.SKNetworkState;
-import sk.livedata.list.factory.SKRetryInterface;
-
 /**
  * @author sky
  * @version 1.0 on 2018-04-27 下午12:16

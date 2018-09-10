@@ -1,6 +1,4 @@
-package sk.livedata.list;
-
-import sk.livedata.SKPagedBuilder;
+package sk.livedata;
 
 /**
  * @author sky

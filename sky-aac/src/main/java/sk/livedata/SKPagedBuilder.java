@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 import java.util.concurrent.Executor;
 
 import sk.SKHelper;
-import sk.livedata.list.SKComputableLiveData;
-import sk.livedata.list.factory.SKRetryInterface;
 
 /**
  * @author sky
@@ -29,7 +27,7 @@ public class SKPagedBuilder<Key, Value> {
 
 	private Executor						mFetchExecutor	= SKHelper.executors().network();
 
-	@NonNull public SKPagedBuilder<Key, Value> setFactory(@NonNull DataSource.Factory<Key, Value> dataSourceFactory) {
+	@NonNull public SKPagedBuilder<Key, Value> setSource(@NonNull DataSource.Factory<Key, Value> dataSourceFactory) {
 		mDataSourceFactory = dataSourceFactory;
 		return this;
 	}
@@ -61,15 +59,25 @@ public class SKPagedBuilder<Key, Value> {
 	 * PagedList is is deferred until the LiveData is observed.
 	 *
 	 * @return The LiveData of PagedLists
-	 * @param skData
 	 */
-	@NonNull public SKData<PagedList<Value>> build(SKData<PagedList<Value>> skData) {
+	@NonNull public SKData<PagedList<Value>> build() {
 		if (mConfig == null) {
 			throw new IllegalArgumentException("PagedList.Config must be provided");
 		} else if (mDataSourceFactory == null) {
 			throw new IllegalArgumentException("DataSource.Factory must be provided");
 		}
-		return create(mInitialLoadKey, mConfig, mBoundaryCallback, mDataSourceFactory, SKHelper.executors().mainThread(), mFetchExecutor, skData);
+		SKData skData = null;
+		if(mDataSourceFactory instanceof SKItemSourceFactory){
+			skData = ((SKItemSourceFactory)mDataSourceFactory).skData;
+		}else if (mDataSourceFactory instanceof SKPageSourceFactory){
+			skData = ((SKPageSourceFactory)mDataSourceFactory).skData;
+		}else if(mDataSourceFactory instanceof SKPositionSourceFactory){
+			skData = ((SKPositionSourceFactory)mDataSourceFactory).skData;
+		}else {
+			throw new IllegalArgumentException("DataSource.Factory not in SK");
+		}
+
+		return create(mInitialLoadKey, mConfig, mBoundaryCallback, mDataSourceFactory, SKHelper.executors().mainThread(), mFetchExecutor,skData);
 	}
 
 	@AnyThread @NonNull private static <Key, Value> SKData<PagedList<Value>> create(@Nullable final Key initialLoadKey, @NonNull final PagedList.Config config,

@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':sky')
-    implementation project(':sky-di')
+//    implementation project(':sky-di')
     annotationProcessor project(':sky-compiler')
     api deps.lifecycle
 

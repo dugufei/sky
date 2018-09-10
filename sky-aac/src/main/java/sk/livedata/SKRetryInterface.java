@@ -1,4 +1,4 @@
-package sk.livedata.list.factory;
+package sk.livedata;
 
 /**
  * @author sky

@@ -1,23 +1,27 @@
-package sk.livedata.list.factory;
+package sk.livedata;
 
 import android.arch.paging.DataSource;
 import android.arch.paging.ItemKeyedDataSource;
 import android.support.annotation.NonNull;
 
 import sk.SKHelper;
-import sk.SKHolder;
-import sk.livedata.list.SKSourceState;
 
-import static sk.livedata.list.SKSourceState.AFTER;
-import static sk.livedata.list.SKSourceState.BEFORE;
-import static sk.livedata.list.SKSourceState.INIT;
+import static sk.livedata.SKSourceState.AFTER;
+import static sk.livedata.SKSourceState.BEFORE;
+import static sk.livedata.SKSourceState.INIT;
 
 /**
  * @author sky
  * @version 1.0 on 2018-08-06 下午1:53
- * @see SKItemFactory
+ * @see SKItemSourceFactory
  */
-public abstract class SKItemFactory<Key, Value> extends DataSource.Factory<Key, Value> {
+public abstract class SKItemSourceFactory<Key, Value> extends DataSource.Factory<Key, Value> {
+
+	final SKData skData;
+
+	public SKItemSourceFactory() {
+		this.skData = new SKData();
+	}
 
 	@Override public DataSource<Key, Value> create() {
 		SKItemDataSource itemKeyedDataSource = new SKItemDataSource<Key, Value>() {
@@ -36,7 +40,6 @@ public abstract class SKItemFactory<Key, Value> extends DataSource.Factory<Key, 
 						throwable.printStackTrace();
 					}
 					if (runnable == null) {
-
 						runnable = new Runnable() {
 
 							@Override public void run() {
@@ -109,4 +112,39 @@ public abstract class SKItemFactory<Key, Value> extends DataSource.Factory<Key, 
 
 	public abstract Key key(@NonNull Value item);
 
+	public void layoutLoading() {
+		skData.layoutLoading();
+	}
+
+	public void layoutContent() {
+		skData.layoutContent();
+	}
+
+	public void layoutEmpty() {
+		skData.layoutEmpty();
+	}
+
+	public void layoutError() {
+		skData.layoutError();
+	}
+
+	public void loading() {
+		skData.loading();
+	}
+
+	public void closeLoading() {
+		skData.closeLoading();
+	}
+
+	public void netWorkRunning() {
+		skData.netWorkRunning();
+	}
+
+	public void netWorkSuccess() {
+		skData.netWorkSuccess();
+	}
+
+	public void netWorkFailed(String message) {
+		skData.netWorkFailed(message);
+	}
 }

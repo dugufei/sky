@@ -1,4 +1,4 @@
-package sk.livedata.list;
+package sk.livedata;
 
 import android.view.View;
 

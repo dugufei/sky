@@ -1,4 +1,4 @@
-package sk.livedata.list;
+package sk.livedata;
 
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -9,7 +9,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import sk.SKHelper;
-import sk.livedata.SKData;
 
 /**
  * @author sky

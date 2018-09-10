@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import sk.livedata.SKObserver;
 import sk.livedata.SKViewState;
-import sk.livedata.list.SKNetworkState;
+import sk.livedata.SKNetworkState;
 import sky.SKInput;
 
 /**
@@ -26,7 +26,9 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 
 	private SKActivityBuilder	skBuilder;
 
-	protected B							biz;
+	protected B					biz;
+
+	private B					bizProxy;
 
 	@SKInput SKViewModelFactory	skViewModelFactory;
 
@@ -138,7 +140,7 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 	}
 
 	public B biz() {
-		return biz;
+		return skBuilder.bizProxy();
 	}
 
 	public <PB extends SKBiz> PB biz(Class<PB> bizClass) {
@@ -220,7 +222,7 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 		}
 
 		@Override public void onAction(SKNetworkState networkState) {
-			if(adapter() != null){
+			if (adapter() != null) {
 				adapter().setNetworkState(networkState);
 			}
 		}

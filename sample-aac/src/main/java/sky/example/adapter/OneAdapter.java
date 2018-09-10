@@ -13,7 +13,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import sk.SKAdapter;
 import sk.SKHolder;
-import sk.livedata.list.SKLoadMoreCallBack;
+import sk.livedata.SKLoadMoreCallBack;
+import sky.example.MainBiz;
 import sky.example.R;
 import sky.example.http.model.Model;
 
@@ -24,8 +25,17 @@ import sky.example.http.model.Model;
  */
 public class OneAdapter extends SKAdapter<Model, SKHolder> {
 
-	public OneAdapter(@NonNull DiffUtil.ItemCallback diffCallback, @NonNull SKLoadMoreCallBack skLoadMoreCallBac) {
-		super(diffCallback, skLoadMoreCallBac);
+	public OneAdapter(@NonNull SKLoadMoreCallBack skLoadMoreCallBac) {
+		super(new DiffUtil.ItemCallback<Model>() {
+
+			@Override public boolean areItemsTheSame(Model oldItem, Model newItem) {
+				return oldItem.getClass() == newItem.getClass();
+			}
+
+			@Override public boolean areContentsTheSame(Model oldItem, Model newItem) {
+				return oldItem.id.equals(newItem.id);
+			}
+		}, skLoadMoreCallBac);
 	}
 
 	@Override public int layoutID(int position) {
@@ -33,8 +43,6 @@ public class OneAdapter extends SKAdapter<Model, SKHolder> {
 	}
 
 	@Override public SKHolder newHolder(int viewType, View view, Context context) {
-
-
 		return new ItemHolder(view);
 	}
 
@@ -53,7 +61,12 @@ public class OneAdapter extends SKAdapter<Model, SKHolder> {
 			Glide.with(ivItem.getContext()).load(model.img).into(ivItem);
 		}
 
-		@OnClick(R.id.iv_item) public void onViewClicked() {}
+		@OnClick(R.id.iv_item) public void onViewClicked() {
+			// Model model = getItem(getAdapterPosition());
+			// model.id ="哈哈哈哈哈哈";
+			// notifyItemChanged(getAdapterPosition());
+			biz(MainBiz.class).change(getAdapterPosition());
+		}
 
 	}
 

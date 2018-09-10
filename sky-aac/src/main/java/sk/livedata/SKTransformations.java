@@ -6,8 +6,6 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import sk.livedata.list.SKNetworkState;
-
 /**
  * @author sky
  * @version 1.0 on 2018-08-02 下午9:06

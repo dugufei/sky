@@ -15,7 +15,6 @@ import java.util.Set;
 
 import sk.L;
 import sk.SKHelper;
-import sk.livedata.list.SKNetworkState;
 
 /**
  * @author sky

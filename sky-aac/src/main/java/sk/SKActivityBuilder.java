@@ -76,11 +76,18 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	/**
 	 * 初始化ViewModel
 	 */
+
+	SKViewModel skViewModel;
+
 	private void initViewModel() {
 		Class clazz = SKCoreUtils.getClassGenricType(skActivity.getClass(), 0);
 		Bundle bundle = skActivity.getIntent() == null ? null : skActivity.getIntent().getExtras();
-		SKViewModel skViewModel = SKViewModelProviders.of(skActivity, skActivity.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
+		skViewModel = SKViewModelProviders.of(skActivity, skActivity.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
 		skActivity.biz = (SKBiz) skViewModel.skProxy.impl;
+	}
+
+	@NonNull <B extends SKBiz> B bizProxy() {
+		return (B) skViewModel.skProxy.proxy;
 	}
 
 	/**
@@ -173,10 +180,10 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	public void recyclerviewStickyHeaderClick(@NonNull StickyRecyclerHeadersTouchListener.OnHeaderClickListener onHeaderClickListener) {
 		skRecyclerViewBuilder.onHeaderClickListener = onHeaderClickListener;
 	}
+
 	public void recyclerviewGridOpenHeaderFooter(boolean bool) {
 		skRecyclerViewBuilder.isHeaderFooter = bool;
 	}
-
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE) void create() {
 		SKInputs.input(skActivity);
@@ -259,6 +266,5 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		InputMethodManager imm = (InputMethodManager) skActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(skActivity.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}
-
 
 }

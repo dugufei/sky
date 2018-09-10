@@ -3,7 +3,7 @@ package sk;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import sk.livedata.list.SKLoadMoreHolder;
+import sk.livedata.SKLoadMoreHolder;
 
 /**
  * @author sky

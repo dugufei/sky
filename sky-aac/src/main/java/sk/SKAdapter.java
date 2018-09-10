@@ -1,44 +1,70 @@
 package sk;
 
-import android.arch.paging.PagedListAdapter;
+import android.arch.paging.PagedList;
+import android.arch.paging.SKAsyncPagedListDiffer;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
+import android.support.v7.util.AdapterListUpdateCallback;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import sk.livedata.list.SKLoadMoreCallBack;
-import sk.livedata.list.SKLoadMoreHolder;
-import sk.livedata.list.SKNetworkState;
+import sk.livedata.SKLoadMoreCallBack;
+import sk.livedata.SKLoadMoreHolder;
+import sk.livedata.SKNetworkState;
 
 /**
  * @author sky
  * @version 1.0 on 2018-07-12 下午11:36
  * @see SKAdapter
  */
-public abstract class SKAdapter<T, V extends SKHolder> extends PagedListAdapter<T, V> {
+public abstract class SKAdapter<T, V extends SKHolder> extends RecyclerView.Adapter<V> {
 
-	private static final int	VIEW_TOP		= 10000;
+	private static final int									VIEW_TOP		= 10000;
 
-	private static final int	VIEW_LOAD_MORE	= 20000;
+	private static final int									VIEW_LOAD_MORE	= 20000;
 
-	private SKNetworkState		oldNetworkState;
+	private SKNetworkState										oldNetworkState;
 
-	private SKLoadMoreCallBack	skLoadMoreCallBack;
+	private SKLoadMoreCallBack									skLoadMoreCallBack;
+
+	private final SKAsyncPagedListDiffer<T>						mDiffer;
+
+	private final SKAsyncPagedListDiffer.PagedListListener<T>	mListener		= new SKAsyncPagedListDiffer.PagedListListener<T>() {
+
+																					@Override public void onCurrentListChanged(@Nullable PagedList<T> currentList) {
+																						SKAdapter.this.onCurrentListChanged(currentList);
+																					}
+																				};
+
+	public void onCurrentListChanged(@Nullable PagedList<T> currentList) {}
+
+	final List<T> items;
+
+	protected SKAdapter() {
+		items = new ArrayList<>();
+		mDiffer = null;
+	}
 
 	protected SKAdapter(@NonNull DiffUtil.ItemCallback diffCallback, @NonNull SKLoadMoreCallBack skLoadMoreCallBac) {
-		super(diffCallback);
+		mDiffer = new SKAsyncPagedListDiffer<T>(this, diffCallback);
+		mDiffer.mListener = mListener;
 		this.skLoadMoreCallBack = skLoadMoreCallBac;
+		this.items = null;
 	}
 
 	protected SKAdapter(@NonNull AsyncDifferConfig config, @NonNull SKLoadMoreCallBack skLoadMoreCallBack) {
-		super(config);
+		mDiffer = new SKAsyncPagedListDiffer<>(new AdapterListUpdateCallback(this), config);
+		mDiffer.mListener = mListener;
 		this.skLoadMoreCallBack = skLoadMoreCallBack;
+		this.items = null;
 	}
 
 	public abstract int layoutID(int position);
@@ -55,11 +81,6 @@ public abstract class SKAdapter<T, V extends SKHolder> extends PagedListAdapter<
 
 	public V itemUnknownType(LayoutInflater from, ViewGroup viewGroup, int viewType) {
 		return null;
-	}
-
-	@Override public int getItemCount() {
-		int loadMore = hasExtraRow() ? 1 : 0;
-		return super.getItemCount() + loadMore;
 	}
 
 	@Override public int getItemViewType(int position) {
@@ -117,8 +138,17 @@ public abstract class SKAdapter<T, V extends SKHolder> extends PagedListAdapter<
 		}
 	}
 
-	@Nullable public List<T> getItems() {
-		return getCurrentList();
+	public void setItems(PagedList<T> pagedList) {
+		if (mDiffer == null) {
+			return;
+		}
+		mDiffer.submitList(pagedList);
+	}
+
+	public void setItems(List<T> list) {
+		this.items.clear();
+		this.items.addAll(list);
+		notifyDataSetChanged();
 	}
 
 	/**
@@ -150,12 +180,30 @@ public abstract class SKAdapter<T, V extends SKHolder> extends PagedListAdapter<
 		boolean hasExtraRow = hasExtraRow();
 		if (hadExtraRow != hasExtraRow) {
 			if (hadExtraRow) {
-				notifyItemRemoved(super.getItemCount());
+				notifyItemRemoved(itemCount());
 			} else {
-				notifyItemInserted(super.getItemCount());
+				notifyItemInserted(itemCount());
 			}
 		} else if (hasExtraRow && previousState != newNetworkState) {
 			notifyItemChanged(getItemCount() - 1);
 		}
 	}
+
+	@Nullable protected T getItem(int position) {
+		return mDiffer == null ? items.get(position) : mDiffer.getItem(position);
+	}
+
+	@Override public int getItemCount() {
+		int loadMore = hasExtraRow() ? 1 : 0;
+		return itemCount() + loadMore;
+	}
+
+	private int itemCount() {
+		return mDiffer == null ? items.size() : mDiffer.getItemCount();
+	}
+
+	@Nullable public List<T> getItems() {
+		return mDiffer == null ? items : mDiffer.getCurrentList();
+	}
+
 }

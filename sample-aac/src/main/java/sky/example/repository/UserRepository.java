@@ -1,8 +1,6 @@
 package sky.example.repository;
 
 import android.arch.paging.ItemKeyedDataSource;
-import android.arch.paging.PagedList;
-import android.arch.paging.SKPagedList;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -13,9 +11,9 @@ import sk.SKHelper;
 import sk.SKRepository;
 import sk.livedata.SKPagedBuilder;
 import sk.livedata.SKData;
-import sk.livedata.list.SKPaged;
-import sk.livedata.list.SKSourceState;
-import sk.livedata.list.factory.SKItemFactory;
+import sk.livedata.SKPaged;
+import sk.livedata.SKSourceState;
+import sk.livedata.SKItemSourceFactory;
 import sky.Interceptor;
 import sky.SKHTTP;
 import sky.SKIO;
@@ -69,26 +67,24 @@ public class UserRepository extends SKRepository<UserRepository> {
 	}
 
 	public SKData loadModel() {
-		final SKData<SKPagedList<List<Model>>> skData = new SKData<>();
-
 		SKPagedBuilder skPagedBuilder = skPaged.pagedBuilder();
 		skPagedBuilder.setPageSie(25);
-		skPagedBuilder.setFactory(new SKItemFactory<String, Model>() {
+		skPagedBuilder.setSource(new SKItemSourceFactory<String, Model>() {
 
 			@Override public void init(@NonNull ItemKeyedDataSource.LoadInitialParams<String> params, @NonNull ItemKeyedDataSource.LoadInitialCallback<Model> callback) {
-				skData.loading();
+				loading();
 //				List<Model> list = http(GithubHttp.class).rateLimit().get();
 				List<Model> list = new ArrayList<>();
 				for (int i = 0; i < 31; i++) {
 					Model model = new Model();
-					model.id = "初始化---" + i + "::----" + params.requestedInitialKey + " ::----" + params.requestedLoadSize;
+					model.id = "初始化---" + i;
 					model.img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
 					list.add(model);
 				}
 
 				callback.onResult(list);
-				skData.layoutContent();
-				skData.closeLoading();
+				layoutContent();
+				closeLoading();
 			}
 
 			@Override public void before(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
@@ -97,7 +93,7 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 			@Override public void after(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
 				L.i("after 我执行了~~");
-				skData.netWorkRunning();
+				netWorkRunning();
 				List<Model> list = http(GithubHttp.class).rateLimit().get();
 
 				for (int i = 0; i < list.size(); i++) {
@@ -108,18 +104,18 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 				callback.onResult(list);
 
-				skData.netWorkSuccess();
+				netWorkSuccess();
 			}
 
 			@Override public void error(@NonNull SKSourceState skSourceState) {
 
 				switch (skSourceState) {
 					case INIT:
-						skData.closeLoading();
-						skData.layoutError();
+						closeLoading();
+						layoutError();
 						break;
 					case AFTER:
-						skData.netWorkFailed("加载失败了");
+						netWorkFailed("加载失败了");
 						break;
 				}
 			}
@@ -130,6 +126,6 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 		});
 
-		return skPagedBuilder.build(skData);
+		return skPagedBuilder.build();
 	}
 }
