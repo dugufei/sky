@@ -10,7 +10,6 @@ import android.view.WindowManager;
  * @author sky
  * @version 版本
  */
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class SKYSystemUiHiderHoneycomb extends SKYSystemUiHider {
 
@@ -66,114 +65,113 @@ public class SKYSystemUiHiderHoneycomb extends SKYSystemUiHider {
 		return mVisible;
 	}
 
-	private View.OnSystemUiVisibilityChangeListener	mSystemUiVisibilityChangeListener	= new View.OnSystemUiVisibilityChangeListener() {
+	private View.OnSystemUiVisibilityChangeListener mSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
 
-																							@Override public void onSystemUiVisibilityChange(int vis) {
-																								// Test
-																								// against
-																								// mTestFlags
-																								// to
-																								// see
-																								// if
-																								// the
-																								// system
-																								// UI
-																								// is
-																								// visible.
-																								if ((vis & mTestFlags) != 0) {
-																									if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-																										// Pre-Jelly
-																										// Bean,
-																										// we
-																										// must
-																										// use
-																										// the
-																										// old
-																										// window
-																										// flags
-																										// API.
-																										mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-																												WindowManager.LayoutParams.FLAG_FULLSCREEN);
-																									}
+		@Override public void onSystemUiVisibilityChange(int vis) {
+			// Test
+			// against
+			// mTestFlags
+			// to
+			// see
+			// if
+			// the
+			// system
+			// UI
+			// is
+			// visible.
+			if ((vis & mTestFlags) != 0) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+					// Pre-Jelly
+					// Bean,
+					// we
+					// must
+					// use
+					// the
+					// old
+					// window
+					// flags
+					// API.
+					mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				}
 
-																									// As
-																									// we
-																									// use
-																									// the
-																									// appcompat
-																									// toolbar
-																									// as
-																									// an
-																									// action
-																									// bar,
-																									// we
-																									// must
-																									// manually
-																									// hide
-																									// it
-																									if (mActivity.getSupportActionBar() != null) {
-																										mActivity.getSupportActionBar().hide();
-																									}
+				// As
+				// we
+				// use
+				// the
+				// appcompat
+				// toolbar
+				// as
+				// an
+				// action
+				// bar,
+				// we
+				// must
+				// manually
+				// hide
+				// it
+				if (mActivity.getSupportActionBar() != null) {
+					mActivity.getSupportActionBar().hide();
+				}
 
-																									// Trigger
-																									// the
-																									// registered
-																									// listener
-																									// and
-																									// cache
-																									// the
-																									// visibility
-																									// state.
-																									mOnVisibilityChangeListener.onVisibilityChange(false);
-																									mVisible = false;
+				// Trigger
+				// the
+				// registered
+				// listener
+				// and
+				// cache
+				// the
+				// visibility
+				// state.
+				mOnVisibilityChangeListener.onVisibilityChange(false);
+				mVisible = false;
 
-																								} else {
-																									mAnchorView.setSystemUiVisibility(mShowFlags);
-																									if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-																										// Pre-Jelly
-																										// Bean,
-																										// we
-																										// must
-																										// use
-																										// the
-																										// old
-																										// window
-																										// flags
-																										// API.
-																										mActivity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-																									}
+			} else {
+				mAnchorView.setSystemUiVisibility(mShowFlags);
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+					// Pre-Jelly
+					// Bean,
+					// we
+					// must
+					// use
+					// the
+					// old
+					// window
+					// flags
+					// API.
+					mActivity.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				}
 
-																									// As
-																									// we
-																									// use
-																									// the
-																									// appcompat
-																									// toolbar
-																									// as
-																									// an
-																									// action
-																									// bar,
-																									// we
-																									// must
-																									// manually
-																									// show
-																									// it
-																									if (mActivity.getSupportActionBar() != null) {
-																										mActivity.getSupportActionBar().show();
-																									}
+				// As
+				// we
+				// use
+				// the
+				// appcompat
+				// toolbar
+				// as
+				// an
+				// action
+				// bar,
+				// we
+				// must
+				// manually
+				// show
+				// it
+				if (mActivity.getSupportActionBar() != null) {
+					mActivity.getSupportActionBar().show();
+				}
 
-																									// Trigger
-																									// the
-																									// registered
-																									// listener
-																									// and
-																									// cache
-																									// the
-																									// visibility
-																									// state.
-																									mOnVisibilityChangeListener.onVisibilityChange(true);
-																									mVisible = true;
-																								}
-																							}
-																						};
+				// Trigger
+				// the
+				// registered
+				// listener
+				// and
+				// cache
+				// the
+				// visibility
+				// state.
+				mOnVisibilityChangeListener.onVisibilityChange(true);
+				mVisible = true;
+			}
+		}
+	};
 }

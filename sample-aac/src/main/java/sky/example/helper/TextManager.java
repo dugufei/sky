@@ -3,7 +3,7 @@ package sky.example.helper;
 import sk.SKDefaultManager;
 import sky.SKInput;
 import sk.SKLazy;
-import sky.example.helper.modules.ABC;
+import sky.example.helper.modules.BoutModel;
 
 /**
  * @author sky
@@ -12,5 +12,5 @@ import sky.example.helper.modules.ABC;
  */
 public class TextManager extends SKDefaultManager {
 
-	@SKInput SKLazy<ABC> abc;
+	@SKInput SKLazy<BoutModel> abc;
 }

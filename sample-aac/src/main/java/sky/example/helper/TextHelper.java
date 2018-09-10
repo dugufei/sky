@@ -1,7 +1,7 @@
 package sky.example.helper;
 
 import sk.SKHelper;
-import sky.example.helper.modules.ABC;
+import sky.example.helper.modules.BoutModel;
 
 /**
  * @author sky
@@ -10,7 +10,7 @@ import sky.example.helper.modules.ABC;
  */
 public class TextHelper extends SKHelper {
 
-	public static ABC abc() {
+	public static BoutModel abc() {
 		TextManager textManager = getManage();
 		return textManager.abc.get();
 	}

@@ -8,7 +8,6 @@ import java.util.List;
 import sk.SKBiz;
 import sk.SKHelper;
 import sk.livedata.SKData;
-import sky.OpenBiz;
 import sky.SKHTTP;
 import sky.SKInput;
 import sky.example.http.model.Model;

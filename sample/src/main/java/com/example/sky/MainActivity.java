@@ -44,9 +44,9 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 		MainVM mainVM = ViewModelProviders.of(this).get(MainVM.class);
 
-//		mainVM.userMutableLiveData.observe(this, user -> {
-//			textView2.setText(user.name);
-//		});
+		// mainVM.userMutableLiveData.observe(this, user -> {
+		// textView2.setText(user.name);
+		// });
 
 	}
 
@@ -69,6 +69,8 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 			case R.id.tv_reload:
 			case R.id.tv_reload_a:
 				showContent();
+				break;
+			default:
 				break;
 		}
 	}

@@ -1,8 +1,8 @@
 apply plugin: 'java'
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation project(':sky-annotations')
@@ -18,12 +18,12 @@ dependencies {
     testImplementation deps.truth
 }
 
-checkstyle {
-    configFile rootProject.file('checkstyle.xml')
-    showViolations true
-    //Remove this when tests are less verbose, i.e. using JavaPoet
-    sourceSets = [sourceSets.main]
-}
+//checkstyle {
+//    configFile rootProject.file('checkstyle.xml')
+//    showViolations true
+//    //Remove this when tests are less verbose, i.e. using JavaPoet
+//    sourceSets = [sourceSets.main]
+//}
 
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

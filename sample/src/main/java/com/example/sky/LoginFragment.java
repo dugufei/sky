@@ -51,11 +51,6 @@ public class LoginFragment extends SKYFragment<LoginBiz> {
 		close();
 	}
 
-	/**
-	 * 设置数据
-	 * 
-	 * @param value
-	 */
 	public void setText(String value) {
 		textView.setText(value);
 	}

@@ -73,7 +73,7 @@ public class UserRepository extends SKRepository<UserRepository> {
 
 			@Override public void init(@NonNull ItemKeyedDataSource.LoadInitialParams<String> params, @NonNull ItemKeyedDataSource.LoadInitialCallback<Model> callback) {
 				loading();
-//				List<Model> list = http(GithubHttp.class).rateLimit().get();
+				// List<Model> list = http(GithubHttp.class).rateLimit().get();
 				List<Model> list = new ArrayList<>();
 				for (int i = 0; i < 31; i++) {
 					Model model = new Model();
@@ -116,6 +116,8 @@ public class UserRepository extends SKRepository<UserRepository> {
 						break;
 					case AFTER:
 						netWorkFailed("加载失败了");
+						break;
+					default:
 						break;
 				}
 			}

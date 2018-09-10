@@ -10,7 +10,7 @@ import sky.SKSingleton;
  */
 public class TextModules {
 
-	@SKSingleton @SKProvider public ABC providerABC() {
-		return new ABC();
+	@SKSingleton @SKProvider public BoutModel providerABC() {
+		return new BoutModel();
 	}
 }

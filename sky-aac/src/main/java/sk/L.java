@@ -523,11 +523,6 @@ public final class L {
 			prepareLog(priority, t, null);
 		}
 
-		/**
-		 * Return whether a message at {@code priority} should be logged.
-		 * 
-		 * @deprecated use {@link #isLoggable(String, int)} instead.
-		 */
 		@Deprecated protected boolean isLoggable(int priority) {
 			return true;
 		}

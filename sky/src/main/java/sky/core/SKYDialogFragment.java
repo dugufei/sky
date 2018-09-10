@@ -42,20 +42,20 @@ import sky.core.interfaces.SKYIDialogFragment;
  */
 public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment implements SKYIDialogFragment, DialogInterface.OnKeyListener, SKYIView {
 
-	private boolean					targetActivity;
+	private boolean				targetActivity;
 
 	/** 请求编码 **/
-	protected int					mRequestCode		= 0;
+	protected int				mRequestCode		= 0;
 
 	/** 请求默认值 **/
-	public final static String		ARG_REQUEST_CODE	= "SKY_request_code";
+	public final static String	ARG_REQUEST_CODE	= "SKY_request_code";
 
 	/** View层编辑器 **/
-	private sky.core.SKYBuilder SKYBuilder;
+	private sky.core.SKYBuilder	SKYBuilder;
 
-	SKYStructureModel skyStructureModel;
+	SKYStructureModel			skyStructureModel;
 
-	private Unbinder				unbinder;
+	private Unbinder			unbinder;
 
 	/**
 	 * 定制
@@ -258,7 +258,7 @@ public abstract class SKYDialogFragment<B extends SKYBiz> extends DialogFragment
 	/**
 	 * 清空
 	 */
-	protected void detach() {}
+	protected void detach(){}
 
 	/**
 	 * 设置输入法

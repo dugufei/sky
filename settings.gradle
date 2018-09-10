@@ -7,7 +7,7 @@ include ':sample'
 include ':sample-kotlin'
 include ':sample-aac'
 
-include ':sky-kotlin'
+//include ':sky-kotlin'
 include ':sky-aac'
 include ':sky-di'
 

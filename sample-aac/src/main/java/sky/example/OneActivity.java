@@ -1,6 +1,5 @@
 package sky.example;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -8,7 +7,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
-import sk.SKCollections;
 import sk.SKHelper;
 
 /**

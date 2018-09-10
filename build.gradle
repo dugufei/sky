@@ -112,25 +112,26 @@ subprojects { project ->
 
     }
 
-    if (!project.name.equals('sky-gradle-plugin')) {
-        apply plugin: 'checkstyle'
+//    if (!project.name.equals('sky-gradle-plugin')) {
+//        apply plugin: 'checkstyle'
+//
+//        task checkstyle(type: Checkstyle) {
+//            configFile rootProject.file('checkstyle.xml')
+//            source 'src/main/java'
+//            ignoreFailures false
+//            showViolations true
 
-        task checkstyle(type: Checkstyle) {
-            configFile rootProject.file('checkstyle.xml')
-            source 'src/main/java'
-            ignoreFailures false
-            showViolations true
-            include '**/*.java'
-
-            classpath = files()
-        }
-
-        afterEvaluate {
-            if (project.tasks.findByName('check')) {
-                check.dependsOn('checkstyle')
-            }
-        }
-    }
+//            include '**/*.java'
+//
+//            classpath = files()
+//        }
+//
+//        afterEvaluate {
+//            if (project.tasks.findByName('check')) {
+//                check.dependsOn('checkstyle')
+//            }
+//        }
+//    }
 
     buildscript {
         repositories {
@@ -146,4 +147,3 @@ subprojects { project ->
         }
     }
 }
-

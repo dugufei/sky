@@ -17,6 +17,9 @@ android {
             minifyEnabled false
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 
     compileOptions {
         targetCompatibility 1.8

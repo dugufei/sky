@@ -5,10 +5,8 @@ import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.util.DiffUtil;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -16,10 +14,7 @@ import butterknife.OnClick;
 import sk.SKActivity;
 import sk.SKActivityBuilder;
 import sk.builder.SKViewStub;
-import sk.livedata.SKLoadMoreCallBack;
 import sk.livedata.SKViewState;
-import sky.OpenBiz;
-import sky.OpenDisplay;
 import sky.example.adapter.OneAdapter;
 import sky.example.http.model.Model;
 

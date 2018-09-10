@@ -65,6 +65,8 @@ public class MainBiz extends SKYBiz<MainActivity> {
 			case 2:
 				L.i("自定义" + interceptor);
 				break;
+			default:
+				break;
 		}
 		return super.interceptBizError(interceptor, throwable);
 	}

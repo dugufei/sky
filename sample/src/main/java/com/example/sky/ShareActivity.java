@@ -28,11 +28,11 @@ public class ShareActivity extends SKYActivity {
 
 	@BindView(R.id.btn_close) Button	btnClose;
 
-	@OpenDisplay public static final void intent(String name,int number) {
-		Bundle bundle =new Bundle();
-		bundle.putString("name",name);
-		bundle.putInt("number",number);
-		SKYHelper.display(SKYIDisplay.class).intent(ShareActivity.class,bundle);
+	@OpenDisplay public static final void intent(String name, int number) {
+		Bundle bundle = new Bundle();
+		bundle.putString("name", name);
+		bundle.putInt("number", number);
+		SKYHelper.display(SKYIDisplay.class).intent(ShareActivity.class, bundle);
 	}
 
 	@Override protected SKYBuilder build(SKYBuilder initialSKYBuilder) {
@@ -41,7 +41,7 @@ public class ShareActivity extends SKYActivity {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		if(savedInstanceState == null){
+		if (savedInstanceState == null) {
 			return;
 		}
 		btn.setText(savedInstanceState.getString("name"));
@@ -74,6 +74,8 @@ public class ShareActivity extends SKYActivity {
 				break;
 			case R.id.btn_close:
 				closeLoading();
+				break;
+			default:
 				break;
 		}
 	}

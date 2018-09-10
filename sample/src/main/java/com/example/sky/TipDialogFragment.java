@@ -53,6 +53,8 @@ public class TipDialogFragment extends SKYDialogFragment<TipBiz> {
 				}
 				dismissAllowingStateLoss();
 				break;
+			default:
+				break;
 		}
 	}
 

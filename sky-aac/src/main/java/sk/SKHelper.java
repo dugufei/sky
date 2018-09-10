@@ -7,13 +7,9 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.SKRetrofit;
 import sk.proxy.SKBizStore;
 import sk.screen.SKScreenHolder;
