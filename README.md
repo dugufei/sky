@@ -28,7 +28,6 @@
  
       dependencies {
          api 'com.jincanshen:sky:3.1.0-SNAPSHOT' //SKY架构
-         api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 架构 
          annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
       }
  
