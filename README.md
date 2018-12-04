@@ -5,7 +5,7 @@
 
 [SKY 版本说明](https://github.com/skyJinc/sky/wiki)
 -----------------------------------
-3.1.0-SNAPSHOT
+3.1.0
 
  - 支持kotlin 前提是 类和方法都加上open
  - 支持父类方法的调用
@@ -28,7 +28,7 @@
  
       dependencies {
          api 'com.jincanshen:sky:3.1.0-SNAPSHOT' //SKY架构
-         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
       }
  
 [SKY-AAC 版本说明](https://github.com/skyJinc/sky/wiki)
@@ -46,7 +46,7 @@
  
       dependencies {
          api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 
-         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
       }
  
  
@@ -67,8 +67,8 @@
  App-build.gradle:
  
       dependencies {
-         api 'com.jincanshen:sky-di:3.1.0-SNAPSHOT' 
-         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0-SNAPSHOT'
+         api 'com.jincanshen:sky-di:3.1.0' 
+         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
       }
  
 
