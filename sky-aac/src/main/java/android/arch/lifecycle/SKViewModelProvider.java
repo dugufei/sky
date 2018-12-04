@@ -29,7 +29,7 @@ public class SKViewModelProvider {
 	private final SKViewModelStore				mViewModelStore;
 
 	public SKViewModelProvider(@NonNull SKViewModelStoreOwner owner, @NonNull SKViewModelProvider.Factory factory) {
-		this(owner.getViewModelStore(), factory);
+		this(owner.getSKViewModelStore(), factory);
 	}
 
 	public SKViewModelProvider(@NonNull SKViewModelStore store, @NonNull SKViewModelProvider.Factory factory) {

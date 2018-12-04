@@ -19,39 +19,39 @@ public class SKViewModelStores {
 
 	@NonNull @MainThread public static SKViewModelStore of(@NonNull FragmentActivity activity) {
 		if (activity instanceof SKViewModelStoreOwner) {
-			return ((SKViewModelStoreOwner) activity).getViewModelStore();
+			return ((SKViewModelStoreOwner) activity).getSKViewModelStore();
 		}
-		return holderFragmentFor(activity).getViewModelStore();
+		return holderFragmentFor(activity).getSKViewModelStore();
 	}
 
 	@NonNull @MainThread public static SKViewModelStore of(@NonNull Fragment fragment) {
 		if (fragment instanceof SKViewModelStoreOwner) {
-			return ((SKViewModelStoreOwner) fragment).getViewModelStore();
+			return ((SKViewModelStoreOwner) fragment).getSKViewModelStore();
 		}
-		return holderFragmentFor(fragment).getViewModelStore();
+		return holderFragmentFor(fragment).getSKViewModelStore();
 	}
 
 	@NonNull @MainThread public static SKViewModelStore find(@NonNull FragmentActivity activity) {
 		if (activity instanceof SKViewModelStoreOwner) {
-			return ((SKViewModelStoreOwner) activity).getViewModelStore();
+			return ((SKViewModelStoreOwner) activity).getSKViewModelStore();
 		}
 		SKHolderFragment skHolderFragment = holderFragmentFind(activity);
 
 		if (skHolderFragment == null) {
 			return null;
 		}
-		return skHolderFragment.getViewModelStore();
+		return skHolderFragment.getSKViewModelStore();
 	}
 
 	@NonNull @MainThread public static SKViewModelStore find(@NonNull Fragment fragment) {
 		if (fragment instanceof SKViewModelStoreOwner) {
-			return ((SKViewModelStoreOwner) fragment).getViewModelStore();
+			return ((SKViewModelStoreOwner) fragment).getSKViewModelStore();
 		}
 		SKHolderFragment skHolderFragment = holderFragmentFind(fragment);
 
 		if (skHolderFragment == null) {
 			return null;
 		}
-		return skHolderFragment.getViewModelStore();
+		return skHolderFragment.getSKViewModelStore();
 	}
 }

@@ -14,5 +14,5 @@ public interface SKViewModelStoreOwner {
 	 *
 	 * @return a {@code ViewModelStore}
 	 */
-	@NonNull SKViewModelStore getViewModelStore();
+	@NonNull SKViewModelStore getSKViewModelStore();
 }

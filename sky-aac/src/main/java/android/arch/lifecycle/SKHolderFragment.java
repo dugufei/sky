@@ -50,7 +50,7 @@ public class SKHolderFragment extends Fragment implements SKViewModelStoreOwner 
 		mViewModelStore.clear();
 	}
 
-	@NonNull @Override public SKViewModelStore getViewModelStore() {
+	@NonNull @Override public SKViewModelStore getSKViewModelStore() {
 		return mViewModelStore;
 	}
 
