@@ -4,8 +4,8 @@ include ':sky-compiler'
 include ':sky-cglib'
 
 include ':sample'
-include ':sample-kotlin'
-include ':sample-aac'
+//include ':sample-kotlin'
+//include ':sample-aac'
 
 //include ':sky-kotlin'
 include ':sky-aac'

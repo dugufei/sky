@@ -2,7 +2,7 @@
 
 buildscript {
     ext.versions = [
-            'release'           : '3.1.0-SNAPSHOT',
+            'release'           : '3.1.0',
 
             'minSdk'            : 18,
             'compileSdk'        : 28,
@@ -13,7 +13,7 @@ buildscript {
             'androidPlugin'     : '3.1.4',
             'kotlin'            : '1.2.0',
 
-            'butterknife'       : '9.0.0-SNAPSHOT',
+            'butterknife'       : '9.0.0-rc2',
             'nineoldandroids'   : '2.4.0',
             'systembartint'     : '1.0.4',
             'commons_lang'      : '3.5',
@@ -100,8 +100,9 @@ subprojects { project ->
     version = VERSION_NAME
 
     repositories {
-        google()
         mavenCentral()
+        google()
+        jcenter()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
