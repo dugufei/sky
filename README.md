@@ -27,7 +27,7 @@
  App-build.gradle:
  
       dependencies {
-         api 'com.jincanshen:sky:3.1.0-SNAPSHOT' //SKY架构
+         api 'com.jincanshen:sky:3.1.0' //SKY架构
          annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
       }
  
@@ -45,7 +45,7 @@
  App-build.gradle:
  
       dependencies {
-         api 'com.jincanshen:sky-aac:3.1.0-SNAPSHOT' // AAC 
+         api 'com.jincanshen:sky-aac:3.1.0' // AAC 
          annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
       }
  
