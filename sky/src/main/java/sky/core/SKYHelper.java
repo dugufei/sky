@@ -218,7 +218,11 @@ public class SKYHelper {
 		}
 
 		if (u == null) {
-			u = SKYHelper.structureHelper().createNullService(uiClazz);
+			if(isMain){
+				throw new SKYBizException("is not main thread no create service");
+			}else {
+				u = SKYHelper.structureHelper().createNullService(uiClazz);
+			}
 		}
 
 		return u;
