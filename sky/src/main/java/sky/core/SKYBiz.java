@@ -5,6 +5,7 @@ import android.os.Bundle;
 import java.util.Vector;
 
 import retrofit2.Call;
+import sky.core.exception.SKYArgumentException;
 import sky.core.exception.SKYHttpException;
 import sky.core.exception.SKYNotUIPointerException;
 import sky.core.exception.SKYNullPointerException;
@@ -65,6 +66,9 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 */
 	protected U ui() {
 		if (u == null) {
+			if(SKYHelper.isMainLooperThread()){
+				throw new SKYArgumentException("is not main looper error");
+			}
 			Class ui = SKYUtils.getClassGenricType(this.getClass(), 0);
 			return (U) SKYHelper.structureHelper().createNullService(ui);
 		}
@@ -105,7 +109,7 @@ public abstract class SKYBiz<U> implements SKYIIntercept {
 	 *
 	 * @return 返回值
 	 */
-	protected boolean isUI() {
+	public boolean isUI() {
 		return u != null;
 	}
 
