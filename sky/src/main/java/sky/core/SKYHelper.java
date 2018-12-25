@@ -11,9 +11,7 @@ import java.util.List;
 import sky.core.exception.SKYBizException;
 import sky.core.exception.SKYHttpException;
 import sky.core.exception.SKYUINullPointerException;
-import sky.core.methodModule.SKYIModule;
-import sky.core.methodModule.SKYIModuleMethod;
-import sky.core.methodModule.SkyMethodModel;
+import sky.core.methodModule.SKYIMethodRun;
 import sky.core.modules.download.SKYDownloadManager;
 import sky.core.modules.file.SKYFileCacheManage;
 import sky.core.modules.job.SKYIJobService;
@@ -64,63 +62,7 @@ public class SKYHelper {
 		return mSKYModulesManage.skyCacheManager.get().display(eClass);
 	}
 
-	/**
-	 * 执行业务代码
-	 * 
-	 * @param clazzName
-	 *            类名
-	 */
-	public static final synchronized SKYIModuleMethod moduleBiz(String clazzName) {
-		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get().get(clazzName);
-		if (skyMethodModel == null) {
-			Class clazz = mSKYModulesManage.provideModule.get().get(clazzName);
-			if (null == clazz) {
-				L.d("Sky::没有匹配到Biz [" + clazzName + "]");
-				return SKYIModuleMethod.NONE;
 
-			}
-			SKYIModule skyiModule;
-			try {
-				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
-			} catch (Exception var8) {
-				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
-				return SKYIModuleMethod.NONE;
-			}
-			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz.get());
-			mSKYModulesManage.provideModule.get().remove(clazzName);
-			return moduleBiz(clazzName);
-		}
-		return skyMethodModel;
-	}
-
-	/**
-	 * 执行业务代码
-	 *
-	 * @param clazzName
-	 *            类名
-	 */
-	public static final synchronized SKYIModuleMethod moduleDisplay(String clazzName) {
-		SkyMethodModel skyMethodModel = mSKYModulesManage.provideModuleBiz.get().get(clazzName);
-		if (skyMethodModel == null) {
-			Class clazz = mSKYModulesManage.provideModule.get().get(clazzName);
-			if (null == clazz) {
-				L.d("Sky::没有匹配到Display [" + clazzName + "]");
-				return SKYIModuleMethod.NONE;
-
-			}
-			SKYIModule skyiModule;
-			try {
-				skyiModule = (SKYIModule) clazz.getConstructor(new Class[0]).newInstance(new Object[0]);
-			} catch (Exception var8) {
-				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
-				return SKYIModuleMethod.NONE;
-			}
-			skyiModule.loadInto(mSKYModulesManage.provideModuleBiz.get());
-			mSKYModulesManage.provideModule.get().remove(clazzName);
-			return moduleBiz(clazzName);
-		}
-		return skyMethodModel;
-	}
 
 	/**
 	 * 任务管理器
@@ -162,10 +104,17 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 	public static final <B extends SKYBiz> B biz(Class<B> service) {
-		if (checkBizIsPublic(service)) { // 判定是否是公共方法
-			return mSKYModulesManage.skyCacheManager.get().biz(service);
-		}
 		return structureHelper().biz(service);
+	}
+
+	/**
+	 * 执行业务代码
+	 *
+	 * @param code
+	 * @return
+	 */
+	public static final SKYIMethodRun moduleBiz(int code) {
+		return mSKYModulesManage.provideMethodRun.get().get(code);
 	}
 
 	/**
@@ -251,9 +200,6 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 	public static final <B extends SKYBiz> List<B> bizList(Class<B> service) {
-		if (checkBizIsPublic(service)) { // 判定是否是公共方法
-			throw new SKYBizException("Class 不能是公共业务类");
-		}
 		return structureHelper().bizList(service);
 	}
 
@@ -429,27 +375,5 @@ public class SKYHelper {
 	 */
 	static final SKYIViewCommon getComnonView() {
 		return mSKYModulesManage.skyiViewCommon.get();
-	}
-
-	/**
-	 * 检查是否是公共方法
-	 *
-	 * @param bizClazz
-	 *            biz
-	 * @return true 公共业务 false 不是公共业务
-	 */
-	static final boolean checkBizIsPublic(Class bizClazz) {
-		boolean isPublic = false;
-
-		if (mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode()) == null) {
-			Class genricType = SKYUtils.getClassGenricType(bizClazz, 0);
-			if (genricType == null && !bizClazz.isInterface()) { // 表示公共biz
-				isPublic = true;
-			}
-			mSKYModulesManage.provideBizTypes.get().put(bizClazz.hashCode(), isPublic);
-		} else {
-			isPublic = mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode());
-		}
-		return isPublic;
 	}
 }

@@ -9,6 +9,7 @@ import com.example.sky.test.User;
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;
+import sky.OpenMethod;
 import sky.core.L;
 import sky.core.SKYBiz;
 
@@ -22,10 +23,13 @@ public class MainBiz extends SKYBiz<MainActivity> {
 
 	MutableLiveData<User> mutableLiveData = new MutableLiveData<>();
 
-	@Override protected void initBiz(Bundle bundle) {
+	@OpenMethod(22) @Override protected void initBiz(Bundle bundle) {
 		super.initBiz(bundle);
 	}
 
+	@OpenMethod(23)  public User aa(String a, String b, int c, User user ) {
+		return null;
+	}
 
 
 	@Background(BackgroundType.HTTP) public void load() {
@@ -41,7 +45,7 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	public void tip() {}
 
 	@Interceptor(2) @Background(BackgroundType.HTTP) public void setShare(String value) {
-		/*ui().setTextView2(value);*/
+		/* ui().setTextView2(value); */
 		User user = new User();
 		user.name = "我被点击啦";
 		mutableLiveData.postValue(user);
@@ -50,8 +54,8 @@ public class MainBiz extends SKYBiz<MainActivity> {
 	@Interceptor(1) @Background(BackgroundType.WORK) public void errormethod() {
 
 		SampleHelper.api().show();
-//		Object obj = null;
-//		obj.toString();
+		// Object obj = null;
+		// obj.toString();
 	}
 
 	@Override public boolean interceptBizError(int interceptor, Throwable throwable) {

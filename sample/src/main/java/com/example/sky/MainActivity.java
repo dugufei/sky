@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.sky.test.MainVM;
+import com.example.sky.test.User;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import sky.OpenMethod;
 import sky.core.SKYActivity;
 import sky.core.SKYBuilder;
 import sky.core.SKYHelper;
@@ -24,7 +26,16 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 	@BindView(R.id.textView2) TextView textView2;
 
-	public static final void intent() {
+	@OpenMethod(555) public static final int intent(String a, User user) {
+		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
+		return 1;
+	}
+
+	@OpenMethod(666) public static final void intent(String a) {
+		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
+	}
+
+	@OpenMethod(777) public static final void intent() {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
@@ -61,8 +72,8 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				biz().setShare("");
 				break;
 			case R.id.button6:
-				biz().errormethod();
-				// SKYHelper.moduleBiz("NotifyBiz").method("notifyTip").run();
+				// biz().errormethod();
+				SKYHelper.moduleBiz(555).run();
 				// SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky", 1);
 				// display(SKYIDisplay.class).intent(MainActivity.class);
 				break;

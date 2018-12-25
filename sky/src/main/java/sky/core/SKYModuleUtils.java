@@ -53,7 +53,7 @@ final class SKYModuleUtils {
 				skyMap = new HashSet(context.getSharedPreferences("SP_SKY_CACHE", 0).getStringSet("SKY_MAP", new HashSet()));
 			} else {
 				L.d("Sky::%s", "获取运行时，指定包目录下的所有信息并缓存到skyMap");
-				skyMap = SKYModuleUtils.getFileNameByPackageName(context, "com.sky.android.module.biz","com.sky.android.module.display");
+				skyMap = SKYModuleUtils.getFileNameByPackageName(context, "sky.module");
 				if (!((Set) skyMap).isEmpty()) {
 					context.getSharedPreferences("SP_SKY_CACHE", 0).edit().putStringSet("SKY_MAP", (Set) skyMap).apply();
 				}
@@ -65,9 +65,7 @@ final class SKYModuleUtils {
 
 			while (var5.hasNext()) {
 				String className = (String) var5.next();
-				String tempName = StringUtils.removeStart(className, "com.sky.android.module.biz.Sky$$Biz$$");
-				String bizName = StringUtils.removeStart(tempName, "com.sky.android.module.display.Sky$$Display$$");
-				skyModulesManage.provideModule.get().put(bizName, (Class<? extends SKYIModule>) Class.forName(className));
+				skyModulesManage.provideModule.get().add((Class<? extends SKYIModule>) Class.forName(className));
 			}
 
 			L.d("Sky::%s", "加载完毕, cost " + (System.currentTimeMillis() - e) + " ms.");
@@ -85,7 +83,7 @@ final class SKYModuleUtils {
 	 *            包名
 	 * @return 所有class的集合
 	 */
-	static Set<String> getFileNameByPackageName(Context context, final String packageName, final String packageName2) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
+	static Set<String> getFileNameByPackageName(Context context, final String packageName) throws PackageManager.NameNotFoundException, IOException, InterruptedException {
 		final Set<String> classNames = new HashSet<>();
 
 		List<String> paths = getSourcePaths(context);
@@ -110,7 +108,7 @@ final class SKYModuleUtils {
 						Enumeration<String> dexEntries = dexfile.entries();
 						while (dexEntries.hasMoreElements()) {
 							String className = dexEntries.nextElement();
-							if (className.startsWith(packageName) || className.startsWith(packageName2)) {
+							if (className.startsWith(packageName)) {
 								classNames.add(className);
 							}
 						}

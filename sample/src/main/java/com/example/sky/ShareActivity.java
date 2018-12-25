@@ -8,7 +8,6 @@ import com.example.sky.helper.SampleHelper;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import sky.OpenDisplay;
 import sky.core.SKYActivity;
 import sky.core.SKYBuilder;
 import sky.core.SKYHelper;
@@ -28,7 +27,7 @@ public class ShareActivity extends SKYActivity {
 
 	@BindView(R.id.btn_close) Button	btnClose;
 
-	@OpenDisplay public static final void intent(String name, int number) {
+	public static final void intent(String name, int number) {
 		Bundle bundle = new Bundle();
 		bundle.putString("name", name);
 		bundle.putInt("number", number);

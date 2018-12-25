@@ -2,20 +2,21 @@ package sky.core;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import sky.core.methodModule.SKYIMethodRun;
 import sky.core.methodModule.SKYIModule;
-import sky.core.methodModule.SkyMethodModel;
 import sky.core.modules.download.SKYDownloadManager;
 import sky.core.modules.file.SKYFileCacheManage;
 import sky.core.modules.job.SKYJobService;
 import sky.core.screen.SKYScreenManager;
-import retrofit2.Retrofit;
 
 /**
  * @author sky
@@ -188,11 +189,22 @@ class SKYModule {
 
 	/**
 	 * sky架构 - 组件化biz
-	 * 
+	 *
 	 * @return 返回值
 	 */
-	@Provides @Singleton public ConcurrentHashMap<String, SkyMethodModel> provideModuleBiz() {
-		return new ConcurrentHashMap<>();
+	@Provides @Singleton public SparseArray<SKYIMethodRun> provideMethodRun(ArrayList<Class<? extends SKYIModule>> provideModule) {
+		SparseArray<SKYIMethodRun> methodRunSparseArray = new SparseArray<>();
+		int count = provideModule.size();
+		for (int i = 0; i < count; i++) {
+			try {
+				SKYIModule skyiModule = provideModule.get(i).getConstructor(new Class[0]).newInstance(new Object[0]);
+				skyiModule.loadInto(methodRunSparseArray);
+			} catch (Exception var8) {
+				L.e("Sky::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+			}
+		}
+		// 加载数据
+		return methodRunSparseArray;
 	}
 
 	/**
@@ -200,17 +212,8 @@ class SKYModule {
 	 * 
 	 * @return 返回值
 	 */
-	@Provides @Singleton public ConcurrentHashMap<String, Class<? extends SKYIModule>> provideModule() {
-		return new ConcurrentHashMap<>();
-	}
-
-	/**
-	 * sky架构 - 组件化biz
-	 * 
-	 * @return 返回值
-	 */
-	@Provides @Singleton public ConcurrentHashMap<Integer, Boolean> provideBizTypes() {
-		return new ConcurrentHashMap<>();
+	@Provides @Singleton public ArrayList<Class<? extends SKYIModule>> provideModule() {
+		return new ArrayList<>();
 	}
 
 	/**

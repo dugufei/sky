@@ -1,6 +1,7 @@
 package sky.core.methodModule;
 
-import java.util.concurrent.ConcurrentHashMap;
+import android.util.SparseArray;
+
 
 /**
  * @author sky
@@ -14,5 +15,5 @@ public interface SKYIModule {
 	 * 
 	 * @param concurrentHashMap
 	 */
-	void loadInto(ConcurrentHashMap<String, SkyMethodModel> concurrentHashMap);
+	void loadInto(SparseArray<SKYIMethodRun> concurrentHashMap);
 }

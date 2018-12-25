@@ -4,7 +4,6 @@ import com.example.sky.oder.OderActivity;
 
 import sky.Background;
 import sky.BackgroundType;
-import sky.OpenBiz;
 import sky.core.SKYBiz;
 import sky.core.SKYHelper;
 import sky.core.SKYIDisplay;
@@ -14,7 +13,6 @@ import sky.core.SKYIDisplay;
  * @version 1.0 on 2017-09-27 上午10:40
  * @see NotifyBiz
  */
-@OpenBiz
 public class NotifyBiz extends SKYBiz {
 
 	/**
