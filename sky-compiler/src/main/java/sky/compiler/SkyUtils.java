@@ -57,6 +57,10 @@ class SkyUtils {
 		return str.substring(0, 1).toLowerCase() + str.substring(1);
 	}
 
+	static String upperCase(String str) {
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
 	static AnnotationMirror getAnnotationMirror(Element typeElement, String className) {
 		for (AnnotationMirror m : typeElement.getAnnotationMirrors()) {
 			if (m.getAnnotationType().toString().equals(className)) {

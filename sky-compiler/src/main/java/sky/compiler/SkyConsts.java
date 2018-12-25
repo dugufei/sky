@@ -29,4 +29,17 @@ public class SkyConsts {
 
 	static final ClassName			SKY_L						= ClassName.get(FACADE_PACKAGE, "L");
 
+	static final String				KEY_MODULE_NAME				= "SKY_MODULE_NAME";
+
+	public static final String NO_MODULE_NAME_TIPS = "设置名称 'build.gradle', 这里添加:\n" +
+			"android {\n" +
+			"    defaultConfig {\n" +
+			"        ...\n" +
+			"        javaCompileOptions {\n" +
+			"            annotationProcessorOptions {\n" +
+			"                arguments = [SKY_MODULE_NAME: project.getName()]\n" +
+			"            }\n" +
+			"        }\n" +
+			"    }\n" +
+			"}\n";
 }

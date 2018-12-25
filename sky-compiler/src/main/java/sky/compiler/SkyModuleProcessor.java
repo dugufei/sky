@@ -7,12 +7,13 @@ import com.squareup.javapoet.JavaFile;
 import com.sun.source.util.Trees;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,6 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 import sk.compiler.SkLogger;
-import sk.compiler.model.SKProviderModel;
 import sky.OpenMethod;
 import sky.compiler.model.SkyModuleModel;
 import sky.compiler.model.SkyParamProviderModel;
@@ -44,6 +44,8 @@ import static javax.lang.model.element.ElementKind.CLASS;
 import static javax.lang.model.element.ElementKind.METHOD;
 import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.STATIC;
+import static sky.compiler.SkyConsts.KEY_MODULE_NAME;
+import static sky.compiler.SkyConsts.NO_MODULE_NAME_TIPS;
 import static sky.compiler.SkyUtils.bestGuess;
 
 @AutoService(Processor.class)
@@ -63,6 +65,8 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 
 	private SkLogger			logger;
 
+	private String				moduleName		= null;
+
 	@Override public synchronized void init(ProcessingEnvironment env) {
 		super.init(env);
 
@@ -81,6 +85,20 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 		logger = new SkLogger(processingEnv.getMessager()); // Package the log utils.
 
 		logger.info(">>> SkProcessor 初始化. <<<");
+
+		// Attempt to get user configuration [moduleName]
+		Map<String, String> options = processingEnv.getOptions();
+		if (MapUtils.isNotEmpty(options)) {
+			moduleName = options.get(KEY_MODULE_NAME);
+		}
+
+		if (StringUtils.isNotEmpty(moduleName)) {
+			moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
+			logger.info("组件名称[" + moduleName + "]");
+		} else {
+			logger.info(NO_MODULE_NAME_TIPS);
+			moduleName = "default";
+		}
 
 		try {
 			trees = Trees.instance(processingEnv);
@@ -137,7 +155,7 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 				logger.error(e);
 			}
 		}
-		SkyCreateModule skyCreateModule = new SkyCreateModule(skProviderModels);
+		SkyCreateModule skyCreateModule = new SkyCreateModule(skProviderModels, moduleName);
 		JavaFile javaIFile = skyCreateModule.brewModuleBiz();
 		try {
 			javaIFile.writeTo(filer);
@@ -147,8 +165,6 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 		logger.info(">>> Found SkyModuleProvider 结束... <<<");
 		return false;
 	}
-
-
 
 	private ArrayList<SkyModuleModel> findMethodsProvider(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
 

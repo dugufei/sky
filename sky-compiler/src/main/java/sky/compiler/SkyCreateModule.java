@@ -27,9 +27,11 @@ import static sky.compiler.SkyConsts.WARNING_TIPS;
 public class SkyCreateModule {
 
     private final Collection<SkyModuleModel> methodViewBindings;
+    private final String moduleName;
 
-    public SkyCreateModule(Collection<SkyModuleModel> methodViewBindings) {
+    public SkyCreateModule(Collection<SkyModuleModel> methodViewBindings,String moduleName) {
         this.methodViewBindings = methodViewBindings;
+        this.moduleName = moduleName;
     }
     public JavaFile brewModuleBiz() {
 
@@ -56,8 +58,7 @@ public class SkyCreateModule {
 
             loadIntoMethodOfGroupBuilder.addStatement("sparseArray.put($N.METHOD_NUMBER, $N)",lowerCase,lowerCase);
         }
-        String packageName = "sk";
-        ClassName skyClassName = ClassName.get(packageName, "Modules");
+        ClassName skyClassName = ClassName.get("sky.module", SkyUtils.upperCase(moduleName)+"_Module");
 
         TypeSpec.Builder result = TypeSpec.classBuilder(skyClassName);
 

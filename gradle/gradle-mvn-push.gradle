@@ -59,6 +59,7 @@ afterEvaluate { project ->
         }
         snapshotRepository(url: getSnapshotRepositoryUrl()) {
           authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+          snapshots(updatePolicy: 'always')
         }
 
         pom.project {
@@ -87,6 +88,7 @@ afterEvaluate { project ->
               name POM_DEVELOPER_NAME
             }
           }
+
         }
       }
     }
