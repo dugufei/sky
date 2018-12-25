@@ -111,7 +111,7 @@ public class SKYHelper {
 	 * 执行业务代码
 	 *
 	 * @param code
-	 * @return
+	 * @return 返回值
 	 */
 	public static final SKYIMethodRun moduleBiz(int code) {
 		return mSKYModulesManage.provideMethodRun.get().get(code);
