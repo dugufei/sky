@@ -84,7 +84,7 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 		filer = env.getFiler();
 		logger = new SkLogger(processingEnv.getMessager()); // Package the log utils.
 
-		logger.info(">>> SkProcessor 初始化. <<<");
+		logger.info(">>> SkyModule 组件化 初始化. <<<");
 
 		// Attempt to get user configuration [moduleName]
 		Map<String, String> options = processingEnv.getOptions();
@@ -135,13 +135,11 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 	@Override public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
 		// 如果没有注解
 		if (CollectionUtils.isEmpty(elements)) {
-			logger.info(">>> SkyModuleProvider 没有注解. <<<");
 			return false;
 		}
-		logger.info(">>> Found SkyModuleProvider, 开始... <<<");
+		logger.info(">>> SkyModule 组件化 开始生成代码 <<<");
 		ArrayList<SkyModuleModel> skProviderModels = findMethodsProvider(env, OpenMethod.class);
 		if (skProviderModels == null) {
-			logger.error(">>> Found SkyModuleProvider 异常... <<<");
 			return false;
 		}
 
@@ -162,7 +160,7 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 		} catch (IOException e) {
 			logger.error(e);
 		}
-		logger.info(">>> Found SkyModuleProvider 结束... <<<");
+		logger.info(">>> SkyModule 组件化 生成代码结束 <<<");
 		return false;
 	}
 

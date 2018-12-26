@@ -6,12 +6,12 @@ buildscript {
 
             'minSdk'            : 18,
             'compileSdk'        : 28,
-            'buildTools'        : '28.0.0',
+            'buildTools'        : '28.0.3',
 
             'supportLibrary'    : '28.0.0',
             'constraintVersion' : '1.0.2',
-            'androidPlugin'     : '3.1.4',
-            'kotlin'            : '1.2.0',
+            'androidPlugin'     : '3.2.1',
+            'kotlin'            : '1.2.51',
 
             'butterknife'       : '9.0.0-rc2',
             'nineoldandroids'   : '2.4.0',

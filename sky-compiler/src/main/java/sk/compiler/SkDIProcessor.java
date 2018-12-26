@@ -111,7 +111,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 
 		logger = new SkLogger(processingEnv.getMessager()); // Package the log utils.
 
-		logger.info(">>> SkProcessor 初始化. <<<");
+		logger.info(">>> SKDI 依赖注入 初始化. <<<");
 
 		try {
 			trees = Trees.instance(processingEnv);
@@ -152,21 +152,18 @@ public final class SkDIProcessor extends AbstractProcessor {
 	@Override public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
 		// 如果没有注解
 		if (CollectionUtils.isEmpty(elements)) {
-			logger.info(">>> SkProcessor 没有注解. <<<");
 			return false;
 		}
 
-		logger.info(">>> Found SKDILibrary, 开始... <<<");
+		logger.info(">>> SKDI 依赖注入 开始生成代码... <<<");
 
 		SKDILibraryModel skLibraryModel = findLibrary(env, SKDILibrary.class);
 
-		logger.info(">>> Found SKDILibrary 结束... <<<");
-
-		logger.info(">>> Found SKProvider, 开始... <<<");
+		logger.info(">>> SKDI 依赖注入 - SKProvider 提供者 - 生成中... <<<");
 		Map<String, SKSourceModel> skSourceModelMap = new LinkedHashMap<>();
 		Map<String, SKProviderModel> skProviderModels = findMethodsProvider(env, SKProvider.class, skSourceModelMap);
 		if (skProviderModels == null) {
-			logger.error(">>> Found SKProvider 异常... <<<");
+			logger.error(">>> SKDI 依赖注入 - SKProvider 提供者 异常... <<<");
 			return false;
 		}
 		if (skSourceModelMap.size() < 1) {
@@ -183,9 +180,9 @@ public final class SkDIProcessor extends AbstractProcessor {
 				logger.error(e);
 			}
 		}
-		logger.info(">>> Found SKProvider 结束... <<<");
+		logger.info(">>>  SKDI 依赖注入 - SKProvider 提供者  - 结束... <<<");
 
-		logger.info(">>> Found SKInput, 开始... <<<");
+		logger.info(">>>  SKDI 依赖注入 - SKInput 注入 - 生成中... <<<");
 
 		Map<TypeElement, SKInputClassModel> skInputModels = findFieldInput(env, SKInput.class, skProviderModels);
 
@@ -199,9 +196,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 				logger.error(e);
 			}
 		}
-		logger.info(">>> Found SKInput 结束... <<<");
-
-		logger.info(">>> Found SKDI, 开始... <<<");
+		logger.info(">>> SKDI 依赖注入 - SKInput 注入 - 结束... <<<");
 
 		JavaFile javaIFile;
 
@@ -225,7 +220,7 @@ public final class SkDIProcessor extends AbstractProcessor {
 			logger.error(e);
 		}
 
-		logger.info(">>> Found SKDI, 结束... <<<");
+		logger.info(">>> SKDI 依赖注入, 结束... <<<");
 
 		return false;
 	}

@@ -1,5 +1,6 @@
 package sky.compiler;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
@@ -39,6 +40,8 @@ class SkyProviderCreate {
 
 		TypeSpec.Builder classBuilder = TypeSpec.classBuilder(providerClassName);
 
+		classBuilder.addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
+				.addMember("value", "$L", "{\"unchecked\",\"rawtypes\"}").build());
 		classBuilder.addJavadoc(WARNING_TIPS);
 		classBuilder.addSuperinterface(SKY_I_METHOD);
 		classBuilder.addModifiers(PUBLIC);
