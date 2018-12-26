@@ -104,6 +104,9 @@ public class SKYHelper {
 	 * @return 返回值
 	 */
 	public static final <B extends SKYBiz> B biz(Class<B> service) {
+		if (checkBizIsPublic(service)) { // 判定是否是公共方法
+			return mSKYModulesManage.skyCacheManager.get().biz(service);
+		}
 		return structureHelper().biz(service);
 	}
 
@@ -187,6 +190,9 @@ public class SKYHelper {
 	 * @return true 存在 false 不存在
 	 */
 	public static final <B extends SKYBiz> boolean isExist(Class<B> service) {
+		if (checkBizIsPublic(service)) { // 判定是否是公共方法
+			throw new SKYBizException("Class 不能是公共业务类");
+		}
 		return structureHelper().isExist(service);
 	}
 
@@ -375,5 +381,27 @@ public class SKYHelper {
 	 */
 	static final SKYIViewCommon getComnonView() {
 		return mSKYModulesManage.skyiViewCommon.get();
+	}
+
+	/**
+	 * 检查是否是公共方法
+	 *
+	 * @param bizClazz
+	 *            biz
+	 * @return true 公共业务 false 不是公共业务
+	 */
+	static final boolean checkBizIsPublic(Class bizClazz) {
+		boolean isPublic = false;
+
+		if (mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode()) == null) {
+			Class genricType = SKYUtils.getClassGenricType(bizClazz, 0);
+			if (genricType == null && !bizClazz.isInterface()) { // 表示公共biz
+				isPublic = true;
+			}
+			mSKYModulesManage.provideBizTypes.get().put(bizClazz.hashCode(), isPublic);
+		} else {
+			isPublic = mSKYModulesManage.provideBizTypes.get().get(bizClazz.hashCode());
+		}
+		return isPublic;
 	}
 }

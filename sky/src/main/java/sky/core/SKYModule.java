@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Singleton;
 
@@ -243,5 +244,14 @@ class SKYModule {
 	 */
 	@Provides @Singleton public SKYDownloadManager provideDownLoadManage() {
 		return new SKYDownloadManager();
+	}
+
+	/**
+	 * sky架构 - 组件化biz
+	 *
+	 * @return 返回值
+	 */
+	@Provides @Singleton public ConcurrentHashMap<Integer, Boolean> provideBizTypes() {
+		return new ConcurrentHashMap<>();
 	}
 }

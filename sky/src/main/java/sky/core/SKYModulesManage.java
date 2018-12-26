@@ -4,6 +4,8 @@ import android.app.Application;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.inject.Inject;
 
 import dagger.Lazy;
@@ -52,4 +54,6 @@ public class SKYModulesManage {
 	@Inject public Lazy<SKYJobService>							skyJobService;			// 任务管理器
 
 	@Inject public Lazy<SKYDownloadManager>						skyDownloadManager;		// 下载和上传管理
+
+	@Inject public Lazy<ConcurrentHashMap<Integer, Boolean>>	provideBizTypes;		// 架构组件化
 }
