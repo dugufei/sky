@@ -26,16 +26,16 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 
 	@BindView(R.id.textView2) TextView textView2;
 
-	@OpenMethod(555) public static final int intent(String a, User user) {
+	@OpenMethod(Api.FFFF) public static final int intent(String a, User user) {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 		return 1;
 	}
 
-	@OpenMethod(666) public static final void intent(String a) {
+	public static final void intent(String a) {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 
-	@OpenMethod(777) public static final void intent() {
+	public static final void intent() {
 		SKYHelper.display(SKYIDisplay.class).intent(MainActivity.class);
 	}
 

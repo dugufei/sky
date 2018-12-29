@@ -4,6 +4,7 @@ import com.google.auto.common.SuperficialValidation;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeName;
 import com.sun.source.util.Trees;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -25,17 +26,24 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 import sk.compiler.SkLogger;
+import sky.AutoID;
 import sky.OpenMethod;
+import sky.compiler.model.SkyClassModel;
+import sky.compiler.model.SkyFieldModel;
 import sky.compiler.model.SkyModuleModel;
 import sky.compiler.model.SkyParamProviderModel;
 
@@ -126,6 +134,7 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 	private Set<Class<? extends Annotation>> getSupportedAnnotations() {
 		Set<Class<? extends Annotation>> annotations = new LinkedHashSet<>();
 		annotations.add(OpenMethod.class);
+		annotations.add(AutoID.class);
 		return annotations;
 	}
 
@@ -138,11 +147,27 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 			return false;
 		}
 		logger.info(">>> SkyModule 组件化 开始生成代码 <<<");
+
+		// 生成ID
+		ArrayList<SkyClassModel> skyClassModels = findAutoApi(env, AutoID.class);
+
+		if (skyClassModels.size() < 0) {
+			logger.info(">>> SkyModule 没有定义 AutoID <<<");
+			return false;
+		}
+
+		SkyAutoIDCreate skyAutoIDCreate = new SkyAutoIDCreate();
+		try {
+			skyAutoIDCreate.createAutoID(moduleName, skyClassModels);
+		} catch (IOException e) {
+			logger.error(e);
+		}
+
 		ArrayList<SkyModuleModel> skProviderModels = findMethodsProvider(env, OpenMethod.class);
 		if (skProviderModels == null) {
 			return false;
 		}
-
+		// 提供者
 		SkyProviderCreate skyProviderCreate = new SkyProviderCreate();
 
 		for (SkyModuleModel item : skProviderModels) {
@@ -167,12 +192,11 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 	private ArrayList<SkyModuleModel> findMethodsProvider(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
 
 		ArrayList<SkyModuleModel> modelMap = new ArrayList<>();
-		List<SkyModuleModel> allModel = new ArrayList<>();
 
 		for (Element element : env.getElementsAnnotatedWith(annotationClass)) {
 			if (!SuperficialValidation.validateElement(element)) continue;
 			try {
-				parseProviderAnnotation(annotationClass, element, allModel, modelMap);
+				parseProviderAnnotation(annotationClass, element, modelMap);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.info("解析 @SKProvider 注解出现问题~~");
@@ -183,15 +207,63 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 
 	}
 
+	private ArrayList<SkyClassModel> findAutoApi(RoundEnvironment env, Class<? extends Annotation> annotationClass) {
+		ArrayList<SkyClassModel> skyClassModels = new ArrayList<>();
+
+		Set<? extends Element> routeElements = env.getElementsAnnotatedWith(annotationClass);
+
+		for (Element element : routeElements) {
+			SkyClassModel skyClassModel = new SkyClassModel();
+			skyClassModel.packageName = getPackage(element).getQualifiedName().toString();
+			skyClassModel.className = ClassName.get(skyClassModel.packageName, element.getSimpleName().toString());
+			skyClassModel.skyFieldModels = new ArrayList<>();
+
+			List<VariableElement> variableElements = ElementFilter.fieldsIn(element.getEnclosedElements());
+
+			for (VariableElement variableElement : variableElements) {
+				SkyFieldModel skyFieldModel = new SkyFieldModel();
+				skyFieldModel.name = variableElement.getSimpleName().toString();
+				skyFieldModel.type = TypeName.get(variableElement.asType());
+
+				List<? extends AnnotationMirror> annotationMirrors = variableElement.getAnnotationMirrors();
+				for (AnnotationMirror annotationMirror : annotationMirrors) {
+					Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = annotationMirror.getElementValues();
+					for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : elementValues.entrySet()) {
+						String key = entry.getKey().getSimpleName().toString();
+						Object value = entry.getValue().getValue();
+						switch (key) {
+							case "describe":
+								String strVal = (String) value;
+								skyFieldModel.describe = strVal;
+								break;
+							case "params":
+								List<? extends AnnotationValue> typeMirrors = (List<? extends AnnotationValue>) value;
+
+								for (AnnotationValue annotationValue : typeMirrors) {
+									skyFieldModel.params.add(((TypeMirror) annotationValue.getValue()));
+								}
+								break;
+						}
+					}
+				}
+
+				skyClassModel.skyFieldModels.add(skyFieldModel);
+			}
+
+			skyClassModels.add(skyClassModel);
+		}
+
+		return skyClassModels;
+	}
+
 	/**
 	 * 解析provider注解
 	 *
 	 * @param annotationClass
 	 * @param element
-	 * @param allModelMap
 	 * @param providerModels
 	 */
-	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, List<SkyModuleModel> allModelMap, ArrayList<SkyModuleModel> providerModels) {
+	private void parseProviderAnnotation(Class<? extends Annotation> annotationClass, Element element, ArrayList<SkyModuleModel> providerModels) {
 		if (!(element instanceof ExecutableElement) || element.getKind() != METHOD) {
 			throw new IllegalStateException(String.format("@%s annotation must be on a .", annotationClass.getSimpleName()));
 		}
@@ -260,4 +332,5 @@ public final class SkyModuleProcessor extends AbstractProcessor {
 
 		return hasError;
 	}
+
 }

@@ -15,6 +15,7 @@ import sky.compiler.model.SkyModuleModel;
 import sky.compiler.model.SkyParamProviderModel;
 
 import static com.squareup.javapoet.TypeName.VOID;
+import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static sky.compiler.SkyConsts.NAME_METHOD;
 import static sky.compiler.SkyConsts.SKY_HELPER;
@@ -44,11 +45,11 @@ class SkyProviderCreate {
 				.addMember("value", "$L", "{\"unchecked\",\"rawtypes\"}").build());
 		classBuilder.addJavadoc(WARNING_TIPS);
 		classBuilder.addSuperinterface(SKY_I_METHOD);
-		classBuilder.addModifiers(PUBLIC);
+		classBuilder.addModifiers(PUBLIC,FINAL);
 
 		//添加属性
 		FieldSpec number = FieldSpec.builder(int.class, "METHOD_NUMBER")
-				.addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+				.addModifiers(Modifier.PUBLIC, FINAL)
 				.initializer(String.valueOf(item.nameCode))
 				.build();
 
@@ -106,7 +107,7 @@ class SkyProviderCreate {
 		MethodSpec.Builder runMethod = MethodSpec.methodBuilder("run").addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).addTypeVariable(TypeVariableName.get("T"))
 				.returns(TypeVariableName.get("T"));
 
-		runMethod.addParameter(Object[].class, "params", Modifier.FINAL).varargs(true);
+		runMethod.addParameter(Object[].class, "params", FINAL).varargs(true);
 		// 添加内容
 		CodeBlock.Builder codeBlock = CodeBlock.builder();
 
@@ -114,9 +115,9 @@ class SkyProviderCreate {
 		if (count > 0) {
 			//限制条件
 			codeBlock.beginControlFlow("if(params.length < 1)");
-            codeBlock.add("$T.i(\"参数个数有问题,请确认数量\");\n",SKY_L);
-            codeBlock.add("return null;\n");
-            codeBlock.endControlFlow();
+			codeBlock.add("$T.i(\"参数个数有问题,请确认数量\");\n",SKY_L);
+			codeBlock.add("return null;\n");
+			codeBlock.endControlFlow();
 
 			for (int i = 0; i < count; i++) {
 				SkyParamProviderModel skyParamProviderModel = item.parameters.get(i);

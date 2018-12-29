@@ -9,7 +9,6 @@ import com.example.sky.test.User;
 import sky.Background;
 import sky.BackgroundType;
 import sky.Interceptor;
-import sky.OpenMethod;
 import sky.core.L;
 import sky.core.SKYBiz;
 
@@ -23,14 +22,13 @@ public class MainBiz extends SKYBiz<MainActivity> {
 
 	MutableLiveData<User> mutableLiveData = new MutableLiveData<>();
 
-	@OpenMethod(22) @Override protected void initBiz(Bundle bundle) {
+	@Override protected void initBiz(Bundle bundle) {
 		super.initBiz(bundle);
 	}
 
-	@OpenMethod(23)  public User aa(String a, String b, int c, User user ) {
+	public User aa(String a, String b, int c, User user) {
 		return null;
 	}
-
 
 	@Background(BackgroundType.HTTP) public void load() {
 		loading();

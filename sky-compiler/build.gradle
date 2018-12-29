@@ -1,8 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'org.junit.platform.gradle.plugin'
 //apply plugin: 'checkstyle'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
+
 
 dependencies {
     implementation project(':sky-annotations')
@@ -11,20 +13,15 @@ dependencies {
     implementation deps.library.commons_lang3
     implementation deps.library.collections4
     implementation deps.library.butterknife_annotations
+
     compileOnly deps.auto.service
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
 
-    testImplementation deps.junit
-    testImplementation deps.truth
+    implementation 'org.testng:testng:6.9.6'
+    implementation group: 'com.squareup', name: 'javawriter', version: '2.5.1'
+
+
 }
-
-//checkstyle {
-//    configFile rootProject.file('checkstyle.xml')
-//    showViolations true
-//    //Remove this when tests are less verbose, i.e. using JavaPoet
-//    sourceSets = [sourceSets.main]
-//}
-
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 

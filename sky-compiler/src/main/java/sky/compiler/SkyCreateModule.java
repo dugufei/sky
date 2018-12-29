@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import sky.compiler.model.SkyModuleModel;
 
+import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static sky.compiler.SkyConsts.METHOD_LOAD_INTO;
 import static sky.compiler.SkyConsts.NAME_METHOD;
@@ -64,7 +65,7 @@ public class SkyCreateModule {
 
         result.addJavadoc(WARNING_TIPS);
         result.addSuperinterface(SKY_I_MODULE);
-        result.addModifiers(PUBLIC);
+        result.addModifiers(PUBLIC,FINAL);
         result.addMethod(loadIntoMethodOfGroupBuilder.build());
         return result.build();
     }
