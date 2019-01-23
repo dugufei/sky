@@ -73,13 +73,13 @@ public class MyApp extends SKApp {
 		}
 
 		@Override public void bindData(SKNetworkState state, int position) {
-			progressBar.setVisibility(toVisbility(state == RUNNING));
-			retry.setVisibility(toVisbility(state == FAILED));
-			errorMsg.setVisibility(toVisbility(state.Message != null));
+			progressBar.setVisibility(toVisiblity(state == RUNNING));
+			retry.setVisibility(toVisiblity(state == FAILED));
+			errorMsg.setVisibility(toVisiblity(state.Message != null));
 			errorMsg.setText(state.Message);
 		}
 
-		private int toVisbility(boolean is) {
+		private int toVisiblity(boolean is) {
 			return is ? View.VISIBLE : View.GONE;
 		}
 

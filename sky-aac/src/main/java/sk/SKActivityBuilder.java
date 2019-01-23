@@ -83,7 +83,7 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		Class clazz = SKCoreUtils.getClassGenricType(skActivity.getClass(), 0);
 		Bundle bundle = skActivity.getIntent() == null ? null : skActivity.getIntent().getExtras();
 		skViewModel = SKViewModelProviders.of(skActivity, skActivity.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
-		skActivity.biz = (SKBiz) skViewModel.skProxy.impl;
+//		skActivity.biz = (SKBiz) skViewModel.skProxy.impl;
 	}
 
 	@NonNull <B extends SKBiz> B bizProxy() {

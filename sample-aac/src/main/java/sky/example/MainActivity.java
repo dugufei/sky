@@ -41,13 +41,9 @@ public class MainActivity extends SKActivity<MainBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		swipeRefreshLayout.setOnRefreshListener(() -> biz().refresh());
 
-			@Override public void onRefresh() {
-				biz().refresh();
-			}
-		});
-		biz.listSKData.observe(this, new SKViewObserver<PagedList<List<Model>>>() {
+		biz().getListSKData().observe(this, new SKViewObserver<PagedList<List<Model>>>() {
 
 			@Override public void onAction(SKViewState state) {
 				super.onAction(state);
@@ -61,17 +57,12 @@ public class MainActivity extends SKActivity<MainBiz> {
 			}
 		});
 
-		biz.itemPositoin.observe(this, new Observer<Integer>() {
-
-			@Override public void onChanged(@Nullable Integer integer) {
-				adapter().notifyItemChanged(integer);
-			}
-		});
+		biz().getItemPositoin().observe(this, (integer) -> adapter().notifyItemChanged(integer));
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		// OneActivity.intent();
-		biz().test();
+		 OneActivity.intent();
+//		biz().test();
 	}
 
 	public class Error extends SKViewStub {

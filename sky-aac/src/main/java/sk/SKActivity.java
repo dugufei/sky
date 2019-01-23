@@ -26,10 +26,6 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 
 	private SKActivityBuilder	skBuilder;
 
-	protected B					biz;
-
-	private B					bizProxy;
-
 	@SKInput SKViewModelFactory	skViewModelFactory;
 
 	@Override protected void onCreate(@Nullable Bundle savedInstanceState) {

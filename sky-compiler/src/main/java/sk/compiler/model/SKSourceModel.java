@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class SKSourceModel {
 
-	public ClassName					className;
+    public ClassName className;
 
-	public ClassName					classNameLibrary;
+    public ClassName classNameLibrary;
 
-	public boolean						isSingle;
+    public boolean isSingle;
 
-	public boolean						isLibrary;
+    public boolean isLibrary;
 
-	public boolean						isSingleGenerate;
+    public boolean isSingleGenerate;
 
-	public List<SKConstructorsModel>	skConstructorsModelList;
+    public List<SKConstructorsModel> skConstructorsModelList;
 }

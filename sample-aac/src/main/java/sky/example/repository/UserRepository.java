@@ -1,23 +1,18 @@
 package sky.example.repository;
 
 import android.arch.paging.ItemKeyedDataSource;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.L;
 import sk.SKHelper;
 import sk.SKRepository;
-import sk.livedata.SKPagedBuilder;
 import sk.livedata.SKData;
-import sk.livedata.SKPaged;
-import sk.livedata.SKSourceState;
-import sk.livedata.SKItemSourceFactory;
 import sky.Interceptor;
 import sky.SKHTTP;
 import sky.SKIO;
-import sky.SKInput;
+import sky.SKProvider;
+import sky.SKSingleton;
 import sky.example.bean.User;
 import sky.example.http.GithubHttp;
 import sky.example.http.model.Model;
@@ -27,9 +22,9 @@ import sky.example.http.model.Model;
  * @version 1.0 on 2018-04-28 下午10:03
  * @see UserRepository
  */
+@SKSingleton
+@SKProvider
 public class UserRepository extends SKRepository<UserRepository> {
-
-	@SKInput SKPaged skPaged;
 
 	public SKData<User> load() {
 		SKData<User> userSKData = new SKData<>();
@@ -66,68 +61,26 @@ public class UserRepository extends SKRepository<UserRepository> {
 		skData.closeLoading();
 	}
 
-	public SKData loadModel() {
-		SKPagedBuilder skPagedBuilder = skPaged.pagedBuilder();
-		skPagedBuilder.setPageSie(25);
-		skPagedBuilder.setSource(new SKItemSourceFactory<String, Model>() {
+	public List<Model> getInit() {
+		// List<Model> list = http(GithubHttp.class).rateLimit().get();
+		List<Model> list = new ArrayList<>();
+		for (int i = 0; i < 31; i++) {
+			Model model = new Model();
+			model.id = "初始化---" + i;
+			model.img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
+			list.add(model);
+		}
+		return list;
+	}
 
-			@Override public void init(@NonNull ItemKeyedDataSource.LoadInitialParams<String> params, @NonNull ItemKeyedDataSource.LoadInitialCallback<Model> callback) {
-				loading();
-				// List<Model> list = http(GithubHttp.class).rateLimit().get();
-				List<Model> list = new ArrayList<>();
-				for (int i = 0; i < 31; i++) {
-					Model model = new Model();
-					model.id = "初始化---" + i;
-					model.img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
-					list.add(model);
-				}
+	public List<Model> geAfterData(ItemKeyedDataSource.LoadParams<String> params) {
+		List<Model> list = http(GithubHttp.class).rateLimit().get();
 
-				callback.onResult(list);
-				layoutContent();
-				closeLoading();
-			}
-
-			@Override public void before(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
-
-			}
-
-			@Override public void after(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
-				L.i("after 我执行了~~");
-				netWorkRunning();
-				List<Model> list = http(GithubHttp.class).rateLimit().get();
-
-				for (int i = 0; i < list.size(); i++) {
-					list.get(i).id = "追加数据---" + (params.requestedLoadSize + i) + " ::----" + params.requestedLoadSize;
-					list.get(
-							i).img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
-				}
-
-				callback.onResult(list);
-
-				netWorkSuccess();
-			}
-
-			@Override public void error(@NonNull SKSourceState skSourceState) {
-
-				switch (skSourceState) {
-					case INIT:
-						closeLoading();
-						layoutError();
-						break;
-					case AFTER:
-						netWorkFailed("加载失败了");
-						break;
-					default:
-						break;
-				}
-			}
-
-			@Override public String key(@NonNull Model item) {
-				return item.id;
-			}
-
-		});
-
-		return skPagedBuilder.build();
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).id = "追加数据---" + (params.requestedLoadSize + i) + " ::----" + params.requestedLoadSize;
+			list.get(
+					i).img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509016656952&di=7ba1379ee3ea1983fe347b71bd46477e&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fac345982b2b7d0a223890680c1ef76094b369a6e.jpg";
+		}
+		return list;
 	}
 }

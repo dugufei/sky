@@ -112,12 +112,17 @@ class SKProviderCreate {
 		classBuilder.addMethod(get);
 
 		// 添加 proxy
-		if (item.isProxy) {
-			ClassName returnClassName = (ClassName) item.returnType;
-			String returnName = lowerCase(returnClassName.simpleName());
+		ClassName returnClassName = (ClassName) item.returnType;
+		String returnName = lowerCase(returnClassName.simpleName());
 
-			provideProxy.addStatement("$T $N = $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, item.name,
-					proxyParameter == null ? "" : proxyParameter.toString());
+		if (item.isProxy) {
+
+			if(item.isClass){
+				provideProxy.addStatement("$T $N = $T.checkNotNull(new $T(), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, returnClassName);
+			}else {
+				provideProxy.addStatement("$T $N = $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, item.name,
+						proxyParameter == null ? "" : proxyParameter.toString());
+			}
 
 			provideProxy.beginControlFlow("if($N instanceof $T)", returnName, SK_REPOSITORY);
 
@@ -126,8 +131,13 @@ class SKProviderCreate {
 			provideProxy.endControlFlow();
 			provideProxy.addStatement("return $N", returnName);
 		} else {
-			provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
-					proxyParameter == null ? "" : proxyParameter.toString());
+			if(item.isClass){
+				provideProxy.addStatement("return $T.checkNotNull(new $T(), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND,returnClassName);
+			}else {
+				provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
+						proxyParameter == null ? "" : proxyParameter.toString());
+			}
+
 		}
 		classBuilder.addMethod(provideProxy.build());
 
