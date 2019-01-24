@@ -32,8 +32,7 @@ public class SKDefaultManager {
 
 	@SKInput SKLazy<SKIDisplay>			skiDisplaySKLazy;
 
-	@SKInput
-    SKLazy<SKRetrofit> skRetrofitSKLazy;
+	@SKInput SKLazy<SKRetrofit>			skRetrofitSKLazy;
 
 	@SKInput SKLazy<SKCacheManager>		skCacheManagerSKLazy;
 

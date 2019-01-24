@@ -1,11 +1,15 @@
 package sky.example;
 
+import android.arch.paging.PagedList;
 import android.os.Bundle;
+
+import java.util.List;
 
 import sk.SKBiz;
 import sk.livedata.SKData;
 import sky.SKInput;
 import sky.example.bean.User;
+import sky.example.http.model.Model;
 import sky.example.repository.UserRepository;
 
 /**
@@ -15,13 +19,24 @@ import sky.example.repository.UserRepository;
  */
 public class OneBiz extends SKBiz {
 
-	@SKInput UserRepository	userProvider;
+	@Override public void initBiz(Bundle bundle) {
+		skData = userProvider.load();
+		listSKData = userProvider.initPaged();
+	}
+
+	@SKInput UserRepository userProvider;
+
+	public SKData<PagedList<List<Model>>> getListSKData() {
+		return listSKData;
+	}
+
+	private SKData<PagedList<List<Model>>>	listSKData;
+
+	private SKData<User>					skData;
 
 	public SKData<User> getSkData() {
 		return skData;
 	}
-
-	private SKData<User>			skData;
 
 	public void change(String one) {
 		userProvider.changeUser(skData, one);
@@ -31,7 +46,7 @@ public class OneBiz extends SKBiz {
 		userProvider.changeUser(skData, "改改");
 	}
 
-	@Override public void initBiz(Bundle bundle) {
-		skData = userProvider.load();
+	public void reload() {
+		listSKData.retry();
 	}
 }

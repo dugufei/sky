@@ -29,9 +29,9 @@ import sky.example.repository.UserRepository;
  */
 public class MainBiz extends SKBiz {
 
-	@SKInput UserRepository					userProvider;
+	@SKInput UserRepository			userProvider;
 
-	@SKInput HomeRepository					homeRepository;
+	@SKInput HomeRepository			homeRepository;
 
 	private SKData<PagedList<List<Model>>>	listSKData;
 
@@ -39,7 +39,11 @@ public class MainBiz extends SKBiz {
 
 	private SKData<Integer>					itemPositoin;
 
-	@SKInput SKPaged				skPaged;
+	@Override public void initBiz(Bundle bundle) {
+		listSKData = userProvider.initPaged();
+		listModel = homeRepository.getMM();
+		itemPositoin = new SKData<>();
+	}
 
 	public SKData<PagedList<List<Model>>> getListSKData() {
 		return listSKData;
@@ -51,12 +55,6 @@ public class MainBiz extends SKBiz {
 
 	public SKData<Integer> getItemPositoin() {
 		return itemPositoin;
-	}
-
-	@Override public void initBiz(Bundle bundle) {
-		listSKData = initPaged();
-		listModel = homeRepository.getMM();
-		itemPositoin = new SKData<>();
 	}
 
 	public void reload() {
@@ -85,50 +83,4 @@ public class MainBiz extends SKBiz {
 		listSKData.getValue().getDataSource().invalidate();
 	}
 
-	public SKData initPaged() {
-		SKPagedBuilder skPagedBuilder = skPaged.pagedBuilder();
-		skPagedBuilder.setPageSie(25);
-		skPagedBuilder.setSource(new SKItemSourceFactory<String, Model>() {
-
-			@Override public void init(@NonNull ItemKeyedDataSource.LoadInitialParams<String> params, @NonNull ItemKeyedDataSource.LoadInitialCallback<Model> callback) {
-				loading();
-				callback.onResult(userProvider.getInit());
-				layoutContent();
-				closeLoading();
-			}
-
-			@Override public void before(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
-
-			}
-
-			@Override public void after(@NonNull ItemKeyedDataSource.LoadParams<String> params, @NonNull ItemKeyedDataSource.LoadCallback<Model> callback) {
-				L.i("after 我执行了~~");
-				netWorkRunning();
-				callback.onResult(userProvider.geAfterData(params));
-				netWorkSuccess();
-			}
-
-			@Override public void error(@NonNull SKSourceState skSourceState) {
-
-				switch (skSourceState) {
-					case INIT:
-						closeLoading();
-						layoutError();
-						break;
-					case AFTER:
-						netWorkFailed("加载失败了");
-						break;
-					default:
-						break;
-				}
-			}
-
-			@Override public String key(@NonNull Model item) {
-				return item.id;
-			}
-
-		});
-
-		return skPagedBuilder.build();
-	}
 }
