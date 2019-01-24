@@ -14,6 +14,7 @@ import sk.SKActivityBuilder;
 import sk.SKHelper;
 import sk.livedata.SKViewState;
 import sky.example.adapter.OneAdapter;
+import sky.example.fragment.HelloBiz;
 import sky.example.http.model.Model;
 
 /**
@@ -45,7 +46,7 @@ public class OneActivity extends SKActivity<OneBiz> {
 	@OnClick(R.id.tv_me) public void onViewClicked() {
 		// biz().change("我是第二页");
 
-		biz(MainBiz.class).change(2);
+		biz(HelloBiz.class).change(2);
 		biz().getListSKData().observe(this, new SKViewObserver<PagedList<List<Model>>>() {
 
 			@Override public void onAction(SKViewState state) {

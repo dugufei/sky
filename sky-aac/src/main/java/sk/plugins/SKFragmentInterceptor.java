@@ -12,11 +12,7 @@ import sk.SKFragment;
  */
 public interface SKFragmentInterceptor {
 
-	void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder);
-
 	void onFragmentCreated(SKFragment skyFragment, Bundle bundle, Bundle savedInstanceState);
-
-	void buildAfter(SKFragment skyFragment);
 
 	void onFragmentStart(SKFragment skyFragment);
 
@@ -34,17 +30,10 @@ public interface SKFragmentInterceptor {
 
 	class AdapterInterceptor implements SKFragmentInterceptor {
 
-		@Override public void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder) {
-
-		}
-
 		@Override public void onFragmentCreated(SKFragment skyFragment, Bundle bundle, Bundle savedInstanceState) {
 
 		}
 
-		@Override public void buildAfter(SKFragment skyFragment) {
-
-		}
 
 		@Override public void onFragmentStart(SKFragment skyFragment) {
 
@@ -77,15 +66,8 @@ public interface SKFragmentInterceptor {
 
 	SKFragmentInterceptor NONE = new SKFragmentInterceptor() {
 
-		@Override public void build(Fragment skyFragment, SKActivityBuilder initialSKBuilder) {
-
-		}
 
 		@Override public void onFragmentCreated(SKFragment skyFragment, Bundle bundle, Bundle savedInstanceState) {
-
-		}
-
-		@Override public void buildAfter(SKFragment skyFragment) {
 
 		}
 

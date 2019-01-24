@@ -18,6 +18,7 @@ import sk.SKHolder;
 import sk.livedata.SKLoadMoreCallBack;
 import sky.example.MainBiz;
 import sky.example.R;
+import sky.example.fragment.HelloBiz;
 import sky.example.http.model.Model;
 
 /**
@@ -67,7 +68,7 @@ public class OneAdapter extends SKAdapter<Model, SKHolder> {
 			// Model model = getItem(getAdapterPosition());
 			// model.id ="哈哈哈哈哈哈";
 			// notifyItemChanged(getAdapterPosition());
-			biz(MainBiz.class).change(getAdapterPosition());
+			biz(HelloBiz.class).change(getAdapterPosition());
 		}
 
 	}

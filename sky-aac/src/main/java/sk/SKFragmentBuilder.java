@@ -5,32 +5,31 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.SKViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.inputmethod.InputMethodManager;
+import android.view.MotionEvent;
+import android.view.View;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import sk.builder.SKLayoutBuilder;
 import sk.builder.SKRecyclerViewBuilder;
-import sk.builder.SKTintBuilder;
 import sk.builder.SKViewStub;
 import sk.view.sticky.stickyheader.StickyRecyclerHeadersTouchListener;
 
 /**
  * @author sky
  * @version 1.0 on 2018-06-13 下午9:03
- * @see SKActivityBuilder
+ * @see SKFragmentBuilder
  */
-public final class SKActivityBuilder implements LifecycleObserver {
+public final class SKFragmentBuilder implements LifecycleObserver, View.OnTouchListener {
 
-	private final SKActivity		skActivity;
+	private final SKFragment		skFragment;
 
 	private final LayoutInflater	mInflater;
 
@@ -38,12 +37,12 @@ public final class SKActivityBuilder implements LifecycleObserver {
 
 	private final Bundle			savedInstanceState;
 
-	private boolean					isFinish;
+	private Unbinder				unbinder;
 
-	SKActivityBuilder(@NonNull SKActivity skActivity, @NonNull Lifecycle lifecycle, Bundle savedInstanceState) {
-		this.skActivity = skActivity;
-		this.mInflater = LayoutInflater.from(skActivity);
-		this.context = skActivity;
+	SKFragmentBuilder(@NonNull SKFragment skFragment, @NonNull Lifecycle lifecycle, Bundle savedInstanceState) {
+		this.skFragment = skFragment;
+		this.context = skFragment.getContext();
+		this.mInflater = LayoutInflater.from(context);
 		this.savedInstanceState = savedInstanceState;
 		lifecycle.addObserver(this);
 	}
@@ -54,23 +53,15 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	// recycler编辑器
 	SKRecyclerViewBuilder	skRecyclerViewBuilder;
 
-	// 状态栏编辑器
-	SKTintBuilder			skTintBuilder;
-
 	/**
 	 * 初始化布局
 	 */
 	private void init() {
-		skLayoutBuilder.createRoot(skActivity, mInflater);
+		skLayoutBuilder.createRoot(context, mInflater);
 		/** recyclerview **/
 		if (this.skRecyclerViewBuilder != null) {
 			this.skRecyclerViewBuilder.createRecyclerView(skLayoutBuilder.contentRoot);
 		}
-		/** tint */
-		if (this.skTintBuilder != null) {
-			this.skTintBuilder.createTint(skActivity);
-		}
-
 	}
 
 	/**
@@ -80,9 +71,9 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	SKViewModel skViewModel;
 
 	private void initViewModel() {
-		Class clazz = SKCoreUtils.getClassGenricType(skActivity.getClass(), 0);
-		Bundle bundle = skActivity.getIntent() == null ? null : skActivity.getIntent().getExtras();
-		skViewModel = SKViewModelProviders.of(skActivity, skActivity.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
+		Class clazz = SKCoreUtils.getClassGenricType(skFragment.getClass(), 0);
+		Bundle bundle = skFragment.getArguments();
+		skViewModel = SKViewModelProviders.of(skFragment, skFragment.skViewModelFactory).get(SKViewModel.class, clazz, bundle);
 	}
 
 	@NonNull <B extends SKBiz> B bizProxy() {
@@ -137,26 +128,6 @@ public final class SKActivityBuilder implements LifecycleObserver {
 		this.skLayoutBuilder.fitsSystem = isFitsSystem;
 	}
 
-	/**
-	 * 状态栏
-	 */
-
-	public void tintOpen(boolean isOpen) {
-		this.skTintBuilder = isOpen ? new SKTintBuilder() : null;
-	}
-
-	public void tintColor(@ColorRes int tintColor) {
-		this.skTintBuilder.tintColor = tintColor;
-	}
-
-	public void tintStatusBarEnabled(boolean isStatusBar) {
-		this.skTintBuilder.statusBarEnabled = isStatusBar;
-	}
-
-	public void tintNavigationBarEnabled(boolean isNavigationBar) {
-		this.skTintBuilder.navigationBarTintEnabled = isNavigationBar;
-	}
-
 	// 设置
 	public void recyclerviewId(@IdRes int recyclerviewId, @NonNull SKAdapter skAdapter) {
 		skRecyclerViewBuilder = new SKRecyclerViewBuilder(recyclerviewId);
@@ -185,85 +156,57 @@ public final class SKActivityBuilder implements LifecycleObserver {
 	}
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_CREATE) void create() {
-		SKInputs.input(skActivity);
-		/** 初始化堆栈 **/
-		SKHelper.screen().onCreate(skActivity);
-		/** 活动拦截器 **/
-		SKHelper.interceptor().activityInterceptor().onCreate(skActivity, skActivity.getIntent().getExtras(), savedInstanceState);
+		/** 打开开关触发菜单项 **/
+		skFragment.setHasOptionsMenu(true);
+		/** 注入 **/
+		SKInputs.input(skFragment);
+	}
+
+	View viewCreate() {
 		/** layout **/
-		skActivity.build(this).init();
+		skFragment.build(this).init();
 		/** 初始化所有组建 **/
-		ButterKnife.bind(skActivity);
+		unbinder = ButterKnife.bind(skFragment, skLayoutBuilder.contentRoot);
+		/** 初始化点击事件 **/
+		skLayoutBuilder.contentRoot.setOnTouchListener(this);// 设置点击事件
 		/** 初始化ViewModel **/
 		initViewModel();
+		return skLayoutBuilder.contentRoot;
+	}
+
+	void activityCreate() {
+		SKHelper.interceptor().fragmentInterceptor().onFragmentCreated(skFragment,skFragment.getArguments(),savedInstanceState);
 		/** 初始化数据 **/
-		skActivity.initData(skActivity.getIntent().getExtras());
+		skFragment.initData(skFragment.getArguments());
 	}
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_START) void start() {
-		SKHelper.interceptor().activityInterceptor().onStart(skActivity);
+		SKHelper.interceptor().fragmentInterceptor().onFragmentStart(skFragment);
 	}
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_RESUME) void resume() {
-		SKHelper.screen().onResume(skActivity);
-		SKHelper.interceptor().activityInterceptor().onResume(skActivity);
+		SKHelper.interceptor().fragmentInterceptor().onFragmentResume(skFragment);
 	}
 
-	@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE) void pause() {
-		SKHelper.screen().onPause(skActivity);
-		SKHelper.interceptor().activityInterceptor().onPause(skActivity);
-
-		if (skActivity.isFinishing()) {
-			isFinish = true;
-			SKHelper.screen().onDestroy(skActivity);
-			SKHelper.interceptor().activityInterceptor().onDestroy(skActivity);
-			/** 关闭键盘 **/
-			hideSoftInput();
-		}
-
-	}
-
-	@OnLifecycleEvent(Lifecycle.Event.ON_STOP) void stop() {
-		SKHelper.interceptor().activityInterceptor().onStop(skActivity);
-	}
-
-	@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY) void destroy() {
-		if (!isFinish) {
-			SKHelper.screen().onDestroy(skActivity);
-			SKHelper.interceptor().activityInterceptor().onDestroy(skActivity);
-			/** 关闭键盘 **/
-			hideSoftInput();
-		}
-	}
-
-	void onPostCreate(Bundle savedInstanceState) {
-		SKHelper.interceptor().activityInterceptor().onPostCreate(skActivity, savedInstanceState);
-	}
-
-	void onPostResume() {
-		SKHelper.interceptor().activityInterceptor().onPostResume(skActivity);
-	}
-
-	void onActivityResult(int requestCode, int resultCode, Intent data) {
-		SKHelper.screen().onActivityResult(skActivity);
-		SKHelper.interceptor().activityInterceptor().onActivityResult(requestCode, resultCode, data);
-	}
-
-	void onRestart() {
-		SKHelper.interceptor().activityInterceptor().onRestart(skActivity);
-	}
-
-	void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+	public void requestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		SKHelper.interceptor().activityInterceptor().onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
-	/**
-	 * 隐藏键盘
-	 */
-
-	void hideSoftInput() {
-		InputMethodManager imm = (InputMethodManager) skActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(skActivity.getWindow().getDecorView().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	@OnLifecycleEvent(Lifecycle.Event.ON_PAUSE) void pause() {
+		SKHelper.interceptor().fragmentInterceptor().onFragmentPause(skFragment);
 	}
 
+	@OnLifecycleEvent(Lifecycle.Event.ON_STOP) void stop() {
+		SKHelper.interceptor().fragmentInterceptor().onFragmentStop(skFragment);
+	}
+
+	@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY) void destroy() {
+		SKHelper.interceptor().fragmentInterceptor().onFragmentDestroy(skFragment);
+		/** 清空注解view **/
+		unbinder.unbind();
+	}
+
+	@Override public boolean onTouch(View v, MotionEvent event) {
+		return true;
+	}
 }

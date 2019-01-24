@@ -1,6 +1,7 @@
 package sk.builder;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 
 import sk.SKActivity;
+import sk.SKFragment;
 import sk.SKHelper;
 import sk.utils.SKAnimations;
 import sk.utils.SKPreconditions;
@@ -69,8 +71,17 @@ public class SKLayoutBuilder {
 
 	public View			layoutError;
 
-	public void createLayout(SKActivity skActivity, Context context, LayoutInflater mInflater) {
+	public void createRoot(SKActivity skActivity, LayoutInflater mInflater){
 		contentRoot = skActivity.findViewById(ID_ANDROID_CONTENT);
+		createLayout(skActivity,mInflater);
+	}
+
+	public void createRoot(Context context, LayoutInflater mInflater){
+		contentRoot = new FrameLayout(context);
+		createLayout(context,mInflater);
+	}
+
+	private void createLayout(Context context, LayoutInflater mInflater) {
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
 
 		// 内容布局

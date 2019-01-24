@@ -3,37 +3,38 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#00FFFF"
+              android:id="@+id/ll_main"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是谁1"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_one"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="我是谁1"/>-->
 
-    <TextView
-        android:id="@+id/tv_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是谁2"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_two"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="我是谁2"/>-->
 
-    <TextView
-        android:id="@+id/tv_three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是谁3"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_three"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="我是谁3"/>-->
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:id="@+id/swipeRefreshLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_oder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_oder"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#000000"/>-->
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
 </LinearLayout>
