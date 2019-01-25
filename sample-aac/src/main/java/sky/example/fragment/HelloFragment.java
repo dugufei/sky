@@ -72,7 +72,8 @@ public class HelloFragment extends SKFragment<HelloBiz> {
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-		OneActivity.intent();
+//		OneActivity.intent();
 		// biz().test();
+		TipDialogFragment.getInstance().show(getFragmentManager(),"");
 	}
 }
