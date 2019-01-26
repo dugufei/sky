@@ -33,7 +33,7 @@
  
 [SKY-AAC 版本说明](https://github.com/skyJinc/sky/wiki)
 -----------------------------------
-3.1.0-SNAPSHOT
+4.0.0-SNAPSHOT
 
  - 新结构正在设计
 
@@ -45,14 +45,14 @@
  App-build.gradle:
  
       dependencies {
-         api 'com.jincanshen:sky-aac:3.1.0' // AAC 
-         annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
+         api 'com.jincanshen:sky-aac:4.0.0-SNAPSHOT' // AAC 
+         annotationProcessor 'com.jincanshen:sk-compiler:4.0.0-SNAPSHOT'
       }
  
  
 [SKY-DI 注入架构 版本说明](https://github.com/skyJinc/sky/wiki/DI%E6%B3%A8%E5%85%A5%E6%A1%86%E6%9E%B6)
 -----------------------------------
-3.1.0-SNAPSHOT
+4.0.0-SNAPSHOT
 
  - 支持动态注入
  - 简化注入操作
@@ -66,15 +66,21 @@
   
  App-build.gradle:
  
+      // sky
       dependencies {
          api 'com.jincanshen:sky-di:3.1.0' 
          annotationProcessor 'com.jincanshen:sky-compiler:3.1.0'
+      }
+      // sk
+      dependencies {
+         api 'com.jincanshen:sky-di:4.0.0-SNAPSHOT' 
+         annotationProcessor 'com.jincanshen:sk-compiler:4.0.0-SNAPSHOT'
       }
  
 
 Gradle 版本
 -----------------------------------
-1.插件 com.android.tools.build:gradle:3.0.1'<br />
+1.插件 com.android.tools.build:gradle:3.2.1'<br />
 2.版本 - gradle-4.+-all.zip<br />
 
 
