@@ -11,6 +11,12 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [SK_MODULE_NAME: project.getName()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -29,9 +35,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':sky-aac')
     implementation deps.library.glide
-    annotationProcessor project(':sky-compiler')
+    implementation project(':sky-aac')
+    annotationProcessor project(':sk-compiler')
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation deps.support.cardview_v7

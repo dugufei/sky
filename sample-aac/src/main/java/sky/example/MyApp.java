@@ -13,6 +13,7 @@ import sk.SKApp;
 import sk.SKCommonView;
 import sk.SKDI;
 import sk.SKDefaultLibrary;
+import sk.SKHelper;
 import sk.SKHolder;
 import sk.livedata.SKLoadMoreHolder;
 import sk.livedata.SKNetworkState;
@@ -58,6 +59,7 @@ public class MyApp extends SKApp {
 			}
 
 		}).build();
+		SKHelper.moduleManage().init();
 	}
 
 	public class LoadMore extends SKLoadMoreHolder {

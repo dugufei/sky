@@ -1,6 +1,7 @@
 package sk;
 
 import android.app.Application;
+import android.util.SparseArray;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -8,14 +9,17 @@ import retrofit2.Retrofit;
 import retrofit2.SKCallAdapterFactory;
 import retrofit2.SKRetrofit;
 import sk.livedata.SKPaged;
+import sk.methodModule.SKIMethodRun;
+import sk.methodModule.SKIModule;
+import sk.methodModule.SKModuleManage;
 import sk.proxy.SKBizStore;
 import sk.proxy.SKProxy;
 import sk.screen.SKScreenManager;
-import sky.SKProvider;
 import sky.SKSingleton;
+import sky.SKProvider;
 
 /**
- * @author sky
+ * @author sk
  * @version 1.0 on 2018-07-09 下午11:35
  * @see SKDefaultProvider
  */
@@ -150,4 +154,32 @@ public class SKDefaultProvider {
 		return new SKPaged();
 	}
 
+	/**
+	 * sk架构 - 组件化biz
+	 *
+	 * @return 返回值
+	 */
+	@SKSingleton @SKProvider public SparseArray<SKIMethodRun> provideMethodRun(SKModuleManage skModuleManage) {
+		SparseArray<SKIMethodRun> methodRunSparseArray = new SparseArray<>();
+		int count = skModuleManage.getList().size();
+		for (int i = 0; i < count; i++) {
+			try {
+				SKIModule skiModule = skModuleManage.getList().get(i).getConstructor(new Class[0]).newInstance(new Object[0]);
+				skiModule.loadInto(methodRunSparseArray);
+			} catch (Exception var8) {
+				L.e("sk::加载组件时 出现了致命的异常. [" + var8.getMessage() + "]");
+			}
+		}
+		// 加载数据
+		return methodRunSparseArray;
+	}
+
+	/**
+	 * sk架构 - 组件化biz
+	 *
+	 * @return 返回值
+	 */
+	@SKSingleton @SKProvider public SKModuleManage provideModule() {
+		return new SKModuleManage();
+	}
 }

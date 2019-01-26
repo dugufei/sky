@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.SKRetrofit;
+import sk.methodModule.SKIMethodRun;
+import sk.methodModule.SKModuleManage;
 import sk.proxy.SKBizStore;
 import sk.screen.SKScreenHolder;
 import sk.screen.SKScreenManager;
@@ -90,6 +92,16 @@ public class SKHelper {
 	}
 
 	/**
+	 * 执行业务代码
+	 *
+	 * @param code
+	 * @return 返回值
+	 */
+	public static final SKIMethodRun moduleBiz(int code) {
+		return getManage().provideMethodRun.get().get(code);
+	}
+
+	/**
 	 * 判断是否是主线程
 	 *
 	 * @return true 主线程 false 子线程
@@ -150,6 +162,15 @@ public class SKHelper {
 	 */
 	static final SKRetrofit httpAdapter() {
 		return getManage().skRetrofitSKLazy.get();
+	}
+
+	/**
+	 * 组件化管理器
+	 * 
+	 * @return 返回值
+	 */
+	public static final SKModuleManage moduleManage() {
+		return getManage().skModuleManage.get();
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package sk;
 
 import android.os.Looper;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -118,7 +119,6 @@ public class SKToast {
 			mToast.setText(text);
 			mToast.setDuration(duration);
 		}
-
 		mToast.show();
 	}
 

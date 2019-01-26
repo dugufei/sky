@@ -24,12 +24,15 @@ public final class SKAppExecutors {
 
 	private final ScheduledExecutorService	scheduled;	// 定时任务
 
+	private final Executor					work;		// 工作线程
+
 	private final Executor					mainThread;
 
 	public SKAppExecutors() {
 		diskIO = Executors.newSingleThreadExecutor();
 		network = Executors.newFixedThreadPool(3);
 		scheduled = Executors.newScheduledThreadPool(3);
+		work = Executors.newCachedThreadPool();
 		mainThread = new MainThreadExecutor();
 	}
 
@@ -65,6 +68,32 @@ public final class SKAppExecutors {
 
 	public void network(final Runnable runnable) {
 		diskIO.execute(new Runnable() {
+
+			@Override public void run() {
+				try {
+					runnable.run();
+				} catch (Throwable throwable) {
+					if (SKHelper.isLogOpen()) {
+						throwable.printStackTrace();
+					}
+					SKErrorEnum skErrorEnum = SKErrorEnum.LOGIC;
+					for (SKErrorInterceptor skErrorInterceptor : SKHelper.interceptor().skErrorInterceptors()) {
+						if (throwable.getCause() instanceof SKHttpException) {
+							skErrorEnum = SKErrorEnum.HTTP;
+						}
+						skErrorInterceptor.interceptorError(null, null, null, 0, skErrorEnum);
+					}
+				}
+			}
+		});
+	}
+
+	public Executor work(){
+		return work;
+	}
+
+	public void work(final  Runnable runnable){
+		work.execute(new Runnable() {
 
 			@Override public void run() {
 				try {

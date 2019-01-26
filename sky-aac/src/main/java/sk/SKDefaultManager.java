@@ -1,8 +1,11 @@
 package sk;
 
 import android.app.Application;
+import android.util.SparseArray;
 
 import retrofit2.SKRetrofit;
+import sk.methodModule.SKIMethodRun;
+import sk.methodModule.SKModuleManage;
 import sk.proxy.SKBizStore;
 import sk.screen.SKScreenManager;
 import sky.SKInput;
@@ -14,26 +17,30 @@ import sky.SKInput;
  */
 public class SKDefaultManager {
 
-	@SKInput Application				application;
+	@SKInput Application						application;
 
-	@SKInput ISK						isk;
+	@SKInput ISK								isk;
 
-	@SKInput SKLazy<SKCommonView>		skCommonView;
+	@SKInput SKLazy<SKCommonView>				skCommonView;
 
-	@SKInput SKLazy<SKAppExecutors>		skAppExecutors;
+	@SKInput SKLazy<SKAppExecutors>				skAppExecutors;
 
-	@SKInput SKLazy<SKToast>			skToast;
+	@SKInput SKLazy<SKToast>					skToast;
 
-	@SKInput SKLazy<SKScreenManager>	skyScreenManager;
+	@SKInput SKLazy<SKScreenManager>			skyScreenManager;
 
-	@SKInput SKLazy<SKInterceptor>		skInterceptorSKLazy;
+	@SKInput SKLazy<SKInterceptor>				skInterceptorSKLazy;
 
-	@SKInput SKLazy<SKBizStore>			skBizStoreSKLazy;
+	@SKInput SKLazy<SKBizStore>					skBizStoreSKLazy;
 
-	@SKInput SKLazy<SKIDisplay>			skiDisplaySKLazy;
+	@SKInput SKLazy<SparseArray<SKIMethodRun>>	provideMethodRun;
 
-	@SKInput SKLazy<SKRetrofit>			skRetrofitSKLazy;
+	@SKInput SKLazy<SKModuleManage>				skModuleManage;
 
-	@SKInput SKLazy<SKCacheManager>		skCacheManagerSKLazy;
+	@SKInput SKLazy<SKIDisplay>					skiDisplaySKLazy;
+
+	@SKInput SKLazy<SKRetrofit>					skRetrofitSKLazy;
+
+	@SKInput SKLazy<SKCacheManager>				skCacheManagerSKLazy;
 
 }

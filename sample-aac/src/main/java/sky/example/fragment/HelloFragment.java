@@ -14,11 +14,13 @@ import butterknife.OnClick;
 import sk.SKActivity;
 import sk.SKFragment;
 import sk.SKFragmentBuilder;
+import sk.SKHelper;
 import sk.livedata.SKViewState;
 import sky.example.MainActivity;
 import sky.example.OneActivity;
 import sky.example.R;
 import sky.example.adapter.OneAdapter;
+import sky.example.di.TestID;
 import sky.example.http.model.Model;
 
 /**
@@ -74,6 +76,10 @@ public class HelloFragment extends SKFragment<HelloBiz> {
 	@OnClick(R.id.tv_one) public void onViewClicked() {
 //		OneActivity.intent();
 		// biz().test();
+
+		Model i = SKHelper.moduleBiz(TestID.D).run();
+
+		SKHelper.toast().show("打印"+i);
 		TipDialogFragment.getInstance().show(getFragmentManager(),"");
 	}
 }

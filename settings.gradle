@@ -1,6 +1,7 @@
 include ':sky'
 include ':sky-annotations'
 include ':sky-compiler'
+include ':sk-compiler'
 include ':sky-cglib'
 
 include ':sample'

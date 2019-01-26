@@ -15,7 +15,6 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import static sk.compiler.SkConsts.NAME_INPUT;
 import static sk.compiler.SkConsts.SK_DC;
 import static sk.compiler.SkConsts.SK_INPUTS;
-import static sk.compiler.SkConsts.SK_INTERFACE;
 import static sk.compiler.SkConsts.SK_I_INPUT;
 import static sk.compiler.SkConsts.SK_I_LAZY;
 import static sk.compiler.SkConsts.SK_I_PROVIDER;

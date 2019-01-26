@@ -19,7 +19,7 @@ dependencies {
 
     api project(':sky-di')
     implementation project(':sky-cglib')
-    annotationProcessor project(':sky-compiler')
+    annotationProcessor project(':sk-compiler')
 
     api deps.lifecycle
     api deps.paging
