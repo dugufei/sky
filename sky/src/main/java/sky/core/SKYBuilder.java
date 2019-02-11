@@ -4,19 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.MenuRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +23,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import sky.core.interfaces.SKYFooterListener;
 import sky.core.interfaces.SKYIView;
 import sky.core.interfaces.SKYRefreshListener;
@@ -453,7 +453,7 @@ public final class SKYBuilder {
 
 	private SKYFooterListener skyFooterListener;
 
-	private RecyclerView												recyclerView;
+	private RecyclerView recyclerView;
 
 	private sky.core.SKYRVAdapter SKYRVAdapter;
 
@@ -463,7 +463,7 @@ public final class SKYBuilder {
 
 	private RecyclerView.ItemDecoration									itemDecoration;					// 分割线
 
-	private SwipeRefreshLayout											recyclerviewSwipeContainer;
+	private SwipeRefreshLayout recyclerviewSwipeContainer;
 
 	private SKYRefreshListener recyclerviewSKYRefreshListener;
 
@@ -521,7 +521,7 @@ public final class SKYBuilder {
 	public void recyclerviewIdLinear(@IdRes int recyclerviewId, @NonNull SKYRVAdapter SKYRVAdapter) {
 		this.recyclerviewId = recyclerviewId;
 		this.SKYRVAdapter = SKYRVAdapter;
-		this.layoutManager = new LinearLayoutManager(skyView.activity(), LinearLayoutManager.VERTICAL, false);
+		this.layoutManager = new LinearLayoutManager(skyView.activity(), RecyclerView.VERTICAL, false);
 		this.itemDecoration = null;
 		this.itemAnimator = new DefaultItemAnimator();
 	}
@@ -529,7 +529,7 @@ public final class SKYBuilder {
 	public void recyclerviewIdGrid(@IdRes int recyclerviewId, int spanCount, @NonNull SKYRVAdapter SKYRVAdapter) {
 		this.recyclerviewId = recyclerviewId;
 		this.SKYRVAdapter = SKYRVAdapter;
-		this.layoutManager = new GridLayoutManager(skyView.activity(), spanCount, GridLayoutManager.VERTICAL, false);
+		this.layoutManager = new GridLayoutManager(skyView.activity(), spanCount, RecyclerView.VERTICAL, false);
 		this.itemDecoration = null;
 		this.itemAnimator = new DefaultItemAnimator();
 	}

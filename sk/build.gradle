@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+    }
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+        abortOnError false
+    }
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':sky-annotations')
+
+    api project(':sky-di')
+    implementation project(':sky-cglib')
+    annotationProcessor project(':sk-compiler')
+
+    api deps.lifecycle
+    api deps.paging
+    api deps.x.recyclerview
+    api deps.x.appcompat
+    api deps.x.support4
+    api deps.library.retrofit
+    api deps.library.butterknife
+    implementation deps.library.systembartint
+    implementation deps.library.guava
+
+    implementation deps.library.leakcanary
+}
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')//中央库打包

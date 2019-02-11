@@ -1,7 +1,7 @@
 package com.example.sky.test;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 /**
  * @author sky
  * @version 1.0 on 2018-04-24 下午3:01

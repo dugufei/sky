@@ -1,16 +1,17 @@
 package sky.core.view.sticky.stickyheader;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class StickyRecyclerHeadersTouchListener implements RecyclerView.OnItemTouchListener {
 
 	private final GestureDetector					mTapDetector;
 
-	private final RecyclerView						mRecyclerView;
+	private final RecyclerView mRecyclerView;
 
 	private final StickyRecyclerHeadersDecoration	mDecor;
 

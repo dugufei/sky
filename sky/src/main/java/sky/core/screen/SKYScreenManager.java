@@ -2,10 +2,11 @@ package sky.core.screen;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * @author sky

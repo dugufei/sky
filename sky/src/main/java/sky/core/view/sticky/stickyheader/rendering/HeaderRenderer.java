@@ -2,10 +2,10 @@ package sky.core.view.sticky.stickyheader.rendering;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.recyclerview.widget.RecyclerView;
 import sky.core.view.sticky.stickyheader.calculation.DimensionCalculator;
 import sky.core.view.sticky.stickyheader.util.OrientationProvider;
 

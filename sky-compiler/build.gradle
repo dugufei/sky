@@ -10,6 +10,7 @@ dependencies {
     implementation project(':sky-annotations')
     implementation deps.auto.common
     implementation deps.javapoet
+    implementation deps.library.guava
     implementation deps.library.commons_lang3
     implementation deps.library.collections4
     implementation deps.library.butterknife_annotations

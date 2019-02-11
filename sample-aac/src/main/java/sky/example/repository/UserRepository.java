@@ -1,7 +1,7 @@
 package sky.example.repository;
 
-import android.arch.paging.ItemKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.paging.ItemKeyedDataSource;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.example.sky;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -73,7 +73,7 @@ public class MainActivity extends SKYActivity<MainBiz> implements TipDialogFragm
 				break;
 			case R.id.button6:
 				// biz().errormethod();
-				SKYHelper.moduleBiz(555).run();
+//				SKYHelper.moduleBiz(555).run();
 				// SKYHelper.moduleDisplay("ShareActivity").method("intent").run("sky", 1);
 				// display(SKYIDisplay.class).intent(MainActivity.class);
 				break;

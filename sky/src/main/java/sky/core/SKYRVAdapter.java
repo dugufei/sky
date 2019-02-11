@@ -1,11 +1,12 @@
 package sky.core;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import static sky.core.SKYUtils.checkNotNull;
 

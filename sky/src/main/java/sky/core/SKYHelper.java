@@ -2,12 +2,12 @@ package sky.core;
 
 import android.app.Application;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import sky.core.exception.SKYBizException;
 import sky.core.exception.SKYHttpException;
 import sky.core.exception.SKYUINullPointerException;

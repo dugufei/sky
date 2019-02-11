@@ -1,22 +1,20 @@
 package sky.example.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.view.LayoutInflater;
+import androidx.annotation.NonNull;
+
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import androidx.recyclerview.widget.DiffUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import sk.SKAdapter;
 import sk.SKHolder;
 import sk.livedata.SKLoadMoreCallBack;
-import sky.example.MainBiz;
 import sky.example.R;
 import sky.example.fragment.HelloBiz;
 import sky.example.http.model.Model;

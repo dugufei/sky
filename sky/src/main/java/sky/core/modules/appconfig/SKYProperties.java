@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import sky.core.L;
 import sky.Property;

@@ -2,11 +2,11 @@ package sky.core.view.sticky.stickyheader;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import sky.core.view.sticky.stickyheader.caching.HeaderProvider;
 import sky.core.view.sticky.stickyheader.caching.HeaderViewCache;
 import sky.core.view.sticky.stickyheader.calculation.DimensionCalculator;

@@ -1,9 +1,7 @@
 package sky.core;
 
-import android.os.Build;
 import android.os.Looper;
 import android.os.Trace;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -15,6 +13,7 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import androidx.fragment.app.FragmentManager;
 import sky.cglib.proxy.Enhancer;
 import sky.cglib.proxy.MethodInterceptor;
 import sky.core.plugins.ImplEndInterceptor;

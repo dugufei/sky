@@ -7,8 +7,8 @@ import com.example.sky.http.model.Model;
 import com.example.sky.oder.adapter.OderAdapter;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import sky.core.SKYActivity;
 import sky.core.SKYBuilder;
 

@@ -49,7 +49,7 @@ dependencies {
     implementation deps.support.fragment
     implementation deps.support.recyclerview_v7
     implementation deps.support.compat_v7
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
     // retrofit2 - gson
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'

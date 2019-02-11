@@ -2,7 +2,7 @@ package sky.core.plugins;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import sky.core.SKYActivity;
 import sky.core.SKYBuilder;

@@ -1,11 +1,12 @@
 package butterknife.compiler;
 
+import androidx.annotation.Nullable;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 
 final class FieldTypefaceBinding implements ResourceBinding {
   private static final ClassName RESOURCES_COMPAT =
-      ClassName.get("android.support.v4.content.res", "ResourcesCompat");
+      ClassName.get("androidx.core.content.res", "ResourcesCompat");
   private static final ClassName TYPEFACE = ClassName.get("android.graphics", "Typeface");
 
   /** Keep in sync with {@link android.graphics.Typeface} constants. */
@@ -21,7 +22,7 @@ final class FieldTypefaceBinding implements ResourceBinding {
       this.value = value;
     }
 
-    static TypefaceStyles fromValue(int value) {
+    @Nullable static TypefaceStyles fromValue(int value) {
       for (TypefaceStyles style : values()) {
         if (style.value == value) {
           return style;

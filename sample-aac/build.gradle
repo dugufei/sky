@@ -36,10 +36,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.library.glide
-    implementation project(':sky-aac')
+    implementation project(':sk')
     annotationProcessor project(':sk-compiler')
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation deps.support.cardview_v7
     // retrofit2 - gson
     implementation 'com.squareup.retrofit2:converter-gson:2.2.0'

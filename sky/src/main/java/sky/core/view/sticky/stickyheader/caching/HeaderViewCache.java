@@ -1,11 +1,11 @@
 package sky.core.view.sticky.stickyheader.caching;
 
-import android.support.v4.util.LongSparseArray;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.LongSparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import sky.core.view.sticky.stickyheader.SKYStickyHeaders;
 import sky.core.view.sticky.stickyheader.util.OrientationProvider;
 

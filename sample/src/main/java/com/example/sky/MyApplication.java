@@ -1,13 +1,12 @@
 package com.example.sky;
 
-import android.support.v4.app.Fragment;
-
 import com.example.sky.dialog.LoadingDialogFragment;
 import com.example.sky.helper.SampleHelper;
 import com.example.sky.helper.SampleManage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import androidx.fragment.app.Fragment;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import sky.SKYApplication;

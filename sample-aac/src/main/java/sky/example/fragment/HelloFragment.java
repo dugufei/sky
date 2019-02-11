@@ -1,23 +1,20 @@
 package sky.example.fragment;
 
-import android.arch.paging.PagedList;
+import androidx.paging.PagedList;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
-import sk.SKActivity;
 import sk.SKFragment;
 import sk.SKFragmentBuilder;
 import sk.SKHelper;
 import sk.livedata.SKViewState;
-import sky.example.MainActivity;
-import sky.example.OneActivity;
 import sky.example.R;
 import sky.example.adapter.OneAdapter;
 import sky.example.di.TestID;
@@ -31,7 +28,7 @@ import sky.example.http.model.Model;
 public class HelloFragment extends SKFragment<HelloBiz> {
 
 	public static final HelloFragment getInstance() {
-        HelloFragment helloFragment = new HelloFragment();
+		HelloFragment helloFragment = new HelloFragment();
 		return helloFragment;
 	}
 
@@ -74,12 +71,12 @@ public class HelloFragment extends SKFragment<HelloBiz> {
 	}
 
 	@OnClick(R.id.tv_one) public void onViewClicked() {
-//		OneActivity.intent();
+		// OneActivity.intent();
 		// biz().test();
 
 		Model i = SKHelper.moduleBiz(TestID.D).run();
 
-		SKHelper.toast().show("打印"+i);
-		TipDialogFragment.getInstance().show(getFragmentManager(),"");
+		SKHelper.toast().show("打印" + i);
+		TipDialogFragment.getInstance().show(getFragmentManager(), "");
 	}
 }

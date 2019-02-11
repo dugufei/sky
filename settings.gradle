@@ -9,7 +9,7 @@ include ':sample'
 include ':sample-aac'
 
 //include ':sky-kotlin'
-include ':sky-aac'
+include ':sk'
 include ':sky-di'
 
 rootProject.name = 'sky-parent'

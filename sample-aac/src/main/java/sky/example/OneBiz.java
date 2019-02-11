@@ -1,6 +1,6 @@
 package sky.example;
 
-import android.arch.paging.PagedList;
+import androidx.paging.PagedList;
 import android.os.Bundle;
 
 import java.util.List;
