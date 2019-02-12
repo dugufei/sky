@@ -171,9 +171,6 @@ public final class SkDIProcessor extends AbstractProcessor {
             logger.error(">>> SKDI 依赖注入 - SKProvider 提供者 异常... <<<");
             return false;
         }
-        if (skSourceModelMap.size() < 1) {
-            return false;
-        }
 
         SKProviderCreate skProviderCreate = new SKProviderCreate();
 
