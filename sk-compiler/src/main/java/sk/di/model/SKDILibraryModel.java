@@ -2,6 +2,7 @@ package sk.di.model;
 
 import com.squareup.javapoet.ClassName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,6 @@ public class SKDILibraryModel {
 
 	public Map<String, SKProviderModel>	skProviderModels;
 
-	public List<SKConstructorsModel>	skConstructorsModelList;
+	public List<SKConstructorsModel>	skConstructorsModelList = new ArrayList<>();
 
 }

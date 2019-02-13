@@ -189,6 +189,7 @@ class SKDICreate {
 		MethodSpec.Builder builderConstructorsMethod = MethodSpec.methodBuilder("build").addModifiers(Modifier.PUBLIC).returns(currentClassName);
 
 		HashMap<String, SKConstructorsModel> singleConsProvider = new HashMap<>();
+		boolean isInputInit = true;
 		// 添加library
 		for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
 			String name = lowerCase(skdiLibraryModel.name);
@@ -221,7 +222,10 @@ class SKDICreate {
 
 			builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
 			// 添加初始化
-			constructors.addStatement("$T.init()", SK_HELPER);
+			if(isInputInit){
+				constructors.addStatement("$T.init()", SK_HELPER);
+				isInputInit = false;
+			}
 
 			// 增加赋值方法
 			builder.addMethod(addEqualMethod(builderName, skdiLibraryModel.className, skdiLibraryModel.className.simpleName()));

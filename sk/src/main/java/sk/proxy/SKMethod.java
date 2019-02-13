@@ -15,12 +15,11 @@ import sk.SKHttpException;
 import sk.plugins.SKBizEndInterceptor;
 import sk.plugins.SKBizStartInterceptor;
 import sk.plugins.SKErrorInterceptor;
-import sky.Background;
-import sky.BackgroundType;
 import sky.Interceptor;
 import sky.Repeat;
 import sky.SKHTTP;
 import sky.SKIO;
+import sky.SKWork;
 
 /**
  * @author sky
@@ -37,6 +36,8 @@ final class SKMethod {
 	static final int	TYPE_INVOKE_HTTP_EXE	= 1;
 
 	static final int	TYPE_INVOKE_IO_EXE		= 2;
+
+	static final int	TYPE_INVOKE_WORK_EXE	= 3;
 
 	static SKMethod createMethod(Method method, Class service) {
 		// 是否重复
@@ -72,6 +73,7 @@ final class SKMethod {
 
 	private static int parseIOAndHTTP(Method method) {
 		int type = TYPE_INVOKE_EXE;
+		SKWork skWork = method.getAnnotation(SKWork.class);
 		SKIO skIo = method.getAnnotation(SKIO.class);
 		SKHTTP skHttp = method.getAnnotation(SKHTTP.class);
 
@@ -84,6 +86,9 @@ final class SKMethod {
 		}
 		if (skHttp != null) {
 			type = TYPE_INVOKE_HTTP_EXE;
+		}
+		if (skWork != null) {
+			type = TYPE_INVOKE_WORK_EXE;
 		}
 		return type;
 	}
@@ -137,6 +142,9 @@ final class SKMethod {
 						break;
 					case TYPE_INVOKE_IO_EXE:
 						SKHelper.executors().diskIO().execute(methodRunnable);
+						break;
+					case TYPE_INVOKE_WORK_EXE:
+						SKHelper.executors().work().execute(methodRunnable);
 						break;
 				}
 				break;

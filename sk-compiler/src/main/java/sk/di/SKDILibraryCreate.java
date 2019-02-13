@@ -208,7 +208,11 @@ class SKDILibraryCreate {
 						singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
 					}
 					builder.addField(item.className, name);
-					builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
+					if(consCodeBlock == null){
+						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+					}else {
+						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
+					}
 				}
 				// 增加赋值方法
 				builder.addMethod(addEqualMethod(builderName, item.className, item.className.simpleName()));

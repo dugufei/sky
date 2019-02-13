@@ -300,7 +300,7 @@ public final class SkDIProcessor extends AbstractProcessor {
             SKDILibraryModel skLibraryModel = new SKDILibraryModel();
             ClassName classNameLibrary = (ClassName) ClassName.get(clazz.getValue());
             skLibraryModel.name = classNameLibrary.simpleName() + NAME_LIBRARY;
-            skLibraryModel.className = ClassName.get(classNameLibrary.packageName(), skLibraryModel.name);
+            skLibraryModel.className = ClassName.get("sk", skLibraryModel.name);
             if (skLibraryModel.name.equals(NAME_DEFAULT_LIBRARY)) {
                 skLibraryModel.isSKDefaultLibrary = true;
             }
@@ -780,13 +780,14 @@ public final class SkDIProcessor extends AbstractProcessor {
         SKSourceModel skSourceModel = skSourceModelMap.get(skdiLibraryModel.className.reflectionName());
         if (skSourceModel == null) {
             skSourceModel = new SKSourceModel();
+            skSourceModel.skConstructorsModelList = new ArrayList<>();
+
             // 构造函数
             List<ExecutableElement> executableElements = ElementFilter.constructorsIn(enclosingElement.getEnclosedElements());
 
             if (executableElements.size() > 1) {
                 logger.error(skSourceModel.className.simpleName() + "类的构造函数不能存在多个");
             } else if (executableElements.size() == 1) {
-                skSourceModel.skConstructorsModelList = new ArrayList<>();
                 ExecutableElement item = executableElements.get(0);
                 for (VariableElement variableElement : item.getParameters()) {
                     SKConstructorsModel skConstructorsModel = new SKConstructorsModel();

@@ -19,6 +19,7 @@ import sk.livedata.SKLoadMoreHolder;
 import sk.livedata.SKNetworkState;
 import sky.SKDIApp;
 import sky.example.helper.TextBind;
+import sky.test.di.OderLibrary;
 
 import static sk.livedata.SKNetworkState.FAILED;
 import static sk.livedata.SKNetworkState.RUNNING;
@@ -30,7 +31,7 @@ import static sk.livedata.SKNetworkState.RUNNING;
  * @see MyApp
  */
 
-@SKDIApp(SKDefaultLibrary.class)
+@SKDIApp({SKDefaultLibrary.class, OderLibrary.class})
 public class MyApp extends SKApp {
 
 	@Override public void onCreate() {

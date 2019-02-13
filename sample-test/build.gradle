@@ -1,31 +1,31 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
-
-    defaultConfig {
-        applicationId "sky.example"
-        minSdkVersion versions.minSdk
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [SK_MODULE_NAME: project.getName()]
-            }
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-    }
-    lintOptions {
-        abortOnError false
-    }
+//
+//    defaultConfig {
+//        applicationId "sky.test"
+//        minSdkVersion versions.minSdk
+//        targetSdkVersion 25
+//        versionCode 1
+//        versionName "1.0"
+//        multiDexEnabled true
+//
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [SK_MODULE_NAME: project.getName()]
+//            }
+//        }
+//    }
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//        }
+//    }
+//    lintOptions {
+//        abortOnError false
+//    }
 
     compileOptions {
         targetCompatibility 1.8
@@ -37,7 +37,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.library.glide
     implementation project(':sk')
-    implementation project(':sample-test')
     annotationProcessor project(':sk-compiler')
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
