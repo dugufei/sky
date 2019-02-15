@@ -113,25 +113,20 @@ class SKProviderCreate {
 		classBuilder.addMethod(get);
 
 		// 添加 proxy
-		TypeName returnClassName= item.returnType;
+		TypeName returnClassName = item.returnType;
 		String returnName;
 		if (item.returnType instanceof ParameterizedTypeName) {
 			ParameterizedTypeName returnTypeName = ((ParameterizedTypeName) item.returnType);
 			returnName = returnTypeName.rawType.simpleName();
-		}else {
+		} else {
 			ClassName className = (ClassName) item.returnType;
 			returnName = lowerCase(className.simpleName());
 		}
 
-
 		if (item.isProxy) {
 
-			if(item.isClass){
-				provideProxy.addStatement("$T $N = $T.checkNotNull(new $T(), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, returnClassName);
-			}else {
-				provideProxy.addStatement("$T $N = $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, item.name,
-						proxyParameter == null ? "" : proxyParameter.toString());
-			}
+			provideProxy.addStatement("$T $N = $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", returnClassName, returnName, SK_PRECOND, item.name,
+					proxyParameter == null ? "" : proxyParameter.toString());
 
 			provideProxy.beginControlFlow("if($N instanceof $T)", returnName, SK_REPOSITORY);
 
@@ -140,13 +135,9 @@ class SKProviderCreate {
 			provideProxy.endControlFlow();
 			provideProxy.addStatement("return $N", returnName);
 		} else {
-			if(item.isClass){
-				provideProxy.addStatement("return $T.checkNotNull(new $T(), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND,returnClassName);
-			}else {
-				provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
-						proxyParameter == null ? "" : proxyParameter.toString());
-			}
 
+			provideProxy.addStatement("return $T.checkNotNull(source.$N($N), \"Cannot return null from a non-@Nullable @Provides method\")", SK_PRECOND, item.name,
+					proxyParameter == null ? "" : proxyParameter.toString());
 		}
 		classBuilder.addMethod(provideProxy.build());
 

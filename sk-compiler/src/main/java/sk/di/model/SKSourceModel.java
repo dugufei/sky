@@ -2,6 +2,7 @@ package sk.di.model;
 
 import com.squareup.javapoet.ClassName;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,15 +12,19 @@ import java.util.List;
  */
 public class SKSourceModel {
 
-    public ClassName className;
+	public HashMap<String, SKSourceClassModel>	skSourceClassModelHashMap	= new HashMap<>();
 
-    public ClassName classNameLibrary;
+	public ClassName							className;
 
-    public boolean isSingle;
+	public ClassName							classNameLibrary;
 
-    public boolean isLibrary;
+	public boolean								isSingle;
 
-    public boolean isSingleGenerate;
+	public boolean								isLibrary;
 
-    public List<SKConstructorsModel> skConstructorsModelList;
+	public boolean								isSingleGenerate;
+
+	public boolean								isMoreProviders;
+
+	public List<SKConstructorsModel>			skConstructorsModelList;
 }

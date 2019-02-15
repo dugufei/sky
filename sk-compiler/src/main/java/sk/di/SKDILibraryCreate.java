@@ -12,6 +12,7 @@ import com.squareup.javapoet.WildcardTypeName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -23,21 +24,28 @@ import sk.di.model.SKInputModel;
 import sk.di.model.SKParamProviderModel;
 import sk.di.model.SKProviderModel;
 import sk.di.model.SKSourceModel;
+import sky.SKSingleton;
 
+import static javax.lang.model.element.Modifier.ABSTRACT;
 import static javax.lang.model.element.Modifier.FINAL;
 import static javax.lang.model.element.Modifier.PRIVATE;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 import static sk.di.SKUtils.lowerCase;
 import static sk.di.SkConsts.COLLECTIONS;
+import static sk.di.SkConsts.FACADE_PACKAGE;
 import static sk.di.SkConsts.INPUT_IMPL;
 import static sk.di.SkConsts.MAP;
 import static sk.di.SkConsts.NAME_INPUT;
 import static sk.di.SkConsts.NAME_INPUT_IMPL;
 import static sk.di.SkConsts.NAME_LIBRARY;
+import static sk.di.SkConsts.NAME_LIBRARY_PROVIDERS;
+import static sk.di.SkConsts.NAME_LIBRARY_PROVIDERS_OPEN;
 import static sk.di.SkConsts.NAME_PROVIDER;
 import static sk.di.SkConsts.PROVIDER;
+import static sk.di.SkConsts.SK_COMMOM_PROVIDER;
 import static sk.di.SkConsts.SK_DC;
+import static sk.di.SkConsts.SK_DEFAULT_PROVIDER;
 import static sk.di.SkConsts.SK_DI;
 import static sk.di.SkConsts.SK_HELPER;
 import static sk.di.SkConsts.SK_INPUTS;
@@ -59,9 +67,7 @@ class SKDILibraryCreate {
 
 	Map<String, SKSourceModel>			skSourceModelMap;
 
-	List<SKDILibraryModel>				skdiLibraryModelList;
-
-	Map<TypeElement, TypeElement>		skSupport;
+	SKDILibraryModel					skLibraryModel;
 
 	public JavaFile brewDILibrary(Map<String, SKProviderModel> skProviderModels, Map<TypeElement, SKInputClassModel> skInputModels, Map<String, SKSourceModel> skSourceModelMap,
 			SKDILibraryModel skLibraryModel) {
@@ -69,10 +75,11 @@ class SKDILibraryCreate {
 		this.skProviderModels = skProviderModels;
 		this.skInputModels = skInputModels;
 		this.skSourceModelMap = skSourceModelMap;
-		return JavaFile.builder(packageName, createClassDILibrary(packageName, skLibraryModel)).addFileComment("Generated code from Sk. Do not modify!").build();
+		this.skLibraryModel = skLibraryModel;
+		return JavaFile.builder(packageName, createClassDILibrary(packageName)).addFileComment("Generated code from Sk. Do not modify!").build();
 	}
 
-	private TypeSpec createClassDILibrary(String packageName, SKDILibraryModel skLibraryModel) {
+	private TypeSpec createClassDILibrary(String packageName) {
 		ClassName currentClassName = ClassName.get(packageName, skLibraryModel.name + NAME_LIBRARY);
 		ClassName builderName = ClassName.get("", "Builder");
 
@@ -121,6 +128,12 @@ class SKDILibraryCreate {
 			// 注入
 			for (SKInputModel skInputModel : item.skInputModels) {
 				// 注入属性
+				if (skInputModel.skProviderModel == null) {
+					skInputModel.skProviderModel = skProviderModels.get(skInputModel.providerKey);
+					if (skInputModel.skProviderModel == null) {
+						skInputModel.skProviderModel = skLibraryModel.skProviderModels.get(skInputModel.providerKey);
+					}
+				}
 				if (skInputModel.skProviderModel == null) {
 					continue;
 				}
@@ -208,9 +221,16 @@ class SKDILibraryCreate {
 						singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
 					}
 					builder.addField(item.className, name);
-					if(consCodeBlock == null){
+
+					if (item.classNameLibrary != null) {
+						builderConstructorsMethod.addParameter(item.className, name);
+						builderConstructorsMethod.addStatement("this.$N = $N", name, name);
+						continue;
+					}
+
+					if (consCodeBlock == null) {
 						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
-					}else {
+					} else {
 						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
 					}
 				}
@@ -238,16 +258,12 @@ class SKDILibraryCreate {
 		builderMethod.addStatement("return new $T()", builderName);
 		skdiBuilder.addMethod(builderMethod.build());
 
-		MethodSpec.Builder createMethod = MethodSpec.methodBuilder("create").addModifiers(Modifier.PUBLIC, STATIC).returns(currentClassName).addParameter(boolean.class, initFieldName);
-		createMethod.addStatement("return new $T().$N($N).build()", builderName, initMethodName, initFieldName);
-		skdiBuilder.addMethod(createMethod.build());
-
 		// 构造方法
 		MethodSpec.Builder constructors = MethodSpec.constructorBuilder().addModifiers(Modifier.PRIVATE);
 		constructors.addParameter(builderName, "builder");
 		constructors.addStatement("initialize(builder)");
 		if (skLibraryModel.isSKDefaultLibrary) {
-			initialize.addStatement("$T.skDefaultManager = iSKProvider.get().manage()",SK_HELPER);
+			initialize.addStatement("$T.skDefaultManager = iSKProvider.get().manage()", SK_HELPER);
 		}
 
 		initialize.addStatement("if(this.builder.$N) $T.inputDispatching(newSKDispatchingInput())", initFieldName, SK_INPUTS);
@@ -287,7 +303,7 @@ class SKDILibraryCreate {
 
 		// 动态注入方法
 		MethodSpec.Builder newSKDispatchingInputBuilder = MethodSpec.methodBuilder("newSKDispatchingInput").returns(SK_DI);
-		newSKDispatchingInputBuilder.addStatement("return new $T($N(),$T.EMPTY_MAP)", SK_DI, mapBuilderName,COLLECTIONS);
+		newSKDispatchingInputBuilder.addStatement("return new $T($N(),$T.EMPTY_MAP)", SK_DI, mapBuilderName, COLLECTIONS);
 		skdiBuilder.addMethod(newSKDispatchingInputBuilder.build());
 
 		return skdiBuilder.build();
@@ -377,5 +393,66 @@ class SKDILibraryCreate {
 		setSource.addStatement("this.$N = $N", lowerCase(name), lowerCase(name));
 		setSource.addStatement("return this");
 		return setSource.build();
+	}
+
+	public JavaFile brewDILibraryProvider() {
+		return JavaFile.builder(FACADE_PACKAGE, createClassDILibraryProviders()).addFileComment("Generated code from Sk. Do not modify!").build();
+	}
+
+	public JavaFile brewDILibraryProviderOpen() {
+		return JavaFile.builder(FACADE_PACKAGE, createClassDILibraryProvidersOpen()).addFileComment("Generated code from Sk. Do not modify!").build();
+	}
+
+	private TypeSpec createClassDILibraryProviders() {
+		TypeSpec.Builder skdiBuilder = TypeSpec.classBuilder(skLibraryModel.name + NAME_LIBRARY_PROVIDERS);
+		skdiBuilder.addJavadoc(WARNING_TIPS);
+		skdiBuilder.addModifiers(PUBLIC, FINAL);
+
+		for (SKProviderModel item : skProviderModels.values()) {
+
+			if (!item.isClass) {
+				continue;
+			}
+			MethodSpec.Builder providerBuilder = MethodSpec.methodBuilder(item.name).returns(item.returnType).addModifiers(Modifier.PUBLIC);
+			providerBuilder.addStatement("return new $T()", item.returnType);
+
+			if (item.isSingle) {
+				providerBuilder.addAnnotation(SKSingleton.class);
+			}
+
+			skdiBuilder.addMethod(providerBuilder.build());
+		}
+
+		return skdiBuilder.build();
+
+	}
+
+	private TypeSpec createClassDILibraryProvidersOpen() {
+		TypeSpec.Builder skdiBuilder = TypeSpec.interfaceBuilder(skLibraryModel.name + NAME_LIBRARY_PROVIDERS_OPEN);
+		skdiBuilder.addJavadoc(WARNING_TIPS);
+		skdiBuilder.addModifiers(PUBLIC);
+
+		ClassName library = ClassName.get("sk", skLibraryModel.name + NAME_LIBRARY_PROVIDERS);
+
+		MethodSpec.Builder providerBuilder = MethodSpec.methodBuilder(lowerCase(skLibraryModel.name) + NAME_LIBRARY_PROVIDERS).returns(library).addModifiers(PUBLIC, ABSTRACT);
+		skdiBuilder.addMethod(providerBuilder.build());
+
+		HashMap<String, String> isCheck = new HashMap<>();
+
+		for (SKProviderModel item : skProviderModels.values()) {
+
+			if (item.isClass) {
+				continue;
+			}
+			if (isCheck.get(item.className.reflectionName()) != null) {
+				continue;
+			}
+			providerBuilder = MethodSpec.methodBuilder(lowerCase(item.className.simpleName()) + PROVIDER).returns(item.className).addModifiers(PUBLIC, ABSTRACT);
+			isCheck.put(item.className.reflectionName(), item.className.reflectionName());
+			skdiBuilder.addMethod(providerBuilder.build());
+		}
+
+		return skdiBuilder.build();
+
 	}
 }

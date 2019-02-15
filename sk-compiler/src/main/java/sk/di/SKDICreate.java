@@ -23,6 +23,7 @@ import sk.di.model.SKInputClassModel;
 import sk.di.model.SKInputModel;
 import sk.di.model.SKParamProviderModel;
 import sk.di.model.SKProviderModel;
+import sk.di.model.SKSourceClassModel;
 import sk.di.model.SKSourceModel;
 
 import static javax.lang.model.element.Modifier.FINAL;
@@ -31,12 +32,16 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 import static sk.di.SKUtils.lowerCase;
 import static sk.di.SkConsts.COLLECTIONS;
+import static sk.di.SkConsts.FACADE_PACKAGE;
 import static sk.di.SkConsts.INPUT_IMPL;
 import static sk.di.SkConsts.MAP;
 import static sk.di.SkConsts.NAME_INPUT;
 import static sk.di.SkConsts.NAME_INPUT_IMPL;
+import static sk.di.SkConsts.NAME_LIBRARY_PROVIDERS;
 import static sk.di.SkConsts.NAME_PROVIDER;
+import static sk.di.SkConsts.NAME_PROVIDERS;
 import static sk.di.SkConsts.PROVIDER;
+import static sk.di.SkConsts.SK_COMMOM_PROVIDER;
 import static sk.di.SkConsts.SK_DC;
 import static sk.di.SkConsts.SK_DI;
 import static sk.di.SkConsts.SK_HELPER;
@@ -132,7 +137,12 @@ class SKDICreate {
 					for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
 
 						if (skdiLibraryModel.skProviderModels != null) {
-							skInputModel.skProviderModel = skdiLibraryModel.skProviderModels.get(skInputModel.providerKey);
+							SKProviderModel temp = skdiLibraryModel.skProviderModels.get(skInputModel.providerKey);
+							if (temp == null) {
+								continue;
+							}
+							skInputModel.skProviderModel = temp;
+							break;
 						}
 					}
 				}
@@ -191,6 +201,7 @@ class SKDICreate {
 		HashMap<String, SKConstructorsModel> singleConsProvider = new HashMap<>();
 		boolean isInputInit = true;
 		// 添加library
+		String defualtClassName = null;
 		for (SKDILibraryModel skdiLibraryModel : skdiLibraryModelList) {
 			String name = lowerCase(skdiLibraryModel.name);
 			builder.addField(skdiLibraryModel.className, name, PRIVATE);
@@ -219,10 +230,14 @@ class SKDICreate {
 
 				singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
 			}
-
-			builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
+			if (skdiLibraryModel.isSKDefaultLibrary) {
+				defualtClassName = name;
+				builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build()", name, name, libraryBuilderName);
+			} else {
+				builderConstructorsMethod.addStatement("if($N == null)this.$N = $N.build($N)", name, name, libraryBuilderName, "this." + defualtClassName + ".builder.sKDefaultProvider");
+			}
 			// 添加初始化
-			if(isInputInit){
+			if (isInputInit) {
 				constructors.addStatement("$T.init()", SK_HELPER);
 				isInputInit = false;
 			}
@@ -232,59 +247,118 @@ class SKDICreate {
 		}
 		// 来源
 		for (SKSourceModel item : skSourceModelMap.values()) {
-			if (item.isSingle || item.isSingleGenerate) {
-				String name = lowerCase(item.className.simpleName());
+			if (item.isMoreProviders) {
+				for (SKSourceClassModel item1 : item.skSourceClassModelHashMap.values()) {
+					if (item1.isSingle || item1.isSingleGenerate) {
+						String name = lowerCase(item1.className.simpleName());
 
-				// 构造函数
-				if (item.skConstructorsModelList == null) {
-					builder.addField(item.className, name, PRIVATE);
+						// 构造函数
+						if (item1.skConstructorsModelList == null) {
+							builder.addField(item1.className, name, PRIVATE);
 
-					if (item.isLibrary) {
-						builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N)", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
-					} else {
-						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
-					}
-				} else {
-					builder.addField(item.className, name, PRIVATE);
-
-					if (item.isLibrary) {
-						builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
-						continue;
-					}
-
-					CodeBlock.Builder consCodeBlock = null;
-
-					for (SKConstructorsModel skConstructorsModel : item.skConstructorsModelList) {
-
-						SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
-						String consName = lowerCase(skConstructorsModel.className.simpleName());
-						if (consCodeBlock == null) {
-							consCodeBlock = CodeBlock.builder();
-							consCodeBlock.add("$N", consName);
+							if (item1.isLibrary) {
+								builderConstructorsMethod.addStatement("if($N == null)this.$N = this.$N.builder.$N", name, name, lowerCase(item1.classNameLibrary.simpleName()), name);
+							} else {
+								builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item1.className);
+							}
 						} else {
-							consCodeBlock.add(",$N", consName);
+							builder.addField(item1.className, name, PRIVATE);
+
+							if (item1.isLibrary) {
+								builderConstructorsMethod.addStatement("if($N == null)this.$N = this.$N.builder.$N", name, name, lowerCase(item1.classNameLibrary.simpleName()), name);
+								continue;
+							}
+
+							CodeBlock.Builder consCodeBlock = null;
+
+							for (SKConstructorsModel skConstructorsModel : item1.skConstructorsModelList) {
+
+								SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
+								String consName = lowerCase(skConstructorsModel.className.simpleName());
+								if (consCodeBlock == null) {
+									consCodeBlock = CodeBlock.builder();
+									consCodeBlock.add("$N", consName);
+								} else {
+									consCodeBlock.add(",$N", consName);
+								}
+								if (temp != null) {
+									continue;
+								}
+
+								builder.addField(skConstructorsModel.className, consName, PRIVATE);
+
+								// 增加赋值方法
+								builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+
+								singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
+							}
+							if (consCodeBlock == null) {
+								builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item1.className);
+							} else {
+								builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item1.className, consCodeBlock.build().toString());
+							}
 						}
-						if (temp != null) {
+
+						// 增加赋值方法
+						builder.addMethod(addEqualMethod(builderName, item1.className, item1.className.simpleName()));
+					}
+				}
+			} else {
+				if (item.isSingle || item.isSingleGenerate) {
+					String name = lowerCase(item.className.simpleName());
+
+					// 构造函数
+					if (item.skConstructorsModelList == null) {
+						builder.addField(item.className, name, PRIVATE);
+
+						if (item.isLibrary) {
+							builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
+						} else {
+							builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+						}
+					} else {
+						builder.addField(item.className, name, PRIVATE);
+
+						if (item.isLibrary) {
+							builderConstructorsMethod.addStatement("if($N == null)this.$N =  this.$N.builder.$N", name, name, lowerCase(item.classNameLibrary.simpleName()), name);
 							continue;
 						}
 
-						builder.addField(skConstructorsModel.className, consName, PRIVATE);
+						CodeBlock.Builder consCodeBlock = null;
 
-						// 增加赋值方法
-						builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+						for (SKConstructorsModel skConstructorsModel : item.skConstructorsModelList) {
 
-						singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
+							SKConstructorsModel temp = singleConsProvider.get(skConstructorsModel.className.reflectionName());
+							String consName = lowerCase(skConstructorsModel.className.simpleName());
+							if (consCodeBlock == null) {
+								consCodeBlock = CodeBlock.builder();
+								consCodeBlock.add("$N", consName);
+							} else {
+								consCodeBlock.add(",$N", consName);
+							}
+							if (temp != null) {
+								continue;
+							}
+
+							builder.addField(skConstructorsModel.className, consName, PRIVATE);
+
+							// 增加赋值方法
+							builder.addMethod(addEqualMethod(builderName, skConstructorsModel.className, skConstructorsModel.className.simpleName()));
+
+							singleConsProvider.put(skConstructorsModel.className.reflectionName(), skConstructorsModel);
+						}
+						if (consCodeBlock == null) {
+							builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
+						} else {
+							builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
+						}
 					}
-					if (consCodeBlock == null) {
-						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T()", name, name, item.className);
-					} else {
-						builderConstructorsMethod.addStatement("if($N == null)this.$N = new $T($N)", name, name, item.className, consCodeBlock.build().toString());
-					}
+
+					// 增加赋值方法
+					builder.addMethod(addEqualMethod(builderName, item.className, item.className.simpleName()));
 				}
-
-				// 增加赋值方法
-				builder.addMethod(addEqualMethod(builderName, item.className, item.className.simpleName()));
 			}
+
 		}
 
 		builderConstructorsMethod.addStatement("return new $T(this)", currentClassName);
@@ -440,7 +514,28 @@ class SKDICreate {
 							singleImplProvider, singleImplSource);
 					// 来源
 					SKSourceModel skSourceModel = skSourceModelMap.get(skProviderModel.className.reflectionName());
+					if(skSourceModel == null){
+						SKSourceModel temp;
+						for(SKDILibraryModel skdiLibraryModel :skdiLibraryModelList){
+							temp  = skSourceModelMap.get(skdiLibraryModel.className.reflectionName());
+							if(temp == null){
+								continue;
+							}
+							SKSourceClassModel skSourceClassModel = temp.skSourceClassModelHashMap.get(skProviderModel.className.reflectionName());
+							if(skSourceClassModel == null){
+								continue;
+							}
+							skSourceModel = new SKSourceModel();
+							skSourceModel.className = skSourceClassModel.className;
+							skSourceModel.classNameLibrary = skSourceClassModel.classNameLibrary;
+							skSourceModel.isLibrary = skSourceClassModel.isLibrary;
+							skSourceModel.isSingle = skSourceClassModel.isSingle;
+							skSourceModel.isSingleGenerate = skSourceClassModel.isSingleGenerate;
+							skSourceModel.skConstructorsModelList = skSourceClassModel.skConstructorsModelList;
+							break;
+						}
 
+					}
 					// 添加来源属性 和 初始化
 					String sourceName = lowerCase(skSourceModel.className.simpleName());
 
@@ -512,5 +607,30 @@ class SKDICreate {
 		setSource.addStatement("this.$N = $N", lowerCase(name), lowerCase(name));
 		setSource.addStatement("return this");
 		return setSource.build();
+	}
+
+	public JavaFile brewDILibraryProvider() {
+		return JavaFile.builder(FACADE_PACKAGE, createClassDILibraryProviders()).addFileComment("Generated code from Sk. Do not modify!").build();
+	}
+
+	private TypeSpec createClassDILibraryProviders() {
+		TypeSpec.Builder skdiBuilder = TypeSpec.classBuilder("SK" + NAME_LIBRARY_PROVIDERS);
+
+		skdiBuilder.addJavadoc(WARNING_TIPS);
+		skdiBuilder.addModifiers(PUBLIC, FINAL);
+
+		for (SKProviderModel item : skProviderModels.values()) {
+
+			if (!item.isClass) {
+				continue;
+			}
+			MethodSpec.Builder providerBuilder = MethodSpec.methodBuilder(item.name).returns(item.returnType).addModifiers(Modifier.PUBLIC);
+			providerBuilder.addStatement("return new $T()", item.returnType);
+
+			skdiBuilder.addMethod(providerBuilder.build());
+		}
+
+		return skdiBuilder.build();
+
 	}
 }

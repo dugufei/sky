@@ -14,6 +14,11 @@ import sky.example.helper.TextHelper;
 import sky.example.http.model.Model;
 import sky.example.repository.HomeRepository;
 import sky.example.repository.UserRepository;
+import sky.test.Oder2Repository;
+import sky.test.model.Model1;
+import sky.test.model.Model2;
+import sky.test.model.Model3;
+import sky.test.repository.OderRepository;
 
 /**
  * @author sky
@@ -26,6 +31,18 @@ public class HelloBiz extends SKBiz {
 
 	@SKInput HomeRepository					homeRepository;
 
+	@SKInput OderRepository					oderRepository;
+
+	@SKInput Oder2Repository				oder2Repository;
+
+	@SKInput Model							model;
+
+	@SKInput Model1							model1;
+
+	@SKInput Model2							model2;
+
+	@SKInput Model3							model3;
+
 	private SKData<PagedList<List<Model>>>	listSKData;
 
 	private SKData<List<Model>>				listModel;
@@ -36,6 +53,8 @@ public class HelloBiz extends SKBiz {
 		listSKData = userProvider.initPaged();
 		listModel = homeRepository.getMM();
 		itemPositoin = new SKData<>();
+		oderRepository.inta();
+		oder2Repository.inta();
 	}
 
 	public SKData<PagedList<List<Model>>> getListSKData() {
