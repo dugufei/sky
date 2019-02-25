@@ -291,6 +291,10 @@ public final class SKModuleManage {
 	 * @return
 	 */
 	private boolean isNewVersion(Context context) {
+		if(SKHelper.isLogOpen()){
+			return true;
+		}
+
 		PackageInfo packageInfo = getPackageInfo(context);
 		if (null != packageInfo) {
 			String versionName = packageInfo.versionName;

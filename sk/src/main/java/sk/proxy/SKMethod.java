@@ -230,6 +230,7 @@ final class SKMethod {
 				builder.append(')');
 				L.i("该方法被过滤 - %s", builder.toString());
 			}
+			return;
 		}
 
 		// 如果是主线程 - 直接执行
