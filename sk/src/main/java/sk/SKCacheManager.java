@@ -1,5 +1,6 @@
 package sk;
 
+import java.lang.reflect.Constructor;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +8,9 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
+import sk.proxy.SKProxy;
+import sk.utils.SKUtils;
 
 import static sk.utils.SKUtils.validateServiceInterface;
 
@@ -17,6 +21,8 @@ import static sk.utils.SKUtils.validateServiceInterface;
 final class SKCacheManager {
 
 	private final static int							TYPE_HTTP	= 1;						// 网络
+
+	private final static int							TYPE_BIZ	= 2;						// 业务
 
 	private final LoadingCache<Class<?>, Object>		cache;
 
@@ -53,6 +59,23 @@ final class SKCacheManager {
 									L.i(stringBuilder.toString());
 								}
 								return http;
+							case TYPE_BIZ:
+								validateServiceInterface(key);
+								/** 加载类 **/
+								Constructor c = key.getDeclaredConstructor();
+								c.setAccessible(true);
+								/** 创建类 **/
+								final Object impl = c.newInstance();
+								SKProxy skProxy = SKHelper.bizStore().createProxy(key, impl);
+
+								if (SKHelper.isLogOpen()) {
+									L.tag("SkyCacheManager");
+									StringBuilder stringBuilder = new StringBuilder();
+									stringBuilder.append("Biz加载成功:");
+									stringBuilder.append(key.getName());
+									L.i(stringBuilder.toString());
+								}
+								return skProxy.proxy;
 						}
 						return null;
 					}
@@ -65,6 +88,19 @@ final class SKCacheManager {
 			return (H) cache.get(httpClazz);
 		} catch (ExecutionException e) {
 			keyType.remove(httpClazz);
+			if (SKHelper.isLogOpen()) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	<B extends SKBiz> B biz(Class<B> service) {
+		try {
+			keyType.put(service, TYPE_BIZ);
+			return (B) cache.get(service);
+		} catch (ExecutionException e) {
+			keyType.remove(TYPE_BIZ);
 			if (SKHelper.isLogOpen()) {
 				e.printStackTrace();
 			}

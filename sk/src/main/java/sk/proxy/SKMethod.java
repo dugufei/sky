@@ -331,7 +331,7 @@ final class SKMethod {
 		this.isRepeat = isRepeat;
 		this.method = method;
 		this.service = service;
-		if (type == TYPE_INVOKE_HTTP_EXE || type == TYPE_INVOKE_IO_EXE) {
+		if (type == TYPE_INVOKE_HTTP_EXE || type == TYPE_INVOKE_IO_EXE || type == TYPE_INVOKE_WORK_EXE) {
 			this.methodRunnable = new MethodRunnable();
 		}
 	}

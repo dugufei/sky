@@ -140,7 +140,7 @@ public abstract class SKActivity<B extends SKBiz> extends AppCompatActivity {
 	}
 
 	public <PB extends SKBiz> PB biz(Class<PB> bizClass) {
-		return SKHelper.bizStore().biz(bizClass);
+		return SKHelper.biz(bizClass);
 	}
 
 	/**

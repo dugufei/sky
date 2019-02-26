@@ -89,6 +89,9 @@ public class SKHelper {
 	 * @return
 	 */
 	public static final <B extends SKBiz> B biz(Class<B> bClass) {
+		if(SKPublicBiz.class.isAssignableFrom(bClass)){
+			return getManage().skCacheManagerSKLazy.get().biz(bClass);
+		}
 		return bizStore().biz(bClass);
 	}
 

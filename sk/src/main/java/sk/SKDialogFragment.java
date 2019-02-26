@@ -101,7 +101,7 @@ public abstract class SKDialogFragment<B extends SKBiz> extends DialogFragment {
 	}
 
 	public <PB extends SKBiz> PB biz(Class<PB> bizClass) {
-		return SKHelper.bizStore().biz(bizClass);
+		return SKHelper.biz(bizClass);
 	}
 
 	/**

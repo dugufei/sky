@@ -17,6 +17,7 @@ import sk.SKHelper;
 import sk.livedata.SKViewState;
 import sky.example.R;
 import sky.example.adapter.OneAdapter;
+import sky.example.common.UserPublicBiz;
 import sky.example.di.TestID;
 import sky.example.http.model.Model;
 
@@ -47,8 +48,8 @@ public class HelloFragment extends SKFragment<HelloBiz> {
 	}
 
 	@Override protected void initData(Bundle savedInstanceState) {
-		textTwo.setVisibility(View.GONE);
-		tvThree.setVisibility(View.GONE);
+//		textTwo.setVisibility(View.GONE);
+//		tvThree.setVisibility(View.GONE);
 
 		swipeRefreshLayout.setOnRefreshListener(() -> biz().refresh());
 
@@ -78,5 +79,12 @@ public class HelloFragment extends SKFragment<HelloBiz> {
 
 		SKHelper.toast().show("打印" + i);
 		TipDialogFragment.getInstance().show(getFragmentManager(), "");
+	}
+
+	@OnClick(R.id.tv_two) public void onViewClickedTwo() {
+		biz().test();
+	}
+	@OnClick(R.id.tv_three) public void onViewClickedThree() {
+		biz(UserPublicBiz.class).showTip();
 	}
 }

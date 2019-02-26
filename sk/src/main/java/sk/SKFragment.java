@@ -85,7 +85,7 @@ public abstract class SKFragment<B extends SKBiz> extends Fragment {
 	}
 
 	public <PB extends SKBiz> PB biz(Class<PB> bizClass) {
-		return SKHelper.bizStore().biz(bizClass);
+		return SKHelper.biz(bizClass);
 	}
 
 	/**
