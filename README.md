@@ -1,3 +1,8 @@
+forked from https://github.com/skyJinc/sky  
+
+所有项目参考https://github.com/skyJinc
+
+
 # SKY
 接受不完美的自己，享受不断完善的自己 我们的承诺是，每天都要有进步
 
